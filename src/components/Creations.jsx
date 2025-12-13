@@ -67,7 +67,7 @@ export default function Creations({ setCurrentView }) {
         .from('products')
         .select('*')
         .order('sold', { ascending: true })
-        .order('display_order', { ascending: false });
+        .order('display_order', { ascending: true });
 
       if (error) throw error;
       setProducts(data || []);
@@ -96,7 +96,7 @@ export default function Creations({ setCurrentView }) {
       setLightboxImageIndex((prev) => (prev === 0 ? 1 : 0));
     }
   }
-
+ 
   function prevImage() {
     if (lightboxProduct && lightboxProduct.secondary_image_url) {
       setLightboxImageIndex((prev) => (prev === 0 ? 1 : 0));
