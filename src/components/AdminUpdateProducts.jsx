@@ -9,6 +9,7 @@ export default function AdminUpdateProducts() {
   const [editValues, setEditValues] = useState({});
   const [message, setMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [updatingUrls, setUpdatingUrls] = useState(false);
 
   useEffect(() => {
     loadProducts();
@@ -28,6 +29,70 @@ export default function AdminUpdateProducts() {
       console.error('Load error:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const getStorageUrl = (filename) => {
+    if (!filename) return '';
+    if (filename.startsWith('http')) return filename;
+
+    const { data } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(filename);
+
+    return data.publicUrl;
+  };
+
+  const updateAllProductUrls = async () => {
+    if (!confirm('This will update ALL products to use Supabase Storage URLs. Continue?')) {
+      return;
+    }
+
+    try {
+      setUpdatingUrls(true);
+      setMessage('');
+
+      const updatePromises = products.map(async (product) => {
+        const updates = {};
+
+        if (product.image_url) {
+          if (!product.image_url.startsWith('http')) {
+            updates.image_url = getStorageUrl(product.image_url);
+          }
+
+          if (!product.thumbnail_url) {
+            let filename = product.image_url;
+            if (filename.startsWith('http')) {
+              filename = filename.split('/').pop();
+            }
+            const thumbnailFilename = filename.replace(/(\.[^.]+)$/, '_thumbnail$1');
+            updates.thumbnail_url = getStorageUrl(thumbnailFilename);
+          }
+        }
+
+        if (product.secondary_image_url && !product.secondary_image_url.startsWith('http')) {
+          updates.secondary_image_url = getStorageUrl(product.secondary_image_url);
+        }
+
+        if (Object.keys(updates).length > 0) {
+          const { error } = await supabase
+            .from('products')
+            .update(updates)
+            .eq('id', product.id);
+
+          if (error) throw error;
+        }
+      });
+
+      await Promise.all(updatePromises);
+
+      setMessage(`Successfully updated URLs for ${products.length} products!`);
+      await loadProducts();
+    } catch (error) {
+      setMessage(`Error updating URLs: ${error.message}`);
+      console.error('URL update error:', error);
+    } finally {
+      setUpdatingUrls(false);
     }
   };
 
@@ -117,6 +182,19 @@ export default function AdminUpdateProducts() {
             {message}
           </div>
         )}
+
+        <div className="bulk-actions">
+          <button
+            onClick={updateAllProductUrls}
+            disabled={updatingUrls}
+            className="bulk-update-button"
+          >
+            {updatingUrls ? 'Updating URLs...' : 'Update All Product URLs'}
+          </button>
+          <p className="bulk-info">
+            Convert all product image filenames to full Supabase Storage URLs
+          </p>
+        </div>
 
         <div className="search-box">
           <input
