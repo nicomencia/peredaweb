@@ -44,7 +44,7 @@ export default function AdminUpdateProducts() {
   };
 
   const updateAllProductUrls = async () => {
-    if (!confirm('This will update ALL products to use Supabase Storage URLs. Continue?')) {
+    if (!confirm('This will update ALL products to use Supabase Storage URLs based on product names. Continue?')) {
       return;
     }
 
@@ -53,35 +53,22 @@ export default function AdminUpdateProducts() {
       setMessage('');
 
       const updatePromises = products.map(async (product) => {
-        const updates = {};
+        const mainImageFilename = `${product.name}.jpg`;
+        const secondaryImageFilename = `${product.name}b.jpg`;
+        const thumbnailFilename = `${product.name}_thumbnail.jpg`;
 
-        if (product.image_url) {
-          if (!product.image_url.startsWith('http')) {
-            updates.image_url = getStorageUrl(product.image_url);
-          }
+        const updates = {
+          image_url: getStorageUrl(mainImageFilename),
+          secondary_image_url: getStorageUrl(secondaryImageFilename),
+          thumbnail_url: getStorageUrl(thumbnailFilename)
+        };
 
-          if (!product.thumbnail_url) {
-            let filename = product.image_url;
-            if (filename.startsWith('http')) {
-              filename = filename.split('/').pop();
-            }
-            const thumbnailFilename = filename.replace(/(\.[^.]+)$/, '_thumbnail$1');
-            updates.thumbnail_url = getStorageUrl(thumbnailFilename);
-          }
-        }
+        const { error } = await supabase
+          .from('products')
+          .update(updates)
+          .eq('id', product.id);
 
-        if (product.secondary_image_url && !product.secondary_image_url.startsWith('http')) {
-          updates.secondary_image_url = getStorageUrl(product.secondary_image_url);
-        }
-
-        if (Object.keys(updates).length > 0) {
-          const { error } = await supabase
-            .from('products')
-            .update(updates)
-            .eq('id', product.id);
-
-          if (error) throw error;
-        }
+        if (error) throw error;
       });
 
       await Promise.all(updatePromises);
@@ -192,7 +179,7 @@ export default function AdminUpdateProducts() {
             {updatingUrls ? 'Updating URLs...' : 'Update All URLs'}
           </button>
           <p className="bulk-info">
-            Convert all product image filenames to full Supabase Storage URLs
+            Automatically populate all image URLs based on product names (e.g., ELJARDIN0F34.jpg, ELJARDIN0F34b.jpg, ELJARDIN0F34_thumbnail.jpg)
           </p>
         </div>
 
