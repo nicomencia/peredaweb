@@ -189,7 +189,7 @@ export default function AdminUpdateProducts() {
             disabled={updatingUrls}
             className="bulk-update-button"
           >
-            {updatingUrls ? 'Updating URLs...' : 'Update All Product URLs'}
+            {updatingUrls ? 'Updating URLs...' : 'Update All URLs'}
           </button>
           <p className="bulk-info">
             Convert all product image filenames to full Supabase Storage URLs
