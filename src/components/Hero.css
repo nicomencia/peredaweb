@@ -39,7 +39,8 @@
   animation: fadeInUp 1s ease-out 0.3s both;
 }
 
-.hero-social a {
+.hero-social a,
+.hero-social button {
   width: 48px;
   height: 48px;
   display: flex;
@@ -50,9 +51,12 @@
   color: #0000FF;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
 }
 
-.hero-social a:hover {
+.hero-social a:hover,
+.hero-social button:hover {
   transform: translateY(-4px);
   box-shadow: 0 6px 20px rgba(0, 0, 255, 0.4);
   opacity: 0.9;
@@ -104,7 +108,8 @@
     z-index: 10;
   }
 
-  .hero-social a {
+  .hero-social a,
+  .hero-social button {
     width: 40px;
     height: 40px;
   }
