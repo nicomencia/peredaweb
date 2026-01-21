@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 import AdminUpload from './AdminUpload';
 import AdminUpdateProducts from './AdminUpdateProducts';
 import AdminManageSold from './AdminManageSold';
