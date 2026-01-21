@@ -35,8 +35,8 @@ export default function Navigation({ currentView, setCurrentView }) {
 
         <ul className={`nav-menu ${isOpen ? 'nav-menu--open' : ''}`}>
           <li>
-            <button onClick={() => handleNavClick('sobre-mi')}>
-              Quiénes somos
+            <button onClick={() => handleNavClick('inspirate')}>
+              Inspírate
             </button>
           </li>
           <li>
@@ -50,8 +50,8 @@ export default function Navigation({ currentView, setCurrentView }) {
             </button>
           </li>
           <li>
-            <button onClick={() => handleNavClick('inspirate')}>
-              Inspírate
+            <button onClick={() => handleNavClick('sobre-mi')}>
+              Quiénes somos
             </button>
           </li>
         </ul>

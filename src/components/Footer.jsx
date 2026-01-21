@@ -13,10 +13,10 @@ export default function Footer({ setCurrentView }) {
           <div className="footer-links">
             <h4>Navegar</h4>
             <ul>
-              <li><button onClick={() => setCurrentView('sobre-mi')}>Quiénes somos</button></li>
+              <li><button onClick={() => setCurrentView('inspirate')}>Inspírate</button></li>
               <li><button onClick={() => setCurrentView('instalaciones')}>Instalaciones</button></li>
               <li><button onClick={() => setCurrentView('colecciones')}>Productos</button></li>
-              <li><button onClick={() => setCurrentView('inspirate')}>Inspírate</button></li>
+              <li><button onClick={() => setCurrentView('sobre-mi')}>Quiénes somos</button></li>
             </ul>
           </div>
 
