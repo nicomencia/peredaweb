@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
-import About from './components/About';
-import Collections from './components/Collections';
+import QuienesSomos from './components/QuienesSomos';
+import Productos from './components/Productos';
 import CollectionDetail from './components/CollectionDetail';
 import Inspirate from './components/Inspirate';
 import Instalaciones from './components/Instalaciones';
@@ -37,11 +37,11 @@ export default function App() {
   const renderContent = () => {
     switch (currentView) {
       case 'colecciones':
-        return <Collections setCurrentView={setCurrentView} setSelectedCollection={setSelectedCollection} />;
+        return <Productos setCurrentView={setCurrentView} setSelectedCollection={setSelectedCollection} />;
       case 'collection-detail':
         return <CollectionDetail collectionId={selectedCollection} setCurrentView={setCurrentView} />;
       case 'sobre-mi':
-        return <About />;
+        return <QuienesSomos />;
       case 'inspirate':
         return <Inspirate />;
       case 'instalaciones':

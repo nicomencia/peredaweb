@@ -1,6 +1,6 @@
-import './About.css';
+import './QuienesSomos.css';
 
-export default function About() {
+export default function QuienesSomos() {
   return (
     <section id="sobre-mi" className="about">
       <div className="container">

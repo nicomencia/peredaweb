@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import './Collections.css';
+import './Productos.css';
 
-export default function Collections({ setCurrentView, setSelectedCollection }) {
+export default function Productos({ setCurrentView, setSelectedCollection }) {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
 
