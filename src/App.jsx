@@ -3,11 +3,8 @@ import { supabase } from './lib/supabase';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import About from './components/About';
-import Creations from './components/Creations';
 import Collections from './components/Collections';
 import CollectionDetail from './components/CollectionDetail';
-import Custom from './components/Custom';
-import Tallas from './components/Tallas';
 import Inspirate from './components/Inspirate';
 import Instalaciones from './components/Instalaciones';
 import Footer from './components/Footer';
@@ -43,12 +40,6 @@ export default function App() {
         return <Collections setCurrentView={setCurrentView} setSelectedCollection={setSelectedCollection} />;
       case 'collection-detail':
         return <CollectionDetail collectionId={selectedCollection} setCurrentView={setCurrentView} />;
-      case 'creations':
-        return <Creations setCurrentView={setCurrentView} />;
-      case 'custom':
-        return <Custom setCurrentView={setCurrentView} />;
-      case 'tallas':
-        return <Tallas />;
       case 'sobre-mi':
         return <About />;
       case 'inspirate':
