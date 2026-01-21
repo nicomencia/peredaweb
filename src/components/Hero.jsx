@@ -5,7 +5,6 @@ export default function Hero() {
     <section className="hero">
       <div className="hero-content">
         <img src="/logo_letras.svg" alt="Saneamientos Pereda" className="hero-logo" />
-        <p className="hero-tagline">Especialistas en equipamiento de baño desde 1985</p>
 
         <div className="hero-social">
           <a href="https://facebook.com/saneamientospereda" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
