@@ -35,23 +35,23 @@ export default function Navigation({ currentView, setCurrentView }) {
 
         <ul className={`nav-menu ${isOpen ? 'nav-menu--open' : ''}`}>
           <li>
-            <button onClick={() => handleNavClick('colecciones')}>
-              Colecciones
-            </button>
-          </li>
-          <li>
-            <button onClick={() => handleNavClick('creations')}>
-              Creaciones
-            </button>
-          </li>
-          <li>
-            <button onClick={() => handleNavClick('custom')}>
-              Custom
-            </button>
-          </li>
-          <li>
             <button onClick={() => handleNavClick('sobre-mi')}>
-              Sobre mí
+              Quiénes somos
+            </button>
+          </li>
+          <li>
+            <button onClick={() => handleNavClick('instalaciones')}>
+              Instalaciones
+            </button>
+          </li>
+          <li>
+            <button onClick={() => handleNavClick('colecciones')}>
+              Productos
+            </button>
+          </li>
+          <li>
+            <button onClick={() => handleNavClick('inspirate')}>
+              Inspírate
             </button>
           </li>
         </ul>
