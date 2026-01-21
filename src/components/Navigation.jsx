@@ -19,7 +19,7 @@ export default function Navigation({ currentView, setCurrentView }) {
             onClick={() => handleNavClick('home')}
             aria-label="Ir a inicio"
           >
-            <img src="/logo.png" alt="Flueu Studio" className="nav-logo" />
+            <img src="/logo.svg" alt="Flueu Studio" className="nav-logo" />
           </button>
         )}
 

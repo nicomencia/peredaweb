@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section className="hero">
       <div className="hero-content">
-        <img src="/logo_letras.png" alt="Flueu Studio" className="hero-logo" />
+        <img src="/logo_letras.svg" alt="Flueu Studio" className="hero-logo" />
 
         <div className="hero-social">
           <a href="https://facebook.com/Pereda.Asturias" target="_blank" rel="noopener noreferrer" aria-label="Facebook">

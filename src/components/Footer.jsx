@@ -6,7 +6,7 @@ export default function Footer({ setCurrentView }) {
       <div className="container">
         <div className="footer-content">
           <div className="footer-brand">
-            <img src="/logo.png" alt="Saneamientos Pereda" className="footer-logo" />
+            <img src="/logo.svg" alt="Saneamientos Pereda" className="footer-logo" />
             <p>Más de 50 años liderando el mercado asturiano en saneamientos y productos de baño con 40+ profesionales especializados al servicio de particulares y profesionales.</p>
           </div>
 
