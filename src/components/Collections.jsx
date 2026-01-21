@@ -35,7 +35,7 @@ export default function Collections({ setCurrentView, setSelectedCollection }) {
     return (
       <section id="colecciones" className="collections">
         <div className="container">
-          <h2>Colecciones</h2>
+          <h2>Nuestros Productos</h2>
           <p>Cargando...</p>
         </div>
       </section>
@@ -46,8 +46,8 @@ export default function Collections({ setCurrentView, setSelectedCollection }) {
     return (
       <section id="colecciones" className="collections">
         <div className="container">
-          <h2>Colecciones</h2>
-          <p className="collections-empty">Nuevas colecciones próximamente.</p>
+          <h2>Nuestros Productos</h2>
+          <p className="collections-empty">Catálogo próximamente disponible.</p>
         </div>
       </section>
     );
@@ -56,7 +56,7 @@ export default function Collections({ setCurrentView, setSelectedCollection }) {
   return (
     <section id="colecciones" className="collections">
       <div className="container">
-        <h2>Colecciones</h2>
+        <h2>Nuestros Productos</h2>
         <div className="collections-list">
           {collections.map((collection) => (
             <div

@@ -61,6 +61,19 @@
   transform: scale(1.05);
 }
 
+.inspirate-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 47, 167, 0.9), transparent);
+  color: var(--color-white);
+  padding: var(--spacing-md);
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .inspirate {
     padding: 6rem 0 var(--spacing-xl) 0;

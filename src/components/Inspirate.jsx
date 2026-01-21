@@ -7,25 +7,29 @@ export default function Inspirate() {
         <h2>Inspírate</h2>
         <div className="inspirate-content">
           <div className="inspirate-text">
-            <p>Descubre cómo las piezas de Flueu pueden transformar tus espacios y complementar tu estilo personal.</p>
+            <p>Descubre las últimas tendencias en diseño de baños y encuentra la inspiración perfecta para tu proyecto.</p>
 
-            <p>Cada creación está diseñada para ser única, capturando la esencia de la naturaleza y la fluidez del material reciclado. Desde joyas que cuentan historias hasta accesorios que añaden carácter a cualquier look.</p>
+            <p>Desde espacios minimalistas y contemporáneos hasta baños clásicos y elegantes, en Saneamientos Pereda te ayudamos a materializar tus ideas con productos de alta calidad y diseño vanguardista.</p>
 
-            <p>Explora diferentes formas de llevar y combinar estas piezas únicas, creadas con consciencia y pasión por el arte sostenible.</p>
+            <p>Explora diferentes estilos, acabados y configuraciones que transformarán tu baño en un espacio único y funcional. Nuestro equipo está listo para asesorarte en cada detalle.</p>
           </div>
           <div className="inspirate-gallery">
             <div className="inspirate-grid">
               <div className="inspirate-item">
-                <img src="/acc_aros.jpg" alt="Inspiración aros" />
+                <img src="https://images.pexels.com/photos/1454804/pexels-photo-1454804.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Baño moderno minimalista" />
+                <p className="inspirate-caption">Estilo Minimalista</p>
               </div>
               <div className="inspirate-item">
-                <img src="/acc_collar.jpg" alt="Inspiración collar" />
+                <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Baño elegante contemporáneo" />
+                <p className="inspirate-caption">Contemporáneo</p>
               </div>
               <div className="inspirate-item">
-                <img src="/acc_pinza.jpg" alt="Inspiración pinza" />
+                <img src="https://images.pexels.com/photos/1571453/pexels-photo-1571453.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Baño clásico" />
+                <p className="inspirate-caption">Clásico Elegante</p>
               </div>
               <div className="inspirate-item">
-                <img src="/acc_boton.jpg" alt="Inspiración botón" />
+                <img src="https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Baño spa relajante" />
+                <p className="inspirate-caption">Spa Relax</p>
               </div>
             </div>
           </div>

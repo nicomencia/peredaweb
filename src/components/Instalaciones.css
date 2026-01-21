@@ -63,9 +63,34 @@
   font-size: 1.5rem;
 }
 
-.instalaciones-description p {
+.instalaciones-description > p {
   color: var(--color-gray);
   line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+}
+
+.instalaciones-services {
+  display: grid;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.service-item {
+  border-left: 3px solid var(--color-blue);
+  padding-left: var(--spacing-sm);
+}
+
+.service-item h4 {
+  color: var(--color-blue);
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.service-item p {
+  color: var(--color-gray);
+  font-size: 0.95rem;
+  line-height: 1.5;
   margin: 0;
 }
 

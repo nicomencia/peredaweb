@@ -17,9 +17,19 @@
   width: 600px;
   height: auto;
   object-fit: contain;
-  margin: 0 auto var(--spacing-lg);
+  margin: 0 auto var(--spacing-md);
   filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.15));
   animation: fadeInScale 1s ease-out;
+}
+
+.hero-tagline {
+  font-size: 1.2rem;
+  color: var(--color-blue);
+  font-weight: 400;
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
+  animation: fadeInUp 1s ease-out 0.2s both;
 }
 
 .hero-social {
