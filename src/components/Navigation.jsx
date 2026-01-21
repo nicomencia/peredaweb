@@ -46,11 +46,6 @@ export default function Navigation({ currentView, setCurrentView }) {
           </li>
           <li>
             <button onClick={() => handleNavClick('colecciones')}>
-              Comprar
-            </button>
-          </li>
-          <li>
-            <button onClick={() => handleNavClick('colecciones')}>
               Productos
             </button>
           </li>

@@ -53,7 +53,7 @@ export default function App() {
           return <AdminLogin onLoginSuccess={() => setIsAuthenticated(true)} />;
         }
       default:
-        return <Hero />;
+        return <Hero setCurrentView={setCurrentView} />;
     }
   };
 
