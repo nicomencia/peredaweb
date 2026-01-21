@@ -8,8 +8,8 @@ import CollectionDetail from './components/CollectionDetail';
 import Inspirate from './components/Inspirate';
 import Instalaciones from './components/Instalaciones';
 import Footer from './components/Footer';
-import AdminLogin from './components/Admin/AdminLogin';
-import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminLogin from './components/admin/AdminLogin';
+import AdminDashboard from './components/admin/AdminDashboard';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
