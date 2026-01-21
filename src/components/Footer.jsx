@@ -7,7 +7,8 @@ export default function Footer({ setCurrentView }) {
         <div className="footer-content">
           <div className="footer-brand">
             <img src="/logo.svg" alt="Saneamientos Pereda" className="footer-logo" />
-          </div>
+            <p>Especialistas en equipamiento de baño desde 1985. Empresa familiar con más de 35 años de experiencia ofreciendo productos de alta calidad y servicio profesional.</p>
+          </div> 
 
           <div className="footer-links">
             <h4>Navegar</h4>
