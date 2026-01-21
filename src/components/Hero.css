@@ -37,14 +37,14 @@
   justify-content: center;
   background: var(--color-white);
   border-radius: 50%;
-  color: #CB9CC0;
+  color: #0000FF;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
 .hero-social a:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(203, 156, 192, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 255, 0.4);
   opacity: 0.9;
 }
 
