@@ -8,6 +8,8 @@ import Collections from './components/Collections';
 import CollectionDetail from './components/CollectionDetail';
 import Custom from './components/Custom';
 import Tallas from './components/Tallas';
+import Inspirate from './components/Inspirate';
+import Instalaciones from './components/Instalaciones';
 import Footer from './components/Footer';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
@@ -49,6 +51,10 @@ export default function App() {
         return <Tallas />;
       case 'sobre-mi':
         return <About />;
+      case 'inspirate':
+        return <Inspirate />;
+      case 'instalaciones':
+        return <Instalaciones />;
       case 'admin':
         if (isAuthenticated) {
           return <AdminDashboard />;
