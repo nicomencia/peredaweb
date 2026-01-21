@@ -7,7 +7,7 @@ export default function Footer({ setCurrentView }) {
         <div className="footer-content">
           <div className="footer-brand">
             <img src="/logo.png" alt="Flueu Studio" className="footer-logo" />
-            <p>Accesorios hechos a mano con plástico reciclado.</p>
+            <p>Más de 50 años liderando el mercado asturiano con 40+ profesionales especializados al servicio de particulares y profesionales.</p>
           </div>
 
           <div className="footer-links">
