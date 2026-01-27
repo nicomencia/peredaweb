@@ -13,7 +13,7 @@ flowchart LR
     User[Usuario<br/>Navegador web]
 
     subgraph Frontend
-        React[React<br/>UI basada en componentes]
+        Web[Web App<br/>React SPA]
         CSS[CSS<br/>Estilos personalizados]
     end
 
@@ -26,18 +26,17 @@ flowchart LR
     end
 
     subgraph Infraestructura
-        BoltHost[Bolt Hosting<br/>Despliegue web]
+        Bolt[Bolt<br/>Hosting y despliegue]
         GitHub[GitHub<br/>Repositorio de código]
     end
 
-    User --> React
-    React --> CSS
-    React --> Supabase
+    User --> Web
+    Web --> CSS
+    Web --> Supabase
 
-    Vite --> React
+    Vite --> Web
 
-    GitHub --> BoltHost
-    BoltHost --> React
+    GitHub <--> Bolt
 ```
 
 ### Frontend (lo que ve el usuario)
