@@ -34,6 +34,8 @@ flowchart LR
     Web --> CSS
     Web --> Supabase
 
+    Bolt --> Web 
+
     Vite --> Web
 
     GitHub <--> Bolt
