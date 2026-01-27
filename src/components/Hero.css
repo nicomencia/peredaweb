@@ -22,46 +22,6 @@
   animation: fadeInScale 1s ease-out;
 }
 
-.hero-tagline {
-  font-size: 1.2rem;
-  color: var(--color-blue);
-  font-weight: 400;
-  margin-bottom: var(--spacing-lg);
-  letter-spacing: 0.02em;
-  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
-  animation: fadeInUp 1s ease-out 0.2s both;
-}
-
-.hero-social {
-  display: flex;
-  gap: var(--spacing-md);
-  justify-content: center;
-  animation: fadeInUp 1s ease-out 0.3s both;
-}
-
-.hero-social a,
-.hero-social button {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-white);
-  border-radius: 50%;
-  color: #0000FF;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-}
-
-.hero-social a:hover,
-.hero-social button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 255, 0.4);
-  opacity: 0.9;
-}
-
 @keyframes fadeInScale {
   from {
     opacity: 0;
@@ -97,25 +57,5 @@
     width: 400px;
     height: auto;
     margin: 0 auto;
-  }
-
-  .hero-social {
-    position: fixed;
-    bottom: 30vh;
-    left: 0;
-    right: 0;
-    margin: 0;
-    z-index: 10;
-  }
-
-  .hero-social a,
-  .hero-social button {
-    width: 40px;
-    height: 40px;
-  }
-
-  .hero-social svg {
-    width: 20px;
-    height: 20px;
   }
 }
