@@ -1,5 +1,5 @@
 .productos {
-  padding: 60px 20px;
+  padding: 140px 20px 60px;
   background: #fafafa;
   min-height: 100vh;
 }
@@ -134,7 +134,7 @@
 
 @media (max-width: 768px) {
   .productos {
-    padding: 40px 16px;
+    padding: 120px 16px 40px;
   }
 
   .productos-grid {
