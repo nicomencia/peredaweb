@@ -6,7 +6,27 @@
 
 ## Arquitectura del proyecto
 
-- [Diagrama](https://nicomencia-peredaweb-bb02.bolt.host)
+### Diagrama de arquitectura
+
+```mermaid
+flowchart LR
+    User[Usuario\nNavegador web]
+
+    subgraph Frontend
+        React[React\nUI basada en componentes]
+        Vite[Vite\nDev Server & Build Tool]
+        CSS[CSS\nEstilos personalizados]
+    end
+
+    subgraph Backend
+        Bolt[Bolt Database\nDatos e imágenes]
+    end
+
+    User --> React
+    React --> CSS
+    Vite --> React
+    React --> Bolt
+```
 
 ### Frontend (lo que ve el usuario)
 
