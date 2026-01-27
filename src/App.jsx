@@ -11,6 +11,7 @@ import Instalaciones from './components/Instalaciones';
 import Footer from './components/Footer';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
+import FloatingShopButton from './components/FloatingShopButton';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -68,6 +69,7 @@ export default function App() {
       <Navigation currentView={currentView} setCurrentView={setCurrentView} />
       {renderContent()}
       <Footer setCurrentView={setCurrentView} />
+      <FloatingShopButton />
     </>
   );
 }
