@@ -1,5 +1,5 @@
 /*
-  # Flueu Studio Database Schema
+  # Pereda Studio Database Schema
 
   1. New Tables
     - `products`
