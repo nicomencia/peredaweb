@@ -14,18 +14,30 @@ flowchart LR
 
     subgraph Frontend
         React[React<br/>UI basada en componentes]
-        Vite[Vite<br/>Dev Server & Build Tool]
         CSS[CSS<br/>Estilos personalizados]
     end
 
+    subgraph Tooling
+        Vite[Vite<br/>Dev Server & Build]
+    end
+
     subgraph Backend
-        Bolt[Bolt Database<br/>Datos e imágenes]
+        Supabase[Supabase<br/>Base de datos y storage]
+    end
+
+    subgraph Infraestructura
+        BoltHost[Bolt Hosting<br/>Despliegue web]
+        GitHub[GitHub<br/>Repositorio de código]
     end
 
     User --> React
     React --> CSS
+    React --> Supabase
+
     Vite --> React
-    React --> Bolt
+
+    GitHub --> BoltHost
+    BoltHost --> React
 ```
 
 ### Frontend (lo que ve el usuario)
