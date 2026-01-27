@@ -10,16 +10,16 @@
 
 ```mermaid
 flowchart LR
-    User[Usuario\nNavegador web]
+    User[Usuario<br/>Navegador web]
 
     subgraph Frontend
-        React[React\nUI basada en componentes]
-        Vite[Vite\nDev Server & Build Tool]
-        CSS[CSS\nEstilos personalizados]
+        React[React<br/>UI basada en componentes]
+        Vite[Vite<br/>Dev Server & Build Tool]
+        CSS[CSS<br/>Estilos personalizados]
     end
 
     subgraph Backend
-        Bolt[Bolt Database\nDatos e imágenes]
+        Bolt[Bolt Database<br/>Datos e imágenes]
     end
 
     User --> React
@@ -60,6 +60,7 @@ flowchart LR
   Proporciona almacenamiento seguro, actualizaciones en tiempo real, copias de seguridad automáticas y gestión sin necesidad de mantener servidores propios.
 
 ### Sistema de administración
+- [Ejemplo](https://flueu.com/)
 - Panel de administración desarrollado también en **React**.
 - Acceso protegido mediante autenticación.
 - Interfaz sencilla para gestionar productos y contenido, con cambios reflejados casi al instante.
