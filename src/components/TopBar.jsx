@@ -20,9 +20,14 @@ export default function TopBar() {
           </a>
         </div>
         <div className="top-bar-right">
-          <button className="top-bar-button">
+          <a
+            href="https://ecommerce.saneamientos-pereda.com/ecom/login.php"
+            className="top-bar-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Área Profesional
-          </button>
+          </a>
         </div>
       </div>
     </div>
