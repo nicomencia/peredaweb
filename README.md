@@ -1,44 +1,24 @@
-```markdown
+# Nombre del proyecto
 
-Nombre de tu Web
-Breve descripción de qué hace tu proyecto web y para qué sirve.
+Breve descripción de qué es la web y para qué sirve (1–2 líneas).
 
-🛠️ Instalación
-Clona el repositorio:
+## 🚀 Demo
+Opcional. Enlace a la web desplegada.
+- https://tudominio.com
+
+## 🧩 Tecnologías
+- HTML / CSS / JavaScript
+- Framework o librerías (si aplica)
+- Backend / API (si aplica)
+
+## 📦 Instalación
+Pasos básicos para levantar el proyecto en local.
+
+## Inspo para utilizar
+https://www.roca.es/productos
+
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
-```
-
-Accede al directorio:
-```bash
-cd tu-repo
-```
-
-Instala dependencias (si usas npm/yarn):
-```bash
+git clone https://github.com/usuario/repo.git
+cd repo
 npm install
-```
-
-🚀 Uso
-Ejecuta el proyecto localmente:
-```bash
-npm start
-```
-
-Abre http://localhost:3000 en tu navegador.
-
-📁 Estructura del proyecto
-```
-tu-repo/
-├── public/
-├── src/
-├── package.json
-└── README.md
-```
-
-🤝 Contribuir
-¡Las contribuciones son bienvenidas! Crea un fork y un PR.
-
-📄 Licencia
-Este proyecto usa la licencia MIT - mira el archivo LICENSE.
-```
+npm run dev
