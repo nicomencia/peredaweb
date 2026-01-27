@@ -1,6 +1,6 @@
 .navigation {
   position: fixed;
-  top: 0;
+  top: 41px;
   left: 0;
   right: 0;
   background: transparent;
@@ -91,6 +91,10 @@
 }
 
 @media (max-width: 768px) {
+  .navigation {
+    top: 33px;
+  }
+
   .nav-container {
     justify-content: flex-end;
   }

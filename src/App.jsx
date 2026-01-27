@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
+import TopBar from './components/TopBar';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import QuienesSomos from './components/QuienesSomos';
@@ -63,6 +64,7 @@ export default function App() {
 
   return (
     <>
+      <TopBar />
       <Navigation currentView={currentView} setCurrentView={setCurrentView} />
       {renderContent()}
       <Footer setCurrentView={setCurrentView} />
