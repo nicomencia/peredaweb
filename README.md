@@ -1,10 +1,12 @@
 # PEREDAWEB
 
-## 🚀 Demo
+## Demo
 - [demo](https://nicomencia-peredaweb-bb02.bolt.host)
 - [qr](https://quickchart.io/qr?size=300&text=https://nicomencia-peredaweb-bb02.bolt.host)
 
-## 🏗️ Arquitectura del proyecto
+## Arquitectura del proyecto
+
+- [Diagrama](https://nicomencia-peredaweb-bb02.bolt.host)
 
 ### Frontend (lo que ve el usuario)
 
