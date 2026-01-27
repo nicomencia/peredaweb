@@ -1,5 +1,5 @@
 .top-bar {
-  background: #1A1A1A;
+  background: #353636;
   color: var(--color-white);
   font-size: 0.875rem;
   position: fixed;
@@ -48,16 +48,20 @@
   flex-shrink: 0;
 }
 
-.top-bar-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.top-bar-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--color-white);
-  transition: opacity 0.3s ease;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.top-bar-icon:hover {
-  opacity: 0.7;
+.top-bar-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 @media (max-width: 768px) {
@@ -82,8 +86,8 @@
     height: 14px;
   }
 
-  .top-bar-icon svg {
-    width: 16px;
-    height: 16px;
+  .top-bar-button {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.75rem;
   }
 }
