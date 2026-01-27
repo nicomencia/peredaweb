@@ -14,7 +14,7 @@
 }
 
 .hero-logo {
-  width: 850px;
+  width: 550px;
   height: auto;
   object-fit: contain;
   margin: 0 auto var(--spacing-md);
