@@ -1,5 +1,5 @@
 .area-profesional {
-  min-height: 800vh;
+  min-height: 100vh;
   background-color: #fff;
 }
 
@@ -17,7 +17,7 @@
 .area-header-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
