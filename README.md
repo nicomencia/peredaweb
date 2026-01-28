@@ -12,13 +12,15 @@
 flowchart LR
     User[Usuario<br/>Navegador web]
 
-    subgraph Frontend
-        Web[Web App<br/>React SPA]
-        CSS[CSS<br/>Estilos personalizados]
-    end
+    subgraph Code[Web / Código]
+        subgraph Frontend
+            Web[Web App<br/>React SPA]
+            CSS[CSS<br/>Estilos personalizados]
+        end
 
-    subgraph Tooling
-        Vite[Vite<br/>Dev Server & Build]
+        subgraph Tooling
+            Vite[Vite<br/>Dev Server & Build]
+        end
     end
 
     subgraph Backend
@@ -26,15 +28,13 @@ flowchart LR
     end
 
     subgraph Infraestructura
-        Bolt[Bolt<br/>Hosting y despliegue]
+        Bolt[Bolt Hosting<br/>Web desplegada]
         GitHub[GitHub<br/>Repositorio de código]
     end
 
     User --> Web
     Web --> CSS
     Web --> Supabase
-
-    Bolt --> Web 
 
     Vite --> Web
 
@@ -68,15 +68,23 @@ flowchart LR
   El CSS está pensado para ser responsive, asegurando una correcta visualización en distintos tamaños de pantalla (móvil, tablet y escritorio) y manteniendo una identidad visual coherente con la marca.
 
 ### Backend y datos
-- **Bolt Database**  
-  Servicio en la nube encargado de almacenar los datos de la aplicación (productos, contenido e imágenes).  
-  Proporciona almacenamiento seguro, actualizaciones en tiempo real, copias de seguridad automáticas y gestión sin necesidad de mantener servidores propios.
+
+- **Supabase**
+  [UI]()
+  Servicio en la nube que actúa como backend y base de datos para la aplicación.  
+  Proporciona almacenamiento seguro para productos, contenido e imágenes, con actualizaciones en tiempo real, copias de seguridad automáticas y control de acceso.  
+  No requiere servidores propios: todo se gestiona en la nube y escala según tus necesidades.
+
+- **Bolt Hosting**  
+  Plataforma que aloja la web y sirve los archivos al usuario.  
+  Se encarga del despliegue, de mantener la web accesible y de gestionar actualizaciones desde el repositorio de código en GitHub.
 
 ### Sistema de administración
 - [Ejemplo](https://flueu.com/)
 - Panel de administración desarrollado también en **React**.
 - Acceso protegido mediante autenticación.
 - Interfaz sencilla para gestionar productos y contenido, con cambios reflejados casi al instante.
+- Posibilidades a medida, ej. Excel que actualiza todos los productos
 
 ### Beneficios de este stack
 - Alta velocidad y buena experiencia de usuario
