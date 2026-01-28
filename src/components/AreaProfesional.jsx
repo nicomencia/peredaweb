@@ -6,15 +6,25 @@ export default function AreaProfesional({ setCurrentView }) {
       <header className="area-header">
         <div className="area-header-container">
           <button
-            className="area-back-button"
+            className="area-logo-button"
             onClick={() => setCurrentView('home')}
             aria-label="Volver a inicio"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            <span>Volver</span>
+            <img src="/logo.svg" alt="Saneamientos Pereda" />
           </button>
+          <a
+            href="https://ecommerce.saneamientos-pereda.com/ecom/login.php"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="area-tienda-button"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <span>Tienda</span>
+          </a>
         </div>
       </header>
       <section className="area-hero">

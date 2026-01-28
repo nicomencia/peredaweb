@@ -74,7 +74,7 @@ export default function App() {
       {!isAreaProfesional && <Navigation currentView={currentView} setCurrentView={setCurrentView} />}
       {renderContent()}
       {!isAreaProfesional && <Footer setCurrentView={setCurrentView} />}
-      <FloatingShopButton currentView={currentView} />
+      {!isAreaProfesional && <FloatingShopButton currentView={currentView} />}
     </>
   );
 }
