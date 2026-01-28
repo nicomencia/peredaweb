@@ -38,6 +38,8 @@ flowchart LR
 
     Vite --> Web
 
+    Bolt --> Web
+
     GitHub <--> Bolt
 ```
 
