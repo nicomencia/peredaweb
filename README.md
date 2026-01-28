@@ -71,8 +71,7 @@ flowchart LR
 
 ### Backend y datos
 
-- **Supabase**
-  [UI]()
+- **Supabase [UI](https://supabase.com/dashboard/project/hggbqyamebqyjvdfpwgu)**
   Servicio en la nube que actúa como backend y base de datos para la aplicación.  
   Proporciona almacenamiento seguro para productos, contenido e imágenes, con actualizaciones en tiempo real, copias de seguridad automáticas y control de acceso.  
   No requiere servidores propios: todo se gestiona en la nube y escala según tus necesidades.
