@@ -1,12 +1,17 @@
 import './FloatingShopButton.css';
 
-export default function FloatingShopButton() {
+export default function FloatingShopButton({ currentView }) {
+  const isAreaProfesional = currentView === 'area-profesional';
+  const href = isAreaProfesional
+    ? 'https://ecommerce.saneamientos-pereda.com/ecom/login.php'
+    : 'https://www.saneamientos-pereda.es/';
+
   return (
     <a
-      href="https://www.saneamientos-pereda.es/"
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="floating-shop-button"
+      className={`floating-shop-button ${isAreaProfesional ? 'floating-shop-button--red' : ''}`}
       aria-label="Ir a la tienda online"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

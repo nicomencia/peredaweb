@@ -72,7 +72,7 @@ export default function App() {
       <Navigation currentView={currentView} setCurrentView={setCurrentView} />
       {renderContent()}
       <Footer setCurrentView={setCurrentView} />
-      <FloatingShopButton />
+      <FloatingShopButton currentView={currentView} />
     </>
   );
 }

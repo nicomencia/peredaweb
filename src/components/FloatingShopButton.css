@@ -27,6 +27,16 @@
   flex-shrink: 0;
 }
 
+.floating-shop-button--red {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.floating-shop-button--red:hover {
+  background: #b91c1c;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}
+
 @media (max-width: 768px) {
   .floating-shop-button {
     bottom: 20px;
