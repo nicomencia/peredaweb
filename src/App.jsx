@@ -54,7 +54,7 @@ export default function App() {
       case 'instalaciones':
         return <Instalaciones />;
       case 'area-profesional':
-        return <AreaProfesional />;
+        return <AreaProfesional setCurrentView={setCurrentView} />;
       case 'admin':
         if (isAuthenticated) {
           return <AdminDashboard />;
@@ -66,12 +66,14 @@ export default function App() {
     }
   };
 
+  const isAreaProfesional = currentView === 'area-profesional';
+
   return (
     <>
-      <TopBar setCurrentView={setCurrentView} />
-      <Navigation currentView={currentView} setCurrentView={setCurrentView} />
+      {!isAreaProfesional && <TopBar setCurrentView={setCurrentView} />}
+      {!isAreaProfesional && <Navigation currentView={currentView} setCurrentView={setCurrentView} />}
       {renderContent()}
-      <Footer setCurrentView={setCurrentView} />
+      {!isAreaProfesional && <Footer setCurrentView={setCurrentView} />}
       <FloatingShopButton currentView={currentView} />
     </>
   );

@@ -1,8 +1,22 @@
 import './AreaProfesional.css';
 
-export default function AreaProfesional() {
+export default function AreaProfesional({ setCurrentView }) {
   return (
     <div className="area-profesional">
+      <header className="area-header">
+        <div className="area-header-container">
+          <button
+            className="area-back-button"
+            onClick={() => setCurrentView('home')}
+            aria-label="Volver a inicio"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Volver</span>
+          </button>
+        </div>
+      </header>
       <section className="area-hero">
         <div className="area-hero-grid">
           <div className="area-hero-item area-hero-main">
