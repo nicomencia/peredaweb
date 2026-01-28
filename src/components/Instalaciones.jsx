@@ -16,7 +16,7 @@ const stores = [
       'expoind@saneamientos-pereda.com',
       'independenciaalmacen@saneamientos-pereda.com'
     ],
-    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2896.8!2d-5.8447!3d43.3623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd368cdf3f8c6d0b%3A0x0!2zNDPCsDIxJzQ0LjMiTiA1wrA1MCc0MC45Ilc!5e0!3m2!1ses!2ses!4v1234567890'
+    mapUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=C/Independencia,43,33004+Oviedo,España&zoom=15'
   },
   {
     name: 'Oviedo',
@@ -33,7 +33,7 @@ const stores = [
       'expolila@saneamientos-pereda.com',
       'lilaalmacen@saneamientos-pereda.com'
     ],
-    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2896.8!2d-5.8447!3d43.3623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd368cdf3f8c6d0b%3A0x0!2zNDPCsDIxJzQ0LjMiTiA1wrA1MCc0MC45Ilc!5e0!3m2!1ses!2ses!4v1234567891'
+    mapUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=C/La+Lila,26,33002+Oviedo,España&zoom=15'
   },
   {
     name: 'Pruvia',
@@ -52,7 +52,7 @@ const stores = [
       'pruviacons@saneamientos-pereda.com',
       'logistica@saneamientos-pereda.com'
     ],
-    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2896.8!2d-5.8447!3d43.3623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd368cdf3f8c6d0b%3A0x0!2zNDPCsDIxJzQ0LjMiTiA1wrA1MCc0MC45Ilc!5e0!3m2!1ses!2ses!4v1234567892'
+    mapUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Ctra.AS-266+km+6.5,33192+Pruvia,España&zoom=15'
   },
   {
     name: 'Gijón',
@@ -69,7 +69,7 @@ const stores = [
       'expogijon@saneamientos-pereda.com',
       'gijonalmacen@saneamientos-pereda.com'
     ],
-    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2896.8!2d-5.8447!3d43.3623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd368cdf3f8c6d0b%3A0x0!2zNDPCsDIxJzQ0LjMiTiA1wrA1MCc0MC45Ilc!5e0!3m2!1ses!2ses!4v1234567893'
+    mapUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=C/Infiesto,12,33207+Gijón,España&zoom=15'
   }
 ];
 
