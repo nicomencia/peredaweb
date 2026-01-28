@@ -31,7 +31,7 @@ export default function AreaProfesional({ setCurrentView }) {
         <div className="area-hero-grid">
           <div className="area-hero-item area-hero-main">
             <img
-              src="https://images.pexels.com/photos/8961186/pexels-photo-8961186.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              src="/fondo.jpg"
               alt="Profesionales fontaneros"
             />
             <div className="area-hero-overlay">
