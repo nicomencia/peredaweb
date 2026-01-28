@@ -71,14 +71,15 @@ flowchart LR
 
 ### Backend y datos
 
-- **Supabase [UI](https://supabase.com/dashboard/project/hggbqyamebqyjvdfpwgu)**
-  Servicio en la nube que actúa como backend y base de datos para la aplicación.  
-  Proporciona almacenamiento seguro para productos, contenido e imágenes, con actualizaciones en tiempo real, copias de seguridad automáticas y control de acceso.  
-  No requiere servidores propios: todo se gestiona en la nube y escala según tus necesidades.
+- **Supabase**
+  - [UI](https://supabase.com/dashboard/project/hggbqyamebqyjvdfpwgu)
+  -  Servicio en la nube que actúa como backend y base de datos para la aplicación.  
+  - Proporciona almacenamiento seguro para productos, contenido e imágenes, con actualizaciones en tiempo real, copias de seguridad automáticas y control de acceso.  
+  - No requiere servidores propios: todo se gestiona en la nube y escala según tus necesidades.
 
 - **Bolt Hosting**  
-  Plataforma que aloja la web y sirve los archivos al usuario.  
-  Se encarga del despliegue, de mantener la web accesible y de gestionar actualizaciones desde el repositorio de código en GitHub.
+  - Plataforma que aloja la web y sirve los archivos al usuario.  
+  - Se encarga del despliegue, de mantener la web accesible y de gestionar actualizaciones desde el repositorio de código en GitHub.
 
 ### Sistema de administración
 - [Ejemplo](https://flueu.com/)
