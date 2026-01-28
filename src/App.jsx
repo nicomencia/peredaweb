@@ -8,6 +8,7 @@ import Productos from './components/Productos';
 import CollectionDetail from './components/CollectionDetail';
 import Inspirate from './components/Inspirate';
 import Instalaciones from './components/Instalaciones';
+import AreaProfesional from './components/AreaProfesional';
 import Footer from './components/Footer';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
@@ -52,6 +53,8 @@ export default function App() {
         return <Inspirate />;
       case 'instalaciones':
         return <Instalaciones />;
+      case 'area-profesional':
+        return <AreaProfesional />;
       case 'admin':
         if (isAuthenticated) {
           return <AdminDashboard />;
@@ -65,7 +68,7 @@ export default function App() {
 
   return (
     <>
-      <TopBar />
+      <TopBar setCurrentView={setCurrentView} />
       <Navigation currentView={currentView} setCurrentView={setCurrentView} />
       {renderContent()}
       <Footer setCurrentView={setCurrentView} />

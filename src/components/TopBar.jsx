@@ -1,6 +1,6 @@
 import './TopBar.css';
 
-export default function TopBar() {
+export default function TopBar({ setCurrentView }) {
   return (
     <div className="top-bar">
       <div className="top-bar-container">
@@ -20,14 +20,12 @@ export default function TopBar() {
           </a>
         </div>
         <div className="top-bar-right">
-          <a
-            href="https://ecommerce.saneamientos-pereda.com/ecom/login.php"
+          <button
             className="top-bar-button"
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => setCurrentView('area-profesional')}
           >
             Área Profesional
-          </a>
+          </button>
         </div>
       </div>
     </div>
