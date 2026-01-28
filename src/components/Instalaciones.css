@@ -88,12 +88,6 @@
   color: var(--color-blue);
   text-decoration: none;
   font-size: 0.95rem;
-  transition: color 0.3s ease;
-}
-
-.detail-section.emails a:hover {
-  color: var(--color-dark-gray);
-  text-decoration: underline;
 }
 
 .verano {

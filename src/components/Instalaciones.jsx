@@ -16,7 +16,8 @@ const stores = [
       'expoind@saneamientos-pereda.com',
       'independenciaalmacen@saneamientos-pereda.com'
     ],
-    mapUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=C/Independencia,43,33004+Oviedo,España&zoom=15'
+    lat: 43.3623,
+    lon: -5.8447
   },
   {
     name: 'Oviedo',
@@ -33,7 +34,8 @@ const stores = [
       'expolila@saneamientos-pereda.com',
       'lilaalmacen@saneamientos-pereda.com'
     ],
-    mapUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=C/La+Lila,26,33002+Oviedo,España&zoom=15'
+    lat: 43.3614,
+    lon: -5.8586
   },
   {
     name: 'Pruvia',
@@ -52,7 +54,8 @@ const stores = [
       'pruviacons@saneamientos-pereda.com',
       'logistica@saneamientos-pereda.com'
     ],
-    mapUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Ctra.AS-266+km+6.5,33192+Pruvia,España&zoom=15'
+    lat: 43.4156,
+    lon: -5.9328
   },
   {
     name: 'Gijón',
@@ -69,7 +72,8 @@ const stores = [
       'expogijon@saneamientos-pereda.com',
       'gijonalmacen@saneamientos-pereda.com'
     ],
-    mapUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=C/Infiesto,12,33207+Gijón,España&zoom=15'
+    lat: 43.5322,
+    lon: -5.6611
   }
 ];
 
@@ -108,13 +112,11 @@ export default function Instalaciones() {
               </div>
               <div className="store-map">
                 <iframe
-                  src={store.mapUrl}
+                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${store.lon - 0.01},${store.lat - 0.01},${store.lon + 0.01},${store.lat + 0.01}&layer=mapnik&marker=${store.lat},${store.lon}`}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
-                  allowFullScreen=""
                   loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
                   title={`Mapa de ${store.name}`}
                 ></iframe>
               </div>
