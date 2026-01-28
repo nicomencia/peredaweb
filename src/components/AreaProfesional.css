@@ -17,7 +17,7 @@
 .area-header-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0.5rem 2rem;
+  padding: 0.4rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,7 +38,7 @@
 }
 
 .area-logo-button img {
-  height: 30px;
+  height: 26px;
   width: auto;
 }
 
@@ -66,7 +66,7 @@
 }
 
 .area-hero {
-  padding: 90px 0 60px;
+  padding: 70px 0 60px;
   background-color: #f8f9fa;
 }
 
@@ -301,11 +301,11 @@
 
 @media (max-width: 768px) {
   .area-header-container {
-    padding: 0.4rem 1rem;
+    padding: 0.3rem 1rem;
   }
 
   .area-logo-button img {
-    height: 26px;
+    height: 22px;
   }
 
   .area-tienda-button {
@@ -318,7 +318,7 @@
   }
 
   .area-hero {
-    padding: 80px 0 40px;
+    padding: 60px 0 40px;
   }
 
   .area-hero-grid {
