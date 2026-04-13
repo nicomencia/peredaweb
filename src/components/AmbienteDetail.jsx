@@ -95,21 +95,43 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
           &#8592; Volver a Inspírate
         </button>
 
-        <div className="ambiente-hero" onClick={() => openLightbox(0)}>
-          <img src={ambiente.cover_image_url} alt={ambiente.title} />
-          <div className="ambiente-hero-overlay">
-            <h1 className="ambiente-detail-title">{ambiente.title}</h1>
+        <div className="ambiente-hero-layout">
+          <div className="ambiente-hero" onClick={() => openLightbox(0)}>
+            <img src={ambiente.cover_image_url} alt={ambiente.title} />
+            <div className="ambiente-hero-overlay">
+              <h1 className="ambiente-detail-title">{ambiente.title}</h1>
+            </div>
           </div>
-        </div>
 
-        <div className="ambiente-detail-summary">
-          <p>{ambiente.summary}</p>
-        </div>
-
-        <div className="ambiente-detail-description">
-          {ambiente.description.split('\n').map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}
+          <div className="ambiente-specs-panel">
+            {ambiente.specs && ambiente.specs.length > 0 ? (
+              ambiente.specs.map((section, idx) => (
+                <div key={idx} className="ambiente-specs-section">
+                  <h3 className="ambiente-specs-category">{section.category}</h3>
+                  <ul className="ambiente-specs-list">
+                    {section.items.map((item, itemIdx) => (
+                      <li key={itemIdx}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            ) : (
+              <>
+                {ambiente.summary && (
+                  <div className="ambiente-specs-summary">
+                    <p>{ambiente.summary}</p>
+                  </div>
+                )}
+                {ambiente.description && (
+                  <div className="ambiente-specs-description">
+                    {ambiente.description.split('\n').map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
 
         {photos.length > 0 && (

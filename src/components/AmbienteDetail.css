@@ -27,12 +27,19 @@
   font-size: 0.875rem;
 }
 
+.ambiente-hero-layout {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: flex-start;
+  margin-bottom: var(--spacing-lg);
+}
+
 .ambiente-hero {
   position: relative;
+  flex: 0 0 50%;
   max-width: 50%;
   border-radius: 8px;
   cursor: pointer;
-  margin-bottom: var(--spacing-lg);
   overflow: hidden;
 }
 
@@ -57,26 +64,45 @@
   letter-spacing: 0.02em;
 }
 
-.ambiente-detail-summary {
-  max-width: 800px;
-  margin: 0 auto var(--spacing-md);
-  text-align: center;
+.ambiente-specs-panel {
+  flex: 1;
+  padding-top: 0.5rem;
 }
 
-.ambiente-detail-summary p {
+.ambiente-specs-section {
+  margin-bottom: 1.5rem;
+}
+
+.ambiente-specs-category {
+  color: var(--color-blue);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+.ambiente-specs-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ambiente-specs-list li {
+  color: var(--color-gray);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.ambiente-specs-summary p {
   font-size: 1rem;
   line-height: 1.8;
   color: var(--color-blue);
   font-weight: 500;
+  margin-bottom: var(--spacing-sm);
 }
 
-.ambiente-detail-description {
-  max-width: 800px;
-  margin: 0 auto var(--spacing-lg);
-  text-align: center;
-}
-
-.ambiente-detail-description p {
+.ambiente-specs-description p {
   color: var(--color-gray);
   font-size: 0.875rem;
   line-height: 1.7;
@@ -233,6 +259,15 @@
 }
 
 @media (max-width: 768px) {
+  .ambiente-hero-layout {
+    flex-direction: column;
+  }
+
+  .ambiente-hero {
+    flex: none;
+    max-width: 100%;
+  }
+
   .ambiente-back-button {
     margin-top: 5rem;
     margin-bottom: var(--spacing-sm);
