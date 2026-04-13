@@ -6,9 +6,8 @@
 
 .instalaciones h2 {
   text-align: center;
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
   color: var(--color-blue);
-  font-size: 2.5rem;
 }
 
 .stores-list {
@@ -23,7 +22,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-lg);
-  background: white;
+  background: var(--color-white);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -46,7 +45,6 @@
 
 .store-info h3 {
   color: var(--color-blue);
-  font-size: 2rem;
   margin-bottom: var(--spacing-md);
   font-weight: 600;
 }
@@ -65,17 +63,17 @@
 
 .detail-section p {
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--color-gray);
 }
 
 .detail-section .address {
-  font-size: 1.1rem;
-  color: var(--color-dark-gray);
+  font-size: 1.05rem;
+  color: var(--color-black);
 }
 
 .detail-section p strong {
-  color: var(--color-dark-gray);
+  color: var(--color-black);
   font-weight: 600;
 }
 
@@ -111,10 +109,6 @@
 @media (max-width: 768px) {
   .instalaciones {
     padding: 120px 0 var(--spacing-xl) 0;
-  }
-
-  .instalaciones h2 {
-    font-size: 2rem;
   }
 
   .stores-list {

@@ -22,14 +22,13 @@
 }
 
 .canal-header h1 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
   color: var(--color-blue);
   margin-bottom: 0.5rem;
 }
 
 .canal-subtitle {
   color: var(--color-gray);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 
 .conditions-card,
@@ -48,17 +47,16 @@
 .form-card h2,
 .success-card h2,
 .consult-card h2 {
-  font-size: 1.5rem;
   color: var(--color-blue);
   margin-bottom: var(--spacing-sm);
   font-weight: 600;
 }
 
 .conditions-intro {
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--color-black);
   margin-bottom: var(--spacing-md);
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .conditions-section {
@@ -66,7 +64,7 @@
 }
 
 .conditions-section h3 {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--color-blue);
   margin-bottom: 0.5rem;
@@ -90,7 +88,7 @@
   padding-left: 1.5rem;
   margin-bottom: 0.6rem;
   color: var(--color-gray);
-  line-height: 1.6;
+  line-height: 1.7;
   font-size: 0.95rem;
 }
 

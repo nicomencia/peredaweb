@@ -22,7 +22,6 @@
 
 .collection-detail-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 5vw, 3.5rem);
   color: var(--color-blue);
   text-align: center;
   margin-bottom: var(--spacing-md);
@@ -37,8 +36,8 @@
 
 .collection-detail-description p {
   color: var(--color-gray);
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-size: 1.05rem;
+  line-height: 1.7;
   margin-bottom: var(--spacing-md);
 }
 
