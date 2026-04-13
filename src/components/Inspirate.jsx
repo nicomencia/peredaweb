@@ -7,11 +7,14 @@ export default function Inspirate() {
         <h2>Inspírate</h2>
         <div className="inspirate-content">
           <div className="inspirate-text">
-            <p>Descubre las últimas tendencias en diseño de baños y encuentra la inspiración perfecta para tu proyecto.</p>
+            <h3>Visítanos</h3>
+            <p>En nuestras tiendas encontrarás diferentes ambientes de baño, cerámicas y productos de decoración con una cuidada selección de marcas donde escoger el producto que mejor se adapte a tus necesidades.</p>
 
-            <p>Desde espacios minimalistas y contemporáneos hasta baños clásicos y elegantes, en Saneamientos Pereda te ayudamos a materializar tus ideas con productos de alta calidad y diseño vanguardista.</p>
+            <h3>Hacemos realidad tus proyectos</h3>
+            <p>Te ayudamos en tus proyectos de reformas. Ven a vernos, dinos lo que necesitas y lo planificamos juntos. No esperes más y pide cita en cualquiera de nuestras tiendas.</p>
 
-            <p>Explora diferentes estilos, acabados y configuraciones que transformarán tu baño en un espacio único y funcional. Nuestro equipo está listo para asesorarte en cada detalle.</p>
+            <h3>Confía en nuestra experiencia</h3>
+            <p>Ofrecemos las mejores soluciones para tu hogar. Contamos con una larga trayectoria profesional, un equipo experimentado y somos líderes en el mercado asturiano.</p>
           </div>
           <div className="inspirate-gallery">
             <div className="inspirate-grid">
