@@ -16,20 +16,13 @@ export default function Inspirate() {
           <div className="inspirate-gallery">
             <div className="inspirate-grid">
               <div className="inspirate-item">
-                <img src="https://images.pexels.com/photos/1454804/pexels-photo-1454804.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Baño moderno minimalista" />
-                <p className="inspirate-caption">Estilo Minimalista</p>
+                <img src="/inspirate1.jpg" alt="Inspiración baño 1" />
               </div>
               <div className="inspirate-item">
-                <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Baño elegante contemporáneo" />
-                <p className="inspirate-caption">Contemporáneo</p>
+                <img src="/inspirate2.jpg" alt="Inspiración baño 2" />
               </div>
               <div className="inspirate-item">
-                <img src="https://images.pexels.com/photos/1571453/pexels-photo-1571453.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Baño clásico" />
-                <p className="inspirate-caption">Clásico Elegante</p>
-              </div>
-              <div className="inspirate-item">
-                <img src="https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Baño spa relajante" />
-                <p className="inspirate-caption">Spa Relax</p>
+                <img src="/inspirate3.jpg" alt="Inspiración baño 3" />
               </div>
             </div>
           </div>
