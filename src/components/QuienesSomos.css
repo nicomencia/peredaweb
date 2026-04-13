@@ -77,10 +77,30 @@
   letter-spacing: 0.02em;
 }
 
+.about-team-section {
+  background: var(--color-cream);
+  padding: var(--spacing-xl) 0;
+}
+
+.about-team-section h3 {
+  text-align: center;
+  color: var(--color-blue);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.about-team-subtitle {
+  text-align: center;
+  color: var(--color-gray);
+  font-size: 1.05rem;
+  margin-bottom: var(--spacing-lg);
+}
+
 .about-photos-team {
   max-width: 1000px;
   margin: 0 auto;
-  padding: var(--spacing-md) var(--spacing-md) 0;
+  padding: 0 var(--spacing-md);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-md);
@@ -89,13 +109,19 @@
 .about-photo-half {
   border-radius: 12px;
   overflow: hidden;
+  position: relative;
 }
 
 .about-photo-half img {
   width: 100%;
-  height: 300px;
+  height: 340px;
   object-fit: cover;
   display: block;
+  transition: transform 0.4s ease;
+}
+
+.about-photo-half:hover img {
+  transform: scale(1.03);
 }
 
 .about-intro {

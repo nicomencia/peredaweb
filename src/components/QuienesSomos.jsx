@@ -25,15 +25,6 @@ export default function QuienesSomos() {
         </div>
       </div>
 
-      <div className="about-photos-team">
-        <div className="about-photo-half">
-          <img src="/quienessomos3.jpg" alt="Equipo de trabajo de Saneamientos Pereda" />
-        </div>
-        <div className="about-photo-half">
-          <img src="/quienessomos4.jpg" alt="Profesionales de Saneamientos Pereda" />
-        </div>
-      </div>
-
       <div className="container">
         <div className="about-intro">
           <p>
@@ -146,6 +137,21 @@ export default function QuienesSomos() {
                 Nuestro personal está formado por profesionales cualificados que te asesorarán y atenderán personalmente.
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="about-team-section">
+        <div className="container">
+          <h3>NUESTRO EQUIPO</h3>
+          <p className="about-team-subtitle">Las personas que hacen posible Saneamientos Pereda</p>
+        </div>
+        <div className="about-photos-team">
+          <div className="about-photo-half">
+            <img src="/quienessomos3.jpg" alt="Equipo de trabajo de Saneamientos Pereda" />
+          </div>
+          <div className="about-photo-half">
+            <img src="/quienessomos4.jpg" alt="Profesionales de Saneamientos Pereda" />
           </div>
         </div>
       </div>
