@@ -80,6 +80,7 @@
 .about-team-section {
   background: var(--color-cream);
   padding: var(--spacing-xl) 0;
+  border-top: 1px solid var(--color-light-gray);
 }
 
 .about-team-section h3 {
