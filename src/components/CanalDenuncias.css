@@ -1,6 +1,6 @@
 .canal-denuncias {
   min-height: 100vh;
-  padding: var(--spacing-xl) 0;
+  padding: 140px 0 var(--spacing-xl) 0;
   background: var(--color-cream);
 }
 
@@ -404,7 +404,7 @@
 
 @media (max-width: 768px) {
   .canal-denuncias {
-    padding: var(--spacing-lg) 0;
+    padding: 120px 0 var(--spacing-lg) 0;
   }
 
   .conditions-card,

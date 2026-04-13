@@ -1,5 +1,5 @@
 .ambiente-detail {
-  padding: var(--spacing-xl) 0;
+  padding: 140px 0 var(--spacing-xl) 0;
   background: var(--color-cream);
   min-height: 100vh;
 }
@@ -12,7 +12,6 @@
   font-weight: 600;
   cursor: pointer;
   margin-bottom: var(--spacing-lg);
-  margin-top: var(--spacing-lg);
   padding: 0;
   transition: color 0.3s ease;
 }
@@ -268,8 +267,11 @@
     max-width: 100%;
   }
 
+  .ambiente-detail {
+    padding: 120px 0 var(--spacing-xl) 0;
+  }
+
   .ambiente-back-button {
-    margin-top: 5rem;
     margin-bottom: var(--spacing-sm);
   }
 

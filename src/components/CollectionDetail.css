@@ -1,5 +1,5 @@
 .collection-detail {
-  padding: var(--spacing-xl) 0;
+  padding: 140px 0 var(--spacing-xl) 0;
   background: var(--color-white);
   min-height: 80vh;
 }
@@ -131,13 +131,12 @@
 }
 
 @media (max-width: 768px) {
-  .back-button {
-    margin-top: 3rem;
-    margin-bottom: var(--spacing-sm);
+  .collection-detail {
+    padding: 120px 0 var(--spacing-xl) 0;
   }
 
-  .collection-detail-title {
-    margin-top: 3rem;
+  .back-button {
+    margin-bottom: var(--spacing-sm);
   }
 
   .collection-photos-grid {
