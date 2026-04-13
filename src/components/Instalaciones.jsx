@@ -16,7 +16,7 @@ const stores = [
     address: 'C/Independencia, 43',
     postalCode: '33004 Oviedo',
     phone: '985 271 026',
-    image: '/quienessomos1.jpg',
+    image: '/tienda.jpg',
     hours: {
       tienda: '09:30 – 13:30 y 16:00 – 20:00',
       fontaneria: '08:30 – 13:30 y 15:00 – 19:00',
@@ -35,7 +35,7 @@ const stores = [
     address: 'C/La Lila, 26 – Avellanos 4',
     postalCode: '33002 Oviedo',
     phone: '985 223 489',
-    image: '/quienessomos2.jpg',
+    image: '/tienda.jpg',
     hours: {
       tienda: '10:00 – 13:30 y 16:00 – 20:00',
       fontaneria: '08:30 – 13:30 y 15:00 – 19:00',
@@ -54,7 +54,7 @@ const stores = [
     address: 'Ctra. AS-266 km 6,5',
     postalCode: '33192 Pruvia',
     phone: '985 260 124',
-    image: '/quienessomos3.jpg',
+    image: '/tienda.jpg',
     hours: {
       tienda: '10:00 – 13:30 y 16:00 – 20:00',
       fontaneria: '08.00 – 20:00',
@@ -75,7 +75,7 @@ const stores = [
     address: 'C/Infiesto, 12/14 – Avilés 17',
     postalCode: '33207 Gijón',
     phone: '985 351 747',
-    image: '/quienessomos4.jpg',
+    image: '/tienda.jpg',
     hours: {
       tienda: '10:00 – 13:30 y 16:00 – 20:00',
       fontaneria: '08:00 – 13:30 y 15:00 – 19:00',
