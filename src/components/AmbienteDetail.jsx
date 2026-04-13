@@ -38,11 +38,18 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
   }
 
   function navigateLightbox(direction) {
-    const allImages = [
+    const navGalleryPhotos = ambiente && photos.length === 0
+      ? [
+          { image_url: ambiente.cover_image_url, caption: null },
+          { image_url: ambiente.cover_image_url, caption: null },
+          { image_url: ambiente.cover_image_url, caption: null },
+        ]
+      : photos;
+    const navAllImages = [
       ...(ambiente ? [{ image_url: ambiente.cover_image_url, caption: ambiente.title }] : []),
-      ...photos
+      ...navGalleryPhotos
     ];
-    const newIndex = (lightboxIndex + direction + allImages.length) % allImages.length;
+    const newIndex = (lightboxIndex + direction + navAllImages.length) % navAllImages.length;
     setLightboxIndex(newIndex);
   }
 
@@ -57,9 +64,17 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [lightboxOpen, lightboxIndex]);
 
+  const galleryPhotos = ambiente && photos.length === 0
+    ? [
+        { image_url: ambiente.cover_image_url, caption: null },
+        { image_url: ambiente.cover_image_url, caption: null },
+        { image_url: ambiente.cover_image_url, caption: null },
+      ]
+    : photos;
+
   const allImages = [
     ...(ambiente ? [{ image_url: ambiente.cover_image_url, caption: ambiente.title }] : []),
-    ...photos
+    ...galleryPhotos
   ];
 
   if (loading) {
@@ -134,25 +149,34 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
           </div>
         </div>
 
-        {photos.length > 0 && (
-          <>
-            <h2 className="ambiente-gallery-title">Galería</h2>
-            <div className="ambiente-photos-grid">
-              {photos.map((photo, index) => (
-                <div
-                  key={photo.id}
-                  className="ambiente-photo-item"
-                  onClick={() => openLightbox(index + 1)}
-                >
-                  <img src={photo.image_url} alt={photo.caption || `${ambiente.title} foto ${index + 1}`} />
-                  {photo.caption && (
-                    <div className="ambiente-photo-caption">{photo.caption}</div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+        {(() => {
+          const galleryPhotos = photos.length > 0
+            ? photos
+            : [
+                { id: 'placeholder-1', image_url: ambiente.cover_image_url, caption: null },
+                { id: 'placeholder-2', image_url: ambiente.cover_image_url, caption: null },
+                { id: 'placeholder-3', image_url: ambiente.cover_image_url, caption: null },
+              ];
+          return (
+            <>
+              <h2 className="ambiente-gallery-title">Galería</h2>
+              <div className="ambiente-photos-grid">
+                {galleryPhotos.map((photo, index) => (
+                  <div
+                    key={photo.id}
+                    className="ambiente-photo-item"
+                    onClick={() => openLightbox(index + 1)}
+                  >
+                    <img src={photo.image_url} alt={photo.caption || `${ambiente.title} foto ${index + 1}`} />
+                    {photo.caption && (
+                      <div className="ambiente-photo-caption">{photo.caption}</div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          );
+        })()}
 
         {lightboxOpen && allImages[lightboxIndex] && (
           <div className="ambiente-lightbox" onClick={closeLightbox}>
