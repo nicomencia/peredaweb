@@ -25,9 +25,23 @@
   margin: 0 auto;
 }
 
+.inspirate-text h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+  margin-top: 1.5rem;
+  color: var(--color-blue);
+}
+
+.inspirate-text h3:first-child {
+  margin-top: 0;
+}
+
 .inspirate-text p {
-  font-size: 1.125rem;
-  line-height: 1.8;
+  font-size: 0.875rem;
+  line-height: 1.7;
   margin-bottom: var(--spacing-md);
   color: var(--color-gray);
 }
