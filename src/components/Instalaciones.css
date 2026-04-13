@@ -20,7 +20,7 @@
 
 .store-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1.2fr 0.8fr;
   background: var(--color-white);
   border-radius: 12px;
   overflow: hidden;
@@ -107,7 +107,7 @@
 }
 
 .store-map {
-  min-height: 400px;
+  min-height: 300px;
   position: relative;
 }
 
