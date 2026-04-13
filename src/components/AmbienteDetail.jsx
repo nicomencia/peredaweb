@@ -135,7 +135,6 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
           </div>
         </div>
 
-        <h2 className="ambiente-gallery-title">Galería</h2>
         <div className="ambiente-photos-grid">
           {[0, 1, 2].map((index) => (
             <div
