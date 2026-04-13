@@ -75,12 +75,6 @@
   background: var(--color-cream);
   padding: var(--spacing-md);
   border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-highlight-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .highlight-icon {
@@ -148,12 +142,6 @@
   padding: var(--spacing-sm) var(--spacing-md);
   background: var(--color-white);
   border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.porqué-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .porqué-check {
@@ -193,12 +181,6 @@
   padding: var(--spacing-lg) var(--spacing-md);
   border-radius: 12px;
   background: var(--color-cream);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .stat-number {
