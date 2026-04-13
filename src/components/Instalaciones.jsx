@@ -102,50 +102,52 @@ export default function Instalaciones() {
               <div className="store-image">
                 <img src={store.image} alt={`Tienda ${store.name} - ${store.address}`} />
               </div>
-              <div className="store-info">
-                <h3>{store.name}</h3>
-                <div className="store-details">
-                  <div className="detail-section">
-                    <p className="address">
-                      <strong>{store.address}</strong><br />
-                      {store.postalCode}<br />
-                      Telf. {store.phone}
-                    </p>
-                  </div>
+              <div className="store-right-col">
+                <div className="store-info">
+                  <h3>{store.name}</h3>
+                  <div className="store-details">
+                    <div className="detail-section">
+                      <p className="address">
+                        <strong>{store.address}</strong><br />
+                        {store.postalCode}<br />
+                        Telf. {store.phone}
+                      </p>
+                    </div>
 
-                  <div className="detail-section">
-                    <p><strong>Tienda Exposición:</strong> {store.hours.tienda}</p>
-                    <p><strong>Fontanería y Construcción:</strong> {store.hours.fontaneria}</p>
-                    <p><strong>Sábados:</strong> {store.hours.sabados}</p>
-                    <p className="verano">{store.hours.verano}</p>
-                  </div>
+                    <div className="detail-section">
+                      <p><strong>Tienda Exposición:</strong> {store.hours.tienda}</p>
+                      <p><strong>Fontanería y Construcción:</strong> {store.hours.fontaneria}</p>
+                      <p><strong>Sábados:</strong> {store.hours.sabados}</p>
+                      <p className="verano">{store.hours.verano}</p>
+                    </div>
 
-                  <div className="detail-section emails">
-                    {store.emails.map((email, i) => (
-                      <a key={i} href={`mailto:${email}`}>{email}</a>
-                    ))}
+                    <div className="detail-section emails">
+                      {store.emails.map((email, i) => (
+                        <a key={i} href={`mailto:${email}`}>{email}</a>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="store-map">
-                <MapContainer
-                  center={[store.lat, store.lon]}
-                  zoom={15}
-                  style={{ width: '100%', height: '100%' }}
-                  scrollWheelZoom={false}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Marker position={[store.lat, store.lon]}>
-                    <Popup>
-                      <strong>{store.name}</strong><br />
-                      {store.address}<br />
-                      {store.postalCode}
-                    </Popup>
-                  </Marker>
-                </MapContainer>
+                <div className="store-map">
+                  <MapContainer
+                    center={[store.lat, store.lon]}
+                    zoom={15}
+                    style={{ width: '100%', height: '100%' }}
+                    scrollWheelZoom={false}
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[store.lat, store.lon]}>
+                      <Popup>
+                        <strong>{store.name}</strong><br />
+                        {store.address}<br />
+                        {store.postalCode}
+                      </Popup>
+                    </Marker>
+                  </MapContainer>
+                </div>
               </div>
             </div>
           ))}
