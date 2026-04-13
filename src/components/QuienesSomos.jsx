@@ -120,25 +120,25 @@ export default function QuienesSomos() {
           <h3>NUESTRO EQUIPO</h3>
           <p className="about-team-subtitle">Las personas que hacen posible Saneamientos Pereda</p>
         </div>
-        <div className="about-team-content">
+        <div className="about-team-stats">
+          <div className="stat-card">
+            <span className="stat-number">+50</span>
+            <span className="stat-label">Años de Experiencia</span>
+            <p className="stat-description">
+              Siempre con una constante dedicación para mejorar los servicios al cliente y una continua actualización de productos e instalaciones.
+            </p>
+          </div>
+          <div className="stat-card">
+            <span className="stat-number">+40</span>
+            <span className="stat-label">Profesionales Especializados</span>
+            <p className="stat-description">
+              Nuestro personal está formado por profesionales cualificados que te asesorarán y atenderán personalmente.
+            </p>
+          </div>
+        </div>
+        <div className="about-team-photos">
           <div className="about-photo-half">
             <img src="/quienessomos3.jpg" alt="Equipo de trabajo de Saneamientos Pereda" />
-          </div>
-          <div className="about-team-stats">
-            <div className="stat-card">
-              <span className="stat-number">+50</span>
-              <span className="stat-label">Años de Experiencia</span>
-              <p className="stat-description">
-                Siempre con una constante dedicación para mejorar los servicios al cliente y una continua actualización de productos e instalaciones.
-              </p>
-            </div>
-            <div className="stat-card">
-              <span className="stat-number">+40</span>
-              <span className="stat-label">Profesionales Especializados</span>
-              <p className="stat-description">
-                Nuestro personal está formado por profesionales cualificados que te asesorarán y atenderán personalmente.
-              </p>
-            </div>
           </div>
           <div className="about-photo-half">
             <img src="/quienessomos4.jpg" alt="Profesionales de Saneamientos Pereda" />
