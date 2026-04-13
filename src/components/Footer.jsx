@@ -41,6 +41,9 @@ export default function Footer({ setCurrentView }) {
 
         <div className="footer-bottom">
           <p>&copy; {new Date().getFullYear()} Saneamientos Pereda. Todos los derechos reservados.</p>
+          <div className="footer-legal">
+            <button onClick={() => setCurrentView('canal-denuncias')}>Canal de Denuncias</button>
+          </div>
           <div className="footer-admin">
             <button onClick={() => setCurrentView('admin')}>Admin</button>
           </div>

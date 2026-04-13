@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
 import FloatingShopButton from './components/FloatingShopButton';
+import CanalDenuncias from './components/CanalDenuncias';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -59,6 +60,8 @@ export default function App() {
         return <Instalaciones />;
       case 'area-profesional':
         return <AreaProfesional setCurrentView={setCurrentView} />;
+      case 'canal-denuncias':
+        return <CanalDenuncias />;
       case 'admin':
         if (isAuthenticated) {
           return <AdminDashboard />;
