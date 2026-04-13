@@ -7,6 +7,7 @@ import QuienesSomos from './components/QuienesSomos';
 import Productos from './components/Productos';
 import CollectionDetail from './components/CollectionDetail';
 import Inspirate from './components/Inspirate';
+import AmbienteDetail from './components/AmbienteDetail';
 import Instalaciones from './components/Instalaciones';
 import AreaProfesional from './components/AreaProfesional';
 import Footer from './components/Footer';
@@ -17,6 +18,7 @@ import FloatingShopButton from './components/FloatingShopButton';
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
   const [selectedCollection, setSelectedCollection] = useState(null);
+  const [selectedAmbiente, setSelectedAmbiente] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -50,7 +52,9 @@ export default function App() {
       case 'sobre-mi':
         return <QuienesSomos />;
       case 'inspirate':
-        return <Inspirate />;
+        return <Inspirate onSelectAmbiente={(id) => { setSelectedAmbiente(id); setCurrentView('ambiente-detail'); }} />;
+      case 'ambiente-detail':
+        return <AmbienteDetail ambienteId={selectedAmbiente} setCurrentView={setCurrentView} />;
       case 'instalaciones':
         return <Instalaciones />;
       case 'area-profesional':

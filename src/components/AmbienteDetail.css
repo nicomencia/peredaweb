@@ -1,0 +1,276 @@
+.ambiente-detail {
+  padding: var(--spacing-xl) 0;
+  background: var(--color-cream);
+  min-height: 100vh;
+}
+
+.ambiente-back-button {
+  background: none;
+  border: none;
+  color: var(--color-blue);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.ambiente-back-button:hover {
+  color: #1a5490;
+}
+
+.ambiente-loading-text {
+  color: var(--color-gray);
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.ambiente-hero {
+  position: relative;
+  width: 100%;
+  max-height: 500px;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: var(--spacing-lg);
+}
+
+.ambiente-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.ambiente-hero:hover img {
+  transform: scale(1.03);
+}
+
+.ambiente-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 60%);
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+}
+
+.ambiente-detail-title {
+  color: var(--color-white);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.ambiente-detail-summary {
+  max-width: 800px;
+  margin: 0 auto var(--spacing-md);
+  text-align: center;
+}
+
+.ambiente-detail-summary p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-blue);
+  font-weight: 500;
+}
+
+.ambiente-detail-description {
+  max-width: 800px;
+  margin: 0 auto var(--spacing-lg);
+  text-align: center;
+}
+
+.ambiente-detail-description p {
+  color: var(--color-gray);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-sm);
+}
+
+.ambiente-gallery-title {
+  text-align: center;
+  color: var(--color-blue);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  margin-bottom: var(--spacing-md);
+  font-weight: 400;
+}
+
+.ambiente-photos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+}
+
+.ambiente-photo-item {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ambiente-photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.ambiente-photo-item:hover img {
+  transform: scale(1.05);
+}
+
+.ambiente-photo-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+  color: var(--color-white);
+  font-size: 0.75rem;
+  padding: 1.5rem 0.75rem 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.ambiente-lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: ambienteFadeIn 0.3s ease;
+}
+
+.ambiente-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 3rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10001;
+  transition: transform 0.2s ease;
+  line-height: 1;
+}
+
+.ambiente-lightbox-close:hover {
+  transform: scale(1.2);
+}
+
+.ambiente-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 2.5rem;
+  cursor: pointer;
+  z-index: 10001;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+  line-height: 1;
+}
+
+.ambiente-lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.ambiente-lightbox-prev {
+  left: 20px;
+}
+
+.ambiente-lightbox-next {
+  right: 20px;
+}
+
+.ambiente-lightbox-content {
+  max-width: 85%;
+  max-height: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ambiente-lightbox-image {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  animation: ambienteZoomIn 0.3s ease;
+}
+
+.ambiente-lightbox-caption {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.ambiente-lightbox-counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+@keyframes ambienteFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ambienteZoomIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .ambiente-back-button {
+    margin-top: 5rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .ambiente-hero {
+    max-height: 300px;
+  }
+
+  .ambiente-photos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+  }
+
+  .ambiente-lightbox-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+
+  .ambiente-lightbox-prev {
+    left: 10px;
+  }
+
+  .ambiente-lightbox-next {
+    right: 10px;
+  }
+}

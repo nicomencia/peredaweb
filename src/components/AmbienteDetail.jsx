@@ -1,0 +1,172 @@
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+import './AmbienteDetail.css';
+
+export default function AmbienteDetail({ ambienteId, setCurrentView }) {
+  const [ambiente, setAmbiente] = useState(null);
+  const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [ambienteResult, photosResult] = await Promise.all([
+          supabase.from('ambientes').select('*').eq('id', ambienteId).maybeSingle(),
+          supabase.from('ambiente_photos').select('*').eq('ambiente_id', ambienteId).order('display_order', { ascending: true })
+        ]);
+
+        if (ambienteResult.data) setAmbiente(ambienteResult.data);
+        if (photosResult.data) setPhotos(photosResult.data);
+      } catch (error) {
+        console.error('Error fetching ambiente:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [ambienteId]);
+
+  function openLightbox(index) {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  }
+
+  function closeLightbox() {
+    setLightboxOpen(false);
+  }
+
+  function navigateLightbox(direction) {
+    const allImages = [
+      ...(ambiente ? [{ image_url: ambiente.cover_image_url, caption: ambiente.title }] : []),
+      ...photos
+    ];
+    const newIndex = (lightboxIndex + direction + allImages.length) % allImages.length;
+    setLightboxIndex(newIndex);
+  }
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (!lightboxOpen) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxOpen, lightboxIndex]);
+
+  const allImages = [
+    ...(ambiente ? [{ image_url: ambiente.cover_image_url, caption: ambiente.title }] : []),
+    ...photos
+  ];
+
+  if (loading) {
+    return (
+      <section className="ambiente-detail">
+        <div className="container">
+          <button onClick={() => setCurrentView('inspirate')} className="ambiente-back-button">
+            &#8592; Volver a Inspírate
+          </button>
+          <p className="ambiente-loading-text">Cargando...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (!ambiente) {
+    return (
+      <section className="ambiente-detail">
+        <div className="container">
+          <button onClick={() => setCurrentView('inspirate')} className="ambiente-back-button">
+            &#8592; Volver a Inspírate
+          </button>
+          <p className="ambiente-loading-text">Ambiente no encontrado.</p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="ambiente-detail">
+      <div className="container">
+        <button onClick={() => setCurrentView('inspirate')} className="ambiente-back-button">
+          &#8592; Volver a Inspírate
+        </button>
+
+        <div className="ambiente-hero" onClick={() => openLightbox(0)}>
+          <img src={ambiente.cover_image_url} alt={ambiente.title} />
+          <div className="ambiente-hero-overlay">
+            <h1 className="ambiente-detail-title">{ambiente.title}</h1>
+          </div>
+        </div>
+
+        <div className="ambiente-detail-summary">
+          <p>{ambiente.summary}</p>
+        </div>
+
+        <div className="ambiente-detail-description">
+          {ambiente.description.split('\n').map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+        </div>
+
+        {photos.length > 0 && (
+          <>
+            <h2 className="ambiente-gallery-title">Galería</h2>
+            <div className="ambiente-photos-grid">
+              {photos.map((photo, index) => (
+                <div
+                  key={photo.id}
+                  className="ambiente-photo-item"
+                  onClick={() => openLightbox(index + 1)}
+                >
+                  <img src={photo.image_url} alt={photo.caption || `${ambiente.title} foto ${index + 1}`} />
+                  {photo.caption && (
+                    <div className="ambiente-photo-caption">{photo.caption}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {lightboxOpen && allImages[lightboxIndex] && (
+          <div className="ambiente-lightbox" onClick={closeLightbox}>
+            <button className="ambiente-lightbox-close" onClick={closeLightbox}>&times;</button>
+            {allImages.length > 1 && (
+              <>
+                <button
+                  className="ambiente-lightbox-nav ambiente-lightbox-prev"
+                  onClick={(e) => { e.stopPropagation(); navigateLightbox(-1); }}
+                >
+                  &#8249;
+                </button>
+                <button
+                  className="ambiente-lightbox-nav ambiente-lightbox-next"
+                  onClick={(e) => { e.stopPropagation(); navigateLightbox(1); }}
+                >
+                  &#8250;
+                </button>
+              </>
+            )}
+            <div className="ambiente-lightbox-content" onClick={(e) => e.stopPropagation()}>
+              <img
+                src={allImages[lightboxIndex].image_url}
+                alt={allImages[lightboxIndex].caption || 'Full view'}
+                className="ambiente-lightbox-image"
+              />
+              {allImages[lightboxIndex].caption && (
+                <p className="ambiente-lightbox-caption">{allImages[lightboxIndex].caption}</p>
+              )}
+            </div>
+            <div className="ambiente-lightbox-counter">
+              {lightboxIndex + 1} / {allImages.length}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}

@@ -1,6 +1,23 @@
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import './Inspirate.css';
 
-export default function Inspirate() {
+export default function Inspirate({ onSelectAmbiente }) {
+  const [ambientes, setAmbientes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchAmbientes() {
+      const { data } = await supabase
+        .from('ambientes')
+        .select('*')
+        .order('display_order', { ascending: true });
+      if (data) setAmbientes(data);
+      setLoading(false);
+    }
+    fetchAmbientes();
+  }, []);
+
   return (
     <section id="inspirate" className="inspirate">
       <div className="container">
@@ -17,17 +34,25 @@ export default function Inspirate() {
             <p>Ofrecemos las mejores soluciones para tu hogar. Contamos con una larga trayectoria profesional, un equipo experimentado y somos líderes en el mercado asturiano.</p>
           </div>
           <div className="inspirate-gallery">
-            <div className="inspirate-grid">
-              <div className="inspirate-item">
-                <img src="/inspirate1.jpg" alt="Inspiración baño 1" />
+            {loading ? (
+              <div className="inspirate-loading">Cargando ambientes...</div>
+            ) : (
+              <div className="inspirate-grid">
+                {ambientes.map((ambiente) => (
+                  <button
+                    key={ambiente.id}
+                    className="inspirate-item"
+                    onClick={() => onSelectAmbiente(ambiente.id)}
+                  >
+                    <img src={ambiente.cover_image_url} alt={ambiente.title} />
+                    <div className="inspirate-item-overlay">
+                      <span className="inspirate-item-title">{ambiente.title}</span>
+                      <span className="inspirate-item-cta">Ver ambiente</span>
+                    </div>
+                  </button>
+                ))}
               </div>
-              <div className="inspirate-item">
-                <img src="/inspirate2.jpg" alt="Inspiración baño 2" />
-              </div>
-              <div className="inspirate-item">
-                <img src="/inspirate3.jpg" alt="Inspiración baño 3" />
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
