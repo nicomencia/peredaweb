@@ -57,11 +57,6 @@ export default function QuienesSomos() {
           </div>
         </div>
 
-        <div className="about-ayudas">
-          <p>
-            ESTA EMPRESA HA SIDO BENEFICIARIA DE LAS AYUDAS URGENTES DESTINADAS A FOMENTAR LA CONTRATACION LABORAL DE PERSONAS DESEMPLEADAS DEL PRINCIPADO DE ASTURIAS COMO MEDIDA DE LA RECUPERACIÓN Y REPARACIÓN DE LA CRISIS EN EL CONTEXTO DE LA PADEMIA DE COVID-19, CONFINANCIADAS POR LA CONFEDERACION SECTORIAL DE EMPLEO Y ASUNTOS LABORALES, tramitadas al amparo de la Resolución de 16 de Julio de 2021 de la Consejería de Industria, empleo y Promoción Económica del Principado de Asturias.
-          </p>
-        </div>
       </div>
 
       <div className="about-porqué">
@@ -120,9 +115,16 @@ export default function QuienesSomos() {
         </div>
       </div>
 
-      <div className="about-stats">
+      <div className="about-team-section">
         <div className="container">
-          <div className="stats-grid">
+          <h3>NUESTRO EQUIPO</h3>
+          <p className="about-team-subtitle">Las personas que hacen posible Saneamientos Pereda</p>
+        </div>
+        <div className="about-team-content">
+          <div className="about-photo-half">
+            <img src="/quienessomos3.jpg" alt="Equipo de trabajo de Saneamientos Pereda" />
+          </div>
+          <div className="about-team-stats">
             <div className="stat-card">
               <span className="stat-number">+50</span>
               <span className="stat-label">Años de Experiencia</span>
@@ -138,21 +140,14 @@ export default function QuienesSomos() {
               </p>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="about-team-section">
-        <div className="container">
-          <h3>NUESTRO EQUIPO</h3>
-          <p className="about-team-subtitle">Las personas que hacen posible Saneamientos Pereda</p>
-        </div>
-        <div className="about-photos-team">
-          <div className="about-photo-half">
-            <img src="/quienessomos3.jpg" alt="Equipo de trabajo de Saneamientos Pereda" />
-          </div>
           <div className="about-photo-half">
             <img src="/quienessomos4.jpg" alt="Profesionales de Saneamientos Pereda" />
           </div>
+        </div>
+        <div className="about-ayudas">
+          <p>
+            ESTA EMPRESA HA SIDO BENEFICIARIA DE LAS AYUDAS URGENTES DESTINADAS A FOMENTAR LA CONTRATACION LABORAL DE PERSONAS DESEMPLEADAS DEL PRINCIPADO DE ASTURIAS COMO MEDIDA DE LA RECUPERACIÓN Y REPARACIÓN DE LA CRISIS EN EL CONTEXTO DE LA PADEMIA DE COVID-19, CONFINANCIADAS POR LA CONFEDERACION SECTORIAL DE EMPLEO Y ASUNTOS LABORALES, tramitadas al amparo de la Resolución de 16 de Julio de 2021 de la Consejería de Industria, empleo y Promoción Económica del Principado de Asturias.
+          </p>
         </div>
       </div>
     </section>
