@@ -127,11 +127,6 @@
   min-height: 320px;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
-}
-
-.about-photo-half:hover img {
-  transform: scale(1.03);
 }
 
 .about-intro {
