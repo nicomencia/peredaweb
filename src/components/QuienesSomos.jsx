@@ -14,6 +14,26 @@ export default function QuienesSomos() {
         </div>
       </div>
 
+      <div className="about-photos-top">
+        <div className="about-photo-full">
+          <img src="/quienessomos1.jpg" alt="Foto histórica de Saneamientos Pereda" />
+          <div className="about-photo-caption">Nuestros orígenes</div>
+        </div>
+        <div className="about-photo-full">
+          <img src="/quienessomos2.jpg" alt="Edificio principal de Saneamientos Pereda" />
+          <div className="about-photo-caption">Nuestras instalaciones</div>
+        </div>
+      </div>
+
+      <div className="about-photos-team">
+        <div className="about-photo-half">
+          <img src="/quienessomos3.jpg" alt="Equipo de trabajo de Saneamientos Pereda" />
+        </div>
+        <div className="about-photo-half">
+          <img src="/quienessomos4.jpg" alt="Profesionales de Saneamientos Pereda" />
+        </div>
+      </div>
+
       <div className="container">
         <div className="about-intro">
           <p>
