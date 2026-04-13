@@ -1,5 +1,5 @@
 .collection-detail {
-  padding: 140px 0 var(--spacing-xl) 0;
+  padding: 170px 0 var(--spacing-xl) 0;
   background: var(--color-white);
   min-height: 80vh;
 }
@@ -131,7 +131,7 @@
 
 @media (max-width: 768px) {
   .collection-detail {
-    padding: 120px 0 var(--spacing-xl) 0;
+    padding: 140px 0 var(--spacing-xl) 0;
   }
 
   .back-button {

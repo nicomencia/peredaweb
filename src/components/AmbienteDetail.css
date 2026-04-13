@@ -1,5 +1,5 @@
 .ambiente-detail {
-  padding: 140px 0 var(--spacing-xl) 0;
+  padding: 170px 0 var(--spacing-xl) 0;
   background: var(--color-cream);
   min-height: 100vh;
 }
@@ -268,7 +268,7 @@
   }
 
   .ambiente-detail {
-    padding: 120px 0 var(--spacing-xl) 0;
+    padding: 140px 0 var(--spacing-xl) 0;
   }
 
   .ambiente-back-button {

@@ -1,5 +1,5 @@
 .inspirate {
-  padding: 140px 0 var(--spacing-xl) 0;
+  padding: 170px 0 var(--spacing-xl) 0;
   background: var(--color-cream);
   min-height: 100vh;
 }
@@ -131,7 +131,7 @@ button.inspirate-item:hover .inspirate-item-cta {
 
 @media (max-width: 768px) {
   .inspirate {
-    padding: 120px 0 var(--spacing-xl) 0;
+    padding: 140px 0 var(--spacing-xl) 0;
   }
 
   .inspirate-grid {

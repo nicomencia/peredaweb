@@ -1,5 +1,5 @@
 .about {
-  padding: 140px 0 var(--spacing-xl) 0;
+  padding: 170px 0 var(--spacing-xl) 0;
   background: var(--color-cream);
 }
 
@@ -56,7 +56,7 @@
 
 @media (max-width: 768px) {
   .about {
-    padding: 120px 0 var(--spacing-xl) 0;
+    padding: 140px 0 var(--spacing-xl) 0;
   }
 
   .about-content {
