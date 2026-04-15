@@ -18,9 +18,14 @@ export default function Navigation({ currentView, setCurrentView, setProductCate
     setProductosOpen(false);
   };
 
+  const handleProductosClick = () => {
+    setProductCategory(null);
+    handleNavClick('colecciones');
+  };
+
   const handleCategoryClick = (categoryKey) => {
     setProductCategory(categoryKey);
-    handleNavClick('colecciones');
+    handleNavClick('productos-categoria');
   };
 
   return (
@@ -62,7 +67,7 @@ export default function Navigation({ currentView, setCurrentView, setProductCate
             onMouseEnter={() => setProductosOpen(true)}
             onMouseLeave={() => setProductosOpen(false)}
           >
-            <button className="nav-dropdown-trigger">
+            <button className="nav-dropdown-trigger" onClick={handleProductosClick}>
               Productos
             </button>
             <ul className={`nav-dropdown ${productosOpen ? 'nav-dropdown--open' : ''}`}>
@@ -76,7 +81,7 @@ export default function Navigation({ currentView, setCurrentView, setProductCate
             </ul>
           </li>
           <li className="nav-item-mobile-categories">
-            <button onClick={() => setProductosOpen(!productosOpen)}>
+            <button onClick={handleProductosClick}>
               Productos
             </button>
             {productosOpen && (

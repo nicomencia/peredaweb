@@ -1,0 +1,117 @@
+.productos-cat {
+  min-height: 100vh;
+  background: var(--color-cream);
+}
+
+.productos-cat-banner {
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+}
+
+.productos-cat-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.productos-cat-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 47, 167, 0.6) 100%);
+}
+
+.productos-cat-banner-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.productos-cat-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.88rem;
+  margin-bottom: 16px;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.productos-cat-back:hover {
+  color: var(--color-white);
+  opacity: 1;
+}
+
+.productos-cat-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--color-white);
+  font-weight: 400;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.productos-cat-desc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.productos-cat-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.productos-cat-loading {
+  text-align: center;
+  color: var(--color-gray);
+  padding: var(--spacing-lg);
+}
+
+.productos-cat-empty {
+  text-align: center;
+  color: var(--color-gray);
+  font-size: 1rem;
+  padding: var(--spacing-lg);
+}
+
+.productos-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .productos-cat-banner {
+    height: 300px;
+  }
+
+  .productos-cat-banner-content {
+    padding: 28px var(--spacing-md);
+  }
+
+  .productos-cat-container {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .productos-cat-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .productos-cat-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+}

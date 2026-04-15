@@ -15,6 +15,7 @@ import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
 import FloatingShopButton from './components/FloatingShopButton';
 import CanalDenuncias from './components/CanalDenuncias';
+import ProductosCategory from './components/ProductosCategory';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -48,7 +49,9 @@ export default function App() {
   const renderContent = () => {
     switch (currentView) {
       case 'colecciones':
-        return <Productos setCurrentView={setCurrentView} setSelectedCollection={setSelectedCollection} category={productCategory} />;
+        return <Productos setCurrentView={setCurrentView} setSelectedCollection={setSelectedCollection} onCategorySelect={(cat) => { setProductCategory(cat); setCurrentView('productos-categoria'); }} />;
+      case 'productos-categoria':
+        return <ProductosCategory category={productCategory} setCurrentView={setCurrentView} setProductCategory={setProductCategory} />;
       case 'collection-detail':
         return <CollectionDetail collectionId={selectedCollection} setCurrentView={setCurrentView} />;
       case 'sobre-mi':

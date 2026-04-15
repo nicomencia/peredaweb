@@ -89,6 +89,7 @@ export default function AdminUpdateProducts() {
       name: product.name,
       price: product.price,
       category: product.category,
+      product_type: product.product_type || 'bano',
       color: product.color,
       size: product.size || '',
       description: product.description || '',
@@ -239,6 +240,19 @@ export default function AdminUpdateProducts() {
                           value={editValues.color}
                           onChange={(e) => setEditValues({...editValues, color: e.target.value})}
                         />
+                      </label>
+                    </div>
+                    <div className="form-row">
+                      <label>
+                        Product Type:
+                        <select
+                          value={editValues.product_type}
+                          onChange={(e) => setEditValues({...editValues, product_type: e.target.value})}
+                        >
+                          <option value="bano">Baño</option>
+                          <option value="fontaneria">Fontanería y calefacción</option>
+                          <option value="materiales">Materiales de construcción</option>
+                        </select>
                       </label>
                     </div>
                     <div className="form-row">
