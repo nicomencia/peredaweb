@@ -150,6 +150,38 @@ export default function QuienesSomos() {
           </p>
         </div>
       </div>
+
+      <div className="careers-banner">
+        <div className="careers-banner-bg" />
+        <div className="careers-banner-content">
+          <div className="careers-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+              <line x1="12" y1="12" x2="12" y2="16" />
+              <line x1="10" y1="14" x2="14" y2="14" />
+            </svg>
+          </div>
+          <h3>TRABAJA CON NOSOTROS</h3>
+          <p className="careers-text">
+            ¿Quieres formar parte de nuestro equipo? En Saneamientos Pereda siempre buscamos personas con talento, ilusión y ganas de crecer profesionalmente.
+          </p>
+          <p className="careers-subtext">
+            Envíanos tu CV y cuéntanos por qué te gustaría unirte a nosotros.
+          </p>
+          <a
+            href="mailto:rrhh@saneamientos-pereda.com?subject=Candidatura%20espontánea%20–%20Envío%20de%20CV"
+            className="careers-cta"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            Enviar CV
+          </a>
+          <span className="careers-email">rrhh@saneamientos-pereda.com</span>
+        </div>
+      </div>
     </section>
   );
 }
