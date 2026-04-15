@@ -126,6 +126,52 @@
   color: #aaa;
 }
 
+.careers-file-upload {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  border: 1.5px dashed var(--color-light-gray);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.2s ease;
+  color: var(--color-gray);
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.careers-file-upload:hover {
+  border-color: var(--color-blue);
+  background: rgba(0, 47, 167, 0.03);
+}
+
+.careers-file-upload span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.careers-file-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--color-gray);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.careers-file-remove:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
 .careers-form-error {
   background: #fef2f2;
   color: #b91c1c;

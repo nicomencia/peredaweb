@@ -8,6 +8,7 @@ export default function CareersModal({ isOpen, onClose }) {
     telefono: '',
     mensaje: '',
   });
+  const [cvFile, setCvFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(null);
@@ -32,10 +33,15 @@ export default function CareersModal({ isOpen, onClose }) {
 
     try {
       const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/candidatura`;
+      const body = new FormData();
+      body.append('nombre', formData.nombre);
+      body.append('email', formData.email);
+      body.append('telefono', formData.telefono);
+      body.append('mensaje', formData.mensaje);
+      if (cvFile) body.append('cv', cvFile);
       const res = await fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body,
       });
       const data = await res.json();
       if (!res.ok) {
@@ -52,6 +58,7 @@ export default function CareersModal({ isOpen, onClose }) {
 
   const handleClose = () => {
     setFormData({ nombre: '', email: '', telefono: '', mensaje: '' });
+    setCvFile(null);
     setSubmitted(false);
     setError(null);
     onClose();
@@ -132,6 +139,37 @@ export default function CareersModal({ isOpen, onClose }) {
                   onChange={handleChange}
                   rows={4}
                   placeholder="Cuentanos sobre ti y por que te gustaria unirte al equipo..."
+                />
+              </div>
+
+              <div className="careers-field">
+                <label>CV (PDF, max 5 MB)</label>
+                <label className="careers-file-upload" htmlFor="careers-cv">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                  </svg>
+                  <span>{cvFile ? cvFile.name : 'Seleccionar archivo PDF'}</span>
+                  {cvFile && (
+                    <button
+                      type="button"
+                      className="careers-file-remove"
+                      onClick={(e) => { e.preventDefault(); setCvFile(null); }}
+                      aria-label="Eliminar archivo"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                    </button>
+                  )}
+                </label>
+                <input
+                  type="file"
+                  id="careers-cv"
+                  accept="application/pdf"
+                  onChange={(e) => setCvFile(e.target.files[0] || null)}
+                  style={{ display: 'none' }}
                 />
               </div>
 

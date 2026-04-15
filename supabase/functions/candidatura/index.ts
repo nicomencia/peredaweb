@@ -8,6 +8,13 @@ const corsHeaders = {
     "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
+function jsonResponse(body: Record<string, unknown>, status: number) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { status: 200, headers: corsHeaders });
@@ -15,10 +22,7 @@ Deno.serve(async (req: Request) => {
 
   try {
     if (req.method !== "POST") {
-      return new Response(
-        JSON.stringify({ error: "Metodo no permitido" }),
-        { status: 405, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return jsonResponse({ error: "Metodo no permitido" }, 405);
     }
 
     const supabase = createClient(
@@ -26,53 +30,69 @@ Deno.serve(async (req: Request) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    const body = await req.json();
-    const { nombre, email, telefono, mensaje } = body;
+    const formData = await req.formData();
+    const nombre = (formData.get("nombre") as string || "").trim();
+    const email = (formData.get("email") as string || "").trim();
+    const telefono = (formData.get("telefono") as string || "").trim();
+    const mensaje = (formData.get("mensaje") as string || "").trim();
+    const cvFile = formData.get("cv") as File | null;
 
-    if (!nombre || nombre.trim().length === 0) {
-      return new Response(
-        JSON.stringify({ error: "El nombre es obligatorio" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    if (!nombre) {
+      return jsonResponse({ error: "El nombre es obligatorio" }, 400);
     }
 
-    if (!email || email.trim().length === 0) {
-      return new Response(
-        JSON.stringify({ error: "El email es obligatorio" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    if (!email) {
+      return jsonResponse({ error: "El email es obligatorio" }, 400);
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
-      return new Response(
-        JSON.stringify({ error: "El formato del email no es valido" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    if (!emailRegex.test(email)) {
+      return jsonResponse({ error: "El formato del email no es valido" }, 400);
+    }
+
+    let cvUrl = "";
+
+    if (cvFile && cvFile.size > 0) {
+      if (cvFile.type !== "application/pdf") {
+        return jsonResponse({ error: "Solo se permiten archivos PDF" }, 400);
+      }
+
+      if (cvFile.size > 5 * 1024 * 1024) {
+        return jsonResponse({ error: "El archivo no puede superar 5 MB" }, 400);
+      }
+
+      const timestamp = Date.now();
+      const safeName = nombre.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
+      const filePath = `${safeName}_${timestamp}.pdf`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("cvs")
+        .upload(filePath, cvFile, {
+          contentType: "application/pdf",
+          upsert: false,
+        });
+
+      if (uploadError) {
+        return jsonResponse({ error: "Error al subir el archivo" }, 500);
+      }
+
+      cvUrl = filePath;
     }
 
     const { error } = await supabase.from("job_applications").insert({
-      nombre: nombre.trim(),
-      email: email.trim(),
-      telefono: (telefono || "").trim(),
-      mensaje: (mensaje || "").trim(),
+      nombre,
+      email,
+      telefono,
+      mensaje,
+      cv_url: cvUrl,
     });
 
     if (error) {
-      return new Response(
-        JSON.stringify({ error: "Error al enviar la candidatura" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return jsonResponse({ error: "Error al enviar la candidatura" }, 500);
     }
 
-    return new Response(
-      JSON.stringify({ success: true }),
-      { status: 201, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return jsonResponse({ success: true }, 201);
   } catch {
-    return new Response(
-      JSON.stringify({ error: "Error interno del servidor" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return jsonResponse({ error: "Error interno del servidor" }, 500);
   }
 });
