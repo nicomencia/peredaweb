@@ -138,7 +138,7 @@ export default function CareersModal({ isOpen, onClose }) {
               {error && <div className="careers-form-error">{error}</div>}
 
               <button type="submit" className="careers-submit-btn" disabled={submitting}>
-                {submitting ? 'Enviando...' : 'Enviar candidatura'}
+                {submitting ? 'Enviando...' : 'Enviar CV'}
               </button>
             </form>
           </>
@@ -150,7 +150,7 @@ export default function CareersModal({ isOpen, onClose }) {
                 <polyline points="22 4 12 14.01 9 11.01" />
               </svg>
             </div>
-            <h2>Candidatura enviada</h2>
+            <h2>CV enviada</h2>
             <p>Hemos recibido tu solicitud. Revisaremos tu perfil y te contactaremos si encajas en alguna de nuestras vacantes.</p>
             <button className="careers-done-btn" onClick={handleClose}>Cerrar</button>
           </div>
