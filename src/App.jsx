@@ -21,6 +21,7 @@ export default function App() {
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [selectedAmbiente, setSelectedAmbiente] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [productCategory, setProductCategory] = useState(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -47,7 +48,7 @@ export default function App() {
   const renderContent = () => {
     switch (currentView) {
       case 'colecciones':
-        return <Productos setCurrentView={setCurrentView} setSelectedCollection={setSelectedCollection} />;
+        return <Productos setCurrentView={setCurrentView} setSelectedCollection={setSelectedCollection} category={productCategory} />;
       case 'collection-detail':
         return <CollectionDetail collectionId={selectedCollection} setCurrentView={setCurrentView} />;
       case 'sobre-mi':
@@ -78,7 +79,7 @@ export default function App() {
   return (
     <>
       {!isAreaProfesional && <TopBar setCurrentView={setCurrentView} />}
-      {!isAreaProfesional && <Navigation currentView={currentView} setCurrentView={setCurrentView} />}
+      {!isAreaProfesional && <Navigation currentView={currentView} setCurrentView={setCurrentView} setProductCategory={setProductCategory} />}
       {renderContent()}
       {!isAreaProfesional && <Footer setCurrentView={setCurrentView} />}
       {!isAreaProfesional && <FloatingShopButton currentView={currentView} />}

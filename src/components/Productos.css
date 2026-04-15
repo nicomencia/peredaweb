@@ -10,6 +10,14 @@
   padding: 0 var(--spacing-md);
 }
 
+.productos-title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  color: var(--color-blue);
+  font-weight: 400;
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: -0.01em;
+}
+
 .productos-empty {
   text-align: center;
   color: var(--color-gray);

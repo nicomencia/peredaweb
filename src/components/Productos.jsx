@@ -2,13 +2,19 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import './Productos.css';
 
-export default function Productos() {
+const CATEGORY_LABELS = {
+  bano: 'Baño',
+  fontaneria: 'Fontanería y calefacción',
+  materiales: 'Materiales de construcción',
+};
+
+export default function Productos({ category }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [category]);
 
   async function fetchProducts() {
     try {
@@ -54,6 +60,9 @@ export default function Productos() {
   return (
     <section id="productos" className="productos">
       <div className="productos-container">
+        {category && CATEGORY_LABELS[category] && (
+          <h2 className="productos-title">{CATEGORY_LABELS[category]}</h2>
+        )}
         <div className="productos-grid">
           {products.map((product) => (
             <div key={product.id} className="product-card">
