@@ -343,12 +343,6 @@
   max-width: 560px;
 }
 
-.careers-subtext {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.95rem;
-  margin: 0;
-}
-
 .careers-cta {
   display: inline-flex;
   align-items: center;
@@ -363,18 +357,14 @@
   letter-spacing: 0.02em;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
+  border: none;
+  cursor: pointer;
 }
 
 .careers-cta:hover {
   opacity: 1;
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-}
-
-.careers-email {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
-  margin-top: 0.25rem;
 }
 
 @media (max-width: 768px) {

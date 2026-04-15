@@ -1,6 +1,10 @@
+import { useState } from 'react';
+import CareersModal from './CareersModal';
 import './QuienesSomos.css';
 
 export default function QuienesSomos() {
+  const [showCareersModal, setShowCareersModal] = useState(false);
+
   return (
     <section id="sobre-mi" className="about">
       <div className="about-hero">
@@ -164,24 +168,15 @@ export default function QuienesSomos() {
           </div>
           <h3>TRABAJA CON NOSOTROS</h3>
           <p className="careers-text">
-            ¿Quieres formar parte de nuestro equipo? En Saneamientos Pereda siempre buscamos personas con talento, ilusión y ganas de crecer profesionalmente.
+            ¿Quieres formar parte de nuestro equipo? Envíanos tu candidatura.
           </p>
-          <p className="careers-subtext">
-            Envíanos tu CV y cuéntanos por qué te gustaría unirte a nosotros.
-          </p>
-          <a
-            href="mailto:rrhh@saneamientos-pereda.com?subject=Candidatura%20espontánea%20–%20Envío%20de%20CV"
-            className="careers-cta"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-              <polyline points="22,6 12,13 2,6" />
-            </svg>
-            Enviar CV
-          </a>
-          <span className="careers-email">rrhh@saneamientos-pereda.com</span>
+          <button className="careers-cta" onClick={() => setShowCareersModal(true)}>
+            Enviar candidatura
+          </button>
         </div>
       </div>
+
+      <CareersModal isOpen={showCareersModal} onClose={() => setShowCareersModal(false)} />
     </section>
   );
 }
