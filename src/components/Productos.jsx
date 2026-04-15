@@ -6,19 +6,19 @@ const CATEGORIES = [
   {
     key: 'bano',
     label: 'Baño',
-    image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '/productos_bano.jpg',
     description: 'Grifería, sanitarios, muebles de baño y accesorios',
   },
   {
     key: 'fontaneria',
     label: 'Fontanería y calefacción',
-    image: 'https://images.pexels.com/photos/5691622/pexels-photo-5691622.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '/productos_fontaneria.png',
     description: 'Sistemas de calefacción, radiadores y fontanería',
   },
   {
     key: 'materiales',
     label: 'Materiales de construcción',
-    image: 'https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '/productos_construccion.jpg',
     description: 'Materiales, herramientas y soluciones constructivas',
   },
 ];
