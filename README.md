@@ -106,3 +106,31 @@ flowchart LR
 - Que se necesita que sea editable fácilmente
 - Dónde está alojada la web actual
 
+## 🗓️ Project Timeline
+
+- **20/04/2026 — Kickoff**  
+  → Alinear objetivos y alcance  
+
+- **27/04/2026 — Diseño técnico**  
+  → Definir arquitectura y stack  
+
+- **04/05/2026 — Desarrollo fase 1**  
+  → Implementar MVP  
+
+- **11/05/2026 — Review**  
+  → Validar avances con cliente  
+
+- **18/05/2026 — Entrega final**  
+  → Presentación y cierre
+
+
+## 🗓️ Project Timeline
+
+| Date       | Session              | Goal                                      | Output                     |
+|------------|---------------------|-------------------------------------------|----------------------------|
+| 20/04/2026 | Kickoff             | Align scope, stakeholders and objectives  | Agreed project scope       |
+| 27/04/2026 | Technical Design    | Define architecture and data flow         | Architecture diagram       |
+| 04/05/2026 | Development Sprint  | Build MVP / core pipelines                | Initial working version    |
+| 11/05/2026 | Review             | Validate progress with stakeholders       | Feedback + adjustments     |
+| 18/05/2026 | Final Delivery      | Present solution and handover             | Final delivery + docs      |
+
