@@ -113,6 +113,7 @@ flowchart LR
 | 16/12/2025 | Toma de contacto     | Compartir primeras ideas de la web                                     | Primera versión como PoC   |
 | 16/04/2026 | Primera revisión     | Definir páginas, estructura de las mismas y su contenido general       | Web con 90% de estructura estable  |
 | 04/05/2026 | Segunda revisión     | Exponer el contenido que ha de ser editado y cómo                      | Web con funcionalidad de administración al 90%  |
-| 25/05/2026 | Tercera revisión     | Revisión de los detalles, tanto de contenido como estéticos y de admin | Ajustes finales         |
-| 15/06/2026 | Subida a PRO         | Últimos detalles sobre el despliegue y SEO                             | Web desplegada al público funcional |
+| 25/05/2026 | Tercera revisión     | Revisión de contenido y funcionalidad admin                            | Ajustes finales con foco en la funcionalidad    |
+| 08/06/2026 | Cuarta revisión      | Revisión de detalles estéticos                                         | Ajustes finales con foco en la estética   |
+| 22/06/2026 | Subida a PRO         | Últimos detalles sobre el despliegue y SEO                             | Web desplegada al público funcional |
 
