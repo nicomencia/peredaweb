@@ -171,7 +171,7 @@ export default function QuienesSomos() {
             ¿Quieres formar parte de nuestro equipo? Envíanos tu CV.
           </p>
           <button className="careers-cta" onClick={() => setShowCareersModal(true)}>
-            Enviar candidatura
+            Enviar CV
           </button>
         </div>
       </div>
