@@ -6,17 +6,17 @@ const CATEGORY_CONFIG = {
   bano: {
     label: 'Baño',
     description: 'Grifería, sanitarios, muebles de baño y accesorios para crear el espacio perfecto',
-    image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    image: '/productos_bano.jpg',
   },
   fontaneria: {
     label: 'Fontanería y calefacción',
     description: 'Sistemas de calefacción, radiadores, tuberías y soluciones de fontanería profesional',
-    image: 'https://images.pexels.com/photos/5691622/pexels-photo-5691622.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    image: '/productos_fontaneria.png',
   },
   materiales: {
     label: 'Materiales de construcción',
     description: 'Materiales, herramientas y soluciones constructivas para todo tipo de proyectos',
-    image: 'https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    image: '/productos_construccion.jpg',
   },
 };
 
