@@ -148,11 +148,6 @@ export default function QuienesSomos() {
             <img src="/quienessomos4.jpg" alt="Profesionales de Saneamientos Pereda" />
           </div>
         </div>
-        <div className="about-ayudas">
-          <p>
-            ESTA EMPRESA HA SIDO BENEFICIARIA DE LAS AYUDAS URGENTES DESTINADAS A FOMENTAR LA CONTRATACION LABORAL DE PERSONAS DESEMPLEADAS DEL PRINCIPADO DE ASTURIAS COMO MEDIDA DE LA RECUPERACIÓN Y REPARACIÓN DE LA CRISIS EN EL CONTEXTO DE LA PADEMIA DE COVID-19, CONFINANCIADAS POR LA CONFEDERACION SECTORIAL DE EMPLEO Y ASUNTOS LABORALES, tramitadas al amparo de la Resolución de 16 de Julio de 2021 de la Consejería de Industria, empleo y Promoción Económica del Principado de Asturias.
-          </p>
-        </div>
       </div>
 
       <div className="careers-banner">
