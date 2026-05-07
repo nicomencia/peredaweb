@@ -7,7 +7,8 @@ export default function AreaProfesional({ setCurrentView }) {
         <div className="area-hero-overlay" />
         <div className="area-hero-content">
           <span className="area-hero-tag">Area Profesional</span>
-          <h1>El hogar del fontanero</h1>
+          <span className="area-hero-subtag">Ecommerce</span>
+          <h1>Todo para el instalador</h1>
           <p className="area-hero-subtitle">
             Tu aliado en cada instalación. Calidad, stock y asesoramiento para profesionales.
           </p>
@@ -23,7 +24,7 @@ export default function AreaProfesional({ setCurrentView }) {
                 <line x1="3" y1="6" x2="21" y2="6"/>
                 <path d="M16 10a4 4 0 0 1-8 0"/>
               </svg>
-              <span>Ir a la tienda</span>
+              <span>Acceso</span>
             </a>
             <button
               type="button"
@@ -41,7 +42,7 @@ export default function AreaProfesional({ setCurrentView }) {
 
       <section className="area-benefits">
         <div className="area-benefits-container">
-          <h2>¿Por qué Pereda es para ti, instalador?</h2>
+          <h2>Beneficios diseñados para profesionales</h2>
           <p className="area-benefits-subtitle">
             Porque aquí encuentras calidad al mejor precio, un amplio stock con primeras marcas,
             el mejor asesoramiento personalizado y, además, todas las novedades y ofertas al alcance de tu mano.
@@ -97,12 +98,12 @@ export default function AreaProfesional({ setCurrentView }) {
         </div>
       </section>
 
-      <section className="area-quote">
-        <div className="area-quote-container">
-          <blockquote>
-            <span className="area-quote-mark">"</span>
-            <p>Si existe, está en Pereda</p>
-          </blockquote>
+      <section className="area-faq">
+        <div className="area-faq-container">
+          <h2>Preguntas frecuentes</h2>
+          <p className="area-faq-placeholder">
+            Próximamente publicaremos aquí las preguntas y respuestas más habituales de nuestros profesionales.
+          </p>
         </div>
       </section>
 
