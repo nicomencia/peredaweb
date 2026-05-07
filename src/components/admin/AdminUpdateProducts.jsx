@@ -250,8 +250,16 @@ export default function AdminUpdateProducts() {
                           onChange={(e) => setEditValues({...editValues, product_type: e.target.value})}
                         >
                           <option value="bano">Baño</option>
+                          <option value="sanitarios">Sanitarios</option>
+                          <option value="griferia">Griferías</option>
+                          <option value="muebles-bano">Muebles de baño y espejos</option>
+                          <option value="climatizacion">Climatización y energías renovables</option>
                           <option value="fontaneria">Fontanería y calefacción</option>
+                          <option value="ceramica">Cerámicas</option>
                           <option value="materiales">Materiales de construcción</option>
+                          <option value="mamparas">Mamparas</option>
+                          <option value="herramientas">Herramientas</option>
+                          <option value="electricidad">Electricidad</option>
                         </select>
                       </label>
                     </div>

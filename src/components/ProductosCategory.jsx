@@ -13,39 +13,49 @@ const CATEGORY_CONFIG = {
     description: 'Inodoros, bidés, lavabos y piezas sanitarias para un baño funcional',
     image: '/productos_bano.jpg',
   },
-  'muebles-bano': {
-    label: 'Muebles de baño',
-    description: 'Muebles, espejos y complementos para organizar y decorar el baño',
-    image: '/productos_bano.jpg',
-  },
   griferia: {
-    label: 'Grifería',
+    label: 'Griferías',
     description: 'Grifos, monomandos y termostáticas de las mejores marcas',
     image: '/productos_bano.jpg',
   },
-  ceramica: {
-    label: 'Cerámica',
-    description: 'Azulejos y pavimentos cerámicos para baños y cocinas',
+  'muebles-bano': {
+    label: 'Muebles de baño y espejos',
+    description: 'Muebles, espejos y complementos para organizar y decorar el baño',
     image: '/productos_bano.jpg',
-  },
-  accesorios: {
-    label: 'Accesorios',
-    description: 'Accesorios y complementos para dar el toque final a tu baño',
-    image: '/productos_bano.jpg',
-  },
-  fontaneria: {
-    label: 'Fontanería y calefacción',
-    description: 'Sistemas de calefacción, radiadores, tuberías y soluciones de fontanería profesional',
-    image: '/productos_fontaneria.png',
   },
   climatizacion: {
     label: 'Climatización y energías renovables',
     description: 'Aire acondicionado, aerotermia y soluciones de energías renovables',
     image: '/productos_fontaneria.png',
   },
+  fontaneria: {
+    label: 'Fontanería y calefacción',
+    description: 'Sistemas de calefacción, radiadores, tuberías y soluciones de fontanería profesional',
+    image: '/productos_fontaneria.png',
+  },
+  ceramica: {
+    label: 'Cerámicas',
+    description: 'Azulejos y pavimentos cerámicos para baños y cocinas',
+    image: '/productos_bano.jpg',
+  },
   materiales: {
     label: 'Materiales de construcción',
-    description: 'Materiales, herramientas y soluciones constructivas para todo tipo de proyectos',
+    description: 'Materiales y soluciones constructivas para todo tipo de proyectos',
+    image: '/productos_construccion.jpg',
+  },
+  mamparas: {
+    label: 'Mamparas',
+    description: 'Mamparas de ducha y bañera adaptadas a tu espacio',
+    image: '/productos_bano.jpg',
+  },
+  herramientas: {
+    label: 'Herramientas',
+    description: 'Herramienta profesional y de bricolaje para cualquier proyecto',
+    image: '/productos_construccion.jpg',
+  },
+  electricidad: {
+    label: 'Electricidad',
+    description: 'Material eléctrico, iluminación y soluciones para la instalación',
     image: '/productos_construccion.jpg',
   },
 };

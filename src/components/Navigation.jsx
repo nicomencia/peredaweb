@@ -3,13 +3,15 @@ import './Navigation.css';
 
 const PRODUCT_CATEGORIES = [
   { key: 'sanitarios', label: 'Sanitarios', icon: 'M4 12h16M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6M8 12V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6' },
-  { key: 'muebles-bano', label: 'Muebles de baño', icon: 'M3 7h18v10H3zM3 12h18M7 7v10M17 7v10' },
-  { key: 'griferia', label: 'Grifería', icon: 'M12 3v4M8 7h8M10 7v3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7M12 12v9M9 21h6' },
-  { key: 'ceramica', label: 'Cerámica', icon: 'M3 5h18v14H3zM3 12h18M9 5v14M15 5v14' },
-  { key: 'accesorios', label: 'Accesorios', icon: 'M4 6h4v4H4zM10 6h4v4h-4zM16 6h4v4h-4zM4 14h4v4H4zM10 14h4v4h-4zM16 14h4v4h-4z' },
-  { key: 'fontaneria', label: 'Fontanería y calefacción', icon: 'M4 8h10a4 4 0 0 1 0 8H8M4 12h4M14 4v4M14 16v4' },
+  { key: 'griferia', label: 'Griferías', icon: 'M12 3v4M8 7h8M10 7v3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7M12 12v9M9 21h6' },
+  { key: 'muebles-bano', label: 'Muebles de baño y espejos', icon: 'M3 7h18v10H3zM3 12h18M7 7v10M17 7v10' },
   { key: 'climatizacion', label: 'Climatización y energías renovables', icon: 'M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4' },
+  { key: 'fontaneria', label: 'Fontanería y calefacción', icon: 'M4 8h10a4 4 0 0 1 0 8H8M4 12h4M14 4v4M14 16v4' },
+  { key: 'ceramica', label: 'Cerámicas', icon: 'M3 5h18v14H3zM3 12h18M9 5v14M15 5v14' },
   { key: 'materiales', label: 'Materiales de construcción', icon: 'M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6' },
+  { key: 'mamparas', label: 'Mamparas', icon: 'M4 3h16v18H4zM12 3v18M4 7h16M4 17h16' },
+  { key: 'herramientas', label: 'Herramientas', icon: 'M14 6l4 4-8 8-4-4zM16 4l4 4M3 21l3-3M10 14l-3 3' },
+  { key: 'electricidad', label: 'Electricidad', icon: 'M13 2L4 14h7l-1 8 9-12h-7z' },
 ];
 
 export default function Navigation({ currentView, setCurrentView, setProductCategory }) {
