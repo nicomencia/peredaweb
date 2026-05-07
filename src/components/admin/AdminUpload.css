@@ -1,0 +1,145 @@
+.admin-upload {
+  min-height: 100vh;
+  padding: var(--spacing-xl);
+  background: var(--color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-upload-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-xl);
+  max-width: 600px;
+  width: 100%;
+}
+
+.admin-upload-card h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--color-blue);
+  margin-bottom: var(--spacing-sm);
+  text-align: center;
+}
+
+.admin-upload-description {
+  color: var(--color-gray);
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+}
+
+.admin-upload-section {
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.admin-upload-label {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: var(--color-blue);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.admin-upload-label:hover {
+  background: #1a5490;
+}
+
+.admin-upload-input {
+  display: none;
+}
+
+.admin-upload-message {
+  padding: var(--spacing-md);
+  border-radius: 4px;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+  font-family: var(--font-sans);
+}
+
+.admin-upload-message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.admin-upload-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.admin-upload-helper {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid #e0e0e0;
+}
+
+.admin-upload-button {
+  padding: 0.75rem 1.5rem;
+  background: white;
+  color: var(--color-blue);
+  border: 2px solid var(--color-blue);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.admin-upload-button:hover {
+  background: var(--color-blue);
+  color: white;
+}
+
+.admin-upload-hint {
+  color: var(--color-gray);
+  font-size: 0.9rem;
+  margin-top: var(--spacing-sm);
+}
+
+.admin-upload-instructions {
+  background: var(--color-light);
+  padding: var(--spacing-md);
+  border-radius: 4px;
+  margin-top: var(--spacing-lg);
+}
+
+.admin-upload-instructions h3 {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--color-blue);
+  margin-bottom: var(--spacing-sm);
+}
+
+.admin-upload-instructions ol {
+  color: var(--color-gray);
+  line-height: 1.8;
+  padding-left: var(--spacing-lg);
+}
+
+.admin-upload-instructions ol li {
+  margin-bottom: var(--spacing-sm);
+}
+
+@media (max-width: 968px) {
+  .admin-upload {
+    padding: var(--spacing-md);
+  }
+
+  .admin-upload-card {
+    padding: var(--spacing-lg);
+  }
+
+  .admin-upload-card h2 {
+    font-size: 1.5rem;
+  }
+}

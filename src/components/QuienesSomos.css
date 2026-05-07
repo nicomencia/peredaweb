@@ -1,0 +1,425 @@
+.about {
+  background: var(--color-white);
+}
+
+.about-hero {
+  position: relative;
+  height: 420px;
+  padding-top: 100px;
+  background-image: url('/quienessomos.jpg');
+  background-size: cover;
+  background-position: center 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 47, 167, 0.7);
+}
+
+.about-hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 var(--spacing-md);
+}
+
+.about-hero-content h2 {
+  color: var(--color-white);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-sm);
+}
+
+.about-hero-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.about-photos-top {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md) 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.about-photo-full {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.about-photo-full img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+.about-photo-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+  color: var(--color-white);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.about-team-section {
+  background: var(--color-cream);
+  padding: var(--spacing-xl) 0;
+  border-top: 1px solid var(--color-light-gray);
+}
+
+.about-team-section h3 {
+  text-align: center;
+  color: var(--color-blue);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.about-team-subtitle {
+  text-align: center;
+  color: var(--color-gray);
+  font-size: 1.05rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.about-team-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.about-team-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  max-width: 1000px;
+  margin: var(--spacing-lg) auto 0;
+  padding: 0 var(--spacing-md);
+}
+
+.about-photo-half {
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.about-photo-half img {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.about-intro {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) 0;
+  text-align: center;
+}
+
+.about-intro p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-gray);
+  margin-bottom: var(--spacing-md);
+}
+
+.about-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.about-highlights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  max-width: 900px;
+  margin: 0 auto var(--spacing-xl) auto;
+}
+
+.about-highlight-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: var(--color-cream);
+  padding: var(--spacing-md);
+  border-radius: 10px;
+}
+
+.highlight-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-blue);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-highlight-card p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-black);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.about-ayudas {
+  max-width: 1200px;
+  margin: var(--spacing-lg) auto 0;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-white);
+  border-left: 4px solid var(--color-blue);
+  border-radius: 0 8px 8px 0;
+}
+
+.about-ayudas p {
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--color-gray);
+  margin: 0;
+}
+
+.about-porqué {
+  background: var(--color-cream);
+  padding: var(--spacing-xl) 0;
+}
+
+.about-porqué h3 {
+  text-align: center;
+  color: var(--color-blue);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: var(--spacing-lg);
+}
+
+.porqué-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.porqué-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-white);
+  border-radius: 8px;
+}
+
+.porqué-check {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-blue);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.porqué-item span:last-child {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-black);
+  line-height: 1.4;
+}
+
+.stat-card {
+  text-align: center;
+  padding: var(--spacing-lg) var(--spacing-md);
+  border-radius: 12px;
+  background: var(--color-white);
+}
+
+.stat-number {
+  display: block;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--color-blue);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-black);
+  margin-bottom: var(--spacing-sm);
+}
+
+.stat-description {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-gray);
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.careers-banner {
+  position: relative;
+  overflow: hidden;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.careers-banner-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #001a5e 0%, #002FA7 50%, #0040cc 100%);
+}
+
+.careers-banner-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+}
+
+.careers-banner-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.careers-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  margin-bottom: 0.5rem;
+}
+
+.careers-banner-content h3 {
+  color: var(--color-white);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+.careers-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 560px;
+}
+
+.careers-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  padding: 0.85rem 2.2rem;
+  background: var(--color-white);
+  color: var(--color-blue);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  letter-spacing: 0.02em;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.careers-cta:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    height: 320px;
+    padding-top: 80px;
+  }
+
+  .about-photos-top {
+    grid-template-columns: 1fr;
+    padding-top: var(--spacing-lg);
+  }
+
+  .about-photo-full img {
+    height: 260px;
+  }
+
+  .about-team-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .about-team-photos {
+    grid-template-columns: 1fr;
+  }
+
+  .about-photo-half img {
+    min-height: 240px;
+    height: 260px;
+  }
+
+  .about-intro {
+    padding: var(--spacing-lg) 0;
+    text-align: left;
+  }
+
+  .about-highlights {
+    grid-template-columns: 1fr;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .porqué-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .careers-banner {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .careers-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .careers-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+}
