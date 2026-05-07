@@ -39,28 +39,88 @@ export default function QuienesSomos() {
           </p>
         </div>
 
-        <div className="about-highlights">
-          <div className="about-highlight-card">
-            <div className="highlight-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
+      </div>
+
+      <div className="servicios-section">
+        <div className="container">
+          <h3 className="servicios-title">Servicios asociados</h3>
+          <p className="servicios-subtitle">
+            Nuestros especialistas en diseño de interiores te acompañarán en cada paso para ayudarte a crear el baño que siempre has imaginado.
+          </p>
+
+          <div className="servicios-grid">
+            <div className="servicio-card">
+              <div className="servicio-icon">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                  <path d="M17 4l1.5 1.5L22 2" />
+                </svg>
+              </div>
+              <h4 className="servicio-name">Asesoramiento profesional</h4>
+              <p className="servicio-text">
+                Contamos con un equipo de expertos en interiorismo y decoración que te orientará para encontrar las mejores soluciones según tu espacio, estilo y necesidades.
+              </p>
             </div>
-            <p>Asesoramiento y atención personalizada</p>
-          </div>
-          <div className="about-highlight-card">
-            <div className="highlight-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                <line x1="12" y1="22.08" x2="12" y2="12" />
-              </svg>
+
+            <div className="servicio-card">
+              <div className="servicio-icon">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z" />
+                  <path d="M14 8l4 4" />
+                  <path d="M18 6l2 2" />
+                </svg>
+              </div>
+              <h4 className="servicio-name">Diseño personalizado</h4>
+              <p className="servicio-text">
+                Te ayudamos a elegir la opción que mejor encaje contigo. Y si buscas algo único, elaboramos propuestas totalmente a medida adaptadas a tu proyecto.
+              </p>
             </div>
-            <p>Gran stock de productos, con más de 100.000 referencias</p>
+
+            <div className="servicio-card">
+              <div className="servicio-icon">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="1" y="6" width="13" height="11" rx="1" />
+                  <path d="M14 9h4l3 4v4h-7z" />
+                  <circle cx="6" cy="18" r="2" />
+                  <circle cx="17" cy="18" r="2" />
+                </svg>
+              </div>
+              <h4 className="servicio-name">Transporte a domicilio</h4>
+              <p className="servicio-text">
+                Olvídate de las preocupaciones logísticas. Nos encargamos de llevar tu compra directamente hasta tu hogar de forma cómoda y segura.
+              </p>
+            </div>
+
+            <div className="servicio-card">
+              <div className="servicio-icon">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="6" width="20" height="12" rx="1" />
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M6 10v4M18 10v4" />
+                </svg>
+              </div>
+              <h4 className="servicio-name">Financiación flexible</h4>
+              <p className="servicio-text">
+                Si lo necesitas, ponemos a tu disposición diferentes opciones de financiación para que puedas realizar tu proyecto con mayor comodidad.
+              </p>
+            </div>
+
+            <div className="servicio-card">
+              <div className="servicio-icon">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+                  <path d="M14 2v6h6" />
+                  <path d="M9 14l2 2 4-4" />
+                </svg>
+              </div>
+              <h4 className="servicio-name">Recogida rápida</h4>
+              <p className="servicio-text">
+                Compra cómodamente y recoge tu pedido sin esperas y con total facilidad.
+              </p>
+            </div>
           </div>
         </div>
-
       </div>
 
       <div className="about-porqué">
