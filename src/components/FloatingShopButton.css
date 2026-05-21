@@ -1,0 +1,51 @@
+.floating-shop-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #0000FF;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 255, 0.3);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.floating-shop-button:hover {
+  background: #0000CC;
+  box-shadow: 0 6px 20px rgba(0, 0, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.floating-shop-button svg {
+  flex-shrink: 0;
+}
+
+.floating-shop-button--red {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.floating-shop-button--red:hover {
+  background: #b91c1c;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}
+
+@media (max-width: 768px) {
+  .floating-shop-button {
+    bottom: 20px;
+    right: 20px;
+    padding: 14px;
+    border-radius: 50%;
+  }
+
+  .floating-shop-text {
+    display: none;
+  }
+}
