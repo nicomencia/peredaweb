@@ -123,3 +123,31 @@
 .admin-ajustes-fields textarea {
   resize: vertical;
 }
+
+.admin-ajustes-storage-desc {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.admin-ajustes-cleanup-btn {
+  padding: 0.6rem 1.25rem;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-ajustes-cleanup-btn:hover {
+  background: #b02a37;
+}
+
+.admin-ajustes-cleanup-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

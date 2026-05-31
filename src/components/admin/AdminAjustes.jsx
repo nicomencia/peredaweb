@@ -18,6 +18,8 @@ export default function AdminAjustes() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
+  const [cleaning, setCleaning] = useState(false);
+  const [cleanupResult, setCleanupResult] = useState('');
 
   useEffect(() => {
     async function load() {
@@ -77,6 +79,32 @@ export default function AdminAjustes() {
       setMessage('Error guardando: ' + err.message);
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleCleanup() {
+    setCleaning(true);
+    setCleanupResult('');
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cleanup-storage`;
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session?.access_token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const result = await res.json();
+      if (result.error) {
+        setCleanupResult('Error: ' + result.error);
+      } else {
+        setCleanupResult(result.message);
+      }
+    } catch (err) {
+      setCleanupResult('Error: ' + err.message);
+    } finally {
+      setCleaning(false);
     }
   }
 
@@ -181,9 +209,27 @@ export default function AdminAjustes() {
         </div>
       </div>
 
+      <div className="admin-ajustes-section">
+        <h3>Almacenamiento</h3>
+        <p className="admin-ajustes-storage-desc">
+          Elimina archivos de imagen que ya no estan en uso (logos antiguos, fondos reemplazados, fotos de ambientes borradas).
+        </p>
+        {cleanupResult && <div className="admin-homepage-msg">{cleanupResult}</div>}
+        <button
+          className="admin-ajustes-cleanup-btn"
+          onClick={handleCleanup}
+          disabled={cleaning}
+        >
+          {cleaning ? 'Limpiando...' : 'Limpiar archivos sin usar'}
+        </button>
+      </div>
+
       <button className="admin-homepage-save" onClick={handleSave} disabled={saving}>
         {saving ? 'Guardando...' : 'Guardar cambios'}
       </button>
     </div>
   );
 }
+
+
+export default AdminAjustes
