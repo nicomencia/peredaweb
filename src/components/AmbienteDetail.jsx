@@ -39,12 +39,7 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
   const allImages = ambiente
     ? [
         { image_url: ambiente.cover_image_url },
-        { image_url: ambiente.cover_image_url },
-        { image_url: ambiente.cover_image_url },
-        { image_url: ambiente.cover_image_url },
-        { image_url: ambiente.cover_image_url },
-        { image_url: ambiente.cover_image_url },
-        { image_url: ambiente.cover_image_url },
+        ...photos.map((p) => ({ image_url: p.image_url })),
       ]
     : [];
 
@@ -117,17 +112,19 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
           </div>
         )}
 
-        <div className="ambiente-gallery">
-          {[1, 2, 3, 4, 5, 6].map((index) => (
-            <div
-              key={index}
-              className="ambiente-gallery-item"
-              onClick={() => openLightbox(index)}
-            >
-              <img src={ambiente.cover_image_url} alt="" />
-            </div>
-          ))}
-        </div>
+        {photos.length > 0 && (
+          <div className="ambiente-gallery">
+            {photos.map((photo, index) => (
+              <div
+                key={photo.id}
+                className="ambiente-gallery-item"
+                onClick={() => openLightbox(index + 1)}
+              >
+                <img src={photo.image_url} alt="" />
+              </div>
+            ))}
+          </div>
+        )}
 
         {lightboxOpen && allImages[lightboxIndex] && (
           <div className="ambiente-lightbox" onClick={closeLightbox}>

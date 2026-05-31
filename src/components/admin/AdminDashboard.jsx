@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import AdminHomepage from './AdminHomepage';
 import AdminPageEditor from './AdminPageEditor';
+import AdminAmbientes from './AdminAmbientes';
 import './AdminDashboard.css';
 
 const quienesFields = [
@@ -66,11 +67,16 @@ export default function AdminDashboard() {
         );
       case 'inspirate':
         return (
-          <AdminPageEditor
-            title="Inspírate"
-            description="Edita los textos de las tarjetas de la sección Inspírate."
-            fields={inspirateFields}
-          />
+          <>
+            <AdminPageEditor
+              title="Inspírate - Textos"
+              description="Edita los textos de las tarjetas de la sección Inspírate."
+              fields={inspirateFields}
+            />
+            <div style={{ marginTop: '3rem' }}>
+              <AdminAmbientes />
+            </div>
+          </>
         );
       case 'tiendas':
         return (
