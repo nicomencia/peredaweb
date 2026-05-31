@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
+import { uploadImage } from '../../lib/upload';
 import './AdminHomepage.css';
 import './AdminAmbientes.css';
 
@@ -120,23 +121,12 @@ function AmbienteEditor({ ambiente, onUpdate, setMessage }) {
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
-  async function uploadFile(file) {
-    const ext = file.name.split('.').pop();
-    const fileName = `ambientes/${ambiente.id}/${Date.now()}.${ext}`;
-    const { error } = await supabase.storage
-      .from('site-assets')
-      .upload(fileName, file, { cacheControl: '3600', upsert: true });
-    if (error) throw error;
-    const { data } = supabase.storage.from('site-assets').getPublicUrl(fileName);
-    return data.publicUrl;
-  }
-
   async function handleCoverUpload(e) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadingCover(true);
     try {
-      const url = await uploadFile(file);
+      const url = await uploadImage(file, `ambientes/${ambiente.id}`);
       setCoverUrl(url);
       setMessage('Imagen de portada subida. Guarda para aplicar.');
     } catch (err) {
@@ -153,7 +143,7 @@ function AmbienteEditor({ ambiente, onUpdate, setMessage }) {
     try {
       const maxOrder = photos.reduce((max, p) => Math.max(max, p.display_order), 0);
       for (let i = 0; i < files.length; i++) {
-        const url = await uploadFile(files[i]);
+        const url = await uploadImage(files[i], `ambientes/${ambiente.id}`);
         const { data, error } = await supabase
           .from('ambiente_photos')
           .insert({

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
+import { uploadImage } from '../../lib/upload';
 import './AdminHomepage.css';
 
 const defaultCtas = [
@@ -54,30 +55,13 @@ export default function AdminHomepage() {
     setCtas((prev) => prev.map((item, i) => i === index ? { ...item, [field]: value } : item));
   }
 
-  async function uploadFile(file, folder) {
-    const ext = file.name.split('.').pop();
-    const fileName = `${folder}/${Date.now()}.${ext}`;
-
-    const { error } = await supabase.storage
-      .from('site-assets')
-      .upload(fileName, file, { cacheControl: '3600', upsert: true });
-
-    if (error) throw error;
-
-    const { data } = supabase.storage
-      .from('site-assets')
-      .getPublicUrl(fileName);
-
-    return data.publicUrl;
-  }
-
   async function handleLogoUpload(e) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadingLogo(true);
     setMessage('');
     try {
-      const url = await uploadFile(file, 'logo');
+      const url = await uploadImage(file, 'logo');
       setLogoUrl(url);
       setMessage('Logo subido. Pulsa "Guardar cambios" para aplicar.');
     } catch (err) {
@@ -93,7 +77,7 @@ export default function AdminHomepage() {
     setUploadingBg(true);
     setMessage('');
     try {
-      const url = await uploadFile(file, 'background');
+      const url = await uploadImage(file, 'background');
       setBgUrl(url);
       setMessage('Imagen de fondo subida. Pulsa "Guardar cambios" para aplicar.');
     } catch (err) {
