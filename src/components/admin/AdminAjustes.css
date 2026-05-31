@@ -132,6 +132,7 @@
 }
 
 .admin-ajustes-cleanup-btn {
+  margin-bottom: 2rem;
   padding: 0.6rem 1.25rem;
   background: #dc3545;
   color: #fff;
