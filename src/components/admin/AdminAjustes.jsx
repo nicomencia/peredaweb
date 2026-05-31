@@ -230,6 +230,3 @@ export default function AdminAjustes() {
     </div>
   );
 }
-
-
-export default AdminAjustes
