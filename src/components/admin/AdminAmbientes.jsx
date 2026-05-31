@@ -112,8 +112,6 @@ export default function AdminAmbientes() {
 
 function AmbienteEditor({ ambiente, onUpdate, setMessage }) {
   const [title, setTitle] = useState(ambiente.title);
-  const [summary, setSummary] = useState(ambiente.summary || '');
-  const [description, setDescription] = useState(ambiente.description || '');
   const [coverUrl, setCoverUrl] = useState(ambiente.cover_image_url || '');
   const [photos, setPhotos] = useState(
     (ambiente.ambiente_photos || []).sort((a, b) => a.display_order - b.display_order)
@@ -193,8 +191,6 @@ function AmbienteEditor({ ambiente, onUpdate, setMessage }) {
         .from('ambientes')
         .update({
           title,
-          summary,
-          description,
           cover_image_url: coverUrl,
         })
         .eq('id', ambiente.id);
@@ -214,14 +210,6 @@ function AmbienteEditor({ ambiente, onUpdate, setMessage }) {
         <label>
           Título
           <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        </label>
-        <label>
-          Resumen (tarjeta)
-          <textarea rows="2" value={summary} onChange={(e) => setSummary(e.target.value)} />
-        </label>
-        <label>
-          Descripción (detalle)
-          <textarea rows="4" value={description} onChange={(e) => setDescription(e.target.value)} />
         </label>
       </div>
 
