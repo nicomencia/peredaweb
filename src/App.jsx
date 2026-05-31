@@ -125,7 +125,7 @@ export default function App() {
       <Navigation currentView={currentView} setCurrentView={setCurrentView} setProductCategory={setProductCategory} />
       {renderContent()}
       <Footer setCurrentView={setCurrentView} />
-      <FloatingShopButton currentView={currentView} />
+      {!currentView.startsWith('admin') && <FloatingShopButton currentView={currentView} />}
     </>
   );
 }
