@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import './SimplePage.css';
 
 const locations = [
@@ -23,7 +25,22 @@ const locations = [
   },
 ];
 
+const defaultText = 'Te ofrecemos la posibilidad de solicitar cita previa antes de acudir a nuestro establecimiento, podrás beneficiarte de una atención personalizada en tus proyectos de reformas y además evitar tiempos de espera.';
+
 export default function PideCita() {
+  const [description, setDescription] = useState(defaultText);
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'cta_1_description')
+        .maybeSingle();
+      if (data?.value) setDescription(data.value);
+    }
+    load();
+  }, []);
   return (
     <div className="simple-page">
       <div className="simple-page-hero">
@@ -34,9 +51,7 @@ export default function PideCita() {
         <div className="simple-page-container">
           <h2 className="simple-page-heading">CITA PREVIA</h2>
           <p className="simple-page-text">
-            Te ofrecemos la posibilidad de solicitar cita previa antes de acudir a nuestro establecimiento,
-            podrás beneficiarte de una atención personalizada en tus proyectos de reformas y además evitar
-            tiempos de espera.
+            {description}
           </p>
           <p className="simple-page-text">
             Solicita ahora tu cita previa a través de los siguientes medios:

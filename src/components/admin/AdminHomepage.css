@@ -172,7 +172,8 @@
   color: #555;
 }
 
-.admin-homepage-cta-fields input {
+.admin-homepage-cta-fields input,
+.admin-homepage-cta-fields textarea {
   width: 100%;
   padding: 0.6rem 0.75rem;
   border: 1px solid #ddd;
@@ -180,9 +181,16 @@
   font-size: 0.9rem;
   color: #1a1a1a;
   transition: border-color 0.2s;
+  font-family: inherit;
 }
 
-.admin-homepage-cta-fields input:focus {
+.admin-homepage-cta-fields textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.admin-homepage-cta-fields input:focus,
+.admin-homepage-cta-fields textarea:focus {
   outline: none;
   border-color: #0052cc;
 }

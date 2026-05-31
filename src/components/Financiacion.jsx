@@ -1,7 +1,24 @@
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import './SimplePage.css';
 import './Financiacion.css';
 
+const defaultText = 'Saneamientos Pereda pone a tu disposición una línea de financiación con unas condiciones inmejorables: todas tus compras al 0% DE INTERÉS en cuotas de hasta 24 meses.';
+
 export default function Financiacion() {
+  const [description, setDescription] = useState(defaultText);
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'cta_2_description')
+        .maybeSingle();
+      if (data?.value) setDescription(data.value);
+    }
+    load();
+  }, []);
   return (
     <div className="simple-page">
       <div className="simple-page-hero">
@@ -16,9 +33,7 @@ export default function Financiacion() {
             </h2>
             <span className="presupuesto-divider" />
             <p className="financiacion-lead">
-              Saneamientos Pereda pone a tu disposición una línea de financiación con
-              unas condiciones inmejorables: todas tus compras al <strong>0% DE INTERÉS</strong>{' '}
-              en cuotas de hasta 24 meses.
+              {description}
             </p>
           </div>
 

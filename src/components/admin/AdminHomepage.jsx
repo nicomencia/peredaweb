@@ -3,10 +3,10 @@ import { supabase } from '../../lib/supabase';
 import './AdminHomepage.css';
 
 const defaultCtas = [
-  { title: 'Pide cita para tus proyectos de reformas', label: 'PIDE CITA' },
-  { title: 'Financiación sin intereses', label: 'CONSULTA NUESTRA FINANCIACIÓN' },
-  { title: 'Asesoramiento y servicio post venta', label: 'SOLICITA PRESUPUESTO' },
-  { title: 'Conoce las ventajas para el profesional', label: 'HAZTE CLIENTE' },
+  { title: 'Pide cita para tus proyectos de reformas', label: 'PIDE CITA', description: '' },
+  { title: 'Financiación sin intereses', label: 'CONSULTA NUESTRA FINANCIACIÓN', description: '' },
+  { title: 'Asesoramiento y servicio post venta', label: 'SOLICITA PRESUPUESTO', description: '' },
+  { title: 'Conoce las ventajas para el profesional', label: 'HAZTE CLIENTE', description: '' },
 ];
 
 export default function AdminHomepage() {
@@ -28,10 +28,10 @@ export default function AdminHomepage() {
       .select('key, value')
       .in('key', [
         'hero_logo', 'hero_background',
-        'cta_1_title', 'cta_1_label',
-        'cta_2_title', 'cta_2_label',
-        'cta_3_title', 'cta_3_label',
-        'cta_4_title', 'cta_4_label',
+        'cta_1_title', 'cta_1_label', 'cta_1_description',
+        'cta_2_title', 'cta_2_label', 'cta_2_description',
+        'cta_3_title', 'cta_3_label', 'cta_3_description',
+        'cta_4_title', 'cta_4_label', 'cta_4_description',
       ]);
 
     if (data) {
@@ -39,7 +39,7 @@ export default function AdminHomepage() {
       data.forEach((row) => {
         if (row.key === 'hero_logo') setLogoUrl(row.value);
         if (row.key === 'hero_background') setBgUrl(row.value);
-        const ctaMatch = row.key.match(/^cta_(\d)_(title|label)$/);
+        const ctaMatch = row.key.match(/^cta_(\d)_(title|label|description)$/);
         if (ctaMatch) {
           const idx = parseInt(ctaMatch[1]) - 1;
           const field = ctaMatch[2];
@@ -113,6 +113,7 @@ export default function AdminHomepage() {
         ...ctas.flatMap((cta, i) => [
           { key: `cta_${i + 1}_title`, value: cta.title },
           { key: `cta_${i + 1}_label`, value: cta.label },
+          { key: `cta_${i + 1}_description`, value: cta.description },
         ]),
       ];
 
@@ -194,6 +195,14 @@ export default function AdminHomepage() {
                     type="text"
                     value={cta.label}
                     onChange={(e) => handleCtaChange(i, 'label', e.target.value)}
+                  />
+                </label>
+                <label>
+                  Texto de la página
+                  <textarea
+                    rows="3"
+                    value={cta.description}
+                    onChange={(e) => handleCtaChange(i, 'description', e.target.value)}
                   />
                 </label>
               </div>

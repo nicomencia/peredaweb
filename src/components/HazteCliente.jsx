@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import './SimplePage.css';
 
+const defaultDescription = 'Condiciones y precios especiales para profesionales. Asesoramiento técnico personalizado. Amplio stock disponible para entrega inmediata. Servicio de reparto en Asturias. Atención preferente en nuestras exposiciones.';
+
 export default function HazteCliente() {
+  const [description, setDescription] = useState(defaultDescription);
   const [formData, setFormData] = useState({
     nombre: '',
     empresa: '',
@@ -15,6 +19,18 @@ export default function HazteCliente() {
   const [accepted, setAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'cta_4_description')
+        .maybeSingle();
+      if (data?.value) setDescription(data.value);
+    }
+    load();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -79,14 +95,7 @@ export default function HazteCliente() {
             <div className="presupuesto-col">
               <h2 className="presupuesto-heading">Ventajas para el profesional</h2>
               <span className="presupuesto-divider" />
-              <ul className="presupuesto-list">
-                <li>Condiciones y precios especiales para profesionales</li>
-                <li>Asesoramiento técnico personalizado</li>
-                <li>Amplio stock disponible para entrega inmediata</li>
-                <li>Servicio de reparto en Asturias</li>
-                <li>Atención preferente en nuestras exposiciones</li>
-                <li>Gestión ágil de pedidos y presupuestos</li>
-              </ul>
+              <p className="simple-page-text">{description}</p>
 
             </div>
 

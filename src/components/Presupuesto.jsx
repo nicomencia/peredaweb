@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import './SimplePage.css';
 
+const defaultDescription = 'Más de 50 años de experiencia. Más de 40 profesionales especializados en diferentes áreas del sector. Locales de exposición y autoservicio. Venta a profesionales del gremio y a particulares. Líderes del mercado Asturiano.';
+
 export default function Presupuesto() {
+  const [description, setDescription] = useState(defaultDescription);
   const [formData, setFormData] = useState({
     nombre: '',
     localidad: '',
@@ -12,6 +16,18 @@ export default function Presupuesto() {
   const [accepted, setAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'cta_3_description')
+        .maybeSingle();
+      if (data?.value) setDescription(data.value);
+    }
+    load();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -64,13 +80,7 @@ export default function Presupuesto() {
             <div className="presupuesto-col">
               <h2 className="presupuesto-heading">Contacta con nosotros</h2>
               <span className="presupuesto-divider" />
-              <ul className="presupuesto-list">
-                <li>Más de 50 años de experiencia</li>
-                <li>Más de 40 profesionales especializados en diferentes áreas del sector</li>
-                <li>Locales de exposición y autoservicio</li>
-                <li>Venta a profesionales del gremio y a particulares</li>
-                <li>Líderes del mercado Asturiano</li>
-              </ul>
+              <p className="simple-page-text">{description}</p>
 
               <div className="presupuesto-locations">
                 <div className="presupuesto-location">
