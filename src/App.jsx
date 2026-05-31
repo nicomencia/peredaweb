@@ -38,6 +38,23 @@ export default function App() {
   }, [currentView]);
 
   useEffect(() => {
+    async function loadColors() {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('key, value')
+        .in('key', ['color_primary', 'color_secondary', 'color_dark']);
+      if (data) {
+        data.forEach((row) => {
+          if (row.key === 'color_primary') document.documentElement.style.setProperty('--color-blue', row.value);
+          if (row.key === 'color_secondary') document.documentElement.style.setProperty('--color-cream', row.value);
+          if (row.key === 'color_dark') document.documentElement.style.setProperty('--color-black', row.value);
+        });
+      }
+    }
+    loadColors();
+  }, []);
+
+  useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
     });

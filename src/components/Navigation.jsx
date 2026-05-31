@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import './Navigation.css';
 
 const PRODUCT_CATEGORIES = [
@@ -17,7 +18,20 @@ const PRODUCT_CATEGORIES = [
 export default function Navigation({ currentView, setCurrentView, setProductCategory }) {
   const [isOpen, setIsOpen] = useState(false);
   const [productosOpen, setProductosOpen] = useState(false);
+  const [logoUrl, setLogoUrl] = useState('/logo.png');
   const isHome = currentView === 'home';
+
+  useEffect(() => {
+    async function loadLogo() {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'navbar_logo')
+        .maybeSingle();
+      if (data?.value) setLogoUrl(data.value);
+    }
+    loadLogo();
+  }, []);
 
   const handleNavClick = (view) => {
     setCurrentView(view);
@@ -44,7 +58,7 @@ export default function Navigation({ currentView, setCurrentView, setProductCate
             onClick={() => handleNavClick('home')}
             aria-label="Ir a inicio"
           >
-            <img src="/logo.png" alt="Saneamientos Pereda" className="nav-logo" />
+            <img src={logoUrl} alt="Saneamientos Pereda" className="nav-logo" />
           </button>
         )}
 

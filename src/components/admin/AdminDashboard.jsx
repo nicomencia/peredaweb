@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 import AdminHomepage from './AdminHomepage';
 import AdminPageEditor from './AdminPageEditor';
 import AdminAmbientes from './AdminAmbientes';
+import AdminAjustes from './AdminAjustes';
 import './AdminDashboard.css';
 
 const quienesFields = [
@@ -43,6 +44,7 @@ const tabs = [
   { id: 'tiendas', label: 'Tiendas' },
   { id: 'productos', label: 'Productos' },
   { id: 'area', label: 'Área Profesional' },
+  { id: 'ajustes', label: 'Ajustes generales' },
 ];
 
 export default function AdminDashboard() {
@@ -102,6 +104,8 @@ export default function AdminDashboard() {
             fields={areaFields}
           />
         );
+      case 'ajustes':
+        return <AdminAjustes />;
       default:
         return null;
     }

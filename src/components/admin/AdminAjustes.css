@@ -1,0 +1,125 @@
+.admin-ajustes-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e8e8e8;
+}
+
+.admin-ajustes-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.admin-ajustes-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.admin-ajustes-colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.admin-ajustes-color-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.admin-ajustes-color-item > label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.admin-ajustes-color-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-ajustes-color-row input[type="color"] {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.admin-ajustes-color-row input[type="text"] {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: monospace;
+  color: #1a1a1a;
+}
+
+.admin-ajustes-color-row input[type="text"]:focus {
+  outline: none;
+  border-color: #0052cc;
+}
+
+.admin-ajustes-logo {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.admin-ajustes-logo-preview {
+  width: 180px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-ajustes-logo-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.admin-ajustes-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-ajustes-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.admin-ajustes-fields input,
+.admin-ajustes-fields textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.admin-ajustes-fields input:focus,
+.admin-ajustes-fields textarea:focus {
+  outline: none;
+  border-color: #0052cc;
+}
+
+.admin-ajustes-fields textarea {
+  resize: vertical;
+}
