@@ -1,7 +1,8 @@
 .hero {
   height: 100vh;
-  background: linear-gradient(rgba(0, 82, 204, 0.1), rgba(0, 82, 204, 0.05)),
-              url('/fondo.jpg') center/cover;
+  background: url('/fondo.jpg') center/cover;
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,0 +1,121 @@
+.admin-homepage {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.admin-homepage h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.25rem;
+}
+
+.admin-homepage-desc {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0 0 1.5rem;
+}
+
+.admin-homepage-msg {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  color: #2e7d32;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-homepage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.admin-homepage-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+}
+
+.admin-homepage-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 1rem;
+}
+
+.admin-homepage-preview {
+  width: 100%;
+  height: 180px;
+  background: #f0f0f0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.admin-homepage-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.admin-homepage-preview--bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-homepage-upload-btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #1a1a1a;
+  color: white;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-homepage-upload-btn:hover {
+  background: #333;
+}
+
+.admin-homepage-upload-btn input {
+  display: none;
+}
+
+.admin-homepage-save {
+  display: block;
+  width: 100%;
+  padding: 0.9rem;
+  background: #0052cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-homepage-save:hover {
+  background: #003d99;
+}
+
+.admin-homepage-save:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .admin-homepage-grid {
+    grid-template-columns: 1fr;
+  }
+}
