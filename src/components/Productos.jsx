@@ -78,10 +78,21 @@ const CATEGORIES = [
 export default function Productos({ setCurrentView, setSelectedCollection, onCategorySelect }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [subtitle, setSubtitle] = useState('Descubre nuestra amplia gama de productos para tu hogar y proyectos profesionales');
 
   useEffect(() => {
     fetchProducts();
+    fetchSettings();
   }, []);
+
+  async function fetchSettings() {
+    const { data } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'productos_subtitle')
+      .maybeSingle();
+    if (data?.value) setSubtitle(data.value);
+  }
 
   async function fetchProducts() {
     try {
@@ -105,7 +116,7 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
         <div className="productos-hero">
           <h1 className="productos-hero-title">Productos</h1>
           <p className="productos-hero-subtitle">
-            Descubre nuestra amplia gama de productos para tu hogar y proyectos profesionales
+            {subtitle}
           </p>
         </div>
 

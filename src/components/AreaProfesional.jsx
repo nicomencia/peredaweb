@@ -1,6 +1,29 @@
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import './AreaProfesional.css';
 
 export default function AreaProfesional({ setCurrentView }) {
+  const [texts, setTexts] = useState({
+    area_hero_title: 'Todo para el instalador',
+    area_hero_subtitle: 'Tu aliado en cada instalación. Calidad, stock y asesoramiento para profesionales.',
+    area_benefits_title: 'Beneficios diseñados para profesionales',
+    area_benefits_subtitle: 'Porque aquí encuentras calidad al mejor precio, un amplio stock con primeras marcas, el mejor asesoramiento personalizado y, además, todas las novedades y ofertas al alcance de tu mano.',
+  });
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('key, value')
+        .in('key', ['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle']);
+      if (data) {
+        const loaded = { ...texts };
+        data.forEach((row) => { loaded[row.key] = row.value; });
+        setTexts(loaded);
+      }
+    }
+    load();
+  }, []);
   return (
     <div className="area-profesional">
       <section className="area-hero">
@@ -8,9 +31,9 @@ export default function AreaProfesional({ setCurrentView }) {
         <div className="area-hero-content">
           <span className="area-hero-tag">Area Profesional</span>
           <span className="area-hero-subtag">Ecommerce</span>
-          <h1>Todo para el instalador</h1>
+          <h1>{texts.area_hero_title}</h1>
           <p className="area-hero-subtitle">
-            Tu aliado en cada instalación. Calidad, stock y asesoramiento para profesionales.
+            {texts.area_hero_subtitle}
           </p>
           <div className="area-hero-buttons">
             <a
@@ -42,10 +65,9 @@ export default function AreaProfesional({ setCurrentView }) {
 
       <section className="area-benefits">
         <div className="area-benefits-container">
-          <h2>Beneficios diseñados para profesionales</h2>
+          <h2>{texts.area_benefits_title}</h2>
           <p className="area-benefits-subtitle">
-            Porque aquí encuentras calidad al mejor precio, un amplio stock con primeras marcas,
-            el mejor asesoramiento personalizado y, además, todas las novedades y ofertas al alcance de tu mano.
+            {texts.area_benefits_subtitle}
           </p>
 
           <div className="area-features-grid">

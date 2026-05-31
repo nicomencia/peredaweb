@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import './Instalaciones.css';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -92,16 +94,35 @@ const stores = [
 ];
 
 export default function Instalaciones({ setCurrentView }) {
+  const [bannerTitle, setBannerTitle] = useState('Pide cita para tus proyectos de reformas');
+  const [bannerButton, setBannerButton] = useState('PIDE CITA');
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('key, value')
+        .in('key', ['tiendas_banner_title', 'tiendas_banner_button']);
+      if (data) {
+        data.forEach((row) => {
+          if (row.key === 'tiendas_banner_title') setBannerTitle(row.value);
+          if (row.key === 'tiendas_banner_button') setBannerButton(row.value);
+        });
+      }
+    }
+    load();
+  }, []);
+
   return (
     <section id="instalaciones" className="instalaciones">
       <div className="instalaciones-cita-banner">
         <div className="instalaciones-cita-inner">
-          <h3 className="instalaciones-cita-title">Pide cita para tus proyectos de reformas</h3>
+          <h3 className="instalaciones-cita-title">{bannerTitle}</h3>
           <button
             className="instalaciones-cita-button"
             onClick={() => setCurrentView && setCurrentView('pide-cita')}
           >
-            PIDE CITA
+            {bannerButton}
           </button>
         </div>
       </div>

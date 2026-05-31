@@ -1,9 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import CareersModal from './CareersModal';
 import './QuienesSomos.css';
 
 export default function QuienesSomos() {
   const [showCareersModal, setShowCareersModal] = useState(false);
+  const [texts, setTexts] = useState({
+    quienes_subtitle: 'Siempre con dedicación\npara mejorar nuestros servicios',
+    quienes_intro_1: 'Saneamientos Pereda es una empresa familiar fundada en Oviedo en el año 1959. Nace como distribuidora de productos de fontanería y sanitarios, pero con el paso de los años, con esfuerzo y dedicación, y gracias a la confianza depositada por los clientes, ha sabido crecer y diversificar su oferta para adaptarse a las necesidades del mercado, convirtiéndose en un referente en su sector.',
+    quienes_intro_2: 'La oferta de productos, dirigida tanto al profesional como al particular más exigente, abarca material de fontanería, calefacción, sanitarios, grifería, mobiliario y accesorios para baño, materiales de construcción, electricidad, pintura, jardinería y herramienta.',
+  });
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('key, value')
+        .in('key', ['quienes_subtitle', 'quienes_intro_1', 'quienes_intro_2']);
+      if (data) {
+        const loaded = { ...texts };
+        data.forEach((row) => { loaded[row.key] = row.value; });
+        setTexts(loaded);
+      }
+    }
+    load();
+  }, []);
 
   return (
     <section id="sobre-mi" className="about">
@@ -12,8 +33,7 @@ export default function QuienesSomos() {
         <div className="about-hero-content">
           <h2>¿QUIÉNES SOMOS?</h2>
           <p className="about-hero-subtitle">
-            Siempre con dedicación<br />
-            para mejorar nuestros servicios
+            {texts.quienes_subtitle}
           </p>
         </div>
       </div>
@@ -31,12 +51,8 @@ export default function QuienesSomos() {
 
       <div className="container">
         <div className="about-intro">
-          <p>
-            Saneamientos Pereda es una empresa familiar fundada en Oviedo en el año 1959. Nace como distribuidora de productos de fontanería y sanitarios, pero con el paso de los años, con esfuerzo y dedicación, y gracias a la confianza depositada por los clientes, ha sabido crecer y diversificar su oferta para adaptarse a las necesidades del mercado, convirtiéndose en un referente en su sector.
-          </p>
-          <p>
-            La oferta de productos, dirigida tanto al profesional como al particular más exigente, abarca material de fontanería, calefacción, sanitarios, grifería, mobiliario y accesorios para baño, materiales de construcción, electricidad, pintura, jardinería y herramienta.
-          </p>
+          <p>{texts.quienes_intro_1}</p>
+          <p>{texts.quienes_intro_2}</p>
         </div>
 
       </div>
