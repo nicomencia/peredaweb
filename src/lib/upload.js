@@ -1,24 +1,21 @@
-const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL;
-const UPLOAD_TOKEN = import.meta.env.VITE_UPLOAD_TOKEN;
+import { supabase } from './supabase';
+
+const BUCKET = 'site-assets';
 
 export async function uploadImage(file, folder = 'uploads') {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('folder', folder);
+  const ext = file.name.split('.').pop();
+  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const path = `${folder}/${fileName}`;
 
-  const res = await fetch(`${UPLOAD_URL}/api/upload.php`, {
-    method: 'POST',
-    headers: {
-      'X-Upload-Token': UPLOAD_TOKEN,
-    },
-    body: formData,
-  });
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(path, file, { upsert: false });
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: 'Upload failed' }));
-    throw new Error(err.error || 'Upload failed');
-  }
+  if (error) throw new Error(error.message);
 
-  const data = await res.json();
-  return data.url;
+  const { data } = supabase.storage
+    .from(BUCKET)
+    .getPublicUrl(path);
+
+  return data.publicUrl;
 }
