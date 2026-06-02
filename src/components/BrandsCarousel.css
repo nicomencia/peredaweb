@@ -4,15 +4,6 @@
   border-top: 1px solid rgba(44, 90, 135, 0.1);
 }
 
-.brands-carousel-title {
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: 400;
-  color: var(--color-blue);
-  margin-bottom: var(--spacing-md);
-  letter-spacing: -0.01em;
-}
-
 .brands-carousel-track-wrapper {
   overflow: hidden;
   mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
@@ -35,12 +26,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 56px;
+  height: 112px;
 }
 
 .brands-carousel-item img {
-  max-height: 48px;
-  max-width: 120px;
+  max-height: 96px;
+  max-width: 240px;
   object-fit: contain;
   filter: grayscale(100%);
   opacity: 0.7;
@@ -63,8 +54,8 @@
 
 @media (max-width: 768px) {
   .brands-carousel-item img {
-    max-height: 36px;
-    max-width: 90px;
+    max-height: 72px;
+    max-width: 180px;
   }
 
   .brands-carousel-track {

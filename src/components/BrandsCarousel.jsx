@@ -23,7 +23,6 @@ export default function BrandsCarousel() {
 
   return (
     <div className="brands-carousel">
-      <h2 className="brands-carousel-title">Nuestras marcas</h2>
       <div className="brands-carousel-track-wrapper">
         <div className="brands-carousel-track">
           {duplicated.map((brand, i) => (
