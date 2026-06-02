@@ -164,7 +164,7 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
           <>
             <h2 className="productos-section-title">Todos los productos</h2>
             <div className="productos-grid">
-              {products.map((product) => (
+              {products.slice(0, 9).map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
