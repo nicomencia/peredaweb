@@ -67,11 +67,13 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
   const [photosMap, setPhotosMap] = useState({});
   const [loading, setLoading] = useState(true);
   const [customDesc, setCustomDesc] = useState('');
-  const [customBanner, setCustomBanner] = useState('');
+  const [customBanner, setCustomBanner] = useState(null);
 
   const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG.bano;
+  const bannerSrc = customBanner === null ? null : (customBanner || config.image);
 
   useEffect(() => {
+    setCustomBanner(null);
     fetchProducts();
     fetchDescription();
     fetchBanner();
@@ -139,7 +141,7 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
   return (
     <section className="productos-cat">
       <div className="productos-cat-banner">
-        <img src={customBanner || config.image} alt={config.label} className="productos-cat-banner-img" />
+        {bannerSrc && <img src={bannerSrc} alt={config.label} className="productos-cat-banner-img" />}
         <div className="productos-cat-banner-overlay" />
         <div className="productos-cat-banner-content">
           <button className="productos-cat-back" onClick={handleBack}>
