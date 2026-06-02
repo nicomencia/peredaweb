@@ -17,8 +17,6 @@ export default function BrandsCarousel({ category = null }) {
 
     if (category) {
       query = query.eq('category', category);
-    } else {
-      query = query.is('category', null);
     }
 
     const { data } = await query;
