@@ -182,6 +182,19 @@ export default function AdminProductos() {
         </button>
       </div>
 
+      <div className="admin-productos-desc-section">
+        <label className="admin-productos-desc-label">Imagen de cabecera de la categoría</label>
+        {catBanner && (
+          <div className="admin-productos-banner-preview">
+            <img src={catBanner} alt="Banner" />
+          </div>
+        )}
+        <label className="admin-homepage-upload-btn" style={{ marginTop: '0.5rem', display: 'inline-block' }}>
+          {uploadingBanner ? 'Subiendo...' : catBanner ? 'Cambiar imagen de cabecera' : '+ Añadir imagen de cabecera'}
+          <input type="file" accept="image/*" onChange={handleBannerUpload} disabled={uploadingBanner} />
+        </label>
+      </div>
+
       {loading ? (
         <p>Cargando...</p>
       ) : (
