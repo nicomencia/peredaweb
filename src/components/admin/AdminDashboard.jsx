@@ -4,6 +4,7 @@ import AdminHomepage from './AdminHomepage';
 import AdminPageEditor from './AdminPageEditor';
 import AdminAmbientes from './AdminAmbientes';
 import AdminAjustes from './AdminAjustes';
+import AdminProductos from './AdminProductos';
 import './AdminDashboard.css';
 
 const quienesFields = [
@@ -90,11 +91,16 @@ export default function AdminDashboard() {
         );
       case 'productos':
         return (
-          <AdminPageEditor
-            title="Productos"
-            description="Edita los textos de la página de productos."
-            fields={productosFields}
-          />
+          <>
+            <AdminPageEditor
+              title="Productos - Textos"
+              description="Edita los textos de la página de productos."
+              fields={productosFields}
+            />
+            <div style={{ marginTop: '3rem' }}>
+              <AdminProductos />
+            </div>
+          </>
         );
       case 'area':
         return (
