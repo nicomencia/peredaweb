@@ -151,10 +151,6 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
                   <div className="product-details">
                     <p className="product-category">{product.category}</p>
                     <h3 className="product-name">{product.name}</h3>
-                    <p className="product-options">Varias opciones</p>
-                    <p className="product-price">
-                      PVPR Desde: <span className="price-value">{product.price} &euro;</span>
-                    </p>
                   </div>
                 </div>
               ))}
