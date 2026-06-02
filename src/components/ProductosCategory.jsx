@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import ProductCard from './ProductCard';
+import BrandsCarousel from './BrandsCarousel';
 import './ProductosCategory.css';
 
 const CATEGORY_CONFIG = {
@@ -159,6 +160,8 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
             ))}
           </div>
         )}
+
+        <BrandsCarousel category={category} />
       </div>
     </section>
   );

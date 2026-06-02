@@ -238,13 +238,13 @@ export default function AdminProductos() {
       </button>
 
       <div style={{ marginTop: '3rem', borderTop: '1px solid #e0e0e0', paddingTop: '2rem' }}>
-        <BrandsManager />
+        <BrandsManager category={activeCategory} />
       </div>
     </div>
   );
 }
 
-function BrandsManager() {
+function BrandsManager({ category }) {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -252,13 +252,14 @@ function BrandsManager() {
 
   useEffect(() => {
     fetchBrands();
-  }, []);
+  }, [category]);
 
   async function fetchBrands() {
     setLoading(true);
     const { data } = await supabase
       .from('brands')
       .select('*')
+      .eq('category', category)
       .order('display_order', { ascending: true });
     if (data) setBrands(data);
     setLoading(false);
@@ -275,7 +276,7 @@ function BrandsManager() {
         const name = files[i].name.replace(/\.[^.]+$/, '');
         const { data, error } = await supabase
           .from('brands')
-          .insert({ name, logo_url: url, display_order: maxOrder + i + 1 })
+          .insert({ name, logo_url: url, display_order: maxOrder + i + 1, category })
           .select()
           .maybeSingle();
         if (error) throw error;
@@ -313,7 +314,7 @@ function BrandsManager() {
       <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.25rem' }}>
         Marcas
       </h2>
-      <p className="admin-homepage-desc">Logos de marcas que aparecen en el carrusel de Productos.</p>
+      <p className="admin-homepage-desc">Logos de marcas que aparecen en el carrusel de esta categoría.</p>
 
       {message && <div className="admin-homepage-msg">{message}</div>}
 

@@ -2,18 +2,26 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import './BrandsCarousel.css';
 
-export default function BrandsCarousel() {
+export default function BrandsCarousel({ category = null }) {
   const [brands, setBrands] = useState([]);
 
   useEffect(() => {
     fetchBrands();
-  }, []);
+  }, [category]);
 
   async function fetchBrands() {
-    const { data } = await supabase
+    let query = supabase
       .from('brands')
       .select('*')
       .order('display_order', { ascending: true });
+
+    if (category) {
+      query = query.eq('category', category);
+    } else {
+      query = query.is('category', null);
+    }
+
+    const { data } = await query;
     if (data) setBrands(data);
   }
 
