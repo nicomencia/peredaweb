@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 import AdminHomepage from './AdminHomepage';
 import AdminPageEditor from './AdminPageEditor';
 import AdminAmbientes from './AdminAmbientes';
+import AdminTiendas from './AdminTiendas';
 import AdminAjustes from './AdminAjustes';
 import AdminProductos from './AdminProductos';
 import './AdminDashboard.css';
@@ -83,11 +84,16 @@ export default function AdminDashboard() {
         );
       case 'tiendas':
         return (
-          <AdminPageEditor
-            title="Nuestras Tiendas"
-            description="Edita el banner y textos de la página de tiendas."
-            fields={tiendasFields}
-          />
+          <>
+            <AdminPageEditor
+              title="Nuestras Tiendas - Banner"
+              description="Edita el banner de la página de tiendas."
+              fields={tiendasFields}
+            />
+            <div style={{ marginTop: '3rem' }}>
+              <AdminTiendas />
+            </div>
+          </>
         );
       case 'productos':
         return (

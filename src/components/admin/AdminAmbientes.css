@@ -195,3 +195,15 @@
 .admin-ambiente-photo-item:hover .admin-ambiente-photo-delete {
   opacity: 1;
 }
+
+.admin-tienda-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .admin-tienda-fields-grid {
+    grid-template-columns: 1fr;
+  }
+}
