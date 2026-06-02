@@ -69,10 +69,7 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
   const [customDesc, setCustomDesc] = useState('');
 
   const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG.bano;
-  const rawBanner = categoryBanners[category] || '';
-  const bannerSrc = rawBanner
-    ? rawBanner.replace('/object/public/', '/render/image/public/') + '?width=1400&quality=75&resize=cover'
-    : config.image;
+  const bannerSrc = categoryBanners[category] || config.image;
 
   useEffect(() => {
     fetchProducts();
