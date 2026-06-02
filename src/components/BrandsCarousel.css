@@ -1,0 +1,73 @@
+.brands-carousel {
+  padding: var(--spacing-lg) 0;
+  margin-top: var(--spacing-xl);
+  border-top: 1px solid rgba(44, 90, 135, 0.1);
+}
+
+.brands-carousel-title {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--color-blue);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.01em;
+}
+
+.brands-carousel-track-wrapper {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.brands-carousel-track {
+  display: flex;
+  gap: 48px;
+  animation: brands-scroll 30s linear infinite;
+  width: max-content;
+}
+
+.brands-carousel-track:hover {
+  animation-play-state: paused;
+}
+
+.brands-carousel-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+}
+
+.brands-carousel-item img {
+  max-height: 48px;
+  max-width: 120px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: filter 0.3s, opacity 0.3s;
+}
+
+.brands-carousel-item img:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+@keyframes brands-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .brands-carousel-item img {
+    max-height: 36px;
+    max-width: 90px;
+  }
+
+  .brands-carousel-track {
+    gap: 32px;
+  }
+}

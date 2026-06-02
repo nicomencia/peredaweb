@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import ProductCard from './ProductCard';
+import BrandsCarousel from './BrandsCarousel';
 import './Productos.css';
 
 const CATEGORIES = [
@@ -179,6 +180,8 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
         )}
 
         {loading && <p className="productos-loading">Cargando...</p>}
+
+        <BrandsCarousel />
       </div>
     </section>
   );
