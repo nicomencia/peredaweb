@@ -276,59 +276,9 @@
 .product-name {
   font-size: 1rem;
   color: var(--color-black);
-  margin: 0 0 12px 0;
+  margin: 0;
   font-weight: 400;
-  line-height: 1.7;
-  min-height: 48px;
-}
-
-.product-options {
-  font-size: 0.875rem;
-  color: var(--color-gray);
-  margin: 0 0 12px 0;
-}
-
-.product-price {
-  font-size: 0.875rem;
-  color: var(--color-gray);
-  margin: 0 0 16px 0;
-}
-
-.price-value {
-  font-size: 1.25rem;
-  color: var(--color-black);
-  font-weight: 600;
-  margin-left: 4px;
-}
-
-.product-variants {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.variant-button {
-  width: 42px;
-  height: 42px;
-  border: 2px solid var(--color-light-gray);
-  border-radius: 4px;
-  background: var(--color-white);
-  cursor: pointer;
-  transition: border-color 0.2s ease;
-  padding: 0;
-}
-
-.variant-button:hover {
-  border-color: var(--color-gray);
-}
-
-.variant-button.selected {
-  border-color: var(--color-black);
-  background: var(--color-cream);
-}
-
-.variant-button.dark {
-  background: #2c2c2c;
+  line-height: 1.5;
 }
 
 @media (max-width: 1200px) {
