@@ -65,12 +65,23 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
   const [products, setProducts] = useState([]);
   const [photosMap, setPhotosMap] = useState({});
   const [loading, setLoading] = useState(true);
+  const [customDesc, setCustomDesc] = useState('');
 
   const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG.bano;
 
   useEffect(() => {
     fetchProducts();
+    fetchDescription();
   }, [category]);
+
+  async function fetchDescription() {
+    const { data } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', `category_desc_${category}`)
+      .maybeSingle();
+    setCustomDesc(data?.value || '');
+  }
 
   async function fetchProducts() {
     setLoading(true);
@@ -126,7 +137,7 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
             Todos los productos
           </button>
           <h1 className="productos-cat-title">{config.label}</h1>
-          <p className="productos-cat-desc">{config.description}</p>
+          <p className="productos-cat-desc">{customDesc || config.description}</p>
         </div>
       </div>
 

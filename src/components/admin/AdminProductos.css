@@ -27,3 +27,59 @@
   color: white;
   border-color: #1a1a1a;
 }
+
+.admin-productos-desc-section {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-productos-desc-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.admin-productos-desc-label textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.admin-productos-desc-label textarea:focus {
+  outline: none;
+  border-color: #0052cc;
+}
+
+.admin-productos-desc-save {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1.2rem;
+  background: #0052cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-productos-desc-save:hover {
+  background: #003d99;
+}
+
+.admin-productos-desc-save:disabled {
+  background: #999;
+  cursor: not-allowed;
+}

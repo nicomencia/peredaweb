@@ -24,10 +24,46 @@ export default function AdminProductos() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(null);
   const [message, setMessage] = useState('');
+  const [catDesc, setCatDesc] = useState('');
+  const [savingDesc, setSavingDesc] = useState(false);
 
   useEffect(() => {
     fetchProducts();
+    fetchCatDesc();
   }, [activeCategory]);
+
+  async function fetchCatDesc() {
+    const { data } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', `category_desc_${activeCategory}`)
+      .maybeSingle();
+    setCatDesc(data?.value || '');
+  }
+
+  async function saveCatDesc() {
+    setSavingDesc(true);
+    const key = `category_desc_${activeCategory}`;
+    const { data: existing } = await supabase
+      .from('site_settings')
+      .select('id')
+      .eq('key', key)
+      .maybeSingle();
+
+    let error;
+    if (existing) {
+      ({ error } = await supabase.from('site_settings').update({ value: catDesc }).eq('key', key));
+    } else {
+      ({ error } = await supabase.from('site_settings').insert({ key, value: catDesc }));
+    }
+
+    if (error) {
+      setMessage('Error guardando descripción: ' + error.message);
+    } else {
+      setMessage('Descripción guardada.');
+    }
+    setSavingDesc(false);
+  }
 
   async function fetchProducts() {
     setLoading(true);
@@ -125,6 +161,25 @@ export default function AdminProductos() {
             {cat.label}
           </button>
         ))}
+      </div>
+
+      <div className="admin-productos-desc-section">
+        <label className="admin-productos-desc-label">
+          Texto descriptivo de la categoría
+          <textarea
+            rows={3}
+            value={catDesc}
+            onChange={(e) => setCatDesc(e.target.value)}
+            placeholder="Escribe una descripción para esta categoría..."
+          />
+        </label>
+        <button
+          className="admin-productos-desc-save"
+          onClick={saveCatDesc}
+          disabled={savingDesc}
+        >
+          {savingDesc ? 'Guardando...' : 'Guardar descripción'}
+        </button>
       </div>
 
       {loading ? (
