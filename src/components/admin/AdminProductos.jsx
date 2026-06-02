@@ -26,10 +26,13 @@ export default function AdminProductos() {
   const [message, setMessage] = useState('');
   const [catDesc, setCatDesc] = useState('');
   const [savingDesc, setSavingDesc] = useState(false);
+  const [catBanner, setCatBanner] = useState('');
+  const [uploadingBanner, setUploadingBanner] = useState(false);
 
   useEffect(() => {
     fetchProducts();
     fetchCatDesc();
+    fetchCatBanner();
   }, [activeCategory]);
 
   async function fetchCatDesc() {
@@ -63,6 +66,42 @@ export default function AdminProductos() {
       setMessage('Descripción guardada.');
     }
     setSavingDesc(false);
+  }
+
+  async function fetchCatBanner() {
+    const { data } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', `category_banner_${activeCategory}`)
+      .maybeSingle();
+    setCatBanner(data?.value || '');
+  }
+
+  async function handleBannerUpload(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingBanner(true);
+    try {
+      const url = await uploadImage(file, 'site-assets');
+      const key = `category_banner_${activeCategory}`;
+      const { data: existing } = await supabase
+        .from('site_settings')
+        .select('id')
+        .eq('key', key)
+        .maybeSingle();
+
+      if (existing) {
+        await supabase.from('site_settings').update({ value: url }).eq('key', key);
+      } else {
+        await supabase.from('site_settings').insert({ key, value: url });
+      }
+      setCatBanner(url);
+      setMessage('Imagen de cabecera actualizada.');
+    } catch (err) {
+      setMessage('Error subiendo imagen: ' + err.message);
+    }
+    setUploadingBanner(false);
+    e.target.value = '';
   }
 
   async function fetchProducts() {
