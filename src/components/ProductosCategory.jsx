@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import ProductCard from './ProductCard';
 import './ProductosCategory.css';
 
 const CATEGORY_CONFIG = {
@@ -62,6 +63,7 @@ const CATEGORY_CONFIG = {
 
 export default function ProductosCategory({ category, setCurrentView, setProductCategory }) {
   const [products, setProducts] = useState([]);
+  const [photosMap, setPhotosMap] = useState({});
   const [loading, setLoading] = useState(true);
 
   const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG.bano;
@@ -81,6 +83,24 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
 
       if (error) throw error;
       setProducts(data || []);
+
+      if (data && data.length > 0) {
+        const ids = data.map((p) => p.id);
+        const { data: photos } = await supabase
+          .from('product_photos')
+          .select('*')
+          .in('product_id', ids)
+          .order('display_order', { ascending: true });
+
+        if (photos) {
+          const map = {};
+          photos.forEach((photo) => {
+            if (!map[photo.product_id]) map[photo.product_id] = [];
+            map[photo.product_id].push(photo);
+          });
+          setPhotosMap(map);
+        }
+      }
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -120,15 +140,11 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
         {!loading && products.length > 0 && (
           <div className="productos-cat-grid">
             {products.map((product) => (
-              <div key={product.id} className="product-card">
-                <div className="product-image-wrapper">
-                  <img src={product.image_url} alt={product.name} className="product-image" />
-                </div>
-                <div className="product-details">
-                  <p className="product-category">{product.category}</p>
-                  <h3 className="product-name">{product.name}</h3>
-                </div>
-              </div>
+              <ProductCard
+                key={product.id}
+                product={product}
+                photos={photosMap[product.id] || []}
+              />
             ))}
           </div>
         )}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import ProductCard from './ProductCard';
 import './Productos.css';
 
 const CATEGORIES = [
@@ -77,6 +78,7 @@ const CATEGORIES = [
 
 export default function Productos({ setCurrentView, setSelectedCollection, onCategorySelect }) {
   const [products, setProducts] = useState([]);
+  const [photosMap, setPhotosMap] = useState({});
   const [loading, setLoading] = useState(true);
   const [subtitle, setSubtitle] = useState('Descubre nuestra amplia gama de productos para tu hogar y proyectos profesionales');
 
@@ -103,6 +105,24 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
 
       if (error) throw error;
       setProducts(data || []);
+
+      if (data && data.length > 0) {
+        const ids = data.map((p) => p.id);
+        const { data: photos } = await supabase
+          .from('product_photos')
+          .select('*')
+          .in('product_id', ids)
+          .order('display_order', { ascending: true });
+
+        if (photos) {
+          const map = {};
+          photos.forEach((photo) => {
+            if (!map[photo.product_id]) map[photo.product_id] = [];
+            map[photo.product_id].push(photo);
+          });
+          setPhotosMap(map);
+        }
+      }
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -144,15 +164,11 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
             <h2 className="productos-section-title">Todos los productos</h2>
             <div className="productos-grid">
               {products.map((product) => (
-                <div key={product.id} className="product-card">
-                  <div className="product-image-wrapper">
-                    <img src={product.image_url} alt={product.name} className="product-image" />
-                  </div>
-                  <div className="product-details">
-                    <p className="product-category">{product.category}</p>
-                    <h3 className="product-name">{product.name}</h3>
-                  </div>
-                </div>
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  photos={photosMap[product.id] || []}
+                />
               ))}
             </div>
           </>
