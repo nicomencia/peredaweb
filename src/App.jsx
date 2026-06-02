@@ -28,6 +28,7 @@ export default function App() {
   const [selectedAmbiente, setSelectedAmbiente] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [productCategory, setProductCategory] = useState(null);
+  const [categoryBanners, setCategoryBanners] = useState({});
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -38,20 +39,26 @@ export default function App() {
   }, [currentView]);
 
   useEffect(() => {
-    async function loadColors() {
+    async function loadSettings() {
       const { data } = await supabase
         .from('site_settings')
         .select('key, value')
-        .in('key', ['color_primary', 'color_secondary', 'color_dark']);
+        .or('key.in.(color_primary,color_secondary,color_dark),key.like.category_banner_%');
       if (data) {
+        const banners = {};
         data.forEach((row) => {
           if (row.key === 'color_primary') document.documentElement.style.setProperty('--color-blue', row.value);
-          if (row.key === 'color_secondary') document.documentElement.style.setProperty('--color-cream', row.value);
-          if (row.key === 'color_dark') document.documentElement.style.setProperty('--color-black', row.value);
+          else if (row.key === 'color_secondary') document.documentElement.style.setProperty('--color-cream', row.value);
+          else if (row.key === 'color_dark') document.documentElement.style.setProperty('--color-black', row.value);
+          else if (row.key.startsWith('category_banner_')) {
+            const cat = row.key.replace('category_banner_', '');
+            banners[cat] = row.value;
+          }
         });
+        setCategoryBanners(banners);
       }
     }
-    loadColors();
+    loadSettings();
   }, []);
 
   useEffect(() => {
@@ -73,7 +80,7 @@ export default function App() {
       case 'colecciones':
         return <Productos setCurrentView={setCurrentView} setSelectedCollection={setSelectedCollection} onCategorySelect={(cat) => { setProductCategory(cat); setCurrentView('productos-categoria'); }} />;
       case 'productos-categoria':
-        return <ProductosCategory category={productCategory} setCurrentView={setCurrentView} setProductCategory={setProductCategory} />;
+        return <ProductosCategory category={productCategory} setCurrentView={setCurrentView} setProductCategory={setProductCategory} categoryBanners={categoryBanners} />;
       case 'collection-detail':
         return <CollectionDetail collectionId={selectedCollection} setCurrentView={setCurrentView} />;
       case 'sobre-mi':
