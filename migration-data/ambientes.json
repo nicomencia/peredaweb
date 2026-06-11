@@ -1,0 +1,159 @@
+[
+  {
+    "id": "4ff00b7b-2ed8-40d3-8166-3536f278063d",
+    "title": "Ambiente 3",
+    "summary": "Diseño vanguardista que apuesta por la innovación. Superficies pulidas, tecnología integrada y un enfoque minimalista definen este espacio.",
+    "description": "La vanguardia del diseño de interiores aplicada al baño. Superficies ultra compactas, sistemas de ducha inteligentes y una estética depurada configuran un espacio pensado para el futuro. La combinación de negro mate y blanco puro genera un contraste elegante y atemporal.",
+    "cover_image_url": "/inspirate3.jpg",
+    "display_order": 3,
+    "created_at": "2026-04-13T00:59:33.667129+00:00",
+    "specs": [
+      {
+        "items": [
+          "Porcelánico gran formato Negro Mate Rectificado 120x260 cm",
+          "Revestimiento microcemento Blanco Puro paredes"
+        ],
+        "category": "REVESTIMIENTO"
+      },
+      {
+        "items": [
+          "Mueble suspendido Vanguard Negro Mate 140 cm",
+          "Encimera Krion Negro Mate 140 cm",
+          "Doble lavabo integrado Negro Mate",
+          "Espejo inteligente LED táctil antivaho 140x80 cm",
+          "Toallero eléctrico Negro Mate 50x100 cm"
+        ],
+        "category": "MUEBLE, LAVABO y ACCESORIOS"
+      },
+      {
+        "items": [
+          "Monomando empotrado pared Negro Mate",
+          "Sistema de ducha termostático empotrado Negro Mate con rociador techo 40 cm"
+        ],
+        "category": "GRIFERÍA"
+      },
+      {
+        "items": [
+          "Inodoro suspendido Smart con bidet integrado Negro Mate",
+          "Cisterna empotrada doble descarga"
+        ],
+        "category": "SANITARIO"
+      },
+      {
+        "items": [
+          "Plato de ducha a ras de suelo Resina Negro Mate 160x90 cm",
+          "Mampara fija Walk-in cristal ahumado 8 mm 140 cm"
+        ],
+        "category": "PLATO y MAMPARA"
+      }
+    ]
+  },
+  {
+    "id": "c6064b2d-123b-4e83-8ec6-af595f09d1b8",
+    "title": "Ambiente 1",
+    "summary": "Un espacio donde la elegancia y la funcionalidad se encuentran. Líneas limpias, materiales nobles y una paleta neutra crean un baño sereno y sofisticado.",
+    "description": "Descubre un baño donde cada detalle ha sido pensado para crear una experiencia única. Materiales de primera calidad como mármol natural, grifería de diseño y mobiliario minimalista se combinan para ofrecer un espacio de relax y bienestar. La iluminación cálida y los acabados suaves invitan a disfrutar de cada momento.",
+    "cover_image_url": "/inspirate1.jpg",
+    "display_order": 1,
+    "created_at": "2026-04-13T00:59:33.667129+00:00",
+    "specs": [
+      {
+        "items": [
+          "Porcelánico Marble Calacatta Rectificado 60x120 cm",
+          "Pasta blanca Lux Marfil Satinado 40x120 cm"
+        ],
+        "category": "REVESTIMIENTO"
+      },
+      {
+        "items": [
+          "Mueble suspendido Elegant 120 cm Roble Natural",
+          "Encimera Solid Surface Blanco mate 120 cm",
+          "Lavabo sobreencimera Oval Blanco 50x35 cm",
+          "Espejo LED antivaho 100x80 cm",
+          "Toallero barra fija Cromado 60 cm"
+        ],
+        "category": "MUEBLE, LAVABO y ACCESORIOS"
+      },
+      {
+        "items": [
+          "Monomando lavabo cascada Cromado",
+          "Termostática ducha empotrada Cromado"
+        ],
+        "category": "GRIFERÍA"
+      },
+      {
+        "items": [
+          "Inodoro suspendido Rimless Blanco",
+          "Cisterna empotrada doble descarga"
+        ],
+        "category": "SANITARIO"
+      },
+      {
+        "items": [
+          "Plato de ducha extraplano Resina Blanco 140x80 cm",
+          "Mampara fija cristal transparente 8 mm 120 cm"
+        ],
+        "category": "PLATO y MAMPARA"
+      }
+    ]
+  },
+  {
+    "id": "164add62-30de-444f-948e-ec3abae987b5",
+    "title": "Ambiente 4",
+    "summary": "",
+    "description": "",
+    "cover_image_url": "https://mxhpggzfkrlqmguwichm.supabase.co/storage/v1/object/public/site-assets/ambientes/164add62-30de-444f-948e-ec3abae987b5/1780999082300-3je1hw.JPG",
+    "display_order": 4,
+    "created_at": "2026-06-02T09:12:35.025768+00:00",
+    "specs": []
+  },
+  {
+    "id": "2fac356b-7301-4e9b-bff8-15d26039a225",
+    "title": "Ambiente 2",
+    "summary": "Inspiración mediterránea con toques contemporáneos. Cerámicas artesanales y tonos cálidos transforman el baño en un refugio personal.",
+    "description": "Un ambiente que evoca la calidez del Mediterráneo con un toque actual. Azulejos artesanales con texturas naturales, madera tratada y complementos en tonos tierra crean un espacio acogedor y con personalidad. Cada elemento ha sido seleccionado para transmitir autenticidad y confort.",
+    "cover_image_url": "/inspirate2.jpg",
+    "display_order": 2,
+    "created_at": "2026-04-13T00:59:33.667129+00:00",
+    "specs": [
+      {
+        "items": [
+          "Azulejo artesanal Zellige Terracota 10x10 cm",
+          "Porcelánico Romance Roble Rectificado 24.8x150 cm",
+          "Pasta blanca Arena Beige Satinado 30x90 cm"
+        ],
+        "category": "REVESTIMIENTO"
+      },
+      {
+        "items": [
+          "Mueble de pie Rústico Nogal 100 cm",
+          "Encimera madera tratada Teca 100 cm",
+          "Lavabo sobre encimera redondo Piedra Natural 40 cm",
+          "Espejo redondo marco Latón 70 cm diámetro",
+          "Estantería escalera Bambú Natural"
+        ],
+        "category": "MUEBLE, LAVABO y ACCESORIOS"
+      },
+      {
+        "items": [
+          "Monomando lavabo alto Latón envejecido",
+          "Conjunto ducha mural Latón envejecido"
+        ],
+        "category": "GRIFERÍA"
+      },
+      {
+        "items": [
+          "Inodoro a suelo Round Blanco"
+        ],
+        "category": "SANITARIO"
+      },
+      {
+        "items": [
+          "Plato de ducha textura Pizarra Arena 120x80 cm",
+          "Mampara abatible cristal transparente perfil Latón 90 cm"
+        ],
+        "category": "PLATO y MAMPARA"
+      }
+    ]
+  }
+]

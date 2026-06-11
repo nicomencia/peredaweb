@@ -1,0 +1,26 @@
+[
+  {
+    "id": "7c28693b-6701-4767-b839-e0f3e21789bb",
+    "name": "Logo_Pereda-22",
+    "logo_url": "https://mxhpggzfkrlqmguwichm.supabase.co/storage/v1/object/public/site-assets/brands/1780419080676-5cghfn.png",
+    "display_order": 1,
+    "created_at": "2026-06-02T16:51:20.655407+00:00",
+    "category": "sanitarios"
+  },
+  {
+    "id": "50e6662e-cd99-4300-81aa-cdb14c821980",
+    "name": "Logo_Pereda-23",
+    "logo_url": "https://mxhpggzfkrlqmguwichm.supabase.co/storage/v1/object/public/site-assets/brands/1780419081150-jd3uci.png",
+    "display_order": 2,
+    "created_at": "2026-06-02T16:51:21.081528+00:00",
+    "category": "sanitarios"
+  },
+  {
+    "id": "6afb5583-5750-467f-a6ba-316460450807",
+    "name": "Logo_Pereda-24",
+    "logo_url": "https://mxhpggzfkrlqmguwichm.supabase.co/storage/v1/object/public/site-assets/brands/1780419081572-haqhk7.png",
+    "display_order": 3,
+    "created_at": "2026-06-02T16:51:21.736+00:00",
+    "category": "sanitarios"
+  }
+]

@@ -1,0 +1,8 @@
+# Deny direct access to internals; only the entry-point endpoints are public.
+<FilesMatch "^(config|config\.sample|db)\.php$">
+  Require all denied
+</FilesMatch>
+
+# The import payload is only read server-side by setup.php.
+RewriteEngine On
+RewriteRule ^import/ - [F,L]

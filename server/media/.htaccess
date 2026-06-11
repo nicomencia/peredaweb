@@ -1,0 +1,4 @@
+# Uploaded files are static content — never serve/execute scripts from here.
+<FilesMatch "\.(php|phtml|php[0-9]|phps|cgi|pl|py|sh)$">
+  Require all denied
+</FilesMatch>

@@ -1,0 +1,236 @@
+[
+  {
+    "id": "9fcd2adb-52da-4de4-8067-5dc7c33a7f91",
+    "key": "category_desc_sanitarios",
+    "value": "test",
+    "updated_at": "2026-06-02T16:57:10.374068+00:00"
+  },
+  {
+    "id": "fba8d164-305a-4187-ad8e-870b0755923f",
+    "key": "quienes_subtitle",
+    "value": "Siempre con dedicación para mejorar nuestros servicios",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "f632501e-306a-408d-9a87-bfd9318ba8cd",
+    "key": "quienes_intro_1",
+    "value": "Saneamientos Pereda es una empresa familiar fundada en Oviedo en el año 1959. Nace como distribuidora de productos de fontanería y sanitarios, pero con el paso de los años, con esfuerzo y dedicación, y gracias a la confianza depositada por los clientes, ha sabido crecer y diversificar su oferta para adaptarse a las necesidades del mercado, convirtiéndose en un referente en su sector.",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "331318ff-1fab-4edd-bf8a-82bcf9507f14",
+    "key": "quienes_intro_2",
+    "value": "La oferta de productos, dirigida tanto al profesional como al particular más exigente, abarca material de fontanería, calefacción, sanitarios, grifería, mobiliario y accesorios para baño, materiales de construcción, electricidad, pintura, jardinería y herramienta.",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "887006cb-6779-4e19-b1f9-8d52969c58bf",
+    "key": "tiendas_banner_title",
+    "value": "Pide cita para tus proyectos de reformas",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "b94819e7-23f7-47d8-811b-985590cac8a6",
+    "key": "tiendas_banner_button",
+    "value": "PIDE CITA",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "c1b1b3ee-01df-40e1-a4a1-add1feb641bd",
+    "key": "productos_subtitle",
+    "value": "Descubre nuestra amplia gama de productos para tu hogar y proyectos profesionales",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "459d154f-45ba-40b2-99f8-febd16b486dc",
+    "key": "area_hero_title",
+    "value": "Todo para el instalador",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "8ae932b3-ecce-47bf-bbb9-f809659e0dee",
+    "key": "area_hero_subtitle",
+    "value": "Tu aliado en cada instalación. Calidad, stock y asesoramiento para profesionales.",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "797c701a-a55e-476a-bf5b-f48732b4451e",
+    "key": "area_benefits_title",
+    "value": "Beneficios diseñados para profesionales",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "b9ecc334-c8ec-43ab-95c9-f3bd7584643a",
+    "key": "area_benefits_subtitle",
+    "value": "Porque aquí encuentras calidad al mejor precio, un amplio stock con primeras marcas, el mejor asesoramiento personalizado y, además, todas las novedades y ofertas al alcance de tu mano.",
+    "updated_at": "2026-05-31T15:52:52.766571+00:00"
+  },
+  {
+    "id": "2bb814cc-9bea-48bc-9cd1-ba74373ceca9",
+    "key": "cta_2_title",
+    "value": "Financiación sin intereses",
+    "updated_at": "2026-06-09T09:39:33.033+00:00"
+  },
+  {
+    "id": "8b67f1ae-9ca7-42f7-8060-d09a5d94c2a2",
+    "key": "cta_4_label",
+    "value": "HAZTE CLIENTE",
+    "updated_at": "2026-06-09T09:39:33.48+00:00"
+  },
+  {
+    "id": "d2ad4a91-cd22-4f24-a603-4530dd9ca232",
+    "key": "cta_4_description",
+    "value": "Condiciones y precios especiales para profesionales. Asesoramiento técnico personalizado. Amplio stock disponible para entrega inmediata. Servicio de reparto en Asturias. Atención preferente en nuestras exposiciones.",
+    "updated_at": "2026-06-09T09:39:33.543+00:00"
+  },
+  {
+    "id": "6b14dc7a-6581-4bb1-982d-6fddf46c0d81",
+    "key": "category_banner_sanitarios",
+    "value": "https://mxhpggzfkrlqmguwichm.supabase.co/storage/v1/object/public/site-assets/site-assets/1780423936917-0upffo.jpg",
+    "updated_at": "2026-06-02T18:08:02.222269+00:00"
+  },
+  {
+    "id": "39d188b0-2eb6-4479-9d64-5c6bebd8da2e",
+    "key": "hero_logo",
+    "value": "https://mxhpggzfkrlqmguwichm.supabase.co/storage/v1/object/public/site-assets/logo/1780997969521-ncsfp6.png",
+    "updated_at": "2026-06-09T09:39:32.682+00:00"
+  },
+  {
+    "id": "eebfc47e-149c-4f7b-81bc-7c48ea75b6c0",
+    "key": "hero_background",
+    "value": "/fondo.jpg",
+    "updated_at": "2026-06-09T09:39:32.769+00:00"
+  },
+  {
+    "id": "29f44586-6a9e-4945-95ab-b1b7f6706eed",
+    "key": "cta_1_title",
+    "value": "Pide cita para tus proyectos de reformas",
+    "updated_at": "2026-06-09T09:39:32.833+00:00"
+  },
+  {
+    "id": "6c3033ca-1e2e-4523-ba6d-eace432e9245",
+    "key": "cta_2_label",
+    "value": "CONSULTA NUESTRA FINANCIACIÓN",
+    "updated_at": "2026-06-09T09:39:33.103+00:00"
+  },
+  {
+    "id": "4371e629-8b0a-4be1-8840-fb29db4612f2",
+    "key": "inspirate_card_1_title",
+    "value": "Visítanos",
+    "updated_at": "2026-06-01T11:24:19.85+00:00"
+  },
+  {
+    "id": "f54f9ceb-a447-4a28-b76f-a3475e9eaa44",
+    "key": "inspirate_card_1_text",
+    "value": "En nuestras tiendas encontrarás diferentes ambientes de baño, cerámicas y productos de decoración con una cuidada selección de marcas donde escoger el producto que mejor se adapte a tus necesidades.",
+    "updated_at": "2026-06-01T11:24:20.089+00:00"
+  },
+  {
+    "id": "0cb01248-6fd1-456e-ba37-5e833c6a650c",
+    "key": "inspirate_card_2_title",
+    "value": "Hacemos realidad tus proyectos",
+    "updated_at": "2026-06-01T11:24:20.216+00:00"
+  },
+  {
+    "id": "b5436c59-7c56-4b2f-86b2-958ec6bca628",
+    "key": "inspirate_card_2_text",
+    "value": "Te ayudamos en tus proyectos de reformas. Ven a vernos, dinos lo que necesitas y lo planificamos juntos. No esperes más y pide cita en cualquiera de nuestras tiendas.",
+    "updated_at": "2026-06-01T11:24:20.299+00:00"
+  },
+  {
+    "id": "fdfd252d-dd0e-45a2-a1b1-d0217955cdea",
+    "key": "inspirate_card_3_title",
+    "value": "Confía en nuestra experiencia",
+    "updated_at": "2026-06-01T11:24:20.387+00:00"
+  },
+  {
+    "id": "3180eab6-6367-4f33-b36a-8d6ade46dd83",
+    "key": "inspirate_card_3_text",
+    "value": "Ofrecemos las mejores soluciones para tu hogar. Contamos con una larga trayectoria profesional, un equipo experimentado y somos líderes en el mercado asturiano.",
+    "updated_at": "2026-06-01T11:24:20.47+00:00"
+  },
+  {
+    "id": "9d2a8be5-a2f8-409c-8b67-f38fe0cb98c9",
+    "key": "cta_2_description",
+    "value": "Saneamientos Pereda pone a tu disposición una línea de financiación con unas condiciones inmejorables: todas tus compras al 0% DE INTERÉS en cuotas de hasta 24 meses.",
+    "updated_at": "2026-06-09T09:39:33.165+00:00"
+  },
+  {
+    "id": "521f93c9-fc72-49d0-98b4-069637615f2e",
+    "key": "cta_3_title",
+    "value": "Asesoramiento y servicio post venta",
+    "updated_at": "2026-06-09T09:39:33.227+00:00"
+  },
+  {
+    "id": "0dd57bc2-3738-460c-80ec-04b78002804e",
+    "key": "cta_3_label",
+    "value": "SOLICITA PRESUPUESTO",
+    "updated_at": "2026-06-09T09:39:33.289+00:00"
+  },
+  {
+    "id": "892b02a0-efa7-46f5-a494-2b17aff1c78c",
+    "key": "cta_3_description",
+    "value": "Más de 50 años de experiencia. Más de 40 profesionales especializados en diferentes áreas del sector. Locales de exposición y autoservicio. Venta a profesionales del gremio y a particulares. Líderes del mercado Asturiano.",
+    "updated_at": "2026-06-09T09:39:33.353+00:00"
+  },
+  {
+    "id": "c4f8b73c-44ee-4185-875b-d6da0ebd48f7",
+    "key": "cta_4_title",
+    "value": "Conoce las ventajas para el profesional",
+    "updated_at": "2026-06-09T09:39:33.419+00:00"
+  },
+  {
+    "id": "9ac1f290-a199-4928-a9b9-753005844b04",
+    "key": "cta_1_label",
+    "value": "PIDE CITA",
+    "updated_at": "2026-06-09T09:39:32.9+00:00"
+  },
+  {
+    "id": "0a5e1cf2-f9e9-4a86-b1d9-d6534b8f6ba5",
+    "key": "cta_1_description",
+    "value": "Te ofrecemos la posibilidad de solicitar cita previa antes de acudir a nuestro establecimiento, podrás beneficiarte de una atención personalizada en tus proyectos de reformas y además evitar tiempos de espera.",
+    "updated_at": "2026-06-09T09:39:32.968+00:00"
+  },
+  {
+    "id": "d2103ed7-ceb2-4c7f-a5b9-41dea728eee3",
+    "key": "footer_description",
+    "value": "\n\nEspecialistas en equipamiento de baño desde 1985. Empresa familiar con más de 35 años de experiencia ofreciendo productos de alta calidad y servicio profesional.",
+    "updated_at": "2026-06-09T09:40:33.861+00:00"
+  },
+  {
+    "id": "b968d76b-400d-4d1c-b0b8-a5650d135d1a",
+    "key": "footer_facebook_url",
+    "value": "https://facebook.com/Pereda.Asturias",
+    "updated_at": "2026-06-09T09:40:34.107+00:00"
+  },
+  {
+    "id": "b924e037-1874-49af-902d-a559f972aa86",
+    "key": "footer_instagram_url",
+    "value": "https://instagram.com/saneamientospereda/",
+    "updated_at": "2026-06-09T09:40:34.175+00:00"
+  },
+  {
+    "id": "b9b7264c-ec28-429a-8f1d-3895621ccfe9",
+    "key": "color_primary",
+    "value": "#002FA7",
+    "updated_at": "2026-06-09T09:40:34.249+00:00"
+  },
+  {
+    "id": "fe69afa6-6889-43fa-b789-241162d9e44e",
+    "key": "color_secondary",
+    "value": "#F8F6F4",
+    "updated_at": "2026-06-09T09:40:34.323+00:00"
+  },
+  {
+    "id": "cf8a0791-66b7-4020-951b-628b5f49c178",
+    "key": "color_dark",
+    "value": "#1A1A1A",
+    "updated_at": "2026-06-09T09:40:34.385+00:00"
+  },
+  {
+    "id": "24311e6f-7859-4f0c-8109-25dc81935eb2",
+    "key": "navbar_logo",
+    "value": "https://mxhpggzfkrlqmguwichm.supabase.co/storage/v1/object/public/site-assets/logo/1780998002804-b6t5tx.png",
+    "updated_at": "2026-06-09T09:40:34.448+00:00"
+  }
+]
