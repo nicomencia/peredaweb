@@ -20,6 +20,18 @@ if (!isset(TABLE_COLUMNS[$resource])) {
 $allowed = TABLE_COLUMNS[$resource];
 $jsonCols = JSON_COLUMNS[$resource] ?? [];
 
+// update/delete target rows via a validated WHERE column (id by default;
+// site_settings rows are addressed by key).
+function where_clause(array $body, array $allowed): array {
+    $col = $body['where']['column'] ?? 'id';
+    $val = $body['where']['value'] ?? ($body['id'] ?? '');
+    if (!in_array($col, ['id', 'key'], true) || !in_array($col, $allowed, true)) {
+        json_error('Columna WHERE no válida', 400);
+    }
+    if ($val === '') json_error('Falta el valor WHERE', 400);
+    return [$col, $val];
+}
+
 function filter_data(array $data, array $allowed, array $jsonCols): array {
     $out = [];
     foreach ($data as $col => $value) {
@@ -50,24 +62,23 @@ try {
         }
 
         case 'update': {
-            $id = $body['id'] ?? '';
+            [$whereCol, $whereVal] = where_clause($body, $allowed);
             $data = filter_data($body['data'] ?? [], $allowed, $jsonCols);
-            if ($id === '' || !$data) json_error('Faltan id o datos', 400);
+            if (!$data) json_error('Sin datos', 400);
             $sets = implode(', ', array_map(fn($c) => "`$c` = ?", array_keys($data)));
             $params = array_values($data);
-            $params[] = $id;
-            db()->prepare("UPDATE `$resource` SET $sets WHERE id = ?")->execute($params);
-            $stmt = db()->prepare("SELECT * FROM `$resource` WHERE id = ?");
-            $stmt->execute([$id]);
+            $params[] = $whereVal;
+            db()->prepare("UPDATE `$resource` SET $sets WHERE `$whereCol` = ?")->execute($params);
+            $stmt = db()->prepare("SELECT * FROM `$resource` WHERE `$whereCol` = ?");
+            $stmt->execute([$whereVal]);
             $row = $stmt->fetch();
             if (!$row) json_error('No encontrado', 404);
             json_out(decode_json_columns($resource, [$row])[0]);
         }
 
         case 'delete': {
-            $id = $body['id'] ?? '';
-            if ($id === '') json_error('Falta id', 400);
-            db()->prepare("DELETE FROM `$resource` WHERE id = ?")->execute([$id]);
+            [$whereCol, $whereVal] = where_clause($body, $allowed);
+            db()->prepare("DELETE FROM `$resource` WHERE `$whereCol` = ?")->execute([$whereVal]);
             json_out(['success' => true]);
         }
 

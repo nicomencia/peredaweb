@@ -46,7 +46,7 @@ export default function CanalDenuncias() {
     setError(null);
 
     try {
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/denuncias/submit`;
+      const apiUrl = '/api/forms.php?form=denuncia';
       const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -73,17 +73,13 @@ export default function CanalDenuncias() {
     setConsultResult(null);
 
     try {
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/denuncias/consultar`;
-      const res = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin: consultPin }),
-      });
+      const apiUrl = `/api/forms.php?form=denuncia&pin=${encodeURIComponent(consultPin)}`;
+      const res = await fetch(apiUrl);
       const data = await res.json();
       if (!res.ok) {
         setConsultError(data.error || 'No se encontró la denuncia');
       } else {
-        setConsultResult(data.denuncia);
+        setConsultResult(data);
       }
     } catch {
       setConsultError('Error de conexión. Inténtelo de nuevo.');

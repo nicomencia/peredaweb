@@ -1,6 +1,5 @@
-import { supabase } from './supabase';
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
-const BUCKET = 'site-assets';
 const MAX_DIMENSION = 1920;
 const WEBP_QUALITY = 0.82;
 // Files this small are already web-friendly; recompressing only loses quality.
@@ -38,19 +37,19 @@ async function optimizeImage(file) {
 
 export async function uploadImage(file, folder = 'uploads') {
   const optimized = await optimizeImage(file);
-  const ext = optimized.name.split('.').pop();
-  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const path = `${folder}/${fileName}`;
 
-  const { error } = await supabase.storage
-    .from(BUCKET)
-    .upload(path, optimized, { upsert: false });
+  const form = new FormData();
+  form.append('file', optimized);
+  form.append('folder', folder);
 
-  if (error) throw new Error(error.message);
-
-  const { data } = supabase.storage
-    .from(BUCKET)
-    .getPublicUrl(path);
-
-  return data.publicUrl;
+  const res = await fetch(`${API_BASE}/api/upload.php`, {
+    method: 'POST',
+    credentials: 'include',
+    body: form,
+  });
+  const body = await res.json().catch(() => null);
+  if (!res.ok || !body?.success) {
+    throw new Error(body?.error || `Error al subir (HTTP ${res.status})`);
+  }
+  return body.url;
 }

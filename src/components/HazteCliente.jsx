@@ -43,12 +43,11 @@ export default function HazteCliente() {
     setStatus(null);
 
     try {
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cliente-request`;
+      const apiUrl = '/api/forms.php?form=cliente';
       const res = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           nombre: formData.nombre.trim(),

@@ -32,7 +32,7 @@ export default function CareersModal({ isOpen, onClose }) {
     setError(null);
 
     try {
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/candidatura`;
+      const apiUrl = '/api/forms.php?form=candidatura';
       const body = new FormData();
       body.append('nombre', formData.nombre);
       body.append('email', formData.email);
