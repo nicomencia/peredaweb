@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { supabase } from './lib/supabase';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
@@ -8,11 +8,11 @@ import Productos from './components/Productos';
 import CollectionDetail from './components/CollectionDetail';
 import Inspirate from './components/Inspirate';
 import AmbienteDetail from './components/AmbienteDetail';
-import Instalaciones from './components/Instalaciones';
+const Instalaciones = lazy(() => import('./components/Instalaciones'));
 import AreaProfesional from './components/AreaProfesional';
 import Footer from './components/Footer';
-import AdminLogin from './components/admin/AdminLogin';
-import AdminDashboard from './components/admin/AdminDashboard';
+const AdminLogin = lazy(() => import('./components/admin/AdminLogin'));
+const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard'));
 import FloatingShopButton from './components/FloatingShopButton';
 import CanalDenuncias from './components/CanalDenuncias';
 import ProductosCategory from './components/ProductosCategory';
@@ -36,6 +36,32 @@ export default function App() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [currentView]);
+
+  useEffect(() => {
+    const titles = {
+      home: 'Saneamientos Pereda',
+      colecciones: 'Productos',
+      'productos-categoria': 'Productos',
+      'collection-detail': 'Productos',
+      'sobre-mi': 'Quiénes somos',
+      inspirate: 'Inspírate',
+      'ambiente-detail': 'Inspírate',
+      instalaciones: 'Instalaciones',
+      'area-profesional': 'Área profesional',
+      'canal-denuncias': 'Canal de denuncias',
+      'pide-cita': 'Pide cita',
+      financiacion: 'Financiación',
+      presupuesto: 'Presupuesto',
+      'hazte-cliente': 'Hazte cliente',
+      'aviso-legal': 'Aviso legal',
+      'politica-privacidad': 'Política de privacidad',
+      'politica-cookies': 'Política de cookies',
+      'condiciones-venta': 'Condiciones de venta',
+      admin: 'Administración',
+    };
+    const title = titles[currentView];
+    document.title = title && currentView !== 'home' ? `${title} | Saneamientos Pereda` : 'Saneamientos Pereda';
   }, [currentView]);
 
   useEffect(() => {
@@ -90,7 +116,11 @@ export default function App() {
       case 'ambiente-detail':
         return <AmbienteDetail ambienteId={selectedAmbiente} setCurrentView={setCurrentView} />;
       case 'instalaciones':
-        return <Instalaciones setCurrentView={setCurrentView} />;
+        return (
+          <Suspense fallback={null}>
+            <Instalaciones setCurrentView={setCurrentView} />
+          </Suspense>
+        );
       case 'area-profesional':
         return <AreaProfesional setCurrentView={setCurrentView} />;
       case 'canal-denuncias':
@@ -112,11 +142,15 @@ export default function App() {
       case 'condiciones-venta':
         return <CondicionesVenta />;
       case 'admin':
-        if (isAuthenticated) {
-          return <AdminDashboard />;
-        } else {
-          return <AdminLogin onLoginSuccess={() => setIsAuthenticated(true)} />;
-        }
+        return (
+          <Suspense fallback={null}>
+            {isAuthenticated ? (
+              <AdminDashboard />
+            ) : (
+              <AdminLogin onLoginSuccess={() => setIsAuthenticated(true)} />
+            )}
+          </Suspense>
+        );
       default:
         return (
           <>
