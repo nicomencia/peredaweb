@@ -6,7 +6,7 @@ export default function Footer({ setCurrentView }) {
   const [description, setDescription] = useState(() => cachedSetting('footer_description', 'Especialistas en equipamiento de baño desde 1985. Empresa familiar con más de 35 años de experiencia ofreciendo productos de alta calidad y servicio profesional.'));
   const [facebookUrl, setFacebookUrl] = useState(() => cachedSetting('footer_facebook_url', 'https://facebook.com/Pereda.Asturias'));
   const [instagramUrl, setInstagramUrl] = useState(() => cachedSetting('footer_instagram_url', 'https://instagram.com/saneamientospereda/'));
-  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', ''));
+  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/base/navbar-logo.webp'));
 
   useEffect(() => {
     async function load() {

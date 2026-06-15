@@ -18,7 +18,7 @@ const PRODUCT_CATEGORIES = [
 export default function Navigation({ currentView, setCurrentView, setProductCategory }) {
   const [isOpen, setIsOpen] = useState(false);
   const [productosOpen, setProductosOpen] = useState(false);
-  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', ''));
+  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/base/navbar-logo.webp'));
   const isHome = currentView === 'home';
 
   useEffect(() => {

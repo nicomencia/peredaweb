@@ -3,8 +3,8 @@ import { cachedSetting, loadSettings } from '../lib/settings';
 import './Hero.css';
 
 export default function Hero({ setCurrentView }) {
-  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('hero_logo', ''));
-  const [bgUrl, setBgUrl] = useState(() => cachedSetting('hero_background', ''));
+  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('hero_logo', '/base/hero-logo.webp'));
+  const [bgUrl, setBgUrl] = useState(() => cachedSetting('hero_background', '/base/hero-bg.webp'));
 
   useEffect(() => {
     async function load() {
