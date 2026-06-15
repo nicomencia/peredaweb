@@ -1,0 +1,70 @@
+# Guía de administración — Saneamientos Pereda
+
+Guía para editar el contenido de la web desde el panel de administración. No requiere conocimientos técnicos.
+
+## Acceder al panel
+
+1. Entra en la web.
+2. Baja hasta el **pie de página** (footer) y pulsa el enlace **«Admin»**.
+3. Introduce tu **correo y contraseña** de administrador.
+
+Para salir, usa el botón **«Logout»** arriba a la derecha del panel.
+
+> Consejo: tras guardar un cambio, refresca la página pública para verlo. Si una imagen tarda un instante en actualizarse, es normal (el servidor la cachea unos minutos).
+
+## Cómo funciona
+
+El panel está dividido en **pestañas**, una por sección de la web. En cada una editas textos e imágenes y pulsas **«Guardar cambios»**. Las imágenes se optimizan solas al subirlas (no hace falta que las prepares: puedes subir una foto del móvil directamente).
+
+---
+
+## Pestañas
+
+### Portada
+- **Logo** y **imagen de fondo** de la cabecera principal.
+- Los **4 botones** de la portada: título, texto del botón y texto descriptivo de cada uno.
+
+### Quiénes somos
+- **Subtítulo** de la cabecera y los **dos párrafos** de introducción.
+- **Imagen de cabecera** y las **4 fotos** de la página (orígenes, instalaciones, equipo, profesionales).
+
+### Inspírate
+- **Textos** de las tres tarjetas.
+- **Ambientes**: crea, edita o elimina ambientes (título, resumen, descripción, características y **fotos**). Cada ambiente puede tener varias fotos.
+
+### Tiendas
+- **Banner** (título y texto del botón).
+- **Tiendas**: añade o edita cada tienda — dirección, código postal, teléfono, **horarios** (tienda, fontanería, sábados, verano), correos, **ubicación en el mapa** (latitud/longitud), foto de portada y fotos adicionales.
+
+### Productos
+- **Subtítulo** de la página.
+- **Productos**: alta/edición/baja de productos (nombre, categoría, descripción, precio, imágenes, destacado, agotado…).
+- **Marcas**: logos del carrusel.
+- Por **categoría**: descripción e **imagen de cabecera** (selecciona la categoría arriba y sube su imagen).
+
+### Área Profesional
+- **Textos** (título, subtítulo, sección de beneficios) e **imagen de cabecera**.
+- **Preguntas frecuentes**: pulsa **«+ Añadir pregunta»**, escribe la pregunta y la respuesta, y guarda. Puedes añadir varias o **eliminar** las que no quieras. En la web se muestran como un desplegable. Si no hay ninguna, la sección muestra un texto provisional.
+
+### Ajustes generales
+- **Colores** de la marca, **logo** de la barra de navegación, textos y enlaces del **pie de página** (descripción, redes sociales), etc.
+
+---
+
+## Imágenes
+
+- Sube cualquier foto: se redimensiona y comprime automáticamente para que la web cargue rápido.
+- Cada imagen tiene una vista previa. Tras subir una nueva, **pulsa «Guardar cambios»** para aplicarla.
+- Todas las imágenes de la web son editables desde aquí; no hay imágenes «fijas».
+
+## Formularios
+
+Los formularios de la web (candidatura/empleo, presupuesto, hazte cliente y canal de denuncias) **se guardan y envían un aviso por correo** a la dirección configurada (actualmente `ines@saneamientos-pereda.com`). El canal de denuncias genera un **PIN** para que la persona consulte el estado.
+
+Para cambiar la dirección que recibe los avisos, contacta con quien gestiona la web (es un ajuste de configuración).
+
+## ¿Algo no funciona?
+
+- **No puedo entrar**: revisa correo/contraseña; si persiste, contacta con el responsable técnico.
+- **Subí una imagen y no cambia**: refresca la página; si sigue igual tras unos minutos, vuelve a guardar.
+- **Quiero deshacer un texto**: vuelve a escribir el anterior y guarda (no hay historial automático).

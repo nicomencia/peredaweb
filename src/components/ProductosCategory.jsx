@@ -8,57 +8,46 @@ const CATEGORY_CONFIG = {
   bano: {
     label: 'Baño',
     description: 'Grifería, sanitarios, muebles de baño y accesorios para crear el espacio perfecto',
-    image: '',
   },
   sanitarios: {
     label: 'Sanitarios',
     description: 'Inodoros, bidés, lavabos y piezas sanitarias para un baño funcional',
-    image: '',
   },
   griferia: {
     label: 'Griferías',
     description: 'Grifos, monomandos y termostáticas de las mejores marcas',
-    image: '',
   },
   'muebles-bano': {
     label: 'Muebles de baño y espejos',
     description: 'Muebles, espejos y complementos para organizar y decorar el baño',
-    image: '',
   },
   climatizacion: {
     label: 'Climatización y energías renovables',
     description: 'Aire acondicionado, aerotermia y soluciones de energías renovables',
-    image: '',
   },
   fontaneria: {
     label: 'Fontanería y calefacción',
     description: 'Sistemas de calefacción, radiadores, tuberías y soluciones de fontanería profesional',
-    image: '',
   },
   ceramica: {
     label: 'Cerámicas',
     description: 'Azulejos y pavimentos cerámicos para baños y cocinas',
-    image: '',
   },
   materiales: {
     label: 'Materiales de construcción',
     description: 'Materiales y soluciones constructivas para todo tipo de proyectos',
-    image: '',
   },
   mamparas: {
     label: 'Mamparas',
     description: 'Mamparas de ducha y bañera adaptadas a tu espacio',
-    image: '',
   },
   herramientas: {
     label: 'Herramientas',
     description: 'Herramienta profesional y de bricolaje para cualquier proyecto',
-    image: '',
   },
   electricidad: {
     label: 'Electricidad',
     description: 'Material eléctrico, iluminación y soluciones para la instalación',
-    image: '',
   },
 };
 
@@ -69,7 +58,7 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
   const [customDesc, setCustomDesc] = useState('');
 
   const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG.bano;
-  const bannerSrc = categoryBanners[category] || config.image;
+  const bannerSrc = categoryBanners[category] || '';
 
   useEffect(() => {
     fetchProducts();
