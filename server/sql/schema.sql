@@ -1,36 +1,53 @@
--- Saneamientos Pereda — MySQL schema (migrated from Supabase Postgres)
--- UUIDs kept as CHAR(36) so existing IDs survive the migration unchanged.
+-- Saneamientos Pereda — MySQL schema (migrated from Supabase Postgres).
+-- Column set derived from the LIVE exported data (migration-data/*.json),
+-- not the historical migration files. UUIDs kept as CHAR(36).
+-- All columns are nullable or have defaults so imports are strict-mode-safe.
 
-CREATE TABLE IF NOT EXISTS products (
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS product_photos;
+DROP TABLE IF EXISTS ambiente_photos;
+DROP TABLE IF EXISTS tienda_photos;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS brands;
+DROP TABLE IF EXISTS ambientes;
+DROP TABLE IF EXISTS tiendas;
+DROP TABLE IF EXISTS site_settings;
+DROP TABLE IF EXISTS denuncias;
+DROP TABLE IF EXISTS job_applications;
+DROP TABLE IF EXISTS presupuesto_requests;
+DROP TABLE IF EXISTS cliente_requests;
+DROP TABLE IF EXISTS admin_users;
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE products (
   id CHAR(36) NOT NULL PRIMARY KEY,
   name TEXT NOT NULL,
-  collection TEXT NOT NULL,
-  variant TEXT,
-  image_url TEXT NOT NULL,
-  secondary_image_url TEXT NOT NULL,
-  thumbnail_url TEXT,
   description TEXT,
-  price DECIMAL(10,2),
-  available TINYINT(1) NOT NULL DEFAULT 1,
+  category VARCHAR(64) NOT NULL DEFAULT 'bano',
+  price DECIMAL(10,2) DEFAULT NULL,
+  image_url TEXT,
+  secondary_image_url TEXT,
+  thumbnail_url TEXT,
+  featured TINYINT(1) NOT NULL DEFAULT 0,
   sold TINYINT(1) NOT NULL DEFAULT 0,
   color TEXT,
-  size INT,
+  size INT DEFAULT NULL,
   product_type VARCHAR(64) NOT NULL DEFAULT 'bano',
   display_order INT NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS product_photos (
+CREATE TABLE product_photos (
   id CHAR(36) NOT NULL PRIMARY KEY,
   product_id CHAR(36) NOT NULL,
   image_url TEXT NOT NULL,
   display_order INT NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_product_photos FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+  KEY idx_product_photos (product_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS brands (
+CREATE TABLE brands (
   id CHAR(36) NOT NULL PRIMARY KEY,
   name TEXT NOT NULL,
   logo_url TEXT NOT NULL,
@@ -39,108 +56,110 @@ CREATE TABLE IF NOT EXISTS brands (
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS ambientes (
+CREATE TABLE ambientes (
   id CHAR(36) NOT NULL PRIMARY KEY,
   title TEXT NOT NULL,
   summary TEXT NOT NULL,
   description TEXT NOT NULL,
-  cover_image_url TEXT NOT NULL,
-  specs JSON NOT NULL,
+  cover_image_url TEXT,
+  specs JSON,
   display_order INT NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS ambiente_photos (
+CREATE TABLE ambiente_photos (
   id CHAR(36) NOT NULL PRIMARY KEY,
   ambiente_id CHAR(36) NOT NULL,
   image_url TEXT NOT NULL,
-  caption TEXT NOT NULL,
+  caption TEXT,
   display_order INT NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_ambiente_photos FOREIGN KEY (ambiente_id) REFERENCES ambientes(id) ON DELETE CASCADE
+  KEY idx_ambiente_photos (ambiente_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS tiendas (
+CREATE TABLE tiendas (
   id CHAR(36) NOT NULL PRIMARY KEY,
   name TEXT NOT NULL,
-  address TEXT NOT NULL,
-  postal_code VARCHAR(16) NOT NULL DEFAULT '',
-  phone VARCHAR(32) NOT NULL DEFAULT '',
-  hours_tienda TEXT NOT NULL,
-  hours_fontaneria TEXT NOT NULL,
-  hours_sabados TEXT NOT NULL,
-  hours_verano TEXT NOT NULL,
-  emails JSON NOT NULL,
+  address TEXT,
+  postal_code VARCHAR(16) DEFAULT '',
+  phone VARCHAR(32) DEFAULT '',
+  hours_tienda TEXT,
+  hours_fontaneria TEXT,
+  hours_sabados TEXT,
+  hours_verano TEXT,
+  emails JSON,
+  lat DOUBLE DEFAULT NULL,
+  lon DOUBLE DEFAULT NULL,
   cover_image_url TEXT,
   display_order INT NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS tienda_photos (
+CREATE TABLE tienda_photos (
   id CHAR(36) NOT NULL PRIMARY KEY,
   tienda_id CHAR(36) NOT NULL,
   image_url TEXT NOT NULL,
   display_order INT NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_tienda_photos FOREIGN KEY (tienda_id) REFERENCES tiendas(id) ON DELETE CASCADE
+  KEY idx_tienda_photos (tienda_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS site_settings (
+CREATE TABLE site_settings (
   id CHAR(36) NOT NULL PRIMARY KEY,
   `key` VARCHAR(191) NOT NULL UNIQUE,
-  value TEXT NOT NULL,
+  value TEXT,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS denuncias (
+CREATE TABLE denuncias (
   id CHAR(36) NOT NULL PRIMARY KEY,
   pin VARCHAR(32) NOT NULL UNIQUE,
   hechos TEXT NOT NULL,
-  seccion_lugar TEXT NOT NULL,
-  vinculacion TEXT NOT NULL,
-  personas_involucradas TEXT NOT NULL,
-  momento TEXT NOT NULL,
-  documentos_info TEXT NOT NULL,
+  seccion_lugar TEXT,
+  vinculacion TEXT,
+  personas_involucradas TEXT,
+  momento TEXT,
+  documentos_info TEXT,
   estado VARCHAR(32) NOT NULL DEFAULT 'pendiente',
-  respuesta TEXT NOT NULL,
+  respuesta TEXT,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS job_applications (
+CREATE TABLE job_applications (
   id CHAR(36) NOT NULL PRIMARY KEY,
   nombre TEXT NOT NULL,
   email VARCHAR(255) NOT NULL,
-  telefono VARCHAR(32) NOT NULL DEFAULT '',
+  telefono VARCHAR(32) DEFAULT '',
   mensaje TEXT,
   cv_url TEXT,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS presupuesto_requests (
+CREATE TABLE presupuesto_requests (
   id CHAR(36) NOT NULL PRIMARY KEY,
   nombre TEXT NOT NULL,
-  localidad TEXT NOT NULL,
+  localidad TEXT,
   email VARCHAR(255) NOT NULL,
-  asunto TEXT NOT NULL,
-  mensaje TEXT NOT NULL,
+  asunto TEXT,
+  mensaje TEXT,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS cliente_requests (
+CREATE TABLE cliente_requests (
   id CHAR(36) NOT NULL PRIMARY KEY,
   nombre TEXT NOT NULL,
-  empresa TEXT NOT NULL,
-  cif VARCHAR(32) NOT NULL DEFAULT '',
-  localidad TEXT NOT NULL,
-  telefono VARCHAR(32) NOT NULL DEFAULT '',
+  empresa TEXT,
+  cif VARCHAR(32) DEFAULT '',
+  localidad TEXT,
+  telefono VARCHAR(32) DEFAULT '',
   email VARCHAR(255) NOT NULL,
-  actividad TEXT NOT NULL,
-  mensaje TEXT NOT NULL,
+  actividad TEXT,
+  mensaje TEXT,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS admin_users (
+CREATE TABLE admin_users (
   id CHAR(36) NOT NULL PRIMARY KEY,
   email VARCHAR(255) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
