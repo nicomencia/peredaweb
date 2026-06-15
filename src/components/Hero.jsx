@@ -1,18 +1,14 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { cachedSetting, loadSettings } from '../lib/settings';
 import './Hero.css';
 
 export default function Hero({ setCurrentView }) {
-  const [logoUrl, setLogoUrl] = useState('/logo_letras.png');
-  const [bgUrl, setBgUrl] = useState('/fondo.jpg');
+  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('hero_logo', '/logo_letras.png'));
+  const [bgUrl, setBgUrl] = useState(() => cachedSetting('hero_background', '/fondo.jpg'));
 
   useEffect(() => {
-    async function loadSettings() {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('key, value')
-        .in('key', ['hero_logo', 'hero_background']);
-
+    async function load() {
+      const data = await loadSettings(['hero_logo', 'hero_background']);
       if (data) {
         data.forEach((row) => {
           if (row.key === 'hero_logo' && row.value) setLogoUrl(row.value);
@@ -20,7 +16,7 @@ export default function Hero({ setCurrentView }) {
         });
       }
     }
-    loadSettings();
+    load();
   }, []);
 
   return (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { cachedSetting, loadSettings } from '../lib/settings';
 import CareersModal from './CareersModal';
 import './QuienesSomos.css';
 
@@ -10,23 +10,20 @@ export default function QuienesSomos() {
     quienes_intro_1: 'Saneamientos Pereda es una empresa familiar fundada en Oviedo en el año 1959. Nace como distribuidora de productos de fontanería y sanitarios, pero con el paso de los años, con esfuerzo y dedicación, y gracias a la confianza depositada por los clientes, ha sabido crecer y diversificar su oferta para adaptarse a las necesidades del mercado, convirtiéndose en un referente en su sector.',
     quienes_intro_2: 'La oferta de productos, dirigida tanto al profesional como al particular más exigente, abarca material de fontanería, calefacción, sanitarios, grifería, mobiliario y accesorios para baño, materiales de construcción, electricidad, pintura, jardinería y herramienta.',
   });
-  const [images, setImages] = useState({
-    quienes_somos_bg: '/quienessomos.jpg',
-    quienes_somos_1: '/quienessomos1.jpg',
-    quienes_somos_2: '/quienessomos2.jpg',
-    quienes_somos_3: '/quienessomos3.jpg',
-    quienes_somos_4: '/quienessomos4.jpg',
-  });
+  const [images, setImages] = useState(() => ({
+    quienes_somos_bg: cachedSetting('quienes_somos_bg', '/quienessomos.jpg'),
+    quienes_somos_1: cachedSetting('quienes_somos_1', '/quienessomos1.jpg'),
+    quienes_somos_2: cachedSetting('quienes_somos_2', '/quienessomos2.jpg'),
+    quienes_somos_3: cachedSetting('quienes_somos_3', '/quienessomos3.jpg'),
+    quienes_somos_4: cachedSetting('quienes_somos_4', '/quienessomos4.jpg'),
+  }));
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('key, value')
-        .in('key', [
-          'quienes_subtitle', 'quienes_intro_1', 'quienes_intro_2',
-          'quienes_somos_bg', 'quienes_somos_1', 'quienes_somos_2', 'quienes_somos_3', 'quienes_somos_4',
-        ]);
+      const data = await loadSettings([
+        'quienes_subtitle', 'quienes_intro_1', 'quienes_intro_2',
+        'quienes_somos_bg', 'quienes_somos_1', 'quienes_somos_2', 'quienes_somos_3', 'quienes_somos_4',
+      ]);
       if (data) {
         const loadedTexts = { ...texts };
         const loadedImages = { ...images };

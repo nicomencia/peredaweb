@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { cachedSetting, loadSettings } from '../lib/settings';
 import './AreaProfesional.css';
 
 export default function AreaProfesional({ setCurrentView }) {
@@ -9,14 +9,11 @@ export default function AreaProfesional({ setCurrentView }) {
     area_benefits_title: 'Beneficios diseñados para profesionales',
     area_benefits_subtitle: 'Porque aquí encuentras calidad al mejor precio, un amplio stock con primeras marcas, el mejor asesoramiento personalizado y, además, todas las novedades y ofertas al alcance de tu mano.',
   });
-  const [bgUrl, setBgUrl] = useState('/fondo.jpg');
+  const [bgUrl, setBgUrl] = useState(() => cachedSetting('area_profesional_bg', '/fondo.jpg'));
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('key, value')
-        .in('key', ['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle', 'area_profesional_bg']);
+      const data = await loadSettings(['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle', 'area_profesional_bg']);
       if (data) {
         const loaded = { ...texts };
         data.forEach((row) => {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { cachedSetting, loadSettings } from '../lib/settings';
 import './Navigation.css';
 
 const PRODUCT_CATEGORIES = [
@@ -18,17 +18,14 @@ const PRODUCT_CATEGORIES = [
 export default function Navigation({ currentView, setCurrentView, setProductCategory }) {
   const [isOpen, setIsOpen] = useState(false);
   const [productosOpen, setProductosOpen] = useState(false);
-  const [logoUrl, setLogoUrl] = useState('/logo.png');
+  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/logo.png'));
   const isHome = currentView === 'home';
 
   useEffect(() => {
     async function loadLogo() {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('value')
-        .eq('key', 'navbar_logo')
-        .maybeSingle();
-      if (data?.value) setLogoUrl(data.value);
+      const data = await loadSettings(['navbar_logo']);
+      const row = data?.find((r) => r.key === 'navbar_logo');
+      if (row?.value) setLogoUrl(row.value);
     }
     loadLogo();
   }, []);

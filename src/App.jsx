@@ -1,5 +1,6 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, useLayoutEffect, lazy, Suspense } from 'react';
 import { supabase } from './lib/supabase';
+import { cachedSetting, cachedByPrefix, primeCache } from './lib/settings';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import AboutIntro from './components/AboutIntro';
@@ -28,7 +29,24 @@ export default function App() {
   const [selectedAmbiente, setSelectedAmbiente] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [productCategory, setProductCategory] = useState(null);
-  const [categoryBanners, setCategoryBanners] = useState({});
+  const [categoryBanners, setCategoryBanners] = useState(() => {
+    const banners = {};
+    Object.entries(cachedByPrefix('category_banner_')).forEach(([k, v]) => {
+      banners[k.replace('category_banner_', '')] = v;
+    });
+    return banners;
+  });
+
+  // Apply cached theme colors before first paint to avoid a colour flash.
+  useLayoutEffect(() => {
+    const apply = (key, varName) => {
+      const v = cachedSetting(key);
+      if (v) document.documentElement.style.setProperty(varName, v);
+    };
+    apply('color_primary', '--color-blue');
+    apply('color_secondary', '--color-cream');
+    apply('color_dark', '--color-black');
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -71,6 +89,7 @@ export default function App() {
         .select('key, value')
         .or('key.in.(color_primary,color_secondary,color_dark),key.like.category_banner_%');
       if (data) {
+        primeCache(data);
         const banners = {};
         data.forEach((row) => {
           if (row.key === 'color_primary') document.documentElement.style.setProperty('--color-blue', row.value);
