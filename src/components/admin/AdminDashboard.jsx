@@ -43,6 +43,7 @@ const areaFields = [
   { key: 'area_benefits_title', label: 'Título sección beneficios', type: 'input' },
   { key: 'area_benefits_subtitle', label: 'Subtítulo sección beneficios', type: 'textarea', rows: 4 },
   { key: 'area_profesional_bg', label: 'Imagen de cabecera', type: 'image', folder: 'area-profesional' },
+  { key: 'area_faq', label: 'Preguntas frecuentes', type: 'faq' },
 ];
 
 const tabs = [

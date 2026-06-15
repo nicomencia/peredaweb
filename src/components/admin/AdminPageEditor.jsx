@@ -32,6 +32,30 @@ export default function AdminPageEditor({ title, description, fields }) {
     setValues((prev) => ({ ...prev, [key]: value }));
   }
 
+  // FAQ fields are stored as a JSON array string: [{ q, a }, ...]
+  function parseFaq(value) {
+    try {
+      const arr = JSON.parse(value || '[]');
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  }
+  function writeFaq(key, items) {
+    handleChange(key, JSON.stringify(items));
+  }
+  function setFaqItem(key, index, prop, value) {
+    const items = parseFaq(values[key]);
+    items[index] = { ...items[index], [prop]: value };
+    writeFaq(key, items);
+  }
+  function addFaqItem(key) {
+    writeFaq(key, [...parseFaq(values[key]), { q: '', a: '' }]);
+  }
+  function removeFaqItem(key, index) {
+    writeFaq(key, parseFaq(values[key]).filter((_, i) => i !== index));
+  }
+
   async function handleImageUpload(key, file, folder) {
     if (!file) return;
     setUploading(key);
@@ -77,7 +101,33 @@ export default function AdminPageEditor({ title, description, fields }) {
         {fields.map((field) => (
           <div className="admin-homepage-cta-card" key={field.key}>
             <div className="admin-homepage-cta-fields">
-              {field.type === 'image' ? (
+              {field.type === 'faq' ? (
+                <div className="admin-faq-editor">
+                  <span className="admin-pageeditor-label">{field.label}</span>
+                  {parseFaq(values[field.key]).map((item, i) => (
+                    <div className="admin-faq-row" key={i}>
+                      <input
+                        type="text"
+                        placeholder="Pregunta"
+                        value={item.q || ''}
+                        onChange={(e) => setFaqItem(field.key, i, 'q', e.target.value)}
+                      />
+                      <textarea
+                        rows="3"
+                        placeholder="Respuesta"
+                        value={item.a || ''}
+                        onChange={(e) => setFaqItem(field.key, i, 'a', e.target.value)}
+                      />
+                      <button type="button" className="admin-faq-remove" onClick={() => removeFaqItem(field.key, i)}>
+                        Eliminar
+                      </button>
+                    </div>
+                  ))}
+                  <button type="button" className="admin-faq-add" onClick={() => addFaqItem(field.key)}>
+                    + Añadir pregunta
+                  </button>
+                </div>
+              ) : field.type === 'image' ? (
                 <div>
                   <span className="admin-pageeditor-label">{field.label}</span>
                   <div className="admin-homepage-preview">

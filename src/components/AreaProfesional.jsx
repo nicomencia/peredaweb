@@ -10,14 +10,22 @@ export default function AreaProfesional({ setCurrentView }) {
     area_benefits_subtitle: 'Porque aquí encuentras calidad al mejor precio, un amplio stock con primeras marcas, el mejor asesoramiento personalizado y, además, todas las novedades y ofertas al alcance de tu mano.',
   });
   const [bgUrl, setBgUrl] = useState(() => cachedSetting('area_profesional_bg', ''));
+  const [faq, setFaq] = useState([]);
+  const [openFaq, setOpenFaq] = useState(null);
 
   useEffect(() => {
     async function load() {
-      const data = await loadSettings(['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle', 'area_profesional_bg']);
+      const data = await loadSettings(['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle', 'area_profesional_bg', 'area_faq']);
       if (data) {
         const loaded = { ...texts };
         data.forEach((row) => {
           if (row.key === 'area_profesional_bg') { if (row.value) setBgUrl(row.value); }
+          else if (row.key === 'area_faq') {
+            try {
+              const items = JSON.parse(row.value || '[]');
+              if (Array.isArray(items)) setFaq(items.filter((it) => it && it.q));
+            } catch { /* ignore malformed */ }
+          }
           else loaded[row.key] = row.value;
         });
         setTexts(loaded);
@@ -124,9 +132,30 @@ export default function AreaProfesional({ setCurrentView }) {
       <section className="area-faq">
         <div className="area-faq-container">
           <h2>Preguntas frecuentes</h2>
-          <p className="area-faq-placeholder">
-            Próximamente publicaremos aquí las preguntas y respuestas más habituales de nuestros profesionales.
-          </p>
+          {faq.length === 0 ? (
+            <p className="area-faq-placeholder">
+              Próximamente publicaremos aquí las preguntas y respuestas más habituales de nuestros profesionales.
+            </p>
+          ) : (
+            <div className="area-faq-list">
+              {faq.map((item, i) => (
+                <div className={`area-faq-item ${openFaq === i ? 'open' : ''}`} key={i}>
+                  <button
+                    type="button"
+                    className="area-faq-question"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    aria-expanded={openFaq === i}
+                  >
+                    <span>{item.q}</span>
+                    <span className="area-faq-toggle" aria-hidden="true">{openFaq === i ? '–' : '+'}</span>
+                  </button>
+                  {openFaq === i && item.a && (
+                    <div className="area-faq-answer">{item.a}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
