@@ -13,18 +13,22 @@ Website for Saneamientos Pereda (Spanish bathroom/plumbing/construction-material
   - Local dev: `vite.config.js` proxies `/api` and `/media` to `http://dev.saneamientos-pereda.com`.
 - The old Supabase project (`mxhpggzfkrlqmguwichm`, Bolt-provisioned) still holds the original data; the export snapshot lives in `migration-data/` (8 content tables + 12 media files; form tables were empty).
 
-## Migration status as of 2026-06-11 (IN PROGRESS — finish this first)
+## Migration status as of 2026-06-15 (DONE — public site fully on client infra)
 
-Done: schema (`server/sql/schema.sql`, UUIDs as CHAR(36), `specs`/`emails` as JSON), full PHP API (lint-checked PHP 8.2), data export, frontend swapped to the shim + `@supabase/supabase-js` uninstalled, all committed. The deployed dev site still runs the OLD Supabase-backed build on purpose.
+The Supabase→MySQL migration is **complete and live** on `/html/dev`. The public site reads from the client's MySQL, serves images from the client's disk under `/media/`, and uses PHP session admin auth + PHP form endpoints. `@supabase/supabase-js` is uninstalled; no Supabase refs remain in the build.
 
-Remaining steps, in order:
-1. `.env` needs `DB_USER`, `DB_PASS` (MySQL created in panel: db/host `qaqu803` / `qaqu803.saneamientos-pereda.com` — note: NOT localhost, it's a separate MySQL host; its DNS record may suffer the same publication problem as `dev`, see Known issues), and `RESEND_API_KEY`. User chooses admin email+password for the website admin panel.
-2. `node scripts/deploy-backend.mjs` — uploads API + config.php (generated from .env, incl. auto SETUP_TOKEN) + schema + import JSON + media to `/html/dev`.
-3. `POST http://dev.saneamientos-pereda.com/api/setup.php` with JSON `{token: <SETUP_TOKEN from .env>, admin_email, admin_password}` — creates tables, imports data (rewrites Supabase URLs to `/media/...`), creates admin user. Check the returned report.
-4. Smoke-test API: `content.php?resource=products`, login, upload, one form.
-5. `npm run deploy /html/dev` — cut the frontend over. Verify site + admin end-to-end.
-6. Delete `/html/dev/api/setup.php` and `/html/dev/api/import/` from the server (SFTP).
-7. Later: pause/delete the Supabase project; `supabase/` dir in repo becomes historical.
+Key facts established during cutover:
+- **DB connection: `DB_HOST=lldg503.servidoresdns.net`** (the real DB server, IP 82.223.113.26). The panel's `qaqu803.saneamientos-pereda.com` is an unpublished CNAME to it (stuck DNS — see Known issues), so it doesn't resolve from PHP; `localhost` reaches the web host's *own* MySQL which does NOT have this DB. DB name/user `qaqu803`, password in `.env`.
+- **Schema was corrected from the live exported data, NOT the old migration files** (which were stale): `products` uses `category`/`featured` (not `collection`/`variant`/`available`); `tiendas` has `lat`/`lon`. `server/sql/schema.sql` `DROP`s then `CREATE`s, with defaults so imports are strict-mode-safe. `TABLE_COLUMNS` in `db.php` mirrors this.
+- Admin user: `admin@saneamientos-pereda.com` (created via setup). Login/upload verified; security boundaries verified (401 unauth upload/admin, 403 on config.php/db.php/import).
+- `setup.php` + `api/import/` were deleted from the server post-import (`scripts/cleanup-setup.mjs`).
+
+Helper scripts: `scripts/push-config.mjs` (regen+upload config.php from .env), `scripts/push-api.mjs` (upload api/*.php + schema, no media), `scripts/cleanup-setup.mjs`.
+
+Remaining / later:
+- Re-running `setup.php` requires re-deploying it (deploy-backend) — only needed for a fresh re-import.
+- Pause/delete the old Supabase project (`mxhpggzfkrlqmguwichm`) once happy; `supabase/` dir becomes historical.
+- Forms email depends on Resend domain verification (blocked by the same stuck DNS).
 
 ## Client hosting environment
 
