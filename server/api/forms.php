@@ -6,33 +6,11 @@
 // POST forms.php?form=presupuesto   (json)
 // POST forms.php?form=cliente       (json)
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/mailer.php';
 
+// Notification email is best-effort: never let a mail failure break the form.
 function send_email(string $subject, string $html, ?string $replyTo = null): void {
-    if (!defined('RESEND_API_KEY') || RESEND_API_KEY === '' || RESEND_API_KEY === 'CHANGE_ME') return;
-    $payload = [
-        'from' => MAIL_FROM,
-        'to' => [MAIL_TO],
-        'subject' => $subject,
-        'html' => $html,
-    ];
-    if ($replyTo) $payload['reply_to'] = $replyTo;
-    $ch = curl_init('https://api.resend.com/emails');
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 10,
-        CURLOPT_HTTPHEADER => [
-            'Authorization: Bearer ' . RESEND_API_KEY,
-            'Content-Type: application/json',
-        ],
-        CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
-    ]);
-    $res = curl_exec($ch);
-    $status = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-    curl_close($ch);
-    if ($status >= 400) {
-        error_log("Resend error $status: $res");
-    }
+    smtp_send($subject, $html, $replyTo);
 }
 
 function field_rows(array $fields): string {
