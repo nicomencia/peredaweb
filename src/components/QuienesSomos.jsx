@@ -10,17 +10,32 @@ export default function QuienesSomos() {
     quienes_intro_1: 'Saneamientos Pereda es una empresa familiar fundada en Oviedo en el año 1959. Nace como distribuidora de productos de fontanería y sanitarios, pero con el paso de los años, con esfuerzo y dedicación, y gracias a la confianza depositada por los clientes, ha sabido crecer y diversificar su oferta para adaptarse a las necesidades del mercado, convirtiéndose en un referente en su sector.',
     quienes_intro_2: 'La oferta de productos, dirigida tanto al profesional como al particular más exigente, abarca material de fontanería, calefacción, sanitarios, grifería, mobiliario y accesorios para baño, materiales de construcción, electricidad, pintura, jardinería y herramienta.',
   });
+  const [images, setImages] = useState({
+    quienes_somos_bg: '/quienessomos.jpg',
+    quienes_somos_1: '/quienessomos1.jpg',
+    quienes_somos_2: '/quienessomos2.jpg',
+    quienes_somos_3: '/quienessomos3.jpg',
+    quienes_somos_4: '/quienessomos4.jpg',
+  });
 
   useEffect(() => {
     async function load() {
       const { data } = await supabase
         .from('site_settings')
         .select('key, value')
-        .in('key', ['quienes_subtitle', 'quienes_intro_1', 'quienes_intro_2']);
+        .in('key', [
+          'quienes_subtitle', 'quienes_intro_1', 'quienes_intro_2',
+          'quienes_somos_bg', 'quienes_somos_1', 'quienes_somos_2', 'quienes_somos_3', 'quienes_somos_4',
+        ]);
       if (data) {
-        const loaded = { ...texts };
-        data.forEach((row) => { loaded[row.key] = row.value; });
-        setTexts(loaded);
+        const loadedTexts = { ...texts };
+        const loadedImages = { ...images };
+        data.forEach((row) => {
+          if (row.key in loadedImages) { if (row.value) loadedImages[row.key] = row.value; }
+          else loadedTexts[row.key] = row.value;
+        });
+        setTexts(loadedTexts);
+        setImages(loadedImages);
       }
     }
     load();
@@ -28,7 +43,7 @@ export default function QuienesSomos() {
 
   return (
     <section id="sobre-mi" className="about">
-      <div className="about-hero">
+      <div className="about-hero" style={{ backgroundImage: `url('${images.quienes_somos_bg}')` }}>
         <div className="about-hero-overlay" />
         <div className="about-hero-content">
           <h2>¿QUIÉNES SOMOS?</h2>
@@ -40,11 +55,11 @@ export default function QuienesSomos() {
 
       <div className="about-photos-top">
         <div className="about-photo-full">
-          <img src="/quienessomos1.jpg" alt="Foto histórica de Saneamientos Pereda" />
+          <img src={images.quienes_somos_1} alt="Foto histórica de Saneamientos Pereda" />
           <div className="about-photo-caption">Nuestros orígenes</div>
         </div>
         <div className="about-photo-full">
-          <img src="/quienessomos2.jpg" alt="Edificio principal de Saneamientos Pereda" />
+          <img src={images.quienes_somos_2} alt="Edificio principal de Saneamientos Pereda" />
           <div className="about-photo-caption">Nuestras instalaciones</div>
         </div>
       </div>
@@ -218,10 +233,10 @@ export default function QuienesSomos() {
         </div>
         <div className="about-team-photos">
           <div className="about-photo-half">
-            <img src="/quienessomos3.jpg" alt="Equipo de trabajo de Saneamientos Pereda" />
+            <img src={images.quienes_somos_3} alt="Equipo de trabajo de Saneamientos Pereda" />
           </div>
           <div className="about-photo-half">
-            <img src="/quienessomos4.jpg" alt="Profesionales de Saneamientos Pereda" />
+            <img src={images.quienes_somos_4} alt="Profesionales de Saneamientos Pereda" />
           </div>
         </div>
       </div>

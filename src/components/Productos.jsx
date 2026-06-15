@@ -50,7 +50,7 @@ const CATEGORIES = [
   {
     key: 'materiales',
     label: 'Materiales de construcción',
-    image: '/productos_construccion.jpg',
+    image: '/productos_bano.jpg',
     description: 'Materiales y soluciones constructivas',
     icon: 'M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6',
   },
@@ -64,14 +64,14 @@ const CATEGORIES = [
   {
     key: 'herramientas',
     label: 'Herramientas',
-    image: '/productos_construccion.jpg',
+    image: '/productos_bano.jpg',
     description: 'Herramienta profesional y de bricolaje',
     icon: 'M14 6l4 4-8 8-4-4zM16 4l4 4M3 21l3-3M10 14l-3 3',
   },
   {
     key: 'electricidad',
     label: 'Electricidad',
-    image: '/productos_construccion.jpg',
+    image: '/productos_bano.jpg',
     description: 'Material eléctrico e iluminación',
     icon: 'M13 2L4 14h7l-1 8 9-12h-7z',
   },

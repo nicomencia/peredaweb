@@ -43,7 +43,7 @@ const CATEGORY_CONFIG = {
   materiales: {
     label: 'Materiales de construcción',
     description: 'Materiales y soluciones constructivas para todo tipo de proyectos',
-    image: '/productos_construccion.jpg',
+    image: '/productos_bano.jpg',
   },
   mamparas: {
     label: 'Mamparas',
@@ -53,12 +53,12 @@ const CATEGORY_CONFIG = {
   herramientas: {
     label: 'Herramientas',
     description: 'Herramienta profesional y de bricolaje para cualquier proyecto',
-    image: '/productos_construccion.jpg',
+    image: '/productos_bano.jpg',
   },
   electricidad: {
     label: 'Electricidad',
     description: 'Material eléctrico, iluminación y soluciones para la instalación',
-    image: '/productos_construccion.jpg',
+    image: '/productos_bano.jpg',
   },
 };
 

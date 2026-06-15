@@ -7,7 +7,6 @@
   position: relative;
   min-height: 520px;
   padding: 160px 0 80px;
-  background-image: url('/fondo.jpg');
   background-size: cover;
   background-position: center 20%;
   display: flex;

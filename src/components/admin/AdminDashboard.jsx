@@ -12,6 +12,11 @@ const quienesFields = [
   { key: 'quienes_subtitle', label: 'Subtítulo del hero', type: 'input' },
   { key: 'quienes_intro_1', label: 'Primer párrafo de introducción', type: 'textarea', rows: 5 },
   { key: 'quienes_intro_2', label: 'Segundo párrafo de introducción', type: 'textarea', rows: 5 },
+  { key: 'quienes_somos_bg', label: 'Imagen de cabecera', type: 'image', folder: 'quienes-somos' },
+  { key: 'quienes_somos_1', label: 'Foto 1 (Nuestros orígenes)', type: 'image', folder: 'quienes-somos' },
+  { key: 'quienes_somos_2', label: 'Foto 2 (Nuestras instalaciones)', type: 'image', folder: 'quienes-somos' },
+  { key: 'quienes_somos_3', label: 'Foto 3 (Equipo)', type: 'image', folder: 'quienes-somos' },
+  { key: 'quienes_somos_4', label: 'Foto 4 (Profesionales)', type: 'image', folder: 'quienes-somos' },
 ];
 
 const inspirateFields = [
@@ -37,6 +42,7 @@ const areaFields = [
   { key: 'area_hero_subtitle', label: 'Subtítulo principal', type: 'textarea', rows: 3 },
   { key: 'area_benefits_title', label: 'Título sección beneficios', type: 'input' },
   { key: 'area_benefits_subtitle', label: 'Subtítulo sección beneficios', type: 'textarea', rows: 4 },
+  { key: 'area_profesional_bg', label: 'Imagen de cabecera', type: 'image', folder: 'area-profesional' },
 ];
 
 const tabs = [

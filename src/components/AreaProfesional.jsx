@@ -9,16 +9,20 @@ export default function AreaProfesional({ setCurrentView }) {
     area_benefits_title: 'Beneficios diseñados para profesionales',
     area_benefits_subtitle: 'Porque aquí encuentras calidad al mejor precio, un amplio stock con primeras marcas, el mejor asesoramiento personalizado y, además, todas las novedades y ofertas al alcance de tu mano.',
   });
+  const [bgUrl, setBgUrl] = useState('/fondo.jpg');
 
   useEffect(() => {
     async function load() {
       const { data } = await supabase
         .from('site_settings')
         .select('key, value')
-        .in('key', ['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle']);
+        .in('key', ['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle', 'area_profesional_bg']);
       if (data) {
         const loaded = { ...texts };
-        data.forEach((row) => { loaded[row.key] = row.value; });
+        data.forEach((row) => {
+          if (row.key === 'area_profesional_bg') { if (row.value) setBgUrl(row.value); }
+          else loaded[row.key] = row.value;
+        });
         setTexts(loaded);
       }
     }
@@ -26,7 +30,7 @@ export default function AreaProfesional({ setCurrentView }) {
   }, []);
   return (
     <div className="area-profesional">
-      <section className="area-hero">
+      <section className="area-hero" style={{ backgroundImage: `url('${bgUrl}')` }}>
         <div className="area-hero-overlay" />
         <div className="area-hero-content">
           <span className="area-hero-tag">Area Profesional</span>

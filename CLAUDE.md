@@ -42,8 +42,8 @@ Shared hosting ("Hosting Avanzado Linux", panel at panelcontrolhosting.com): Apa
 ## Known issues / pending
 
 - **Hosting DNS publication is STUCK**: records added in the panel DNS editor (`dev` A, `send` SPF/MX, `resend._domainkey` TXT) exist in the editor but are NOT served by ns1/ns2.dns-servicios.com (old records resolve fine, so the zone itself is live). User was advised to find an "apply changes" step or open a support ticket. Consequences: dev subdomain needs a local hosts entry `217.76.142.23 dev.saneamientos-pereda.com` (HTTP only — no SSL cert yet; enable Let's Encrypt in panel once DNS publishes), and Resend domain verification was still pending (user re-triggered it).
-- `public/productos_construccion.jpg` is corrupt (truncated at exactly 512 KB everywhere, incl. Bolt demo). Replace it.
-- Goal: make ALL images admin-modifiable; Quiénes Somos photos + category card images are still hardcoded static files.
+- All site images are now DB-driven/admin-editable (2026-06-15): Quiénes Somos (bg + 4 photos → `quienes_somos_*` settings), Área Profesional bg (`area_profesional_bg`), category banners (`category_banner_<key>`, one per category, edited in AdminProductos). `AdminPageEditor` gained an `image` field type. Base images seeded via `scripts/seed-image-settings.mjs`. Unused `inspirate1-3.jpg` and the corrupt `productos_construccion.jpg` were removed.
+- Note: the hosting serves static assets through a **cache** that ignores query-string busting and outlives file deletion by a TTL — deleted/replaced same-path files linger briefly. Admin uploads use unique filenames so they're unaffected. `scripts/prune-deployed.mjs` deletes server files removed locally (deploy only adds/overwrites).
 - Timeline (README): 2026-06-15 aesthetics review; 2026-06-22 production launch + SEO.
 
 ## Conventions
