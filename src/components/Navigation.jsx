@@ -18,7 +18,7 @@ const PRODUCT_CATEGORIES = [
 export default function Navigation({ currentView, setCurrentView, setProductCategory }) {
   const [isOpen, setIsOpen] = useState(false);
   const [productosOpen, setProductosOpen] = useState(false);
-  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/logo.png'));
+  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', ''));
   const isHome = currentView === 'home';
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function Navigation({ currentView, setCurrentView, setProductCate
             onClick={() => handleNavClick('home')}
             aria-label="Ir a inicio"
           >
-            <img src={logoUrl} alt="Saneamientos Pereda" className="nav-logo" />
+            <img src={logoUrl || undefined} alt="Saneamientos Pereda" className="nav-logo" />
           </button>
         )}
 

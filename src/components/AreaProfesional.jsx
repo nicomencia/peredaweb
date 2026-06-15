@@ -9,7 +9,7 @@ export default function AreaProfesional({ setCurrentView }) {
     area_benefits_title: 'Beneficios diseñados para profesionales',
     area_benefits_subtitle: 'Porque aquí encuentras calidad al mejor precio, un amplio stock con primeras marcas, el mejor asesoramiento personalizado y, además, todas las novedades y ofertas al alcance de tu mano.',
   });
-  const [bgUrl, setBgUrl] = useState(() => cachedSetting('area_profesional_bg', '/fondo.jpg'));
+  const [bgUrl, setBgUrl] = useState(() => cachedSetting('area_profesional_bg', ''));
 
   useEffect(() => {
     async function load() {
@@ -27,7 +27,7 @@ export default function AreaProfesional({ setCurrentView }) {
   }, []);
   return (
     <div className="area-profesional">
-      <section className="area-hero" style={{ backgroundImage: `url('${bgUrl}')` }}>
+      <section className="area-hero" style={{ backgroundImage: bgUrl ? `url('${bgUrl}')` : undefined }}>
         <div className="area-hero-overlay" />
         <div className="area-hero-content">
           <span className="area-hero-tag">Area Profesional</span>

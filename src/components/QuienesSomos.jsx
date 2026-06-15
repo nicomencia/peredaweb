@@ -11,11 +11,11 @@ export default function QuienesSomos() {
     quienes_intro_2: 'La oferta de productos, dirigida tanto al profesional como al particular más exigente, abarca material de fontanería, calefacción, sanitarios, grifería, mobiliario y accesorios para baño, materiales de construcción, electricidad, pintura, jardinería y herramienta.',
   });
   const [images, setImages] = useState(() => ({
-    quienes_somos_bg: cachedSetting('quienes_somos_bg', '/quienessomos.jpg'),
-    quienes_somos_1: cachedSetting('quienes_somos_1', '/quienessomos1.jpg'),
-    quienes_somos_2: cachedSetting('quienes_somos_2', '/quienessomos2.jpg'),
-    quienes_somos_3: cachedSetting('quienes_somos_3', '/quienessomos3.jpg'),
-    quienes_somos_4: cachedSetting('quienes_somos_4', '/quienessomos4.jpg'),
+    quienes_somos_bg: cachedSetting('quienes_somos_bg', ''),
+    quienes_somos_1: cachedSetting('quienes_somos_1', ''),
+    quienes_somos_2: cachedSetting('quienes_somos_2', ''),
+    quienes_somos_3: cachedSetting('quienes_somos_3', ''),
+    quienes_somos_4: cachedSetting('quienes_somos_4', ''),
   }));
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function QuienesSomos() {
 
   return (
     <section id="sobre-mi" className="about">
-      <div className="about-hero" style={{ backgroundImage: `url('${images.quienes_somos_bg}')` }}>
+      <div className="about-hero" style={{ backgroundImage: images.quienes_somos_bg ? `url('${images.quienes_somos_bg}')` : undefined }}>
         <div className="about-hero-overlay" />
         <div className="about-hero-content">
           <h2>¿QUIÉNES SOMOS?</h2>
@@ -52,11 +52,11 @@ export default function QuienesSomos() {
 
       <div className="about-photos-top">
         <div className="about-photo-full">
-          <img src={images.quienes_somos_1} alt="Foto histórica de Saneamientos Pereda" />
+          <img src={images.quienes_somos_1 || undefined} alt="Foto histórica de Saneamientos Pereda" />
           <div className="about-photo-caption">Nuestros orígenes</div>
         </div>
         <div className="about-photo-full">
-          <img src={images.quienes_somos_2} alt="Edificio principal de Saneamientos Pereda" />
+          <img src={images.quienes_somos_2 || undefined} alt="Edificio principal de Saneamientos Pereda" />
           <div className="about-photo-caption">Nuestras instalaciones</div>
         </div>
       </div>
@@ -230,10 +230,10 @@ export default function QuienesSomos() {
         </div>
         <div className="about-team-photos">
           <div className="about-photo-half">
-            <img src={images.quienes_somos_3} alt="Equipo de trabajo de Saneamientos Pereda" />
+            <img src={images.quienes_somos_3 || undefined} alt="Equipo de trabajo de Saneamientos Pereda" />
           </div>
           <div className="about-photo-half">
-            <img src={images.quienes_somos_4} alt="Profesionales de Saneamientos Pereda" />
+            <img src={images.quienes_somos_4 || undefined} alt="Profesionales de Saneamientos Pereda" />
           </div>
         </div>
       </div>

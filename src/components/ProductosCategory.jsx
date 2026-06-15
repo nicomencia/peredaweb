@@ -8,57 +8,57 @@ const CATEGORY_CONFIG = {
   bano: {
     label: 'Baño',
     description: 'Grifería, sanitarios, muebles de baño y accesorios para crear el espacio perfecto',
-    image: '/productos_bano.jpg',
+    image: '',
   },
   sanitarios: {
     label: 'Sanitarios',
     description: 'Inodoros, bidés, lavabos y piezas sanitarias para un baño funcional',
-    image: '/productos_bano.jpg',
+    image: '',
   },
   griferia: {
     label: 'Griferías',
     description: 'Grifos, monomandos y termostáticas de las mejores marcas',
-    image: '/productos_bano.jpg',
+    image: '',
   },
   'muebles-bano': {
     label: 'Muebles de baño y espejos',
     description: 'Muebles, espejos y complementos para organizar y decorar el baño',
-    image: '/productos_bano.jpg',
+    image: '',
   },
   climatizacion: {
     label: 'Climatización y energías renovables',
     description: 'Aire acondicionado, aerotermia y soluciones de energías renovables',
-    image: '/productos_fontaneria.png',
+    image: '',
   },
   fontaneria: {
     label: 'Fontanería y calefacción',
     description: 'Sistemas de calefacción, radiadores, tuberías y soluciones de fontanería profesional',
-    image: '/productos_fontaneria.png',
+    image: '',
   },
   ceramica: {
     label: 'Cerámicas',
     description: 'Azulejos y pavimentos cerámicos para baños y cocinas',
-    image: '/productos_bano.jpg',
+    image: '',
   },
   materiales: {
     label: 'Materiales de construcción',
     description: 'Materiales y soluciones constructivas para todo tipo de proyectos',
-    image: '/productos_bano.jpg',
+    image: '',
   },
   mamparas: {
     label: 'Mamparas',
     description: 'Mamparas de ducha y bañera adaptadas a tu espacio',
-    image: '/productos_bano.jpg',
+    image: '',
   },
   herramientas: {
     label: 'Herramientas',
     description: 'Herramienta profesional y de bricolaje para cualquier proyecto',
-    image: '/productos_bano.jpg',
+    image: '',
   },
   electricidad: {
     label: 'Electricidad',
     description: 'Material eléctrico, iluminación y soluciones para la instalación',
-    image: '/productos_bano.jpg',
+    image: '',
   },
 };
 
@@ -129,7 +129,7 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
   return (
     <section className="productos-cat">
       <div className="productos-cat-banner">
-        <img src={bannerSrc} alt={config.label} className="productos-cat-banner-img" />
+        <img src={bannerSrc || undefined} alt={config.label} className="productos-cat-banner-img" />
         <div className="productos-cat-banner-overlay" />
         <div className="productos-cat-banner-content">
           <button className="productos-cat-back" onClick={handleBack}>

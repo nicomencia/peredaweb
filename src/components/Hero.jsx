@@ -3,8 +3,8 @@ import { cachedSetting, loadSettings } from '../lib/settings';
 import './Hero.css';
 
 export default function Hero({ setCurrentView }) {
-  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('hero_logo', '/logo_letras.png'));
-  const [bgUrl, setBgUrl] = useState(() => cachedSetting('hero_background', '/fondo.jpg'));
+  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('hero_logo', ''));
+  const [bgUrl, setBgUrl] = useState(() => cachedSetting('hero_background', ''));
 
   useEffect(() => {
     async function load() {
@@ -22,10 +22,10 @@ export default function Hero({ setCurrentView }) {
   return (
     <section
       className="hero"
-      style={{ backgroundImage: `linear-gradient(rgba(0, 82, 204, 0.1), rgba(0, 82, 204, 0.05)), url('${bgUrl}')` }}
+      style={{ backgroundImage: `linear-gradient(rgba(0, 82, 204, 0.1), rgba(0, 82, 204, 0.05))${bgUrl ? `, url('${bgUrl}')` : ''}` }}
     >
       <div className="hero-content">
-        <img src={logoUrl} alt="Saneamientos Pereda" className="hero-logo" />
+        <img src={logoUrl || undefined} alt="Saneamientos Pereda" className="hero-logo" />
       </div>
     </section>
   );

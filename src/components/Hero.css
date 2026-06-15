@@ -1,6 +1,6 @@
 .hero {
   height: 100vh;
-  background: url('/fondo.jpg') center/cover;
+  background-color: var(--color-blue);
   background-size: cover;
   background-position: center;
   display: flex;

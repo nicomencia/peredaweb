@@ -69,7 +69,7 @@ export default function Instalaciones({ setCurrentView }) {
               <div key={store.id} className={`store-row ${index % 2 === 1 ? 'reverse' : ''}`}>
                 <div className="store-image">
                   <img
-                    src={store.cover_image_url || '/tienda.jpg'}
+                    src={store.cover_image_url || undefined}
                     alt={`Tienda ${store.name} - ${store.address}`}
                   />
                 </div>
