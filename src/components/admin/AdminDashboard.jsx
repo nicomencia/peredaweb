@@ -111,12 +111,12 @@ const areaFields = [
 
 const tabs = [
   { id: 'portada', label: 'Portada' },
+  { id: 'cita', label: 'Cita previa' },
   { id: 'quienes', label: 'Quiénes somos' },
   { id: 'inspirate', label: 'Inspírate' },
   { id: 'tiendas', label: 'Tiendas' },
   { id: 'productos', label: 'Productos' },
   { id: 'area', label: 'Área Profesional' },
-  { id: 'cita', label: 'Cita previa' },
   { id: 'ajustes', label: 'Ajustes generales' },
 ];
 
