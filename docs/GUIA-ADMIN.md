@@ -50,6 +50,8 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 - **Colores** de la marca, **logo** de la barra de navegación, textos y enlaces del **pie de página** (descripción, redes sociales).
 - **Contacto y tienda**: teléfono postventa (página de Financiación) y los enlaces de los botones **«Tienda»** (todos los clientes) y **«Acceso ecommerce»** (profesionales). Cuando ambas tiendas pasen a ser el mismo enlace, basta con poner la misma URL en los dos.
 
+- **Destinatarios de los formularios**: el correo que recibe el aviso de cada formulario (candidaturas, canal de denuncias, presupuestos, hazte cliente). Puedes poner varios separados por comas. Por privacidad, estos correos **no son visibles en la web**, solo desde el panel.
+
 > Las **direcciones y teléfonos de las tiendas que aparecen en el pie de página** se toman automáticamente de la sección **Tiendas**: edítalas allí y el pie se actualiza solo.
 
 ---

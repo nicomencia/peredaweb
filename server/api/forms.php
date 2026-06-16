@@ -9,8 +9,22 @@ require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
 
 // Notification email is best-effort: never let a mail failure break the form.
-function send_email(string $subject, string $html, ?string $replyTo = null): void {
-    smtp_send($subject, $html, $replyTo);
+function send_email(string $subject, string $html, ?string $replyTo = null, ?string $to = null): void {
+    smtp_send($subject, $html, $replyTo, $to);
+}
+
+// Per-form recipient from site_settings (mail_to_<form>); falls back to MAIL_TO.
+// These keys are NOT exposed by content.php (see its filter) since they include
+// the confidential denuncias destination.
+function recipient_for(string $form): ?string {
+    try {
+        $stmt = db()->prepare('SELECT value FROM site_settings WHERE `key` = ?');
+        $stmt->execute(["mail_to_$form"]);
+        $v = $stmt->fetchColumn();
+        return ($v !== false && trim((string) $v) !== '') ? $v : null;
+    } catch (PDOException) {
+        return null;
+    }
 }
 
 function field_rows(array $fields): string {
@@ -50,6 +64,8 @@ try {
         json_error('Método no permitido', 405);
     }
 
+    $to = recipient_for($form);
+
     switch ($form) {
         case 'candidatura': {
             $nombre = trim($_POST['nombre'] ?? '');
@@ -83,7 +99,7 @@ try {
                 : '<p><strong>CV:</strong> No adjuntado</p>';
             send_email("Nueva candidatura: $nombre", notification_html('Nueva candidatura recibida', [
                 'Nombre' => $nombre, 'Email' => $email, 'Teléfono' => $telefono, 'Mensaje' => $mensaje,
-            ], $cvLink), $email);
+            ], $cvLink), $email, $to);
             json_out(['success' => true], 201);
         }
 
@@ -102,7 +118,7 @@ try {
             send_email('Nueva denuncia recibida', notification_html('Nueva denuncia recibida', [
                 'Sección/Lugar' => trim($b['seccion_lugar'] ?? ''),
                 'Vinculación' => trim($b['vinculacion'] ?? ''),
-            ], '<p>Accede al panel para ver el contenido completo.</p>'));
+            ], '<p>Accede al panel para ver el contenido completo.</p>'), null, $to);
             json_out(['success' => true, 'pin' => $pin], 201);
         }
 
@@ -117,7 +133,7 @@ try {
             send_email("Nueva solicitud de presupuesto: $nombre", notification_html('Nueva solicitud de presupuesto', [
                 'Nombre' => $nombre, 'Localidad' => trim($b['localidad'] ?? ''), 'Email' => $email,
                 'Asunto' => trim($b['asunto'] ?? ''), 'Mensaje' => trim($b['mensaje'] ?? ''),
-            ]), $email);
+            ]), $email, $to);
             json_out(['success' => true], 201);
         }
 
@@ -137,7 +153,7 @@ try {
                 'Nombre' => $nombre, 'Empresa' => trim($b['empresa'] ?? ''), 'CIF' => trim($b['cif'] ?? ''),
                 'Localidad' => trim($b['localidad'] ?? ''), 'Teléfono' => trim($b['telefono'] ?? ''),
                 'Email' => $email, 'Actividad' => trim($b['actividad'] ?? ''), 'Mensaje' => trim($b['mensaje'] ?? ''),
-            ]), $email);
+            ]), $email, $to);
             json_out(['success' => true], 201);
         }
 

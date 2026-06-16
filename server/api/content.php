@@ -20,6 +20,10 @@ if (!in_array($resource, PUBLIC_TABLES, true)) {
 
 try {
     $rows = db()->query("SELECT * FROM `$resource`")->fetchAll();
+    // Never expose confidential settings (e.g. form recipient addresses) publicly.
+    if ($resource === 'site_settings') {
+        $rows = array_values(array_filter($rows, fn($r) => !str_starts_with($r['key'], 'mail_to_')));
+    }
     json_out(decode_json_columns($resource, $rows));
 } catch (PDOException $e) {
     json_error('Error de base de datos', 500);

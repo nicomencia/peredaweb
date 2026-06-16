@@ -82,6 +82,18 @@ try {
             json_out(['success' => true]);
         }
 
+        case 'get_settings': {
+            // Authenticated read of specific settings (incl. confidential keys
+            // that content.php hides, e.g. form recipients).
+            if ($resource !== 'site_settings') json_error('Solo para site_settings', 400);
+            $keys = array_values(array_filter((array) ($body['keys'] ?? []), 'is_string'));
+            if (!$keys) json_out([]);
+            $marks = implode(', ', array_fill(0, count($keys), '?'));
+            $stmt = db()->prepare("SELECT `key`, value FROM site_settings WHERE `key` IN ($marks)");
+            $stmt->execute($keys);
+            json_out($stmt->fetchAll());
+        }
+
         case 'upsert_setting': {
             if ($resource !== 'site_settings') json_error('Solo para site_settings', 400);
             $key = $body['data']['key'] ?? '';

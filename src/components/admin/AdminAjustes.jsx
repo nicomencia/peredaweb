@@ -17,6 +17,15 @@ const SETTINGS_KEYS = [
   'ecommerce_url',
 ];
 
+// Confidential keys: hidden from the public API, read via the authenticated endpoint.
+const MAIL_KEYS = [
+  'mail_to_candidatura',
+  'mail_to_denuncia',
+  'mail_to_presupuesto',
+  'mail_to_cliente',
+];
+const API_BASE = import.meta.env.VITE_API_BASE || '';
+
 export default function AdminAjustes() {
   const [values, setValues] = useState({});
   const [saving, setSaving] = useState(false);
@@ -25,15 +34,24 @@ export default function AdminAjustes() {
 
   useEffect(() => {
     async function load() {
+      const loaded = {};
       const { data } = await supabase
         .from('site_settings')
         .select('key, value')
         .in('key', SETTINGS_KEYS);
-      if (data) {
-        const loaded = {};
-        data.forEach((row) => { loaded[row.key] = row.value; });
-        setValues(loaded);
-      }
+      if (data) data.forEach((row) => { loaded[row.key] = row.value; });
+      // Confidential recipients aren't in the public API — read them authenticated.
+      try {
+        const res = await fetch(`${API_BASE}/api/admin.php`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'get_settings', resource: 'site_settings', keys: MAIL_KEYS }),
+        });
+        const rows = await res.json();
+        if (Array.isArray(rows)) rows.forEach((row) => { loaded[row.key] = row.value; });
+      } catch { /* ignore */ }
+      setValues(loaded);
     }
     load();
   }, []);
@@ -62,7 +80,7 @@ export default function AdminAjustes() {
     setSaving(true);
     setMessage('');
     try {
-      for (const key of SETTINGS_KEYS) {
+      for (const key of [...SETTINGS_KEYS, ...MAIL_KEYS]) {
         if (values[key] === undefined) continue;
         const { error } = await supabase
           .from('site_settings')
@@ -205,6 +223,31 @@ export default function AdminAjustes() {
               value={values.ecommerce_url || ''}
               onChange={(e) => handleChange('ecommerce_url', e.target.value)}
             />
+          </label>
+        </div>
+      </div>
+
+      <div className="admin-ajustes-section">
+        <h3>Destinatarios de los formularios</h3>
+        <p className="admin-homepage-desc">
+          Correo que recibe el aviso de cada formulario. Puedes poner varios separados por comas. Si lo dejas vacío, se usa el destinatario por defecto.
+        </p>
+        <div className="admin-ajustes-fields">
+          <label>
+            Candidaturas (empleo)
+            <input type="text" value={values.mail_to_candidatura || ''} onChange={(e) => handleChange('mail_to_candidatura', e.target.value)} />
+          </label>
+          <label>
+            Canal de denuncias
+            <input type="text" value={values.mail_to_denuncia || ''} onChange={(e) => handleChange('mail_to_denuncia', e.target.value)} />
+          </label>
+          <label>
+            Solicitudes de presupuesto
+            <input type="text" value={values.mail_to_presupuesto || ''} onChange={(e) => handleChange('mail_to_presupuesto', e.target.value)} />
+          </label>
+          <label>
+            Hazte cliente
+            <input type="text" value={values.mail_to_cliente || ''} onChange={(e) => handleChange('mail_to_cliente', e.target.value)} />
           </label>
         </div>
       </div>

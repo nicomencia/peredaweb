@@ -11,13 +11,14 @@ function mail_header_encode(string $s): string {
     return preg_match('/[^\x20-\x7E]/', $s) ? '=?UTF-8?B?' . base64_encode($s) . '?=' : $s;
 }
 
-function smtp_send(string $subject, string $html, ?string $replyTo = null): bool {
+function smtp_send(string $subject, string $html, ?string $replyTo = null, ?string $to = null): bool {
     if (!defined('SMTP_HOST') || SMTP_HOST === '' || SMTP_HOST === 'CHANGE_ME') return false;
 
     $secure = defined('SMTP_SECURE') ? SMTP_SECURE : 'ssl';
     $fromHeader = MAIL_FROM;
     $fromAddr = preg_match('/<([^>]+)>/', $fromHeader, $m) ? $m[1] : trim($fromHeader);
-    $recipients = array_values(array_filter(array_map('trim', explode(',', MAIL_TO))));
+    $toList = ($to !== null && trim($to) !== '') ? $to : MAIL_TO;
+    $recipients = array_values(array_filter(array_map('trim', explode(',', $toList))));
     if (!$recipients) return false;
 
     $transport = ($secure === 'ssl') ? 'ssl://' : 'tcp://';

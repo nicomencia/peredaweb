@@ -60,7 +60,7 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 ## Email (formularios)
 
 - `server/api/mailer.php` envía por **SMTP autenticado** vía `smtp.serviciodecorreo.es:465` (SSL) con el buzón `web@saneamientos-pereda.com`. Pasa el SPF del dominio (`include:_spf.serviciodecorreo.es`). **No usa Resend** (se descartó).
-- Destinatario: `MAIL_TO` (admite lista separada por comas). Para añadir/quitar destinatarios, editar `.env` y `node scripts/push-config.mjs`.
+- Destinatario por defecto: `MAIL_TO` (admite lista separada por comas). **Por formulario** se puede sobrescribir desde el panel (Ajustes → Destinatarios) con las claves `mail_to_candidatura|denuncia|presupuesto|cliente` en `site_settings`. `forms.php` lee la clave del formulario y cae a `MAIL_TO` si está vacía. Estas claves son **confidenciales**: `content.php` las excluye de la API pública y el panel las lee por el endpoint autenticado `admin.php` (`action: get_settings`).
 - Los formularios nunca fallan por un problema de email (el envío es "best-effort").
 
 ## Admin / auth
