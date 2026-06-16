@@ -1,43 +1,32 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { loadSettings } from '../lib/settings';
 import './SimplePage.css';
 
-const locations = [
-  {
-    name: 'Pruvia',
-    phone: '984 497 255',
-    email: 'pedidos@saneamientos-pereda.com',
-  },
-  {
-    name: 'Oviedo (c/Independencia)',
-    phone: '984 392 779',
-    email: 'expoind@saneamientos-pereda.com',
-  },
-  {
-    name: 'Oviedo (c/La Lila)',
-    phone: '984 491 168',
-    email: 'expolila@saneamientos-pereda.com',
-  },
-  {
-    name: 'Gijón',
-    phone: '984 392 248',
-    email: 'expogijon@saneamientos-pereda.com',
-  },
+const DEFAULT_LOCATIONS = [
+  { name: 'Pruvia', phone: '984 497 255', email: 'pedidos@saneamientos-pereda.com' },
+  { name: 'Oviedo (c/Independencia)', phone: '984 392 779', email: 'expoind@saneamientos-pereda.com' },
+  { name: 'Oviedo (c/La Lila)', phone: '984 491 168', email: 'expolila@saneamientos-pereda.com' },
+  { name: 'Gijón', phone: '984 392 248', email: 'expogijon@saneamientos-pereda.com' },
 ];
 
 const defaultText = 'Te ofrecemos la posibilidad de solicitar cita previa antes de acudir a nuestro establecimiento, podrás beneficiarte de una atención personalizada en tus proyectos de reformas y además evitar tiempos de espera.';
 
 export default function PideCita() {
   const [description, setDescription] = useState(defaultText);
+  const [locations, setLocations] = useState(DEFAULT_LOCATIONS);
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('value')
-        .eq('key', 'cta_1_description')
-        .maybeSingle();
-      if (data?.value) setDescription(data.value);
+      const data = await loadSettings(['cta_1_description', 'pidecita_locations']);
+      data?.forEach((row) => {
+        if (row.key === 'cta_1_description' && row.value) setDescription(row.value);
+        if (row.key === 'pidecita_locations') {
+          try {
+            const items = JSON.parse(row.value || '[]');
+            if (Array.isArray(items) && items.length) setLocations(items);
+          } catch { /* ignore malformed */ }
+        }
+      });
     }
     load();
   }, []);
@@ -58,8 +47,8 @@ export default function PideCita() {
           </p>
 
           <div className="simple-page-locations">
-            {locations.map((loc) => (
-              <div key={loc.name} className="simple-page-location">
+            {locations.map((loc, i) => (
+              <div key={i} className="simple-page-location">
                 <p className="simple-page-location-name">{loc.name}</p>
                 <p className="simple-page-location-line">
                   <strong>tfno:</strong> {loc.phone}

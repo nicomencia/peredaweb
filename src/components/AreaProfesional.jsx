@@ -2,6 +2,20 @@ import { useState, useEffect } from 'react';
 import { cachedSetting, loadSettings } from '../lib/settings';
 import './AreaProfesional.css';
 
+// Decorative icons, by card position; text comes from the `area_features` setting.
+const FEATURE_ICONS = [
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>,
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>,
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>,
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>,
+];
+const DEFAULT_FEATURES = [
+  { title: 'Calidad garantizada', text: 'Trabajamos solo con las mejores marcas del sector para garantizar resultados profesionales' },
+  { title: 'Stock permanente', text: 'Amplio inventario disponible para que nunca te falte material en tus proyectos' },
+  { title: 'Precios profesionales', text: 'Condiciones especiales y descuentos exclusivos para instaladores profesionales' },
+  { title: 'Asesoramiento experto', text: 'Nuestro equipo te asesora personalmente en cada proyecto que emprendas' },
+];
+
 export default function AreaProfesional({ setCurrentView }) {
   const [texts, setTexts] = useState({
     area_hero_title: 'Todo para el instalador',
@@ -13,10 +27,11 @@ export default function AreaProfesional({ setCurrentView }) {
   const [ecommerceUrl, setEcommerceUrl] = useState(() => cachedSetting('ecommerce_url', 'https://ecommerce.saneamientos-pereda.com/ecom/login.php'));
   const [faq, setFaq] = useState([]);
   const [openFaq, setOpenFaq] = useState(null);
+  const [features, setFeatures] = useState(DEFAULT_FEATURES);
 
   useEffect(() => {
     async function load() {
-      const data = await loadSettings(['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle', 'area_profesional_bg', 'area_faq', 'ecommerce_url']);
+      const data = await loadSettings(['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle', 'area_profesional_bg', 'area_faq', 'ecommerce_url', 'area_features']);
       if (data) {
         const loaded = { ...texts };
         data.forEach((row) => {
@@ -26,6 +41,12 @@ export default function AreaProfesional({ setCurrentView }) {
             try {
               const items = JSON.parse(row.value || '[]');
               if (Array.isArray(items)) setFaq(items.filter((it) => it && it.q));
+            } catch { /* ignore malformed */ }
+          }
+          else if (row.key === 'area_features') {
+            try {
+              const items = JSON.parse(row.value || '[]');
+              if (Array.isArray(items) && items.length) setFeatures(items);
             } catch { /* ignore malformed */ }
           }
           else loaded[row.key] = row.value;
@@ -82,51 +103,13 @@ export default function AreaProfesional({ setCurrentView }) {
           </p>
 
           <div className="area-features-grid">
-            <div className="area-feature">
-              <div className="area-feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M9 11l3 3L22 4"/>
-                  <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-                </svg>
+            {features.map((f, i) => (
+              <div className="area-feature" key={i}>
+                <div className="area-feature-icon">{FEATURE_ICONS[i] || FEATURE_ICONS[0]}</div>
+                <h3>{f.title}</h3>
+                <p>{f.text}</p>
               </div>
-              <h3>Calidad garantizada</h3>
-              <p>Trabajamos solo con las mejores marcas del sector para garantizar resultados profesionales</p>
-            </div>
-
-            <div className="area-feature">
-              <div className="area-feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                  <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
-                </svg>
-              </div>
-              <h3>Stock permanente</h3>
-              <p>Amplio inventario disponible para que nunca te falte material en tus proyectos</p>
-            </div>
-
-            <div className="area-feature">
-              <div className="area-feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <line x1="12" y1="1" x2="12" y2="23"/>
-                  <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
-                </svg>
-              </div>
-              <h3>Precios profesionales</h3>
-              <p>Condiciones especiales y descuentos exclusivos para instaladores profesionales</p>
-            </div>
-
-            <div className="area-feature">
-              <div className="area-feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 010 7.75"/>
-                </svg>
-              </div>
-              <h3>Asesoramiento experto</h3>
-              <p>Nuestro equipo te asesora personalmente en cada proyecto que emprendas</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>

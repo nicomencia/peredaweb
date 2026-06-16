@@ -56,6 +56,30 @@ export default function AdminPageEditor({ title, description, fields }) {
     writeFaq(key, parseFaq(values[key]).filter((_, i) => i !== index));
   }
 
+  // Generic repeatable list (type 'list'), stored as a JSON array of objects with
+  // the sub-fields declared in field.fields.
+  function parseList(value) {
+    try {
+      const arr = JSON.parse(value || '[]');
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  }
+  function setListItem(key, index, prop, value) {
+    const items = parseList(values[key]);
+    items[index] = { ...items[index], [prop]: value };
+    handleChange(key, JSON.stringify(items));
+  }
+  function addListItem(key, subfields) {
+    const blank = {};
+    subfields.forEach((f) => { blank[f.key] = ''; });
+    handleChange(key, JSON.stringify([...parseList(values[key]), blank]));
+  }
+  function removeListItem(key, index) {
+    handleChange(key, JSON.stringify(parseList(values[key]).filter((_, i) => i !== index)));
+  }
+
   async function handleImageUpload(key, file, folder) {
     if (!file) return;
     setUploading(key);
@@ -101,7 +125,40 @@ export default function AdminPageEditor({ title, description, fields }) {
         {fields.map((field) => (
           <div className="admin-homepage-cta-card" key={field.key}>
             <div className="admin-homepage-cta-fields">
-              {field.type === 'faq' ? (
+              {field.type === 'list' ? (
+                <div className="admin-faq-editor">
+                  <span className="admin-pageeditor-label">{field.label}</span>
+                  {parseList(values[field.key]).map((item, i) => (
+                    <div className="admin-faq-row" key={i}>
+                      {field.fields.map((sf) => (
+                        sf.textarea ? (
+                          <textarea
+                            key={sf.key}
+                            rows="2"
+                            placeholder={sf.label}
+                            value={item[sf.key] || ''}
+                            onChange={(e) => setListItem(field.key, i, sf.key, e.target.value)}
+                          />
+                        ) : (
+                          <input
+                            key={sf.key}
+                            type="text"
+                            placeholder={sf.label}
+                            value={item[sf.key] || ''}
+                            onChange={(e) => setListItem(field.key, i, sf.key, e.target.value)}
+                          />
+                        )
+                      ))}
+                      <button type="button" className="admin-faq-remove" onClick={() => removeListItem(field.key, i)}>
+                        Eliminar
+                      </button>
+                    </div>
+                  ))}
+                  <button type="button" className="admin-faq-add" onClick={() => addListItem(field.key, field.fields)}>
+                    {field.addLabel || '+ Añadir'}
+                  </button>
+                </div>
+              ) : field.type === 'faq' ? (
                 <div className="admin-faq-editor">
                   <span className="admin-pageeditor-label">{field.label}</span>
                   {parseFaq(values[field.key]).map((item, i) => (

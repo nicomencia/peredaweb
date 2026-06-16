@@ -3,8 +3,14 @@ import { cachedSetting, loadSettings } from '../lib/settings';
 import CareersModal from './CareersModal';
 import './QuienesSomos.css';
 
+const DEFAULT_STATS = [
+  { number: '+50', label: 'Años de Experiencia', description: 'Siempre con una constante dedicación para mejorar los servicios al cliente y una continua actualización de productos e instalaciones.' },
+  { number: '+40', label: 'Profesionales Especializados', description: 'Nuestro personal está formado por profesionales cualificados que te asesorarán y atenderán personalmente.' },
+];
+
 export default function QuienesSomos() {
   const [showCareersModal, setShowCareersModal] = useState(false);
+  const [stats, setStats] = useState(DEFAULT_STATS);
   const [texts, setTexts] = useState({
     quienes_subtitle: 'Siempre con dedicación\npara mejorar nuestros servicios',
     quienes_intro_1: 'Saneamientos Pereda es una empresa familiar fundada en Oviedo en el año 1959. Nace como distribuidora de productos de fontanería y sanitarios, pero con el paso de los años, con esfuerzo y dedicación, y gracias a la confianza depositada por los clientes, ha sabido crecer y diversificar su oferta para adaptarse a las necesidades del mercado, convirtiéndose en un referente en su sector.',
@@ -23,12 +29,19 @@ export default function QuienesSomos() {
       const data = await loadSettings([
         'quienes_subtitle', 'quienes_intro_1', 'quienes_intro_2',
         'quienes_somos_bg', 'quienes_somos_1', 'quienes_somos_2', 'quienes_somos_3', 'quienes_somos_4',
+        'quienes_stats',
       ]);
       if (data) {
         const loadedTexts = { ...texts };
         const loadedImages = { ...images };
         data.forEach((row) => {
-          if (row.key in loadedImages) { if (row.value) loadedImages[row.key] = row.value; }
+          if (row.key === 'quienes_stats') {
+            try {
+              const items = JSON.parse(row.value || '[]');
+              if (Array.isArray(items) && items.length) setStats(items);
+            } catch { /* ignore malformed */ }
+          }
+          else if (row.key in loadedImages) { if (row.value) loadedImages[row.key] = row.value; }
           else loadedTexts[row.key] = row.value;
         });
         setTexts(loadedTexts);
@@ -213,20 +226,13 @@ export default function QuienesSomos() {
           <p className="about-team-subtitle">Las personas que hacen posible Saneamientos Pereda</p>
         </div>
         <div className="about-team-stats">
-          <div className="stat-card">
-            <span className="stat-number">+50</span>
-            <span className="stat-label">Años de Experiencia</span>
-            <p className="stat-description">
-              Siempre con una constante dedicación para mejorar los servicios al cliente y una continua actualización de productos e instalaciones.
-            </p>
-          </div>
-          <div className="stat-card">
-            <span className="stat-number">+40</span>
-            <span className="stat-label">Profesionales Especializados</span>
-            <p className="stat-description">
-              Nuestro personal está formado por profesionales cualificados que te asesorarán y atenderán personalmente.
-            </p>
-          </div>
+          {stats.map((stat, i) => (
+            <div className="stat-card" key={i}>
+              <span className="stat-number">{stat.number}</span>
+              <span className="stat-label">{stat.label}</span>
+              <p className="stat-description">{stat.description}</p>
+            </div>
+          ))}
         </div>
         <div className="about-team-photos">
           <div className="about-photo-half">

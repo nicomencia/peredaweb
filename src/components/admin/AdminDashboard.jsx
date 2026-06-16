@@ -12,6 +12,17 @@ const quienesFields = [
   { key: 'quienes_subtitle', label: 'Subtítulo del hero', type: 'input' },
   { key: 'quienes_intro_1', label: 'Primer párrafo de introducción', type: 'textarea', rows: 5 },
   { key: 'quienes_intro_2', label: 'Segundo párrafo de introducción', type: 'textarea', rows: 5 },
+  {
+    key: 'quienes_stats',
+    label: 'Estadísticas del equipo',
+    type: 'list',
+    addLabel: '+ Añadir estadística',
+    fields: [
+      { key: 'number', label: 'Cifra (p. ej. +50)' },
+      { key: 'label', label: 'Etiqueta' },
+      { key: 'description', label: 'Descripción', textarea: true },
+    ],
+  },
   { key: 'quienes_somos_bg', label: 'Imagen de cabecera', type: 'image', folder: 'quienes-somos' },
   { key: 'quienes_somos_1', label: 'Foto 1 (Nuestros orígenes)', type: 'image', folder: 'quienes-somos' },
   { key: 'quienes_somos_2', label: 'Foto 2 (Nuestras instalaciones)', type: 'image', folder: 'quienes-somos' },
@@ -20,6 +31,7 @@ const quienesFields = [
 ];
 
 const inspirateFields = [
+  { key: 'inspirate_heading', label: 'Título de la sección', type: 'input' },
   { key: 'inspirate_card_1_title', label: 'Tarjeta 1 - Título', type: 'input' },
   { key: 'inspirate_card_1_text', label: 'Tarjeta 1 - Texto', type: 'textarea', rows: 3 },
   { key: 'inspirate_card_2_title', label: 'Tarjeta 2 - Título', type: 'input' },
@@ -37,11 +49,35 @@ const productosFields = [
   { key: 'productos_subtitle', label: 'Subtítulo de la página', type: 'textarea', rows: 3 },
 ];
 
+const pidecitaFields = [
+  {
+    key: 'pidecita_locations',
+    label: 'Puntos de contacto para cita previa',
+    type: 'list',
+    addLabel: '+ Añadir punto',
+    fields: [
+      { key: 'name', label: 'Nombre' },
+      { key: 'phone', label: 'Teléfono' },
+      { key: 'email', label: 'Correo' },
+    ],
+  },
+];
+
 const areaFields = [
   { key: 'area_hero_title', label: 'Título principal', type: 'input' },
   { key: 'area_hero_subtitle', label: 'Subtítulo principal', type: 'textarea', rows: 3 },
   { key: 'area_benefits_title', label: 'Título sección beneficios', type: 'input' },
   { key: 'area_benefits_subtitle', label: 'Subtítulo sección beneficios', type: 'textarea', rows: 4 },
+  {
+    key: 'area_features',
+    label: 'Tarjetas de beneficios',
+    type: 'list',
+    addLabel: '+ Añadir tarjeta',
+    fields: [
+      { key: 'title', label: 'Título' },
+      { key: 'text', label: 'Texto', textarea: true },
+    ],
+  },
   { key: 'area_profesional_bg', label: 'Imagen de cabecera', type: 'image', folder: 'area-profesional' },
   { key: 'area_faq', label: 'Preguntas frecuentes', type: 'faq' },
 ];
@@ -53,6 +89,7 @@ const tabs = [
   { id: 'tiendas', label: 'Tiendas' },
   { id: 'productos', label: 'Productos' },
   { id: 'area', label: 'Área Profesional' },
+  { id: 'cita', label: 'Cita previa' },
   { id: 'ajustes', label: 'Ajustes generales' },
 ];
 
@@ -121,6 +158,14 @@ export default function AdminDashboard() {
             title="Área Profesional"
             description="Edita los textos de la página de Área Profesional."
             fields={areaFields}
+          />
+        );
+      case 'cita':
+        return (
+          <AdminPageEditor
+            title="Cita previa"
+            description="Edita los puntos de contacto (nombre, teléfono y correo) que se muestran en la página de cita previa."
+            fields={pidecitaFields}
           />
         );
       case 'ajustes':

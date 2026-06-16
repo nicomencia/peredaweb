@@ -26,10 +26,11 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 
 ### Quiénes somos
 - **Subtítulo** de la cabecera y los **dos párrafos** de introducción.
+- **Estadísticas del equipo** (las cifras tipo «+50 Años de Experiencia»): edita la cifra, la etiqueta y la descripción de cada una; puedes añadir o eliminar.
 - **Imagen de cabecera** y las **4 fotos** de la página (orígenes, instalaciones, equipo, profesionales).
 
 ### Inspírate
-- **Textos** de las tres tarjetas.
+- **Título** de la sección y **textos** de las tres tarjetas.
 - **Ambientes**: crea, edita o elimina ambientes (título, resumen, descripción, características y **fotos**). Cada ambiente puede tener varias fotos.
 
 ### Tiendas
@@ -44,7 +45,11 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 
 ### Área Profesional
 - **Textos** (título, subtítulo, sección de beneficios) e **imagen de cabecera**.
+- **Tarjetas de beneficios** (Calidad garantizada, Stock permanente…): edita el título y el texto de cada una; puedes añadir o eliminar (cada tarjeta conserva su icono por posición).
 - **Preguntas frecuentes**: pulsa **«+ Añadir pregunta»**, escribe la pregunta y la respuesta, y guarda. Puedes añadir varias o **eliminar** las que no quieras. En la web se muestran como un desplegable. Si no hay ninguna, la sección muestra un texto provisional.
+
+### Cita previa
+- **Puntos de contacto** que aparecen en la página de cita previa: edita el nombre, teléfono y correo de cada uno; puedes añadir o eliminar. (El texto introductorio se edita en **Portada**, en el botón «Pide cita».)
 
 ### Ajustes generales
 - **Colores** de la marca, **logo** de la barra de navegación, textos y enlaces del **pie de página** (descripción, redes sociales).

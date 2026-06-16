@@ -12,12 +12,14 @@ export default function Inspirate({ onSelectAmbiente }) {
   const [ambientes, setAmbientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cards, setCards] = useState(defaultCards);
+  const [heading, setHeading] = useState('Inspírate');
 
   useEffect(() => {
     async function fetchData() {
       const [ambientesRes, settingsRes] = await Promise.all([
         supabase.from('ambientes').select('*').order('display_order', { ascending: true }),
         supabase.from('site_settings').select('key, value').in('key', [
+          'inspirate_heading',
           'inspirate_card_1_title', 'inspirate_card_1_text',
           'inspirate_card_2_title', 'inspirate_card_2_text',
           'inspirate_card_3_title', 'inspirate_card_3_text',
@@ -29,6 +31,7 @@ export default function Inspirate({ onSelectAmbiente }) {
       if (settingsRes.data) {
         const loaded = [...defaultCards];
         settingsRes.data.forEach((row) => {
+          if (row.key === 'inspirate_heading') { if (row.value) setHeading(row.value); return; }
           const match = row.key.match(/^inspirate_card_(\d)_(title|text)$/);
           if (match) {
             const idx = parseInt(match[1]) - 1;
@@ -46,7 +49,7 @@ export default function Inspirate({ onSelectAmbiente }) {
   return (
     <section id="inspirate" className="inspirate">
       <div className="container">
-        <h2>Inspírate</h2>
+        <h2>{heading}</h2>
         <div className="inspirate-content">
           <div className="inspirate-cards">
             {cards.map((card, i) => (
