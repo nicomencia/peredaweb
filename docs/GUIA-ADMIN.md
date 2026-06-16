@@ -27,7 +27,8 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 ### Quiénes somos
 - **Subtítulo** de la cabecera y los **dos párrafos** de introducción.
 - **Estadísticas del equipo** (las cifras tipo «+50 Años de Experiencia»): edita la cifra, la etiqueta y la descripción de cada una; puedes añadir o eliminar.
-- **Imagen de cabecera** y las **4 fotos** de la página (orígenes, instalaciones, equipo, profesionales).
+- **Imagen de cabecera** y las **4 fotos** de la página, con sus **pies de foto**.
+- **Servicios asociados** (título, subtítulo y las tarjetas), bloque **«¿Por qué elegirnos?»** (título y puntos), títulos de **«Nuestro equipo»** y el banner **«Trabaja con nosotros»** (título, texto y botón). Casi todo el texto de la página es editable.
 
 ### Inspírate
 - **Título** de la sección y **textos** de las tres tarjetas.

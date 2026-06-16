@@ -6,6 +6,31 @@ import { randomUUID } from 'node:crypto';
 // editor shows existing items. INSERT IGNORE never overwrites edited values.
 const SEEDS = {
   inspirate_heading: 'Inspírate',
+  quienes_caption_1: 'Nuestros orígenes',
+  quienes_caption_2: 'Nuestras instalaciones',
+  quienes_servicios_title: 'Servicios asociados',
+  quienes_servicios_subtitle: 'Nuestros especialistas en diseño de interiores te acompañarán en cada paso para ayudarte a crear el baño que siempre has imaginado.',
+  quienes_porque_title: '¿POR QUÉ ELEGIR SANEAMIENTOS PEREDA?',
+  quienes_equipo_title: 'NUESTRO EQUIPO',
+  quienes_equipo_subtitle: 'Las personas que hacen posible Saneamientos Pereda',
+  quienes_careers_title: 'TRABAJA CON NOSOTROS',
+  quienes_careers_text: '¿Quieres formar parte de nuestro equipo? Envíanos tu CV.',
+  quienes_careers_button: 'Enviar CV',
+  quienes_servicios: JSON.stringify([
+    { name: 'Asesoramiento profesional', text: 'Contamos con un equipo de expertos en interiorismo y decoración que te orientará para encontrar las mejores soluciones según tu espacio, estilo y necesidades.' },
+    { name: 'Diseño personalizado', text: 'Te ayudamos a elegir la opción que mejor encaje contigo. Y si buscas algo único, elaboramos propuestas totalmente a medida adaptadas a tu proyecto.' },
+    { name: 'Transporte a domicilio', text: 'Olvídate de las preocupaciones logísticas. Nos encargamos de llevar tu compra directamente hasta tu hogar de forma cómoda y segura.' },
+    { name: 'Financiación flexible', text: 'Si lo necesitas, ponemos a tu disposición diferentes opciones de financiación para que puedas realizar tu proyecto con mayor comodidad.' },
+    { name: 'Recogida rápida', text: 'Compra cómodamente y recoge tu pedido sin esperas y con total facilidad.' },
+  ]),
+  quienes_porque: JSON.stringify([
+    { text: 'Todo para reformar el baño' },
+    { text: 'Te ayudamos a diseñarlo' },
+    { text: 'Trato humano y personalizado' },
+    { text: 'Más de 50 años de experiencia en el sector' },
+    { text: 'Los mejores precios del mercado' },
+    { text: 'Garantía Postventa' },
+  ]),
   area_features: JSON.stringify([
     { title: 'Calidad garantizada', text: 'Trabajamos solo con las mejores marcas del sector para garantizar resultados profesionales' },
     { title: 'Stock permanente', text: 'Amplio inventario disponible para que nunca te falte material en tus proyectos' },

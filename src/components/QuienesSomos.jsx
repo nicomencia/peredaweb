@@ -8,6 +8,35 @@ const DEFAULT_STATS = [
   { number: '+40', label: 'Profesionales Especializados', description: 'Nuestro personal está formado por profesionales cualificados que te asesorarán y atenderán personalmente.' },
 ];
 
+const DEFAULT_SERVICIOS = [
+  { name: 'Asesoramiento profesional', text: 'Contamos con un equipo de expertos en interiorismo y decoración que te orientará para encontrar las mejores soluciones según tu espacio, estilo y necesidades.' },
+  { name: 'Diseño personalizado', text: 'Te ayudamos a elegir la opción que mejor encaje contigo. Y si buscas algo único, elaboramos propuestas totalmente a medida adaptadas a tu proyecto.' },
+  { name: 'Transporte a domicilio', text: 'Olvídate de las preocupaciones logísticas. Nos encargamos de llevar tu compra directamente hasta tu hogar de forma cómoda y segura.' },
+  { name: 'Financiación flexible', text: 'Si lo necesitas, ponemos a tu disposición diferentes opciones de financiación para que puedas realizar tu proyecto con mayor comodidad.' },
+  { name: 'Recogida rápida', text: 'Compra cómodamente y recoge tu pedido sin esperas y con total facilidad.' },
+];
+
+const SERVICIO_ICONS = [
+  <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /><path d="M17 4l1.5 1.5L22 2" /></svg>,
+  <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z" /><path d="M14 8l4 4" /><path d="M18 6l2 2" /></svg>,
+  <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="6" width="13" height="11" rx="1" /><path d="M14 9h4l3 4v4h-7z" /><circle cx="6" cy="18" r="2" /><circle cx="17" cy="18" r="2" /></svg>,
+  <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="1" /><circle cx="12" cy="12" r="3" /><path d="M6 10v4M18 10v4" /></svg>,
+  <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" /><path d="M14 2v6h6" /><path d="M9 14l2 2 4-4" /></svg>,
+];
+
+const DEFAULT_PORQUE = [
+  { text: 'Todo para reformar el baño' },
+  { text: 'Te ayudamos a diseñarlo' },
+  { text: 'Trato humano y personalizado' },
+  { text: 'Más de 50 años de experiencia en el sector' },
+  { text: 'Los mejores precios del mercado' },
+  { text: 'Garantía Postventa' },
+];
+
+const PORQUE_CHECK = (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+);
+
 export default function QuienesSomos() {
   const [showCareersModal, setShowCareersModal] = useState(false);
   const [stats, setStats] = useState(DEFAULT_STATS);
@@ -15,7 +44,19 @@ export default function QuienesSomos() {
     quienes_subtitle: 'Siempre con dedicación\npara mejorar nuestros servicios',
     quienes_intro_1: 'Saneamientos Pereda es una empresa familiar fundada en Oviedo en el año 1959. Nace como distribuidora de productos de fontanería y sanitarios, pero con el paso de los años, con esfuerzo y dedicación, y gracias a la confianza depositada por los clientes, ha sabido crecer y diversificar su oferta para adaptarse a las necesidades del mercado, convirtiéndose en un referente en su sector.',
     quienes_intro_2: 'La oferta de productos, dirigida tanto al profesional como al particular más exigente, abarca material de fontanería, calefacción, sanitarios, grifería, mobiliario y accesorios para baño, materiales de construcción, electricidad, pintura, jardinería y herramienta.',
+    quienes_caption_1: 'Nuestros orígenes',
+    quienes_caption_2: 'Nuestras instalaciones',
+    quienes_servicios_title: 'Servicios asociados',
+    quienes_servicios_subtitle: 'Nuestros especialistas en diseño de interiores te acompañarán en cada paso para ayudarte a crear el baño que siempre has imaginado.',
+    quienes_porque_title: '¿POR QUÉ ELEGIR SANEAMIENTOS PEREDA?',
+    quienes_equipo_title: 'NUESTRO EQUIPO',
+    quienes_equipo_subtitle: 'Las personas que hacen posible Saneamientos Pereda',
+    quienes_careers_title: 'TRABAJA CON NOSOTROS',
+    quienes_careers_text: '¿Quieres formar parte de nuestro equipo? Envíanos tu CV.',
+    quienes_careers_button: 'Enviar CV',
   });
+  const [servicios, setServicios] = useState(DEFAULT_SERVICIOS);
+  const [porque, setPorque] = useState(DEFAULT_PORQUE);
   const [images, setImages] = useState(() => ({
     quienes_somos_bg: cachedSetting('quienes_somos_bg', ''),
     quienes_somos_1: cachedSetting('quienes_somos_1', ''),
@@ -29,16 +70,24 @@ export default function QuienesSomos() {
       const data = await loadSettings([
         'quienes_subtitle', 'quienes_intro_1', 'quienes_intro_2',
         'quienes_somos_bg', 'quienes_somos_1', 'quienes_somos_2', 'quienes_somos_3', 'quienes_somos_4',
-        'quienes_stats',
+        'quienes_stats', 'quienes_servicios', 'quienes_porque',
+        'quienes_caption_1', 'quienes_caption_2',
+        'quienes_servicios_title', 'quienes_servicios_subtitle',
+        'quienes_porque_title', 'quienes_equipo_title', 'quienes_equipo_subtitle',
+        'quienes_careers_title', 'quienes_careers_text', 'quienes_careers_button',
       ]);
       if (data) {
         const loadedTexts = { ...texts };
         const loadedImages = { ...images };
         data.forEach((row) => {
-          if (row.key === 'quienes_stats') {
+          if (row.key === 'quienes_stats' || row.key === 'quienes_servicios' || row.key === 'quienes_porque') {
             try {
               const items = JSON.parse(row.value || '[]');
-              if (Array.isArray(items) && items.length) setStats(items);
+              if (Array.isArray(items) && items.length) {
+                if (row.key === 'quienes_stats') setStats(items);
+                else if (row.key === 'quienes_servicios') setServicios(items);
+                else setPorque(items);
+              }
             } catch { /* ignore malformed */ }
           }
           else if (row.key in loadedImages) { if (row.value) loadedImages[row.key] = row.value; }
@@ -66,11 +115,11 @@ export default function QuienesSomos() {
       <div className="about-photos-top">
         <div className="about-photo-full">
           <img src={images.quienes_somos_1 || undefined} alt="Foto histórica de Saneamientos Pereda" />
-          <div className="about-photo-caption">Nuestros orígenes</div>
+          <div className="about-photo-caption">{texts.quienes_caption_1}</div>
         </div>
         <div className="about-photo-full">
           <img src={images.quienes_somos_2 || undefined} alt="Edificio principal de Saneamientos Pereda" />
-          <div className="about-photo-caption">Nuestras instalaciones</div>
+          <div className="about-photo-caption">{texts.quienes_caption_2}</div>
         </div>
       </div>
 
@@ -84,146 +133,41 @@ export default function QuienesSomos() {
 
       <div className="servicios-section">
         <div className="container">
-          <h3 className="servicios-title">Servicios asociados</h3>
+          <h3 className="servicios-title">{texts.quienes_servicios_title}</h3>
           <p className="servicios-subtitle">
-            Nuestros especialistas en diseño de interiores te acompañarán en cada paso para ayudarte a crear el baño que siempre has imaginado.
+            {texts.quienes_servicios_subtitle}
           </p>
 
           <div className="servicios-grid">
-            <div className="servicio-card">
-              <div className="servicio-icon">
-                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                  <path d="M17 4l1.5 1.5L22 2" />
-                </svg>
+            {servicios.map((s, i) => (
+              <div className="servicio-card" key={i}>
+                <div className="servicio-icon">{SERVICIO_ICONS[i] || SERVICIO_ICONS[0]}</div>
+                <h4 className="servicio-name">{s.name}</h4>
+                <p className="servicio-text">{s.text}</p>
               </div>
-              <h4 className="servicio-name">Asesoramiento profesional</h4>
-              <p className="servicio-text">
-                Contamos con un equipo de expertos en interiorismo y decoración que te orientará para encontrar las mejores soluciones según tu espacio, estilo y necesidades.
-              </p>
-            </div>
-
-            <div className="servicio-card">
-              <div className="servicio-icon">
-                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z" />
-                  <path d="M14 8l4 4" />
-                  <path d="M18 6l2 2" />
-                </svg>
-              </div>
-              <h4 className="servicio-name">Diseño personalizado</h4>
-              <p className="servicio-text">
-                Te ayudamos a elegir la opción que mejor encaje contigo. Y si buscas algo único, elaboramos propuestas totalmente a medida adaptadas a tu proyecto.
-              </p>
-            </div>
-
-            <div className="servicio-card">
-              <div className="servicio-icon">
-                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="1" y="6" width="13" height="11" rx="1" />
-                  <path d="M14 9h4l3 4v4h-7z" />
-                  <circle cx="6" cy="18" r="2" />
-                  <circle cx="17" cy="18" r="2" />
-                </svg>
-              </div>
-              <h4 className="servicio-name">Transporte a domicilio</h4>
-              <p className="servicio-text">
-                Olvídate de las preocupaciones logísticas. Nos encargamos de llevar tu compra directamente hasta tu hogar de forma cómoda y segura.
-              </p>
-            </div>
-
-            <div className="servicio-card">
-              <div className="servicio-icon">
-                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="6" width="20" height="12" rx="1" />
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M6 10v4M18 10v4" />
-                </svg>
-              </div>
-              <h4 className="servicio-name">Financiación flexible</h4>
-              <p className="servicio-text">
-                Si lo necesitas, ponemos a tu disposición diferentes opciones de financiación para que puedas realizar tu proyecto con mayor comodidad.
-              </p>
-            </div>
-
-            <div className="servicio-card">
-              <div className="servicio-icon">
-                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
-                  <path d="M14 2v6h6" />
-                  <path d="M9 14l2 2 4-4" />
-                </svg>
-              </div>
-              <h4 className="servicio-name">Recogida rápida</h4>
-              <p className="servicio-text">
-                Compra cómodamente y recoge tu pedido sin esperas y con total facilidad.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
       <div className="about-porqué">
         <div className="container">
-          <h3>¿POR QUÉ ELEGIR SANEAMIENTOS PEREDA?</h3>
+          <h3>{texts.quienes_porque_title}</h3>
           <div className="porqué-grid">
-            <div className="porqué-item">
-              <span className="porqué-check">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-              <span>Todo para reformar el baño</span>
-            </div>
-            <div className="porqué-item">
-              <span className="porqué-check">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-              <span>Te ayudamos a diseñarlo</span>
-            </div>
-            <div className="porqué-item">
-              <span className="porqué-check">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-              <span>Trato humano y personalizado</span>
-            </div>
-            <div className="porqué-item">
-              <span className="porqué-check">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-              <span>Más de 50 años de experiencia en el sector</span>
-            </div>
-            <div className="porqué-item">
-              <span className="porqué-check">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-              <span>Los mejores precios del mercado</span>
-            </div>
-            <div className="porqué-item">
-              <span className="porqué-check">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-              <span>Garantía Postventa</span>
-            </div>
+            {porque.map((item, i) => (
+              <div className="porqué-item" key={i}>
+                <span className="porqué-check">{PORQUE_CHECK}</span>
+                <span>{item.text}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       <div className="about-team-section">
         <div className="container">
-          <h3>NUESTRO EQUIPO</h3>
-          <p className="about-team-subtitle">Las personas que hacen posible Saneamientos Pereda</p>
+          <h3>{texts.quienes_equipo_title}</h3>
+          <p className="about-team-subtitle">{texts.quienes_equipo_subtitle}</p>
         </div>
         <div className="about-team-stats">
           {stats.map((stat, i) => (
@@ -255,12 +199,12 @@ export default function QuienesSomos() {
               <line x1="10" y1="14" x2="14" y2="14" />
             </svg>
           </div>
-          <h3>TRABAJA CON NOSOTROS</h3>
+          <h3>{texts.quienes_careers_title}</h3>
           <p className="careers-text">
-            ¿Quieres formar parte de nuestro equipo? Envíanos tu CV.
+            {texts.quienes_careers_text}
           </p>
           <button className="careers-cta" onClick={() => setShowCareersModal(true)}>
-            Enviar CV
+            {texts.quienes_careers_button}
           </button>
         </div>
       </div>

@@ -28,6 +28,33 @@ const quienesFields = [
   { key: 'quienes_somos_2', label: 'Foto 2 (Nuestras instalaciones)', type: 'image', folder: 'quienes-somos' },
   { key: 'quienes_somos_3', label: 'Foto 3 (Equipo)', type: 'image', folder: 'quienes-somos' },
   { key: 'quienes_somos_4', label: 'Foto 4 (Profesionales)', type: 'image', folder: 'quienes-somos' },
+  { key: 'quienes_caption_1', label: 'Pie de la foto 1', type: 'input' },
+  { key: 'quienes_caption_2', label: 'Pie de la foto 2', type: 'input' },
+  { key: 'quienes_servicios_title', label: 'Servicios asociados - Título', type: 'input' },
+  { key: 'quienes_servicios_subtitle', label: 'Servicios asociados - Subtítulo', type: 'textarea', rows: 3 },
+  {
+    key: 'quienes_servicios',
+    label: 'Servicios asociados (tarjetas)',
+    type: 'list',
+    addLabel: '+ Añadir servicio',
+    fields: [
+      { key: 'name', label: 'Nombre' },
+      { key: 'text', label: 'Texto', textarea: true },
+    ],
+  },
+  { key: 'quienes_porque_title', label: '¿Por qué elegirnos? - Título', type: 'input' },
+  {
+    key: 'quienes_porque',
+    label: '¿Por qué elegirnos? (puntos)',
+    type: 'list',
+    addLabel: '+ Añadir punto',
+    fields: [{ key: 'text', label: 'Texto' }],
+  },
+  { key: 'quienes_equipo_title', label: 'Nuestro equipo - Título', type: 'input' },
+  { key: 'quienes_equipo_subtitle', label: 'Nuestro equipo - Subtítulo', type: 'input' },
+  { key: 'quienes_careers_title', label: 'Trabaja con nosotros - Título', type: 'input' },
+  { key: 'quienes_careers_text', label: 'Trabaja con nosotros - Texto', type: 'textarea', rows: 2 },
+  { key: 'quienes_careers_button', label: 'Trabaja con nosotros - Botón', type: 'input' },
 ];
 
 const inspirateFields = [
