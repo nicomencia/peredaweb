@@ -56,6 +56,7 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 - Subidas del panel → `/html/dev/media/...` (nombres únicos, así esquivan la caché de estáticos). El frontend las optimiza a WebP ≤1920px antes de subir (`src/lib/upload.js`).
 - Imágenes base (logo, hero) bundleadas en `public/base/` y mantenidas al día por `sync-base-images.mjs` (corre antes de cada deploy). El resto es 100% de BBDD.
 - Recompresión puntual: `scripts/optimize-images.mjs` (sobre `public/`).
+- **Limpieza de huérfanos**: al reemplazar una imagen desde el panel, el archivo antiguo queda en disco (nombres únicos). `node scripts/prune-orphan-media.mjs` lista las imágenes que ninguna fila de la BBDD referencia; añade `--delete` para borrarlas. Salvaguardas: dry-run por defecto, **periodo de gracia** (`--days N`, 7 por defecto, nunca borra subidas recientes), ignora `/media/base/` y los dotfiles (`.htaccess`). Recomendado ejecutarlo de forma puntual (p. ej. trimestral) o cuando el disco crezca; no es urgente (imágenes WebP ~100-300 KB, ~54 GB libres).
 
 ## Email (formularios)
 
