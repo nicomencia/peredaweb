@@ -230,7 +230,7 @@ export function PoliticaPrivacidad() {
         <strong>Datos de contacto para ejercer sus derechos:</strong>
         <br />
         SANEAMIENTOS PEREDA SA. CALLE INDEPENDENCIA, 43 BAJO – 33004 OVIEDO (Asturias). Email:
-        marketing@saneaminetos-pereda.com
+        marketing@saneamientos-pereda.com
       </p>
 
       <h2>2. Carácter obligatorio o facultativo de la información facilitada por el usuario</h2>

@@ -10,16 +10,18 @@ export default function AreaProfesional({ setCurrentView }) {
     area_benefits_subtitle: 'Porque aquí encuentras calidad al mejor precio, un amplio stock con primeras marcas, el mejor asesoramiento personalizado y, además, todas las novedades y ofertas al alcance de tu mano.',
   });
   const [bgUrl, setBgUrl] = useState(() => cachedSetting('area_profesional_bg', ''));
+  const [ecommerceUrl, setEcommerceUrl] = useState(() => cachedSetting('ecommerce_url', 'https://ecommerce.saneamientos-pereda.com/ecom/login.php'));
   const [faq, setFaq] = useState([]);
   const [openFaq, setOpenFaq] = useState(null);
 
   useEffect(() => {
     async function load() {
-      const data = await loadSettings(['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle', 'area_profesional_bg', 'area_faq']);
+      const data = await loadSettings(['area_hero_title', 'area_hero_subtitle', 'area_benefits_title', 'area_benefits_subtitle', 'area_profesional_bg', 'area_faq', 'ecommerce_url']);
       if (data) {
         const loaded = { ...texts };
         data.forEach((row) => {
           if (row.key === 'area_profesional_bg') { if (row.value) setBgUrl(row.value); }
+          else if (row.key === 'ecommerce_url') { if (row.value) setEcommerceUrl(row.value); }
           else if (row.key === 'area_faq') {
             try {
               const items = JSON.parse(row.value || '[]');
@@ -46,7 +48,7 @@ export default function AreaProfesional({ setCurrentView }) {
           </p>
           <div className="area-hero-buttons">
             <a
-              href="https://ecommerce.saneamientos-pereda.com/ecom/login.php"
+              href={ecommerceUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="area-hero-btn area-hero-btn--primary"

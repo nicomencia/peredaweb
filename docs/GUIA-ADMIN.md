@@ -47,7 +47,10 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 - **Preguntas frecuentes**: pulsa **«+ Añadir pregunta»**, escribe la pregunta y la respuesta, y guarda. Puedes añadir varias o **eliminar** las que no quieras. En la web se muestran como un desplegable. Si no hay ninguna, la sección muestra un texto provisional.
 
 ### Ajustes generales
-- **Colores** de la marca, **logo** de la barra de navegación, textos y enlaces del **pie de página** (descripción, redes sociales), etc.
+- **Colores** de la marca, **logo** de la barra de navegación, textos y enlaces del **pie de página** (descripción, redes sociales).
+- **Contacto y tienda**: teléfono postventa (página de Financiación) y los enlaces de los botones **«Tienda»** (todos los clientes) y **«Acceso ecommerce»** (profesionales). Cuando ambas tiendas pasen a ser el mismo enlace, basta con poner la misma URL en los dos.
+
+> Las **direcciones y teléfonos de las tiendas que aparecen en el pie de página** se toman automáticamente de la sección **Tiendas**: edítalas allí y el pie se actualiza solo.
 
 ---
 

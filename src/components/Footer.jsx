@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import { cachedSetting, loadSettings } from '../lib/settings';
 import './Footer.css';
 
@@ -7,6 +8,7 @@ export default function Footer({ setCurrentView }) {
   const [facebookUrl, setFacebookUrl] = useState(() => cachedSetting('footer_facebook_url', 'https://facebook.com/Pereda.Asturias'));
   const [instagramUrl, setInstagramUrl] = useState(() => cachedSetting('footer_instagram_url', 'https://instagram.com/saneamientospereda/'));
   const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/base/navbar-logo.webp'));
+  const [stores, setStores] = useState([]);
 
   useEffect(() => {
     async function load() {
@@ -19,6 +21,11 @@ export default function Footer({ setCurrentView }) {
           if (row.key === 'navbar_logo') setLogoUrl(row.value);
         });
       }
+      const { data: tiendas } = await supabase
+        .from('tiendas')
+        .select('*')
+        .order('display_order', { ascending: true });
+      if (tiendas) setStores(tiendas);
     }
     load();
   }, []);
@@ -45,26 +52,13 @@ export default function Footer({ setCurrentView }) {
           <div className="footer-stores">
             <h4>Tiendas</h4>
             <div className="footer-stores-grid">
-              <div className="footer-store">
-                <p>Independencia, 43</p>
-                <p>33004 Oviedo</p>
-                <p>Telf. 985 271 026</p>
-              </div>
-              <div className="footer-store">
-                <p>La Lila, 26 &ndash; Avellanos 4</p>
-                <p>33002 Oviedo</p>
-                <p>Telf. 985 223 489</p>
-              </div>
-              <div className="footer-store">
-                <p>Ctra. AS-266 km 6,5</p>
-                <p>33192 Pruvia</p>
-                <p>Telf. 985 260 124</p>
-              </div>
-              <div className="footer-store">
-                <p>Infiesto, 12, 14 &ndash; Avil&eacute;s 17</p>
-                <p>33207 Gij&oacute;n</p>
-                <p>Telf. 985 351 747</p>
-              </div>
+              {stores.map((store) => (
+                <div className="footer-store" key={store.id}>
+                  <p>{store.address}</p>
+                  {store.postal_code && <p>{store.postal_code}</p>}
+                  {store.phone && <p>Telf. {store.phone}</p>}
+                </div>
+              ))}
             </div>
           </div>
 

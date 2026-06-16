@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { cachedSetting, loadSettings } from '../lib/settings';
 import './SimplePage.css';
 import './Financiacion.css';
 
 const defaultText = 'Saneamientos Pereda pone a tu disposición una línea de financiación con unas condiciones inmejorables: todas tus compras al 0% DE INTERÉS en cuotas de hasta 24 meses.';
 
 export default function Financiacion() {
-  const [description, setDescription] = useState(defaultText);
+  const [description, setDescription] = useState(() => cachedSetting('cta_2_description', defaultText));
+  const [phone, setPhone] = useState(() => cachedSetting('contact_phone', '984 75 17 99'));
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('value')
-        .eq('key', 'cta_2_description')
-        .maybeSingle();
-      if (data?.value) setDescription(data.value);
+      const data = await loadSettings(['cta_2_description', 'contact_phone']);
+      data?.forEach((row) => {
+        if (row.key === 'cta_2_description' && row.value) setDescription(row.value);
+        if (row.key === 'contact_phone' && row.value) setPhone(row.value);
+      });
     }
     load();
   }, []);
@@ -148,7 +148,7 @@ export default function Financiacion() {
                 <div className="financiacion-step-body">
                   <h4 className="financiacion-step-title">Te atenderemos en todo momento</h4>
                   <p className="financiacion-step-text">
-                    Teléfono postventa: <a href="tel:984751799">984 75 17 99</a>
+                    Teléfono postventa: <a href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</a>
                   </p>
                 </div>
               </div>

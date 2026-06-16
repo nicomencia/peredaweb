@@ -1,10 +1,27 @@
+import { useState, useEffect } from 'react';
+import { cachedSetting, loadSettings } from '../lib/settings';
 import './FloatingShopButton.css';
+
+const DEFAULT_SHOP = 'https://www.saneamientos-pereda.es/';
+const DEFAULT_ECOMMERCE = 'https://ecommerce.saneamientos-pereda.com/ecom/login.php';
 
 export default function FloatingShopButton({ currentView }) {
   const isAreaProfesional = currentView === 'area-profesional';
-  const href = isAreaProfesional
-    ? 'https://ecommerce.saneamientos-pereda.com/ecom/login.php'
-    : 'https://www.saneamientos-pereda.es/';
+  const [shopUrl, setShopUrl] = useState(() => cachedSetting('shop_url', DEFAULT_SHOP));
+  const [ecommerceUrl, setEcommerceUrl] = useState(() => cachedSetting('ecommerce_url', DEFAULT_ECOMMERCE));
+
+  useEffect(() => {
+    async function load() {
+      const data = await loadSettings(['shop_url', 'ecommerce_url']);
+      data?.forEach((row) => {
+        if (row.key === 'shop_url' && row.value) setShopUrl(row.value);
+        if (row.key === 'ecommerce_url' && row.value) setEcommerceUrl(row.value);
+      });
+    }
+    load();
+  }, []);
+
+  const href = isAreaProfesional ? ecommerceUrl : shopUrl;
 
   return (
     <a

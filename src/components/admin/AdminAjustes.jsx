@@ -12,6 +12,9 @@ const SETTINGS_KEYS = [
   'color_secondary',
   'color_dark',
   'navbar_logo',
+  'contact_phone',
+  'shop_url',
+  'ecommerce_url',
 ];
 
 export default function AdminAjustes() {
@@ -171,6 +174,36 @@ export default function AdminAjustes() {
               type="text"
               value={values.footer_instagram_url || ''}
               onChange={(e) => handleChange('footer_instagram_url', e.target.value)}
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="admin-ajustes-section">
+        <h3>Contacto y tienda</h3>
+        <div className="admin-ajustes-fields">
+          <label>
+            Teléfono postventa (página de Financiación)
+            <input
+              type="text"
+              value={values.contact_phone || ''}
+              onChange={(e) => handleChange('contact_phone', e.target.value)}
+            />
+          </label>
+          <label>
+            Enlace de la tienda (botón «Tienda», para todos los clientes)
+            <input
+              type="text"
+              value={values.shop_url || ''}
+              onChange={(e) => handleChange('shop_url', e.target.value)}
+            />
+          </label>
+          <label>
+            Enlace del ecommerce (botón «Acceso ecommerce», profesionales)
+            <input
+              type="text"
+              value={values.ecommerce_url || ''}
+              onChange={(e) => handleChange('ecommerce_url', e.target.value)}
             />
           </label>
         </div>
