@@ -33,6 +33,7 @@ html, body {
 body {
   font-family: var(--font-sans);
   color: var(--color-black);
+  background-color: var(--color-cream);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
