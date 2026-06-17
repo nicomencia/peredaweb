@@ -26,7 +26,7 @@
 .admin-homepage-msg {
   position: fixed;
   left: 50%;
-  bottom: 1.5rem;
+  bottom: 4rem;
   transform: translateX(-50%);
   z-index: 1000;
   max-width: 90vw;
