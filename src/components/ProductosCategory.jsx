@@ -51,7 +51,7 @@ const CATEGORY_CONFIG = {
   },
 };
 
-export default function ProductosCategory({ category, setCurrentView, setProductCategory, categoryBanners }) {
+export default function ProductosCategory({ category, setCurrentView, categoryBanners }) {
   const [products, setProducts] = useState([]);
   const [photosMap, setPhotosMap] = useState({});
   const [loading, setLoading] = useState(true);
@@ -111,7 +111,6 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
   }
 
   const handleBack = () => {
-    setProductCategory(null);
     setCurrentView('colecciones');
   };
 

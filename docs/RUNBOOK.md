@@ -77,6 +77,6 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 
 1. Resolver la publicación de DNS y emitir SSL para el subdominio.
 2. Decidir la ubicación de producción y su relación con el WordPress de `/html`.
-3. Revisar SEO (limitación conocida: SPA sin router, una sola URL).
+3. Confirmar el dominio canónico de SEO (en el JSON-LD de `index.html` está fijado `https://www.saneamientos-pereda.com`; `sitemap.xml`/`robots.txt`/`og:url` usan el host real dinámicamente vía `public/index.php`).
 4. Configurar copias de seguridad periódicas (MySQL + `/media`).
 5. Rotar contraseñas si fuera necesario (admin, SMTP, DB).

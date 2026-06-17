@@ -1,6 +1,6 @@
-# SEO & routing — plan (no implementar todavía)
+# SEO & routing — plan (IMPLEMENTADO)
 
-Documento de análisis. **Pendiente de implementar** tras la fase de pruebas del cliente y antes de la salida a producción. Hacerlo *antes* de ser público evita deuda de redirecciones (no hay URLs indexadas que preservar).
+> **Estado: implementado** (react-router + URLs reales por página, `public/index.php` que inyecta meta por ruta y genera `sitemap.xml`/`robots.txt`, datos estructurados JSON-LD). Pendiente solo: confirmar el dominio canónico al salir a producción. El documento original de análisis se conserva abajo.
 
 ## Estado actual y limitaciones
 

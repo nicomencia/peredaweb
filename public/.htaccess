@@ -1,11 +1,13 @@
+# SPA routing: every request that isn't a real file/dir goes through the PHP
+# front controller (index.php), which injects per-route SEO metadata and serves
+# the React shell. Static assets (assets/, media/, *.webp, …) are served directly.
+DirectoryIndex index.php
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # If the request is for an existing file or directory, serve it directly
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-
-  # Otherwise, redirect all requests to index.html (SPA routing)
-  RewriteRule ^ index.html [QSA,L]
+  RewriteRule ^ index.php [QSA,L]
 </IfModule>

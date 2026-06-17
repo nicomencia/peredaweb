@@ -4,7 +4,8 @@ Website for Saneamientos Pereda (Spanish bathroom/plumbing/construction-material
 
 ## Architecture
 
-- **Frontend**: static build deployed to client server `/html/dev` (dev subdomain `dev.saneamientos-pereda.com`). No router: navigation is `useState('currentView')` in `src/App.jsx`; all pages share one URL (known SEO limitation, accepted for now). Admin panel + Instalaciones (Leaflet) code-split via `React.lazy`.
+- **Frontend**: static build deployed to client server `/html/dev` (dev subdomain `dev.saneamientos-pereda.com`). **react-router** (BrowserRouter) gives real per-page URLs; `App.jsx` keeps a `setCurrentView(view)` adapter (maps view→path via `VIEW_TO_PATH`) so child components navigate unchanged. Admin panel + Instalaciones (Leaflet) code-split via `React.lazy`.
+- **SEO**: a PHP front controller `public/index.php` (served via `.htaccess`, `DirectoryIndex index.php`) serves the SPA shell with per-route `<title>`/description/`og:*`/canonical injected, and generates `/sitemap.xml` + `/robots.txt` dynamically (live host). JSON-LD `HardwareStore` in `index.html`. Per-route meta also set client-side in `App.jsx`. Canonical domain in the JSON-LD is hardcoded `https://www.saneamientos-pereda.com` — confirm at production launch.
 - **Backend**: PHP API in `server/api/` (deployed to `/html/dev/api/`), MySQL, images on server disk under `/html/dev/media/`.
   - `src/lib/api.js` is a small **chainable client** (`from().select().eq().in().or().order().maybeSingle()`, `insert/update/delete`, `auth.*`) that calls the PHP API — components use it like a mini query builder. Don't "clean it up" into per-component fetches without reason.
   - `src/lib/upload.js` resizes client-side (≤1920px WebP) then POSTs to `api/upload.php` (PHP-session protected).

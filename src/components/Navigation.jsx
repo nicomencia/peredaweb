@@ -15,7 +15,7 @@ const PRODUCT_CATEGORIES = [
   { key: 'electricidad', label: 'Electricidad', icon: 'M13 2L4 14h7l-1 8 9-12h-7z' },
 ];
 
-export default function Navigation({ currentView, setCurrentView, setProductCategory }) {
+export default function Navigation({ currentView, setCurrentView, onCategorySelect }) {
   const [isOpen, setIsOpen] = useState(false);
   const [productosOpen, setProductosOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/base/navbar-logo.webp'));
@@ -37,13 +37,13 @@ export default function Navigation({ currentView, setCurrentView, setProductCate
   };
 
   const handleProductosClick = () => {
-    setProductCategory(null);
     handleNavClick('colecciones');
   };
 
   const handleCategoryClick = (categoryKey) => {
-    setProductCategory(categoryKey);
-    handleNavClick('productos-categoria');
+    onCategorySelect(categoryKey);
+    setIsOpen(false);
+    setProductosOpen(false);
   };
 
   return (
