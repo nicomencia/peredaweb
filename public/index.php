@@ -26,7 +26,7 @@ $ROUTES = [
 // ---- Dynamic robots.txt (Sitemap line uses the live host) ----
 if ($path === '/robots.txt') {
     header('Content-Type: text/plain; charset=utf-8');
-    echo "User-agent: *\nAllow: /\n\nSitemap: $origin/sitemap.xml\n";
+    echo "User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: $origin/sitemap.xml\n";
     exit;
 }
 
@@ -85,9 +85,12 @@ $html = preg_replace('#<meta name="description"[^>]*>#i', '<meta name="descripti
 $html = preg_replace('#<meta property="og:title"[^>]*>#i', '<meta property="og:title" content="' . $t . '" />', $html, 1);
 $html = preg_replace('#<meta property="og:description"[^>]*>#i', '<meta property="og:description" content="' . $d . '" />', $html, 1);
 $html = preg_replace('#<meta property="og:image"[^>]*>#i', '<meta property="og:image" content="' . htmlspecialchars($image, ENT_QUOTES) . '" />', $html, 1);
-// Add og:url + canonical (not present in the static template).
+// Add og:url + canonical (not present in the static template); noindex for admin.
 $inject = '<meta property="og:url" content="' . htmlspecialchars($url, ENT_QUOTES) . '" />'
         . '<link rel="canonical" href="' . htmlspecialchars($url, ENT_QUOTES) . '" />';
+if (str_starts_with($path, '/admin')) {
+    $inject .= '<meta name="robots" content="noindex,nofollow" />';
+}
 $html = preg_replace('#</head>#i', $inject . '</head>', $html, 1);
 
 header('Content-Type: text/html; charset=utf-8');
