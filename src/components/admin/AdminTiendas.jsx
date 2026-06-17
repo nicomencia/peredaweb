@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/api';
 import { uploadImage } from '../../lib/upload';
 import './AdminHomepage.css';
 import './AdminAmbientes.css';
@@ -17,8 +17,8 @@ export default function AdminTiendas() {
   async function fetchTiendas() {
     setLoading(true);
     const [{ data: tds }, { data: photos }] = await Promise.all([
-      supabase.from('tiendas').select('*').order('display_order', { ascending: true }),
-      supabase.from('tienda_photos').select('*'),
+      api.from('tiendas').select('*').order('display_order', { ascending: true }),
+      api.from('tienda_photos').select('*'),
     ]);
     const byTienda = {};
     (photos || []).forEach((p) => {
@@ -32,7 +32,7 @@ export default function AdminTiendas() {
 
   async function handleAdd() {
     const maxOrder = tiendas.reduce((max, t) => Math.max(max, t.display_order), 0);
-    const { data, error } = await supabase
+    const { data, error } = await api
       .from('tiendas')
       .insert({ name: 'Nueva tienda', display_order: maxOrder + 1 })
       .select()
@@ -49,7 +49,7 @@ export default function AdminTiendas() {
 
   async function handleDelete(id) {
     if (!confirm('¿Eliminar esta tienda y todas sus fotos?')) return;
-    const { error } = await supabase.from('tiendas').delete().eq('id', id);
+    const { error } = await api.from('tiendas').delete().eq('id', id);
     if (error) {
       setMessage('Error eliminando: ' + error.message);
       return;
@@ -160,7 +160,7 @@ function TiendaEditor({ tienda, onUpdate, setMessage }) {
       const maxOrder = photos.reduce((max, p) => Math.max(max, p.display_order), 0);
       for (let i = 0; i < files.length; i++) {
         const url = await uploadImage(files[i], `tiendas/${tienda.id}`);
-        const { data, error } = await supabase
+        const { data, error } = await api
           .from('tienda_photos')
           .insert({
             tienda_id: tienda.id,
@@ -181,7 +181,7 @@ function TiendaEditor({ tienda, onUpdate, setMessage }) {
   }
 
   async function handleDeletePhoto(photoId) {
-    const { error } = await supabase.from('tienda_photos').delete().eq('id', photoId);
+    const { error } = await api.from('tienda_photos').delete().eq('id', photoId);
     if (error) {
       setMessage('Error eliminando foto: ' + error.message);
       return;
@@ -198,7 +198,7 @@ function TiendaEditor({ tienda, onUpdate, setMessage }) {
         .map((e) => e.trim())
         .filter(Boolean);
 
-      const { error } = await supabase
+      const { error } = await api
         .from('tiendas')
         .update({
           name,

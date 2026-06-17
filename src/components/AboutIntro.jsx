@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import './AboutIntro.css';
 
 const defaultCtas = [
@@ -14,7 +14,7 @@ export default function AboutIntro({ setCurrentView }) {
 
   useEffect(() => {
     async function loadCtas() {
-      const { data } = await supabase
+      const { data } = await api
         .from('site_settings')
         .select('key, value')
         .in('key', [

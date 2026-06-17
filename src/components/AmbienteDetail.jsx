@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import './AmbienteDetail.css';
 
 export default function AmbienteDetail({ ambienteId, setCurrentView }) {
@@ -12,7 +12,7 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const ambienteResult = await supabase
+        const ambienteResult = await api
           .from('ambientes')
           .select('*')
           .eq('id', ambienteId)
@@ -20,7 +20,7 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
 
         if (ambienteResult.data) setAmbiente(ambienteResult.data);
 
-        const photosResult = await supabase
+        const photosResult = await api
           .from('ambiente_photos')
           .select('*')
           .eq('ambiente_id', ambienteId)

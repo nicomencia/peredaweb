@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import './CollectionDetail.css';
 
 export default function CollectionDetail({ collectionId, setCurrentView }) {
@@ -17,9 +17,9 @@ export default function CollectionDetail({ collectionId, setCurrentView }) {
   async function fetchCollectionData() {
     try {
       const [collectionResult, detailsResult, photosResult] = await Promise.all([
-        supabase.from('collections').select('*').eq('id', collectionId).maybeSingle(),
-        supabase.from('collection_details').select('*').eq('collection_id', collectionId).maybeSingle(),
-        supabase.from('collection_photos').select('*').eq('collection_id', collectionId).order('display_order', { ascending: true })
+        api.from('collections').select('*').eq('id', collectionId).maybeSingle(),
+        api.from('collection_details').select('*').eq('collection_id', collectionId).maybeSingle(),
+        api.from('collection_photos').select('*').eq('collection_id', collectionId).order('display_order', { ascending: true })
       ]);
 
       if (collectionResult.error) throw collectionResult.error;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import './Inspirate.css';
 
 const defaultCards = [
@@ -17,8 +17,8 @@ export default function Inspirate({ onSelectAmbiente }) {
   useEffect(() => {
     async function fetchData() {
       const [ambientesRes, settingsRes] = await Promise.all([
-        supabase.from('ambientes').select('*').order('display_order', { ascending: true }),
-        supabase.from('site_settings').select('key, value').in('key', [
+        api.from('ambientes').select('*').order('display_order', { ascending: true }),
+        api.from('site_settings').select('key, value').in('key', [
           'inspirate_heading',
           'inspirate_card_1_title', 'inspirate_card_1_text',
           'inspirate_card_2_title', 'inspirate_card_2_text',

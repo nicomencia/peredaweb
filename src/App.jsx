@@ -1,5 +1,5 @@
 import { useState, useEffect, useLayoutEffect, lazy, Suspense } from 'react';
-import { supabase } from './lib/supabase';
+import { api } from './lib/api';
 import { cachedSetting, cachedByPrefix, primeCache } from './lib/settings';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
@@ -84,7 +84,7 @@ export default function App() {
 
   useEffect(() => {
     async function loadSettings() {
-      const { data } = await supabase
+      const { data } = await api
         .from('site_settings')
         .select('key, value')
         .or('key.in.(color_primary,color_secondary,color_dark),key.like.category_banner_%');
@@ -107,13 +107,13 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    api.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
     });
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = api.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
     });
 

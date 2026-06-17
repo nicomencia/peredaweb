@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import './SimplePage.css';
 
 const defaultDescription = 'Más de 50 años de experiencia. Más de 40 profesionales especializados en diferentes áreas del sector. Locales de exposición y autoservicio. Venta a profesionales del gremio y a particulares. Líderes del mercado Asturiano.';
@@ -19,7 +19,7 @@ export default function Presupuesto() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
+      const { data } = await api
         .from('site_settings')
         .select('value')
         .eq('key', 'cta_3_description')

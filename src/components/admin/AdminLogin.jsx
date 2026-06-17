@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/api';
 import './AdminLogin.css';
 
 export default function AdminLogin({ onLoginSuccess }) {
@@ -14,7 +14,7 @@ export default function AdminLogin({ onLoginSuccess }) {
     setError('');
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await api.auth.signInWithPassword({
         email,
         password,
       });

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/api';
 import { uploadImage } from '../../lib/upload';
 import './AdminHomepage.css';
 import './AdminProductos.css';
@@ -36,7 +36,7 @@ export default function AdminProductos() {
   }, [activeCategory]);
 
   async function fetchCatDesc() {
-    const { data } = await supabase
+    const { data } = await api
       .from('site_settings')
       .select('value')
       .eq('key', `category_desc_${activeCategory}`)
@@ -47,7 +47,7 @@ export default function AdminProductos() {
   async function saveCatDesc() {
     setSavingDesc(true);
     const key = `category_desc_${activeCategory}`;
-    const { data: existing } = await supabase
+    const { data: existing } = await api
       .from('site_settings')
       .select('id')
       .eq('key', key)
@@ -55,9 +55,9 @@ export default function AdminProductos() {
 
     let error;
     if (existing) {
-      ({ error } = await supabase.from('site_settings').update({ value: catDesc }).eq('key', key));
+      ({ error } = await api.from('site_settings').update({ value: catDesc }).eq('key', key));
     } else {
-      ({ error } = await supabase.from('site_settings').insert({ key, value: catDesc }));
+      ({ error } = await api.from('site_settings').insert({ key, value: catDesc }));
     }
 
     if (error) {
@@ -69,7 +69,7 @@ export default function AdminProductos() {
   }
 
   async function fetchCatBanner() {
-    const { data } = await supabase
+    const { data } = await api
       .from('site_settings')
       .select('value')
       .eq('key', `category_banner_${activeCategory}`)
@@ -84,16 +84,16 @@ export default function AdminProductos() {
     try {
       const url = await uploadImage(file, 'site-assets');
       const key = `category_banner_${activeCategory}`;
-      const { data: existing } = await supabase
+      const { data: existing } = await api
         .from('site_settings')
         .select('id')
         .eq('key', key)
         .maybeSingle();
 
       if (existing) {
-        await supabase.from('site_settings').update({ value: url }).eq('key', key);
+        await api.from('site_settings').update({ value: url }).eq('key', key);
       } else {
-        await supabase.from('site_settings').insert({ key, value: url });
+        await api.from('site_settings').insert({ key, value: url });
       }
       setCatBanner(url);
       setMessage('Imagen de cabecera actualizada.');
@@ -107,7 +107,7 @@ export default function AdminProductos() {
   async function fetchProducts() {
     setLoading(true);
     setMessage('');
-    const { data, error } = await supabase
+    const { data, error } = await api
       .from('products')
       .select('*')
       .eq('product_type', activeCategory)
@@ -123,7 +123,7 @@ export default function AdminProductos() {
 
     if (data && data.length > 0) {
       const ids = data.map((p) => p.id);
-      const { data: photos } = await supabase
+      const { data: photos } = await api
         .from('product_photos')
         .select('*')
         .in('product_id', ids)
@@ -149,7 +149,7 @@ export default function AdminProductos() {
   async function handleAdd() {
     const maxOrder = products.reduce((max, p) => Math.max(max, p.display_order || 0), 0);
     const catLabel = CATEGORIES.find((c) => c.key === activeCategory)?.label || activeCategory;
-    const { data, error } = await supabase
+    const { data, error } = await api
       .from('products')
       .insert({
         name: 'Nuevo producto',
@@ -173,7 +173,7 @@ export default function AdminProductos() {
 
   async function handleDelete(id) {
     if (!confirm('¿Eliminar este producto y todas sus fotos?')) return;
-    const { error } = await supabase.from('products').delete().eq('id', id);
+    const { error } = await api.from('products').delete().eq('id', id);
     if (error) {
       setMessage('Error eliminando: ' + error.message);
       return;
@@ -308,7 +308,7 @@ function BrandsManager({ category }) {
 
   async function fetchBrands() {
     setLoading(true);
-    const { data } = await supabase
+    const { data } = await api
       .from('brands')
       .select('*')
       .eq('category', category)
@@ -326,7 +326,7 @@ function BrandsManager({ category }) {
       for (let i = 0; i < files.length; i++) {
         const url = await uploadImage(files[i], 'brands');
         const name = files[i].name.replace(/\.[^.]+$/, '');
-        const { data, error } = await supabase
+        const { data, error } = await api
           .from('brands')
           .insert({ name, logo_url: url, display_order: maxOrder + i + 1, category })
           .select()
@@ -343,7 +343,7 @@ function BrandsManager({ category }) {
   }
 
   async function handleDelete(id) {
-    const { error } = await supabase.from('brands').delete().eq('id', id);
+    const { error } = await api.from('brands').delete().eq('id', id);
     if (error) {
       setMessage('Error eliminando marca: ' + error.message);
       return;
@@ -358,7 +358,7 @@ function BrandsManager({ category }) {
   async function handleNameSave(id) {
     const brand = brands.find((b) => b.id === id);
     if (!brand) return;
-    await supabase.from('brands').update({ name: brand.name }).eq('id', id);
+    await api.from('brands').update({ name: brand.name }).eq('id', id);
   }
 
   return (
@@ -438,7 +438,7 @@ function ProductEditor({ product, photos: initialPhotos, onUpdate, setMessage })
       const maxOrder = photos.reduce((max, p) => Math.max(max, p.display_order), 0);
       for (let i = 0; i < files.length; i++) {
         const url = await uploadImage(files[i], `products/${product.id}`);
-        const { data, error } = await supabase
+        const { data, error } = await api
           .from('product_photos')
           .insert({
             product_id: product.id,
@@ -459,7 +459,7 @@ function ProductEditor({ product, photos: initialPhotos, onUpdate, setMessage })
   }
 
   async function handleDeletePhoto(photoId) {
-    const { error } = await supabase.from('product_photos').delete().eq('id', photoId);
+    const { error } = await api.from('product_photos').delete().eq('id', photoId);
     if (error) {
       setMessage('Error eliminando foto: ' + error.message);
       return;
@@ -471,7 +471,7 @@ function ProductEditor({ product, photos: initialPhotos, onUpdate, setMessage })
     setSaving(true);
     setMessage('');
     try {
-      const { error } = await supabase
+      const { error } = await api
         .from('products')
         .update({
           name,

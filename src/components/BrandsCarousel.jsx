@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import './BrandsCarousel.css';
 
 export default function BrandsCarousel({ category = null }) {
@@ -10,7 +10,7 @@ export default function BrandsCarousel({ category = null }) {
   }, [category]);
 
   async function fetchBrands() {
-    let query = supabase
+    let query = api
       .from('brands')
       .select('*')
       .order('display_order', { ascending: true });

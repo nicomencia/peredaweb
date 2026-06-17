@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/api';
 import { uploadImage } from '../../lib/upload';
 import './AdminHomepage.css';
 
@@ -24,7 +24,7 @@ export default function AdminHomepage() {
   }, []);
 
   async function fetchSettings() {
-    const { data } = await supabase
+    const { data } = await api
       .from('site_settings')
       .select('key, value')
       .in('key', [
@@ -102,7 +102,7 @@ export default function AdminHomepage() {
       ];
 
       for (const item of updates) {
-        const { error } = await supabase
+        const { error } = await api
           .from('site_settings')
           .update({ value: item.value, updated_at: new Date().toISOString() })
           .eq('key', item.key);

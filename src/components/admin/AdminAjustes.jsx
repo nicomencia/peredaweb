@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/api';
 import { uploadImage } from '../../lib/upload';
 import './AdminHomepage.css';
 import './AdminAjustes.css';
@@ -35,7 +35,7 @@ export default function AdminAjustes() {
   useEffect(() => {
     async function load() {
       const loaded = {};
-      const { data } = await supabase
+      const { data } = await api
         .from('site_settings')
         .select('key, value')
         .in('key', SETTINGS_KEYS);
@@ -82,7 +82,7 @@ export default function AdminAjustes() {
     try {
       for (const key of [...SETTINGS_KEYS, ...MAIL_KEYS]) {
         if (values[key] === undefined) continue;
-        const { error } = await supabase
+        const { error } = await api
           .from('site_settings')
           .update({ value: values[key], updated_at: new Date().toISOString() })
           .eq('key', key);

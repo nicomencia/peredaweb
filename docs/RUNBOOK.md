@@ -19,7 +19,6 @@ Manual de operación y mantenimiento. Para la arquitectura general ver [README](
 | `SMTP_HOST/PORT/SECURE/USER/PASS` | envío de email de los formularios |
 | `MAIL_FROM` / `MAIL_TO` | remitente y destinatario de los avisos |
 | `SETUP_TOKEN` | protege `setup.php` (lo autogenera `deploy-backend`) |
-| `VITE_SUPABASE_URL/ANON_KEY` | legado, solo lo usa `scripts/archive/export-supabase.mjs` |
 
 En el servidor, estas se traducen a `server/api/config.php` (generado por los scripts; nunca se commitea). Plantilla: `server/api/config.sample.php`.
 
@@ -48,7 +47,7 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 - MySQL `qaqu803`. **`DB_HOST=lldg503.servidoresdns.net`** (el servidor real de BBDD): el nombre del panel `qaqu803.saneamientos-pereda.com` es un CNAME no publicado (ver Problemas), y `localhost` apunta al MySQL propio del host web, que NO tiene esta BBDD.
 - Esquema: `server/sql/schema.sql` (UUIDs como CHAR(36); `specs`/`emails` como JSON). El mapa de columnas permitidas por la API está en `TABLE_COLUMNS` de `server/api/db.php` — **mantener ambos sincronizados**.
 - Auditorías: `node scripts/db-audit.mjs` (conteos + referencias a `/media`), `node scripts/audit-media.mjs` (árbol de `/media`). Conectan directo por el puerto 3306 con SSL.
-- **Re-importación desde cero** (solo si hiciera falta): re-desplegar `setup.php` (está borrado del servidor) con `deploy-backend`, subir los JSON a `api/import/`, y hacer `POST /api/setup.php` con `{token, admin_email, admin_password}`. El export original está en el historial de git (`migration-data/`) y en `scripts/archive/export-supabase.mjs`.
+- **Re-importación desde cero** (solo si hiciera falta): re-desplegar `setup.php` (está borrado del servidor) con `deploy-backend`, subir los JSON de datos a `api/import/`, y hacer `POST /api/setup.php` con `{token, admin_email, admin_password}`.
 - **Copias de seguridad**: la BBDD es ahora el dato vivo. Recomendado un `mysqldump` periódico (o export desde el panel) y backup de `/html/dev/media/`.
 
 ## Imágenes / media
@@ -80,5 +79,4 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 2. Decidir la ubicación de producción y su relación con el WordPress de `/html`.
 3. Revisar SEO (limitación conocida: SPA sin router, una sola URL).
 4. Configurar copias de seguridad periódicas (MySQL + `/media`).
-5. Pausar/eliminar el proyecto Supabase antiguo (`mxhpggzfkrlqmguwichm`).
-6. Rotar contraseñas si fuera necesario (admin, SMTP, DB).
+5. Rotar contraseñas si fuera necesario (admin, SMTP, DB).

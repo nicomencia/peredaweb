@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { api } from './api';
 
 // localStorage-backed cache of site_settings so DB-driven images/text paint with
 // the correct value instantly on reload (no flash of the hardcoded fallback).
@@ -49,9 +49,9 @@ export function primeCache(rows) {
 }
 
 // Fetches the given keys, updates the cache, and returns the rows (same shape as
-// a supabase select: [{ key, value }]). Components keep their existing apply logic.
+// a api select: [{ key, value }]). Components keep their existing apply logic.
 export async function loadSettings(keys) {
-  const { data } = await supabase
+  const { data } = await api
     .from('site_settings')
     .select('key, value')
     .in('key', keys);

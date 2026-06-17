@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/api';
 import AdminHomepage from './AdminHomepage';
 import AdminPageEditor from './AdminPageEditor';
 import AdminAmbientes from './AdminAmbientes';
@@ -124,7 +124,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('portada');
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await api.auth.signOut();
     window.location.reload();
   };
 

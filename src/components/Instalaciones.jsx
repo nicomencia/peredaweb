@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import './Instalaciones.css';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -21,15 +21,15 @@ export default function Instalaciones({ setCurrentView }) {
   useEffect(() => {
     async function load() {
       const [settingsRes, tiendasRes, photosRes] = await Promise.all([
-        supabase
+        api
           .from('site_settings')
           .select('key, value')
           .in('key', ['tiendas_banner_title', 'tiendas_banner_button']),
-        supabase
+        api
           .from('tiendas')
           .select('*')
           .order('display_order', { ascending: true }),
-        supabase.from('tienda_photos').select('*'),
+        api.from('tienda_photos').select('*'),
       ]);
 
       if (settingsRes.data) {

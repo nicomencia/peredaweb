@@ -1,5 +1,5 @@
 <?php
-// Public form endpoints, replacing the Supabase Edge Functions.
+// Public form endpoints (candidatura, denuncia, presupuesto, cliente).
 // POST forms.php?form=candidatura   (multipart: nombre, email, telefono, mensaje, cv[pdf])
 // POST forms.php?form=denuncia      (json) -> returns generated PIN
 // GET  forms.php?form=denuncia&pin= -> complaint status lookup

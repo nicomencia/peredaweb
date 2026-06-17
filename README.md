@@ -1,8 +1,6 @@
 # Saneamientos Pereda
 
-Sitio web de **Saneamientos Pereda** (empresa de baño, fontanería y materiales de construcción, Oviedo). SPA en React 19 + Vite 7 con panel de administración integrado, sobre backend propio en PHP 8.2 + MySQL alojado en el hosting del cliente.
-
-> Originalmente desarrollado en Bolt sobre Supabase; **migrado a la infraestructura propia del cliente** (PHP + MySQL + almacenamiento en disco). Ya no depende de Supabase.
+Sitio web de **Saneamientos Pereda** (empresa de baño, fontanería y materiales de construcción, Oviedo). SPA en React 19 + Vite 7 con panel de administración integrado, sobre backend propio en PHP 8.2 + MySQL alojado en el hosting del cliente (datos en MySQL, imágenes en disco bajo `/media/`).
 
 ## Arquitectura
 
@@ -13,7 +11,7 @@ Navegador
   └─ /media/*     (disco servidor)   imágenes subidas desde el panel
 ```
 
-- **Frontend** (`src/`): SPA sin router; la navegación es estado (`currentView` en `src/App.jsx`). Contenido y ajustes se leen de la BBDD vía un *shim* (`src/lib/supabase.js`) que imita la API de supabase-js pero llama al backend PHP. Imágenes optimizadas en cliente antes de subir (`src/lib/upload.js`).
+- **Frontend** (`src/`): SPA sin router; la navegación es estado (`currentView` en `src/App.jsx`). Contenido y ajustes se leen de la BBDD vía un pequeño cliente encadenable (`src/lib/api.js`) que llama al backend PHP. Imágenes optimizadas en cliente antes de subir (`src/lib/upload.js`).
 - **Backend** (`server/api/`): endpoints PHP sobre MySQL (PDO) — `content.php` (lectura pública), `admin.php` (CRUD protegido por sesión), `auth.php` (login admin), `upload.php` (subida de imágenes), `forms.php` (formularios) y `mailer.php` (email SMTP). Esquema en `server/sql/schema.sql`.
 - **Email**: los formularios envían aviso por SMTP autenticado a través del proveedor del propio dominio (serviciodecorreo.es).
 

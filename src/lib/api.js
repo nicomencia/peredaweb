@@ -1,5 +1,5 @@
-// Drop-in replacement for the supabase-js client, backed by the PHP/MySQL
-// API on the same host. Implements exactly the query surface this app uses:
+// Small data/auth client backed by the PHP/MySQL API on the same host.
+// Exposes a chainable query surface so components read/write declaratively:
 //   from(t).select().eq().in().or().order().maybeSingle()/single()
 //   from(t).insert(data).select().maybeSingle()
 //   from(t).update(data).eq(col, val)
@@ -154,7 +154,7 @@ class QueryBuilder {
     throw new Error(`Unsupported action: ${this.action}`);
   }
 
-  // supabase-js queries are thenables resolving to {data, error}
+  // api-js queries are thenables resolving to {data, error}
   then(onFulfilled, onRejected) {
     return this._execute()
       .then((data) => ({ data, error: null }))
@@ -169,7 +169,7 @@ function notifyAuth(event, session) {
   authListeners.forEach((cb) => cb(event, session));
 }
 
-export const supabase = {
+export const api = {
   from(table) {
     return new QueryBuilder(table);
   },

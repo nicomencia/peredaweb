@@ -16,17 +16,6 @@ if (!defined('SETUP_TOKEN') || SETUP_TOKEN === '' || ($body['token'] ?? '') !== 
     json_error('No autorizado', 403);
 }
 
-const SUPABASE_STORAGE_PREFIX = '/storage/v1/object/public/';
-
-function rewrite_storage_urls(?string $value): ?string {
-    if (!is_string($value)) return $value;
-    return preg_replace(
-        '~https?://[a-z0-9]+\.supabase\.co' . preg_quote(SUPABASE_STORAGE_PREFIX, '~') . '~',
-        '/media/',
-        $value
-    );
-}
-
 function to_mysql_datetime(?string $iso): ?string {
     if (!$iso) return null;
     try {
@@ -72,8 +61,6 @@ try {
                     $value = $value ? 1 : 0;
                 } elseif (in_array($col, ['created_at', 'updated_at'], true)) {
                     $value = to_mysql_datetime($value);
-                } else {
-                    $value = rewrite_storage_urls($value);
                 }
                 $data[$col] = $value;
             }

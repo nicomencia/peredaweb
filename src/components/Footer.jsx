@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { cachedSetting, loadSettings } from '../lib/settings';
 import './Footer.css';
 
@@ -21,7 +21,7 @@ export default function Footer({ setCurrentView }) {
           if (row.key === 'navbar_logo') setLogoUrl(row.value);
         });
       }
-      const { data: tiendas } = await supabase
+      const { data: tiendas } = await api
         .from('tiendas')
         .select('*')
         .order('display_order', { ascending: true });

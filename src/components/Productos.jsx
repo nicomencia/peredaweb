@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import ProductCard from './ProductCard';
 import BrandsCarousel from './BrandsCarousel';
 import './Productos.css';
@@ -79,7 +79,7 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
   }, []);
 
   async function fetchSettings() {
-    const { data } = await supabase
+    const { data } = await api
       .from('site_settings')
       .select('value')
       .eq('key', 'productos_subtitle')
@@ -89,7 +89,7 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
 
   async function fetchProducts() {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await api
         .from('products')
         .select('*')
         .order('display_order', { ascending: true });
@@ -99,7 +99,7 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
 
       if (data && data.length > 0) {
         const ids = data.map((p) => p.id);
-        const { data: photos } = await supabase
+        const { data: photos } = await api
           .from('product_photos')
           .select('*')
           .in('product_id', ids)

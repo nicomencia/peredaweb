@@ -1,4 +1,4 @@
--- Saneamientos Pereda — MySQL schema (migrated from Supabase Postgres).
+-- Saneamientos Pereda — MySQL schema.
 -- Column set derived from the LIVE exported data (migration-data/*.json),
 -- not the historical migration files. UUIDs kept as CHAR(36).
 -- All columns are nullable or have defaults so imports are strict-mode-safe.

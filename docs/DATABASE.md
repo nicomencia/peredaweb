@@ -1,6 +1,6 @@
 # Database reference — Saneamientos Pereda
 
-MySQL database `qaqu803` on `lldg503.servidoresdns.net`, migrated from Supabase. Schema lives in [`server/sql/schema.sql`](../server/sql/schema.sql). All 13 tables are in active use.
+MySQL database `qaqu803` on `lldg503.servidoresdns.net`. Schema lives in [`server/sql/schema.sql`](../server/sql/schema.sql). All 13 tables are in active use.
 
 ## How the frontend reaches each table
 
@@ -8,12 +8,12 @@ The React app never talks to MySQL directly. Four PHP endpoints sit in front of 
 
 | Endpoint | Purpose | Used by |
 |---|---|---|
-| `api/content.php?resource=<table>` | public **read** of content tables | `src/lib/supabase.js` shim → every public page |
+| `api/content.php?resource=<table>` | public **read** of content tables | `src/lib/api.js` client → every public page |
 | `api/admin.php` | session-protected **insert/update/delete** | admin panel (via the shim) |
 | `api/forms.php?form=<name>` | public form **submissions** | the 4 form components |
 | `api/auth.php` | admin **login/session** | `AdminLogin` + `App.jsx` |
 
-`src/lib/supabase.js` is a compatibility shim mimicking the old supabase-js API, so components read with `supabase.from('table').select()...` unchanged. JSON columns (`ambientes.specs`, `tiendas.emails`) are decoded automatically.
+`src/lib/api.js` is a small chainable client, so components read with `api.from('table').select()...`. JSON columns (`ambientes.specs`, `tiendas.emails`) are decoded automatically.
 
 ## Content tables (public read + admin-managed)
 

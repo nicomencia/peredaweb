@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import './SimplePage.css';
 
 const defaultDescription = 'Condiciones y precios especiales para profesionales. Asesoramiento técnico personalizado. Amplio stock disponible para entrega inmediata. Servicio de reparto en Asturias. Atención preferente en nuestras exposiciones.';
@@ -22,7 +22,7 @@ export default function HazteCliente() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
+      const { data } = await api
         .from('site_settings')
         .select('value')
         .eq('key', 'cta_4_description')

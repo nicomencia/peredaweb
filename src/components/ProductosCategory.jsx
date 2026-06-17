@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import ProductCard from './ProductCard';
 import BrandsCarousel from './BrandsCarousel';
 import './ProductosCategory.css';
@@ -66,7 +66,7 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
   }, [category]);
 
   async function fetchDescription() {
-    const { data } = await supabase
+    const { data } = await api
       .from('site_settings')
       .select('value')
       .eq('key', `category_desc_${category}`)
@@ -77,7 +77,7 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
   async function fetchProducts() {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await api
         .from('products')
         .select('*')
         .eq('product_type', category)
@@ -88,7 +88,7 @@ export default function ProductosCategory({ category, setCurrentView, setProduct
 
       if (data && data.length > 0) {
         const ids = data.map((p) => p.id);
-        const { data: photos } = await supabase
+        const { data: photos } = await api
           .from('product_photos')
           .select('*')
           .in('product_id', ids)

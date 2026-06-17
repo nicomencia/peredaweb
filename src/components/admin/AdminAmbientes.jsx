@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/api';
 import { uploadImage } from '../../lib/upload';
 import './AdminHomepage.css';
 import './AdminAmbientes.css';
@@ -17,8 +17,8 @@ export default function AdminAmbientes() {
   async function fetchAmbientes() {
     setLoading(true);
     const [{ data: ambs }, { data: photos }] = await Promise.all([
-      supabase.from('ambientes').select('*').order('display_order', { ascending: true }),
-      supabase.from('ambiente_photos').select('*'),
+      api.from('ambientes').select('*').order('display_order', { ascending: true }),
+      api.from('ambiente_photos').select('*'),
     ]);
     const byAmbiente = {};
     (photos || []).forEach((p) => {
@@ -32,7 +32,7 @@ export default function AdminAmbientes() {
 
   async function handleAdd() {
     const maxOrder = ambientes.reduce((max, a) => Math.max(max, a.display_order), 0);
-    const { data, error } = await supabase
+    const { data, error } = await api
       .from('ambientes')
       .insert({ title: 'Nuevo ambiente', display_order: maxOrder + 1 })
       .select()
@@ -49,7 +49,7 @@ export default function AdminAmbientes() {
 
   async function handleDelete(id) {
     if (!confirm('¿Eliminar este ambiente y todas sus fotos?')) return;
-    const { error } = await supabase.from('ambientes').delete().eq('id', id);
+    const { error } = await api.from('ambientes').delete().eq('id', id);
     if (error) {
       setMessage('Error eliminando: ' + error.message);
       return;
@@ -150,7 +150,7 @@ function AmbienteEditor({ ambiente, onUpdate, setMessage }) {
       const maxOrder = photos.reduce((max, p) => Math.max(max, p.display_order), 0);
       for (let i = 0; i < files.length; i++) {
         const url = await uploadImage(files[i], `ambientes/${ambiente.id}`);
-        const { data, error } = await supabase
+        const { data, error } = await api
           .from('ambiente_photos')
           .insert({
             ambiente_id: ambiente.id,
@@ -171,7 +171,7 @@ function AmbienteEditor({ ambiente, onUpdate, setMessage }) {
   }
 
   async function handleDeletePhoto(photoId) {
-    const { error } = await supabase.from('ambiente_photos').delete().eq('id', photoId);
+    const { error } = await api.from('ambiente_photos').delete().eq('id', photoId);
     if (error) {
       setMessage('Error eliminando foto: ' + error.message);
       return;
@@ -183,7 +183,7 @@ function AmbienteEditor({ ambiente, onUpdate, setMessage }) {
     setSaving(true);
     setMessage('');
     try {
-      const { error } = await supabase
+      const { error } = await api
         .from('ambientes')
         .update({
           title,
