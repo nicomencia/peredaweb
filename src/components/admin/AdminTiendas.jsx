@@ -16,11 +16,17 @@ export default function AdminTiendas() {
 
   async function fetchTiendas() {
     setLoading(true);
-    const { data } = await supabase
-      .from('tiendas')
-      .select('*, tienda_photos(id, image_url, display_order)')
-      .order('display_order', { ascending: true });
-    if (data) setTiendas(data);
+    const [{ data: tds }, { data: photos }] = await Promise.all([
+      supabase.from('tiendas').select('*').order('display_order', { ascending: true }),
+      supabase.from('tienda_photos').select('*'),
+    ]);
+    const byTienda = {};
+    (photos || []).forEach((p) => {
+      if (!byTienda[p.tienda_id]) byTienda[p.tienda_id] = [];
+      byTienda[p.tienda_id].push(p);
+    });
+    const withPhotos = (tds || []).map((t) => ({ ...t, tienda_photos: byTienda[t.id] || [] }));
+    setTiendas(withPhotos);
     setLoading(false);
   }
 

@@ -16,11 +16,17 @@ export default function AdminAmbientes() {
 
   async function fetchAmbientes() {
     setLoading(true);
-    const { data } = await supabase
-      .from('ambientes')
-      .select('*, ambiente_photos(id, image_url, display_order)')
-      .order('display_order', { ascending: true });
-    if (data) setAmbientes(data);
+    const [{ data: ambs }, { data: photos }] = await Promise.all([
+      supabase.from('ambientes').select('*').order('display_order', { ascending: true }),
+      supabase.from('ambiente_photos').select('*'),
+    ]);
+    const byAmbiente = {};
+    (photos || []).forEach((p) => {
+      if (!byAmbiente[p.ambiente_id]) byAmbiente[p.ambiente_id] = [];
+      byAmbiente[p.ambiente_id].push(p);
+    });
+    const withPhotos = (ambs || []).map((a) => ({ ...a, ambiente_photos: byAmbiente[a.id] || [] }));
+    setAmbientes(withPhotos);
     setLoading(false);
   }
 

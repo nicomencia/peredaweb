@@ -20,15 +20,16 @@ export default function Instalaciones({ setCurrentView }) {
 
   useEffect(() => {
     async function load() {
-      const [settingsRes, tiendasRes] = await Promise.all([
+      const [settingsRes, tiendasRes, photosRes] = await Promise.all([
         supabase
           .from('site_settings')
           .select('key, value')
           .in('key', ['tiendas_banner_title', 'tiendas_banner_button']),
         supabase
           .from('tiendas')
-          .select('*, tienda_photos(id, image_url, display_order)')
+          .select('*')
           .order('display_order', { ascending: true }),
+        supabase.from('tienda_photos').select('*'),
       ]);
 
       if (settingsRes.data) {
@@ -39,7 +40,12 @@ export default function Instalaciones({ setCurrentView }) {
       }
 
       if (tiendasRes.data) {
-        setStores(tiendasRes.data);
+        const byTienda = {};
+        (photosRes.data || []).forEach((p) => {
+          if (!byTienda[p.tienda_id]) byTienda[p.tienda_id] = [];
+          byTienda[p.tienda_id].push(p);
+        });
+        setStores(tiendasRes.data.map((t) => ({ ...t, tienda_photos: byTienda[t.id] || [] })));
       }
       setLoading(false);
     }
