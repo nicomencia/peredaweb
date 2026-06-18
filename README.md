@@ -11,8 +11,8 @@ Navegador
   └─ /media/*     (disco servidor)   imágenes subidas desde el panel
 ```
 
-- **Frontend** (`src/`): SPA sin router; la navegación es estado (`currentView` en `src/App.jsx`). Contenido y ajustes se leen de la BBDD vía un pequeño cliente encadenable (`src/lib/api.js`) que llama al backend PHP. Imágenes optimizadas en cliente antes de subir (`src/lib/upload.js`).
-- **Backend** (`server/api/`): endpoints PHP sobre MySQL (PDO) — `content.php` (lectura pública), `admin.php` (CRUD protegido por sesión), `auth.php` (login admin), `upload.php` (subida de imágenes), `forms.php` (formularios) y `mailer.php` (email SMTP). Esquema en `server/sql/schema.sql`.
+- **Frontend** (`src/`): SPA con **react-router** (BrowserRouter), con URLs reales por página; `src/App.jsx` mantiene un adaptador `setCurrentView(view)` para que los componentes naveguen sin cambios. Contenido y ajustes se leen de la BBDD vía un pequeño cliente encadenable (`src/lib/api.js`) que llama al backend PHP. Imágenes optimizadas en cliente antes de subir (`src/lib/upload.js`).
+- **Backend** (`server/api/`): endpoints PHP sobre MySQL (PDO) — `content.php` (lectura pública), `admin.php` (CRUD protegido por sesión), `auth.php` (login admin), `upload.php` (subida de imágenes), `forms.php` (formularios) y `mailer.php` (email SMTP). Esquema en `server/sql/schema.sql`. Un front controller `public/index.php` (vía `.htaccess`) sirve el shell de la SPA con meta SEO por ruta y genera `sitemap.xml`/`robots.txt`.
 - **Email**: los formularios envían aviso por SMTP autenticado a través del proveedor del propio dominio (serviciodecorreo.es).
 
 ## Puesta en marcha

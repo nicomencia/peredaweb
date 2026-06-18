@@ -20,7 +20,7 @@ The public site on `/html/dev` reads from the client's MySQL, serves images from
 
 Key facts established during cutover:
 - **DB connection: `DB_HOST=lldg503.servidoresdns.net`** (the real DB server, IP 82.223.113.26). The panel's `qaqu803.saneamientos-pereda.com` is an unpublished CNAME to it (stuck DNS — see Known issues), so it doesn't resolve from PHP; `localhost` reaches the web host's *own* MySQL which does NOT have this DB. DB name/user `qaqu803`, password in `.env`.
-- **Schema was corrected from the live exported data, NOT the old migration files** (which were stale): `products` uses `category`/`featured` (not `collection`/`variant`/`available`); `tiendas` has `lat`/`lon`. `server/sql/schema.sql` `DROP`s then `CREATE`s, with defaults so imports are strict-mode-safe. `TABLE_COLUMNS` in `db.php` mirrors this.
+- **Schema was corrected from the live exported data, NOT the old migration files** (which were stale): `tiendas` has `lat`/`lon`. `server/sql/schema.sql` `DROP`s then `CREATE`s, with defaults so imports are strict-mode-safe. `TABLE_COLUMNS` in `db.php` mirrors this. **(Update 2026-06-18: the `products`/`product_photos` tables were later dropped — see Recent changes.)**
 - Admin user: `admin@saneamientos-pereda.com` (created via setup). Login/upload verified; security boundaries verified (401 unauth upload/admin, 403 on config.php/db.php/import).
 - `setup.php` + `api/import/` were deleted from the server post-import (`scripts/cleanup-setup.mjs`).
 
@@ -29,6 +29,15 @@ Helper scripts: `scripts/push-config.mjs` (regen+upload config.php from .env), `
 Remaining / later:
 - Re-running `setup.php` requires re-deploying it (deploy-backend) — only needed for a fresh re-import.
 - Forms email works via SMTP (above), independent of the stuck DNS. Resend resources + their DNS records (`send` MX/SPF, `resend._domainkey` TXT) were deleted.
+
+## Recent changes (2026-06-18)
+
+- **Product catalogue removed.** `products`/`product_photos` tables were dropped (client has 15k+ SKUs, unmanageable one by one). Each category is now a one-screen presentation: descriptive text (left) + photo carousel (right) + brand carousel (below), all from `site_settings` (`category_desc_<cat>`, `category_photos_<cat>` JSON image list; legacy `category_banner_<cat>` is a fallback). Dead components `ProductCard`/`CollectionDetail` removed; `products`/`product_photos` scrubbed from `db.php`/`content.php`/`schema.sql`/`setup.php`. `AdminProductos` now manages only per-category text/photos + brands.
+- **Reusable `ImageCarousel`** (`src/components/ImageCarousel.jsx`, arrows + dots) powers the store photos (`Instalaciones`) and the category photos.
+- **Four independent logos** (all `site_settings`): `hero_logo` (over the hero, edited in Portada), `navbar_logo` (top bar), `favicon` (browser tab), `footer_logo` (footer); the last three edited in Ajustes.
+- **Hero link buttons**: `hero_buttons` (JSON `[{label,url}]`) renders external-link buttons over the hero (e.g. an Instagram offers post). Edited in Portada (folded into `AdminHomepage` so the tab has a single save button).
+- **Sticky admin save**: the page-level "Guardar cambios" floats via `position: sticky`; this required changing the global `html, body { overflow-x: hidden }` → `overflow-x: clip` (hidden creates a scroll container that breaks sticky).
+- New `site_settings` keys must be **seeded** (`node scripts/seed-setting.mjs <key> [value]`) because admin saves use `update` (which won't create a missing row).
 
 ## Client hosting environment
 
@@ -41,7 +50,7 @@ Shared hosting ("Hosting Avanzado Linux", panel at panelcontrolhosting.com): Apa
 ## Known issues / pending
 
 - **Hosting DNS publication is STUCK** (re-verified 2026-06-15): records added in the panel DNS editor appear there but are NOT served by ns1/ns2.dns-servicios.com, while older records in the same zone resolve fine (so the zone is live — recent edits just aren't published). Still affected: `dev` A + `www.dev` A (→ 217.76.142.23) and `qaqu803` CNAME (→ lldg503.servidoresdns.net, the DB host). The Resend records (`send` MX/SPF, `resend._domainkey` TXT) were since **deleted** by the user (we moved email to SMTP, see above). A support ticket asking them to force-republish the zone is the path (draft kept in chat history). Consequences until fixed: dev subdomain needs a local hosts entry `217.76.142.23 dev.saneamientos-pereda.com` (HTTP only — no SSL cert; enable Let's Encrypt in panel once DNS publishes), and `DB_HOST` uses `lldg503.servidoresdns.net` directly because the `qaqu803` CNAME doesn't resolve.
-- All site images are now DB-driven/admin-editable (2026-06-15): Quiénes Somos (bg + 4 photos → `quienes_somos_*` settings), Área Profesional bg (`area_profesional_bg`), category banners (`category_banner_<key>`, one per category, edited in AdminProductos). `AdminPageEditor` gained an `image` field type. Base images seeded via `scripts/seed-image-settings.mjs`. Unused `inspirate1-3.jpg` and the corrupt `productos_construccion.jpg` were removed.
+- All site images are now DB-driven/admin-editable (2026-06-15): Quiénes Somos (bg + 4 photos → `quienes_somos_*` settings), Área Profesional bg (`area_profesional_bg`), per-category images (now `category_photos_<key>`, a JSON photo list driving the carousel — supersedes the legacy single `category_banner_<key>`, still read as a fallback; edited in AdminProductos). `AdminPageEditor` gained an `image` field type. Base images seeded via `scripts/seed-image-settings.mjs`. Unused `inspirate1-3.jpg` and the corrupt `productos_construccion.jpg` were removed.
 - Note: the hosting serves static assets through a **cache** that ignores query-string busting and outlives file deletion by a TTL — deleted/replaced same-path files linger briefly. Admin uploads use unique filenames so they're unaffected. `scripts/prune-deployed.mjs` deletes server files removed locally (deploy only adds/overwrites).
 - Timeline (README): 2026-06-15 aesthetics review; 2026-06-22 production launch + SEO.
 
