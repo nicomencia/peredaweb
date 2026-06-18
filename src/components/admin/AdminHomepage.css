@@ -185,6 +185,15 @@
   cursor: not-allowed;
 }
 
+/* Page-level save: floats just above the bottom of the viewport while
+   scrolling a long form, then settles into place at the end. */
+.admin-homepage-save--sticky {
+  position: sticky;
+  bottom: 1rem;
+  z-index: 10;
+  box-shadow: 0 6px 20px rgba(0, 82, 204, 0.35);
+}
+
 .admin-homepage-section {
   margin-bottom: 2rem;
 }

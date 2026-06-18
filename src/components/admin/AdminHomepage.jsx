@@ -196,7 +196,7 @@ export default function AdminHomepage() {
       </div>
 
       <button
-        className="admin-homepage-save"
+        className="admin-homepage-save admin-homepage-save--sticky"
         onClick={handleSave}
         disabled={saving}
       >

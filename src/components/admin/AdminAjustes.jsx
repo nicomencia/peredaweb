@@ -282,7 +282,7 @@ export default function AdminAjustes() {
         </div>
       </div>
 
-      <button className="admin-homepage-save" onClick={handleSave} disabled={saving}>
+      <button className="admin-homepage-save admin-homepage-save--sticky" onClick={handleSave} disabled={saving}>
         {saving ? 'Guardando...' : 'Guardar cambios'}
       </button>
     </div>

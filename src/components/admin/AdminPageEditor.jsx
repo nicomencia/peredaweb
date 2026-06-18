@@ -224,7 +224,7 @@ export default function AdminPageEditor({ title, description, fields }) {
       </div>
 
       <button
-        className="admin-homepage-save"
+        className="admin-homepage-save admin-homepage-save--sticky"
         onClick={handleSave}
         disabled={saving}
       >
