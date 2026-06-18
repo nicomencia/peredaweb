@@ -53,7 +53,8 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 - **Puntos de contacto** que aparecen en la página de cita previa: edita el nombre, teléfono y correo de cada uno; puedes añadir o eliminar. (El texto introductorio se edita en **Portada**, en el botón «Pide cita».)
 
 ### Ajustes generales
-- **Colores** de la marca, **logo** de la barra de navegación, textos y enlaces del **pie de página** (descripción, redes sociales).
+- **Colores** de la marca y textos/enlaces del **pie de página** (descripción, redes sociales).
+- **Logos** (hay tres, independientes): el **logo principal** sobre la cabecera de la portada se edita en **Portada**; el **logo superior** (barra de navegación, que además es el icono de la pestaña del navegador / favicon) y el **logo del pie de página** se editan aquí en Ajustes generales.
 - **Contacto y tienda**: teléfono postventa (página de Financiación) y los enlaces de los botones **«Tienda»** (todos los clientes) y **«Acceso ecommerce»** (profesionales). Cuando ambas tiendas pasen a ser el mismo enlace, basta con poner la misma URL en los dos.
 
 - **Destinatarios de los formularios**: el correo que recibe el aviso de cada formulario (candidaturas, canal de denuncias, presupuestos, hazte cliente). Puedes poner varios separados por comas. Por privacidad, estos correos **no son visibles en la web**, solo desde el panel.

@@ -7,18 +7,18 @@ export default function Footer({ setCurrentView }) {
   const [description, setDescription] = useState(() => cachedSetting('footer_description', 'Especialistas en equipamiento de baño desde 1985. Empresa familiar con más de 35 años de experiencia ofreciendo productos de alta calidad y servicio profesional.'));
   const [facebookUrl, setFacebookUrl] = useState(() => cachedSetting('footer_facebook_url', 'https://facebook.com/Pereda.Asturias'));
   const [instagramUrl, setInstagramUrl] = useState(() => cachedSetting('footer_instagram_url', 'https://instagram.com/saneamientospereda/'));
-  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/base/navbar-logo.webp'));
+  const [logoUrl, setLogoUrl] = useState(() => cachedSetting('footer_logo', '/base/navbar-logo.webp'));
   const [stores, setStores] = useState([]);
 
   useEffect(() => {
     async function load() {
-      const data = await loadSettings(['footer_description', 'footer_facebook_url', 'footer_instagram_url', 'navbar_logo']);
+      const data = await loadSettings(['footer_description', 'footer_facebook_url', 'footer_instagram_url', 'footer_logo']);
       if (data) {
         data.forEach((row) => {
           if (row.key === 'footer_description') setDescription(row.value);
           if (row.key === 'footer_facebook_url') setFacebookUrl(row.value);
           if (row.key === 'footer_instagram_url') setInstagramUrl(row.value);
-          if (row.key === 'navbar_logo') setLogoUrl(row.value);
+          if (row.key === 'footer_logo' && row.value) setLogoUrl(row.value);
         });
       }
       const { data: tiendas } = await api

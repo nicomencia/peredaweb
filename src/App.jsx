@@ -1,7 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useCallback, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { api } from './lib/api';
-import { cachedSetting, cachedByPrefix, primeCache } from './lib/settings';
+import { cachedSetting, cachedByPrefix, primeCache, loadSettings } from './lib/settings';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import AboutIntro from './components/AboutIntro';
@@ -186,6 +186,23 @@ export default function App() {
       }
     }
     loadSettings();
+  }, []);
+
+  // The "browser logo" (favicon) follows the navbar logo setting.
+  useEffect(() => {
+    async function applyFavicon() {
+      const data = await loadSettings(['navbar_logo']);
+      const url = data?.find((r) => r.key === 'navbar_logo')?.value || cachedSetting('navbar_logo');
+      if (!url) return;
+      let link = document.querySelector("link[rel='icon']");
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'icon');
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', url);
+    }
+    applyFavicon();
   }, []);
 
   useEffect(() => {

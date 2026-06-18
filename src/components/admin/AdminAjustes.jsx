@@ -12,6 +12,7 @@ const SETTINGS_KEYS = [
   'color_secondary',
   'color_dark',
   'navbar_logo',
+  'footer_logo',
   'contact_phone',
   'shop_url',
   'ecommerce_url',
@@ -29,7 +30,7 @@ const API_BASE = import.meta.env.VITE_API_BASE || '';
 export default function AdminAjustes() {
   const [values, setValues] = useState({});
   const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState('');
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -60,19 +61,19 @@ export default function AdminAjustes() {
     setValues((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleLogoUpload(e) {
+  async function handleLogoUpload(e, key) {
     const file = e.target.files?.[0];
     if (!file) return;
-    setUploading(true);
+    setUploading(key);
     setMessage('');
     try {
       const url = await uploadImage(file, 'logo');
-      handleChange('navbar_logo', url);
+      handleChange(key, url);
       setMessage('Logo subido. Pulsa "Guardar cambios" para aplicar.');
     } catch (err) {
       setMessage('Error subiendo logo: ' + err.message);
     } finally {
-      setUploading(false);
+      setUploading('');
     }
   }
 
@@ -155,14 +156,28 @@ export default function AdminAjustes() {
       </div>
 
       <div className="admin-ajustes-section">
-        <h3>Logo (navbar y footer)</h3>
+        <h3>Logo superior (barra de navegación y del navegador)</h3>
+        <p className="admin-homepage-desc">Se usa en la barra superior y como icono de la pestaña del navegador (favicon).</p>
         <div className="admin-ajustes-logo">
           <div className="admin-ajustes-logo-preview">
-            {values.navbar_logo && <img src={values.navbar_logo} alt="Logo actual" />}
+            {values.navbar_logo && <img src={values.navbar_logo} alt="Logo superior actual" />}
           </div>
           <label className="admin-homepage-upload-btn">
-            {uploading ? 'Subiendo...' : 'Cambiar logo'}
-            <input type="file" accept="image/*" onChange={handleLogoUpload} disabled={uploading} />
+            {uploading === 'navbar_logo' ? 'Subiendo...' : 'Cambiar logo superior'}
+            <input type="file" accept="image/*" onChange={(e) => handleLogoUpload(e, 'navbar_logo')} disabled={uploading === 'navbar_logo'} />
+          </label>
+        </div>
+      </div>
+
+      <div className="admin-ajustes-section">
+        <h3>Logo del pie de página</h3>
+        <div className="admin-ajustes-logo">
+          <div className="admin-ajustes-logo-preview">
+            {values.footer_logo && <img src={values.footer_logo} alt="Logo del pie actual" />}
+          </div>
+          <label className="admin-homepage-upload-btn">
+            {uploading === 'footer_logo' ? 'Subiendo...' : 'Cambiar logo del pie'}
+            <input type="file" accept="image/*" onChange={(e) => handleLogoUpload(e, 'footer_logo')} disabled={uploading === 'footer_logo'} />
           </label>
         </div>
       </div>
