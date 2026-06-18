@@ -4,7 +4,7 @@
 require_once __DIR__ . '/db.php';
 
 const PUBLIC_TABLES = [
-    'products', 'product_photos', 'brands',
+    'brands',
     'ambientes', 'ambiente_photos',
     'tiendas', 'tienda_photos', 'site_settings',
 ];

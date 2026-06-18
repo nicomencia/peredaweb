@@ -64,8 +64,6 @@ function require_admin(): void {
 // Columns the API may read/write per table. Identifiers are never taken from
 // user input directly — always validated against this map.
 const TABLE_COLUMNS = [
-    'products' => ['id', 'name', 'description', 'category', 'price', 'image_url', 'secondary_image_url', 'thumbnail_url', 'featured', 'sold', 'color', 'size', 'product_type', 'display_order', 'created_at', 'updated_at'],
-    'product_photos' => ['id', 'product_id', 'image_url', 'display_order', 'created_at'],
     'brands' => ['id', 'name', 'logo_url', 'category', 'display_order', 'created_at'],
     'ambientes' => ['id', 'title', 'summary', 'description', 'cover_image_url', 'specs', 'display_order', 'created_at'],
     'ambiente_photos' => ['id', 'ambiente_id', 'image_url', 'caption', 'display_order', 'created_at'],

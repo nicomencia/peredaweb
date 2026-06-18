@@ -38,7 +38,7 @@ try {
 
     // 2. Data (FK parents before children)
     $order = [
-        'products', 'product_photos', 'brands', 'ambientes', 'ambiente_photos',
+        'brands', 'ambientes', 'ambiente_photos',
         'tiendas', 'tienda_photos', 'site_settings',
         'denuncias', 'job_applications', 'presupuesto_requests', 'cliente_requests',
     ];

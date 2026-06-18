@@ -4,10 +4,8 @@
 -- All columns are nullable or have defaults so imports are strict-mode-safe.
 
 SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS product_photos;
 DROP TABLE IF EXISTS ambiente_photos;
 DROP TABLE IF EXISTS tienda_photos;
-DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS brands;
 DROP TABLE IF EXISTS ambientes;
 DROP TABLE IF EXISTS tiendas;
@@ -18,34 +16,6 @@ DROP TABLE IF EXISTS presupuesto_requests;
 DROP TABLE IF EXISTS cliente_requests;
 DROP TABLE IF EXISTS admin_users;
 SET FOREIGN_KEY_CHECKS = 1;
-
-CREATE TABLE products (
-  id CHAR(36) NOT NULL PRIMARY KEY,
-  name TEXT NOT NULL,
-  description TEXT,
-  category VARCHAR(64) NOT NULL DEFAULT 'bano',
-  price DECIMAL(10,2) DEFAULT NULL,
-  image_url TEXT,
-  secondary_image_url TEXT,
-  thumbnail_url TEXT,
-  featured TINYINT(1) NOT NULL DEFAULT 0,
-  sold TINYINT(1) NOT NULL DEFAULT 0,
-  color TEXT,
-  size INT DEFAULT NULL,
-  product_type VARCHAR(64) NOT NULL DEFAULT 'bano',
-  display_order INT NOT NULL DEFAULT 0,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE product_photos (
-  id CHAR(36) NOT NULL PRIMARY KEY,
-  product_id CHAR(36) NOT NULL,
-  image_url TEXT NOT NULL,
-  display_order INT NOT NULL DEFAULT 0,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  KEY idx_product_photos (product_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE brands (
   id CHAR(36) NOT NULL PRIMARY KEY,

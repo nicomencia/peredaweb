@@ -66,7 +66,7 @@ const CATEGORIES = [
   },
 ];
 
-export default function Productos({ setCurrentView, setSelectedCollection, onCategorySelect }) {
+export default function Productos({ onCategorySelect }) {
   const [subtitle, setSubtitle] = useState('Descubre nuestra amplia gama de productos para tu hogar y proyectos profesionales');
 
   useEffect(() => {
