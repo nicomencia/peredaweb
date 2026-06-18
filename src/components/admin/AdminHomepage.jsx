@@ -10,10 +10,20 @@ const defaultCtas = [
   { title: 'Conoce las ventajas para el profesional', label: 'HAZTE CLIENTE', description: '' },
 ];
 
+function parseButtons(value) {
+  try {
+    const arr = JSON.parse(value || '[]');
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
+
 export default function AdminHomepage() {
   const [logoUrl, setLogoUrl] = useState('');
   const [bgUrl, setBgUrl] = useState('');
   const [ctas, setCtas] = useState(defaultCtas);
+  const [heroButtons, setHeroButtons] = useState([]);
   const [saving, setSaving] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingBg, setUploadingBg] = useState(false);
@@ -28,7 +38,7 @@ export default function AdminHomepage() {
       .from('site_settings')
       .select('key, value')
       .in('key', [
-        'hero_logo', 'hero_background',
+        'hero_logo', 'hero_background', 'hero_buttons',
         'cta_1_title', 'cta_1_label', 'cta_1_description',
         'cta_2_title', 'cta_2_label', 'cta_2_description',
         'cta_3_title', 'cta_3_label', 'cta_3_description',
@@ -40,6 +50,7 @@ export default function AdminHomepage() {
       data.forEach((row) => {
         if (row.key === 'hero_logo') setLogoUrl(row.value);
         if (row.key === 'hero_background') setBgUrl(row.value);
+        if (row.key === 'hero_buttons') setHeroButtons(parseButtons(row.value));
         const ctaMatch = row.key.match(/^cta_(\d)_(title|label|description)$/);
         if (ctaMatch) {
           const idx = parseInt(ctaMatch[1]) - 1;
@@ -53,6 +64,16 @@ export default function AdminHomepage() {
 
   function handleCtaChange(index, field, value) {
     setCtas((prev) => prev.map((item, i) => i === index ? { ...item, [field]: value } : item));
+  }
+
+  function handleHeroButtonChange(index, field, value) {
+    setHeroButtons((prev) => prev.map((b, i) => (i === index ? { ...b, [field]: value } : b)));
+  }
+  function addHeroButton() {
+    setHeroButtons((prev) => [...prev, { label: '', url: '' }]);
+  }
+  function removeHeroButton(index) {
+    setHeroButtons((prev) => prev.filter((_, i) => i !== index));
   }
 
   async function handleLogoUpload(e) {
@@ -94,6 +115,7 @@ export default function AdminHomepage() {
       const updates = [
         { key: 'hero_logo', value: logoUrl },
         { key: 'hero_background', value: bgUrl },
+        { key: 'hero_buttons', value: JSON.stringify(heroButtons.filter((b) => b.label || b.url)) },
         ...ctas.flatMap((cta, i) => [
           { key: `cta_${i + 1}_title`, value: cta.title },
           { key: `cta_${i + 1}_label`, value: cta.label },
@@ -155,6 +177,38 @@ export default function AdminHomepage() {
               disabled={uploadingBg}
             />
           </label>
+        </div>
+      </div>
+
+      <div className="admin-homepage-section">
+        <h3>Botones del hero (enlaces)</h3>
+        <p className="admin-homepage-desc">
+          Botones que aparecen sobre la imagen principal y abren un enlace externo en una pestaña nueva
+          (por ejemplo, una publicación de Instagram con las ofertas de verano). Si no añades ninguno, no se muestra nada.
+        </p>
+        <div className="admin-faq-editor">
+          {heroButtons.map((btn, i) => (
+            <div className="admin-faq-row" key={i}>
+              <input
+                type="text"
+                placeholder="Texto del botón (p. ej. Ofertas de verano)"
+                value={btn.label || ''}
+                onChange={(e) => handleHeroButtonChange(i, 'label', e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Enlace (URL completa, p. ej. https://instagram.com/...)"
+                value={btn.url || ''}
+                onChange={(e) => handleHeroButtonChange(i, 'url', e.target.value)}
+              />
+              <button type="button" className="admin-faq-remove" onClick={() => removeHeroButton(i)}>
+                Eliminar
+              </button>
+            </div>
+          ))}
+          <button type="button" className="admin-faq-add" onClick={addHeroButton}>
+            + Añadir botón
+          </button>
         </div>
       </div>
 

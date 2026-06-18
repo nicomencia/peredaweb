@@ -57,19 +57,6 @@ const quienesFields = [
   { key: 'quienes_careers_button', label: 'Trabaja con nosotros - Botón', type: 'input' },
 ];
 
-const heroButtonsFields = [
-  {
-    key: 'hero_buttons',
-    label: 'Botones sobre la imagen principal (enlaces externos)',
-    type: 'list',
-    addLabel: '+ Añadir botón',
-    fields: [
-      { key: 'label', label: 'Texto del botón (p. ej. Ofertas de verano)' },
-      { key: 'url', label: 'Enlace (URL completa, p. ej. https://instagram.com/...)' },
-    ],
-  },
-];
-
 const inspirateFields = [
   { key: 'inspirate_heading', label: 'Título de la sección', type: 'input' },
   { key: 'inspirate_card_1_title', label: 'Tarjeta 1 - Título', type: 'input' },
@@ -144,18 +131,7 @@ export default function AdminDashboard() {
   const renderTab = () => {
     switch (activeTab) {
       case 'portada':
-        return (
-          <>
-            <AdminHomepage />
-            <div style={{ marginTop: '3rem' }}>
-              <AdminPageEditor
-                title="Botones del hero (enlaces)"
-                description="Botones que aparecen sobre la imagen principal y abren un enlace externo en una pestaña nueva (por ejemplo, una publicación de Instagram con las ofertas de verano). Si no añades ninguno, no se muestra nada."
-                fields={heroButtonsFields}
-              />
-            </div>
-          </>
-        );
+        return <AdminHomepage />;
       case 'quienes':
         return (
           <AdminPageEditor
