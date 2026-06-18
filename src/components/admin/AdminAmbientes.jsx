@@ -34,7 +34,9 @@ export default function AdminAmbientes() {
     const maxOrder = ambientes.reduce((max, a) => Math.max(max, a.display_order), 0);
     const { data, error } = await api
       .from('ambientes')
-      .insert({ title: 'Nuevo ambiente', display_order: maxOrder + 1 })
+      // summary/description are NOT NULL with no default; the editor doesn't
+      // manage them, so seed empty strings to satisfy the schema.
+      .insert({ title: 'Nuevo ambiente', summary: '', description: '', display_order: maxOrder + 1 })
       .select()
       .maybeSingle();
     if (error) {
