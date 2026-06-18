@@ -188,11 +188,11 @@ export default function App() {
     loadSettings();
   }, []);
 
-  // The "browser logo" (favicon) follows the navbar logo setting.
+  // The "browser logo" (favicon) is its own setting, independent of the navbar logo.
   useEffect(() => {
     async function applyFavicon() {
-      const data = await loadSettings(['navbar_logo']);
-      const url = data?.find((r) => r.key === 'navbar_logo')?.value || cachedSetting('navbar_logo');
+      const data = await loadSettings(['favicon']);
+      const url = data?.find((r) => r.key === 'favicon')?.value || cachedSetting('favicon');
       if (!url) return;
       let link = document.querySelector("link[rel='icon']");
       if (!link) {

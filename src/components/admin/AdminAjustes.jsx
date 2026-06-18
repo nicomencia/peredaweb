@@ -12,6 +12,7 @@ const SETTINGS_KEYS = [
   'color_secondary',
   'color_dark',
   'navbar_logo',
+  'favicon',
   'footer_logo',
   'contact_phone',
   'shop_url',
@@ -156,8 +157,8 @@ export default function AdminAjustes() {
       </div>
 
       <div className="admin-ajustes-section">
-        <h3>Logo superior (barra de navegación y del navegador)</h3>
-        <p className="admin-homepage-desc">Se usa en la barra superior y como icono de la pestaña del navegador (favicon).</p>
+        <h3>Logo superior (barra de navegación)</h3>
+        <p className="admin-homepage-desc">Se usa en la barra superior de la web.</p>
         <div className="admin-ajustes-logo">
           <div className="admin-ajustes-logo-preview">
             {values.navbar_logo && <img src={values.navbar_logo} alt="Logo superior actual" />}
@@ -165,6 +166,20 @@ export default function AdminAjustes() {
           <label className="admin-homepage-upload-btn">
             {uploading === 'navbar_logo' ? 'Subiendo...' : 'Cambiar logo superior'}
             <input type="file" accept="image/*" onChange={(e) => handleLogoUpload(e, 'navbar_logo')} disabled={uploading === 'navbar_logo'} />
+          </label>
+        </div>
+      </div>
+
+      <div className="admin-ajustes-section">
+        <h3>Icono del navegador (favicon)</h3>
+        <p className="admin-homepage-desc">Icono que aparece en la pestaña del navegador. Conviene una imagen cuadrada y sencilla.</p>
+        <div className="admin-ajustes-logo">
+          <div className="admin-ajustes-logo-preview">
+            {values.favicon && <img src={values.favicon} alt="Icono del navegador actual" />}
+          </div>
+          <label className="admin-homepage-upload-btn">
+            {uploading === 'favicon' ? 'Subiendo...' : 'Cambiar icono del navegador'}
+            <input type="file" accept="image/*" onChange={(e) => handleLogoUpload(e, 'favicon')} disabled={uploading === 'favicon'} />
           </label>
         </div>
       </div>
