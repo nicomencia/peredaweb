@@ -22,6 +22,7 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 
 ### Portada
 - **Logo** y **imagen de fondo** de la cabecera principal.
+- **Botones del hero (enlaces)**: botones que aparecen sobre la imagen principal y abren un **enlace externo** en una pestaña nueva (por ejemplo, una publicación de Instagram con las ofertas de verano). Para cada botón pones el **texto** y la **URL completa** (empezando por `https://`). Puedes añadir varios o eliminarlos; si no hay ninguno, no se muestra nada.
 - Los **4 botones** de la portada: título, texto del botón y texto descriptivo de cada uno.
 
 ### Quiénes somos
