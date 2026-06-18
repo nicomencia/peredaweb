@@ -36,13 +36,12 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 
 ### Tiendas
 - **Banner** (título y texto del botón).
-- **Tiendas**: añade o edita cada tienda — dirección, código postal, teléfono, **horarios** (tienda, fontanería, sábados, verano), correos, **ubicación en el mapa** (latitud/longitud), foto de portada y fotos adicionales.
+- **Tiendas**: añade o edita cada tienda — dirección, código postal, teléfono, **horarios** (tienda, fontanería, sábados, verano), correos, **ubicación en el mapa** (latitud/longitud), foto de portada y fotos adicionales. En la web, la foto de portada y las fotos adicionales se muestran como un **carrusel** (con flechas para pasar las fotos).
 
 ### Productos
 - **Subtítulo** de la página.
-- **Productos**: alta/edición/baja de productos (nombre, categoría, descripción, precio, imágenes, destacado, agotado…).
-- **Marcas**: logos del carrusel.
-- Por **categoría**: descripción e **imagen de cabecera** (selecciona la categoría arriba y sube su imagen).
+- Por **categoría** (selecciona la categoría arriba): su **texto descriptivo**, las **fotos del carrusel** (puedes subir varias, reordenarlas con las flechas ← → y eliminarlas; la primera es la que se ve al abrir) y las **marcas** (logos del carrusel).
+- En la web, al entrar en una categoría se muestra todo en una pantalla: el **texto a la izquierda**, el **carrusel de fotos a la derecha** y las **marcas debajo**. No es un catálogo producto a producto, sino una presentación rápida de cada categoría.
 
 ### Área Profesional
 - **Textos** (título, subtítulo, sección de beneficios) e **imagen de cabecera**.

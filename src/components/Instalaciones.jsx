@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../lib/api';
+import ImageCarousel from './ImageCarousel';
 import './Instalaciones.css';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -74,10 +75,15 @@ export default function Instalaciones({ setCurrentView }) {
             {stores.map((store, index) => (
               <div key={store.id} className={`store-row ${index % 2 === 1 ? 'reverse' : ''}`}>
                 <div className="store-image">
-                  <img
-                    src={store.cover_image_url || undefined}
-                    loading="lazy"
-                    alt={`Tienda ${store.name} - ${store.address}`}
+                  <ImageCarousel
+                    images={[
+                      store.cover_image_url,
+                      ...(store.tienda_photos || [])
+                        .slice()
+                        .sort((a, b) => a.display_order - b.display_order)
+                        .map((p) => p.image_url),
+                    ]}
+                    altPrefix={`Tienda ${store.name}`}
                   />
                 </div>
                 <div className="store-right-col">

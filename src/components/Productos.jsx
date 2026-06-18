@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { api } from '../lib/api';
-import ProductCard from './ProductCard';
 import BrandsCarousel from './BrandsCarousel';
 import './Productos.css';
 
@@ -68,13 +67,9 @@ const CATEGORIES = [
 ];
 
 export default function Productos({ setCurrentView, setSelectedCollection, onCategorySelect }) {
-  const [products, setProducts] = useState([]);
-  const [photosMap, setPhotosMap] = useState({});
-  const [loading, setLoading] = useState(true);
   const [subtitle, setSubtitle] = useState('Descubre nuestra amplia gama de productos para tu hogar y proyectos profesionales');
 
   useEffect(() => {
-    fetchProducts();
     fetchSettings();
   }, []);
 
@@ -85,40 +80,6 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
       .eq('key', 'productos_subtitle')
       .maybeSingle();
     if (data?.value) setSubtitle(data.value);
-  }
-
-  async function fetchProducts() {
-    try {
-      const { data, error } = await api
-        .from('products')
-        .select('*')
-        .order('display_order', { ascending: true });
-
-      if (error) throw error;
-      setProducts(data || []);
-
-      if (data && data.length > 0) {
-        const ids = data.map((p) => p.id);
-        const { data: photos } = await api
-          .from('product_photos')
-          .select('*')
-          .in('product_id', ids)
-          .order('display_order', { ascending: true });
-
-        if (photos) {
-          const map = {};
-          photos.forEach((photo) => {
-            if (!map[photo.product_id]) map[photo.product_id] = [];
-            map[photo.product_id].push(photo);
-          });
-          setPhotosMap(map);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    } finally {
-      setLoading(false);
-    }
   }
 
   return (
@@ -149,27 +110,6 @@ export default function Productos({ setCurrentView, setSelectedCollection, onCat
             </button>
           ))}
         </div>
-
-        {!loading && products.length > 0 && (
-          <>
-            <h2 className="productos-section-title">Todos los productos</h2>
-            <div className="productos-grid">
-              {products.slice(0, 9).map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  photos={photosMap[product.id] || []}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        {!loading && products.length === 0 && (
-          <p className="productos-empty">Catálogo próximamente disponible.</p>
-        )}
-
-        {loading && <p className="productos-loading">Cargando...</p>}
 
         <BrandsCarousel />
       </div>

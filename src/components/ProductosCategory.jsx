@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '../lib/api';
-import ProductCard from './ProductCard';
 import BrandsCarousel from './BrandsCarousel';
+import ImageCarousel from './ImageCarousel';
 import './ProductosCategory.css';
 
 const CATEGORY_CONFIG = {
@@ -52,103 +52,76 @@ const CATEGORY_CONFIG = {
 };
 
 export default function ProductosCategory({ category, setCurrentView, categoryBanners }) {
-  const [products, setProducts] = useState([]);
-  const [photosMap, setPhotosMap] = useState({});
-  const [loading, setLoading] = useState(true);
   const [customDesc, setCustomDesc] = useState('');
+  const [photos, setPhotos] = useState([]);
+  const [hasPhotosKey, setHasPhotosKey] = useState(false);
 
   const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG.bano;
   const bannerSrc = categoryBanners[category] || '';
 
   useEffect(() => {
-    fetchProducts();
-    fetchDescription();
+    let active = true;
+    async function load() {
+      const { data } = await api
+        .from('site_settings')
+        .select('key, value')
+        .in('key', [`category_desc_${category}`, `category_photos_${category}`]);
+      if (!active) return;
+      let desc = '';
+      let pics = [];
+      let photosKey = false;
+      (data || []).forEach((row) => {
+        if (row.key === `category_desc_${category}`) desc = row.value || '';
+        if (row.key === `category_photos_${category}`) {
+          photosKey = true;
+          try {
+            const parsed = JSON.parse(row.value || '[]');
+            if (Array.isArray(parsed)) pics = parsed.filter(Boolean);
+          } catch {
+            pics = [];
+          }
+        }
+      });
+      setCustomDesc(desc);
+      setPhotos(pics);
+      setHasPhotosKey(photosKey);
+    }
+    load();
+    return () => {
+      active = false;
+    };
   }, [category]);
 
-  async function fetchDescription() {
-    const { data } = await api
-      .from('site_settings')
-      .select('value')
-      .eq('key', `category_desc_${category}`)
-      .maybeSingle();
-    setCustomDesc(data?.value || '');
-  }
+  // Once a category has its own photos list, use it (even if empty). Otherwise
+  // fall back to the legacy single banner image so nothing disappears.
+  const images = hasPhotosKey ? photos : bannerSrc ? [bannerSrc] : [];
 
-  async function fetchProducts() {
-    setLoading(true);
-    try {
-      const { data, error } = await api
-        .from('products')
-        .select('*')
-        .eq('product_type', category)
-        .order('display_order', { ascending: true });
-
-      if (error) throw error;
-      setProducts(data || []);
-
-      if (data && data.length > 0) {
-        const ids = data.map((p) => p.id);
-        const { data: photos } = await api
-          .from('product_photos')
-          .select('*')
-          .in('product_id', ids)
-          .order('display_order', { ascending: true });
-
-        if (photos) {
-          const map = {};
-          photos.forEach((photo) => {
-            if (!map[photo.product_id]) map[photo.product_id] = [];
-            map[photo.product_id].push(photo);
-          });
-          setPhotosMap(map);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const handleBack = () => {
-    setCurrentView('colecciones');
-  };
+  const handleBack = () => setCurrentView('colecciones');
 
   return (
     <section className="productos-cat">
-      <div className="productos-cat-banner">
-        <img src={bannerSrc || undefined} alt={config.label} className="productos-cat-banner-img" />
-        <div className="productos-cat-banner-overlay" />
-        <div className="productos-cat-banner-content">
-          <button className="productos-cat-back" onClick={handleBack}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M13 4l-6 6 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Todos los productos
-          </button>
-          <h1 className="productos-cat-title">{config.label}</h1>
-          <p className="productos-cat-desc">{customDesc || config.description}</p>
-        </div>
-      </div>
-
       <div className="productos-cat-container">
-        {loading && <p className="productos-cat-loading">Cargando...</p>}
+        <button className="productos-cat-back" onClick={handleBack}>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M13 4l-6 6 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Todos los productos
+        </button>
 
-        {!loading && products.length === 0 && (
-          <p className="productos-cat-empty">Productos próximamente disponibles en esta categoría.</p>
-        )}
-
-        {!loading && products.length > 0 && (
-          <div className="productos-cat-grid">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                photos={photosMap[product.id] || []}
-              />
-            ))}
+        <div className="productos-cat-main">
+          <div className="productos-cat-text">
+            <h1 className="productos-cat-title">{config.label}</h1>
+            <p className="productos-cat-desc">{customDesc || config.description}</p>
           </div>
-        )}
+
+          <div className="productos-cat-media">
+            {images.length > 0 ? (
+              <ImageCarousel images={images} altPrefix={config.label} />
+            ) : (
+              <div className="productos-cat-media-empty">Imágenes próximamente</div>
+            )}
+          </div>
+        </div>
 
         <BrandsCarousel category={category} />
       </div>
