@@ -9,7 +9,11 @@ html {
 }
 
 html, body {
+  /* `clip` prevents horizontal scroll without creating a scroll container,
+     so it doesn't break `position: sticky` (which `overflow-x: hidden` does).
+     `hidden` stays as a fallback for browsers without `clip` support. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 :root {
