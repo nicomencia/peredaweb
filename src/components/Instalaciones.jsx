@@ -66,7 +66,7 @@ export default function Instalaciones({ setCurrentView }) {
         </div>
       </div>
       <div className="container">
-        <h2>Nuestras Tiendas</h2>
+        <h1>Nuestras Tiendas</h1>
         {loading ? (
           <p style={{ textAlign: 'center', padding: '2rem 0' }}>Cargando tiendas...</p>
         ) : (
@@ -76,6 +76,7 @@ export default function Instalaciones({ setCurrentView }) {
                 <div className="store-image">
                   <img
                     src={store.cover_image_url || undefined}
+                    loading="lazy"
                     alt={`Tienda ${store.name} - ${store.address}`}
                   />
                 </div>

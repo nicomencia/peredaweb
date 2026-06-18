@@ -19,22 +19,66 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "HardwareStore",
-      "name": "Saneamientos Pereda",
-      "description": "Especialistas en baño, fontanería y materiales de construcción en Asturias desde 1959.",
-      "url": "https://www.saneamientos-pereda.com",
-      "logo": "https://www.saneamientos-pereda.com/media/base/logo.png",
-      "telephone": "+34985271026",
-      "foundingDate": "1959",
-      "areaServed": "Asturias",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "C/ Independencia, 43",
-        "postalCode": "33004",
-        "addressLocality": "Oviedo",
-        "addressRegion": "Asturias",
-        "addressCountry": "ES"
-      }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.saneamientos-pereda.com/#org",
+          "name": "Saneamientos Pereda",
+          "url": "https://www.saneamientos-pereda.com",
+          "logo": "https://www.saneamientos-pereda.com/media/base/logo.png",
+          "foundingDate": "1959",
+          "description": "Especialistas en baño, fontanería y materiales de construcción en Asturias desde 1959.",
+          "areaServed": "Asturias",
+          "sameAs": [
+            "https://facebook.com/Pereda.Asturias",
+            "https://instagram.com/saneamientospereda/"
+          ]
+        },
+        {
+          "@type": "HardwareStore",
+          "name": "Saneamientos Pereda — Oviedo (Independencia)",
+          "image": "https://www.saneamientos-pereda.com/media/base/logo.png",
+          "url": "https://www.saneamientos-pereda.com/instalaciones",
+          "parentOrganization": { "@id": "https://www.saneamientos-pereda.com/#org" },
+          "telephone": "+34985271026",
+          "priceRange": "€€",
+          "address": { "@type": "PostalAddress", "streetAddress": "C/ Independencia, 43", "postalCode": "33004", "addressLocality": "Oviedo", "addressRegion": "Asturias", "addressCountry": "ES" },
+          "geo": { "@type": "GeoCoordinates", "latitude": 43.3623, "longitude": -5.8447 }
+        },
+        {
+          "@type": "HardwareStore",
+          "name": "Saneamientos Pereda — Oviedo (La Lila)",
+          "image": "https://www.saneamientos-pereda.com/media/base/logo.png",
+          "url": "https://www.saneamientos-pereda.com/instalaciones",
+          "parentOrganization": { "@id": "https://www.saneamientos-pereda.com/#org" },
+          "telephone": "+34985223489",
+          "priceRange": "€€",
+          "address": { "@type": "PostalAddress", "streetAddress": "C/ La Lila, 26 – Avellanos 4", "postalCode": "33002", "addressLocality": "Oviedo", "addressRegion": "Asturias", "addressCountry": "ES" },
+          "geo": { "@type": "GeoCoordinates", "latitude": 43.3614, "longitude": -5.8586 }
+        },
+        {
+          "@type": "HardwareStore",
+          "name": "Saneamientos Pereda — Pruvia",
+          "image": "https://www.saneamientos-pereda.com/media/base/logo.png",
+          "url": "https://www.saneamientos-pereda.com/instalaciones",
+          "parentOrganization": { "@id": "https://www.saneamientos-pereda.com/#org" },
+          "telephone": "+34985260124",
+          "priceRange": "€€",
+          "address": { "@type": "PostalAddress", "streetAddress": "Ctra. AS-381 km 6,5", "postalCode": "33192", "addressLocality": "Pruvia", "addressRegion": "Asturias", "addressCountry": "ES" },
+          "geo": { "@type": "GeoCoordinates", "latitude": 43.4156, "longitude": -5.9328 }
+        },
+        {
+          "@type": "HardwareStore",
+          "name": "Saneamientos Pereda — Gijón",
+          "image": "https://www.saneamientos-pereda.com/media/base/logo.png",
+          "url": "https://www.saneamientos-pereda.com/instalaciones",
+          "parentOrganization": { "@id": "https://www.saneamientos-pereda.com/#org" },
+          "telephone": "+34985351747",
+          "priceRange": "€€",
+          "address": { "@type": "PostalAddress", "streetAddress": "C/ Infiesto, 12/14 – Avilés 17", "postalCode": "33207", "addressLocality": "Gijón", "addressRegion": "Asturias", "addressCountry": "ES" },
+          "geo": { "@type": "GeoCoordinates", "latitude": 43.5322, "longitude": -5.6611 }
+        }
+      ]
     }
     </script>
   </head>

@@ -49,6 +49,7 @@ export default function ProductCard({ product, photos }) {
             src={images[currentIndex]}
             alt={product.name}
             className="product-image"
+            loading="lazy"
           />
           {hasMultiple && (
             <>

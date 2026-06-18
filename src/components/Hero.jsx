@@ -25,6 +25,7 @@ export default function Hero({ setCurrentView }) {
       style={{ backgroundImage: `linear-gradient(rgba(0, 82, 204, 0.1), rgba(0, 82, 204, 0.05))${bgUrl ? `, url('${bgUrl}')` : ''}` }}
     >
       <div className="hero-content">
+        <h1 className="sr-only">Saneamientos Pereda — Baño, fontanería y materiales de construcción en Oviedo</h1>
         <img src={logoUrl || undefined} alt="Saneamientos Pereda" className="hero-logo" />
       </div>
     </section>

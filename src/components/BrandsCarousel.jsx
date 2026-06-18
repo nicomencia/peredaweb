@@ -33,7 +33,7 @@ export default function BrandsCarousel({ category = null }) {
         <div className="brands-carousel-track">
           {duplicated.map((brand, i) => (
             <div key={`${brand.id}-${i}`} className="brands-carousel-item">
-              <img src={brand.logo_url} alt={brand.name} />
+              <img src={brand.logo_url} alt={brand.name} loading="lazy" />
             </div>
           ))}
         </div>

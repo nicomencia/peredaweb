@@ -105,7 +105,7 @@ export default function QuienesSomos() {
       <div className="about-hero" style={{ backgroundImage: images.quienes_somos_bg ? `url('${images.quienes_somos_bg}')` : undefined }}>
         <div className="about-hero-overlay" />
         <div className="about-hero-content">
-          <h2>¿QUIÉNES SOMOS?</h2>
+          <h1>¿QUIÉNES SOMOS?</h1>
           <p className="about-hero-subtitle">
             {texts.quienes_subtitle}
           </p>

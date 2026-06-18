@@ -203,6 +203,7 @@ export default function App() {
   return (
     <>
       <Navigation currentView={currentView} setCurrentView={setCurrentView} onCategorySelect={goToCategory} />
+      <main>
       <Routes>
         <Route
           path="/"
@@ -239,6 +240,7 @@ export default function App() {
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </main>
       <Footer setCurrentView={setCurrentView} />
       {currentView !== 'admin' && <FloatingShopButton currentView={currentView} />}
     </>

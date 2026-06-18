@@ -49,7 +49,7 @@ export default function Inspirate({ onSelectAmbiente }) {
   return (
     <section id="inspirate" className="inspirate">
       <div className="container">
-        <h2>{heading}</h2>
+        <h1>{heading}</h1>
         <div className="inspirate-content">
           <div className="inspirate-cards">
             {cards.map((card, i) => (
@@ -89,7 +89,7 @@ export default function Inspirate({ onSelectAmbiente }) {
                     className="inspirate-item"
                     onClick={() => onSelectAmbiente(ambiente.id)}
                   >
-                    <img src={ambiente.cover_image_url} alt={ambiente.title} />
+                    <img src={ambiente.cover_image_url} alt={ambiente.title} loading="lazy" />
                     <div className="inspirate-item-overlay">
                       <span className="inspirate-item-title">{ambiente.title}</span>
                       <span className="inspirate-item-cta">Ver ambiente</span>

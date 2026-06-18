@@ -102,13 +102,14 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
         <button onClick={() => setCurrentView('inspirate')} className="ambiente-back-button">
           &#8592; Volver a Inspírate
         </button>
+        <h1 className="ambiente-detail-title">{ambiente.title}</h1>
 
         {ambiente.cover_image_url && (
           <div
             className="ambiente-main-photo"
             onClick={() => openLightbox(0)}
           >
-            <img src={ambiente.cover_image_url} alt="" />
+            <img src={ambiente.cover_image_url} alt={ambiente.title} loading="lazy" />
           </div>
         )}
 
@@ -120,7 +121,7 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
                 className="ambiente-gallery-item"
                 onClick={() => openLightbox(index + 1)}
               >
-                <img src={photo.image_url} alt="" />
+                <img src={photo.image_url} alt={`${ambiente.title} — foto ${index + 1}`} loading="lazy" />
               </div>
             ))}
           </div>
