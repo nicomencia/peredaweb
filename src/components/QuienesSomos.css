@@ -154,7 +154,7 @@
 }
 
 .servicios-title {
-  text-align: center;
+  text-align: left;
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 700;
   color: var(--color-blue);
@@ -162,9 +162,9 @@
 }
 
 .servicios-subtitle {
-  text-align: center;
+  text-align: left;
   max-width: 720px;
-  margin: 0 auto var(--spacing-xl);
+  margin: 0 0 var(--spacing-xl);
   color: var(--color-blue);
   font-size: 1.05rem;
   line-height: 1.6;
@@ -272,7 +272,7 @@
 }
 
 .stat-card {
-  text-align: center;
+  text-align: left;
   padding: var(--spacing-lg) var(--spacing-md);
   border-radius: 12px;
   background: var(--color-white);
@@ -300,7 +300,7 @@
   line-height: 1.7;
   color: var(--color-gray);
   max-width: 360px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .careers-banner {
