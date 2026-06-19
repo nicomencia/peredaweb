@@ -50,6 +50,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* --- Editorial design-language utilities (minimal/premium) --- */
+/* Small uppercase label that sits above a heading. */
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-blue);
+}
+
+/* Scroll-reveal: start hidden + slightly down, animate in when `.is-visible`
+   is added (see useInView). Respects reduced-motion. */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* Visually-hidden but readable by screen readers and search engines. */
 .sr-only {
   position: absolute;

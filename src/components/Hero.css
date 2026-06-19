@@ -9,6 +9,17 @@
   position: relative;
 }
 
+/* Subtle depth scrim at the bottom so the scroll cue reads and the section
+   below feels intentional, without tinting the whole image. */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 30%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.22), transparent);
+  pointer-events: none;
+}
+
 .hero-content {
   text-align: center;
   z-index: 1; 
@@ -52,6 +63,40 @@
   background: #ffffff;
   color: var(--color-blue);
   transform: translateY(-2px);
+}
+
+/* Minimal animated scroll cue. */
+.hero-scroll {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  animation: fadeInUp 1s ease-out 0.8s both;
+}
+
+.hero-scroll-track {
+  display: block;
+  width: 1px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-scroll-thumb {
+  position: absolute;
+  top: -40%;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.95);
+  animation: hero-scroll-move 2.1s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+}
+
+@keyframes hero-scroll-move {
+  0% { top: -40%; }
+  60%, 100% { top: 100%; }
 }
 
 @keyframes fadeInScale {

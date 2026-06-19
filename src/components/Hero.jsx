@@ -54,6 +54,12 @@ export default function Hero({ setCurrentView }) {
           </div>
         )}
       </div>
+
+      <div className="hero-scroll" aria-hidden="true">
+        <span className="hero-scroll-track">
+          <span className="hero-scroll-thumb" />
+        </span>
+      </div>
     </section>
   );
 }

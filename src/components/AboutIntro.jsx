@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../lib/api';
+import { useInView } from '../hooks/useInView';
 import './AboutIntro.css';
 
 const defaultCtas = [
@@ -9,8 +10,15 @@ const defaultCtas = [
   { title: 'Conoce las ventajas para el profesional', label: 'HAZTE CLIENTE', view: 'hazte-cliente' },
 ];
 
+const ARROW = (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);
+
 export default function AboutIntro({ setCurrentView }) {
   const [ctas, setCtas] = useState(defaultCtas);
+  const [ref, inView] = useInView();
 
   useEffect(() => {
     async function loadCtas() {
@@ -40,21 +48,30 @@ export default function AboutIntro({ setCurrentView }) {
   }, []);
 
   return (
-    <section className="cta-banner">
-      <div className="cta-banner-grid">
-        {ctas.map((item) => (
-          <div className="cta-banner-item" key={item.view}>
-            <div className="cta-banner-title-wrap">
-              <h3 className="cta-banner-title">{item.title}</h3>
-            </div>
+    <section className={`home-services${inView ? ' is-visible' : ''}`} ref={ref}>
+      <div className="home-services-inner">
+        <div className="home-services-head">
+          <span className="eyebrow">Cómo te ayudamos</span>
+          <h2 className="home-services-heading">Te acompañamos en cada paso de tu proyecto</h2>
+        </div>
+
+        <div className="home-services-grid">
+          {ctas.map((item, i) => (
             <button
-              className="cta-banner-button"
+              className="service-item"
+              key={item.view}
+              style={{ '--i': i }}
               onClick={() => setCurrentView && setCurrentView(item.view)}
             >
-              {item.label}
+              <span className="service-index">{String(i + 1).padStart(2, '0')}</span>
+              <span className="service-title">{item.title}</span>
+              <span className="service-cta">
+                {item.label}
+                {ARROW}
+              </span>
             </button>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
