@@ -61,6 +61,14 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
   font-weight: 400;
   text-transform: none;
+  /* Balance heading lines so they don't leave a single orphan word on the
+     last line (graceful fallback where unsupported). */
+  text-wrap: balance;
+}
+
+/* Avoid orphan/very-short last lines in body copy. */
+p {
+  text-wrap: pretty;
 }
 
 h1 {
