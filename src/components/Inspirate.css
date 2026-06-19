@@ -31,7 +31,7 @@
   background: var(--color-white);
   border-radius: 12px;
   padding: var(--spacing-lg) var(--spacing-md);
-  text-align: center;
+  text-align: left;
 }
 
 .inspirate-card-icon {
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto var(--spacing-sm);
+  margin: 0 0 var(--spacing-sm);
 }
 
 .inspirate-card h3 {
