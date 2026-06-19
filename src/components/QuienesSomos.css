@@ -16,7 +16,7 @@
 .about-hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 47, 167, 0.7);
+  background: var(--color-blue-overlay);
 }
 
 .about-hero-content {
@@ -195,7 +195,7 @@
   height: 72px;
   margin: 0 0 20px;
   border-radius: 50%;
-  background: rgba(0, 51, 160, 0.08);
+  background: var(--color-blue-tint);
   color: var(--color-blue);
   display: flex;
   align-items: center;
@@ -312,7 +312,7 @@
 .careers-banner-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #001a5e 0%, #002FA7 50%, #0040cc 100%);
+  background: linear-gradient(135deg, var(--color-blue-dark) 0%, var(--color-blue) 50%, var(--color-blue-light) 100%);
 }
 
 .careers-banner-bg::before {

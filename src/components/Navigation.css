@@ -156,7 +156,7 @@
 }
 
 .nav-dropdown button:hover {
-  background: rgba(0, 47, 167, 0.06);
+  background: color-mix(in srgb, var(--color-blue) 6%, transparent);
   opacity: 1;
 }
 

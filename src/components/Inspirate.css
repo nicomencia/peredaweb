@@ -38,7 +38,7 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: rgba(0, 47, 167, 0.08);
+  background: var(--color-blue-tint);
   color: var(--color-blue);
   display: flex;
   align-items: center;

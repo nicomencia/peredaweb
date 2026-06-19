@@ -128,7 +128,7 @@
 }
 
 .btn-accept:hover {
-  background: #001f70;
+  background: var(--color-blue-dark);
   transform: translateY(-1px);
 }
 
@@ -189,7 +189,7 @@
 .form-group textarea:focus {
   outline: none;
   border-color: var(--color-blue);
-  box-shadow: 0 0 0 3px rgba(0, 47, 167, 0.1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-blue) 10%, transparent);
 }
 
 .form-group input::placeholder,
@@ -252,7 +252,7 @@
 }
 
 .btn-submit:hover:not(:disabled) {
-  background: #001f70;
+  background: var(--color-blue-dark);
   transform: translateY(-1px);
 }
 

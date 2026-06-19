@@ -18,7 +18,7 @@
   justify-content: center;
   gap: 24px;
   flex-wrap: wrap;
-  border-bottom: 1px solid rgba(44, 90, 135, 0.15);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-blue) 15%, transparent);
   padding-bottom: 20px;
 }
 

@@ -1,5 +1,5 @@
 .cta-banner {
-  background: linear-gradient(180deg, #0a3ec1 0%, var(--color-blue) 100%);
+  background: linear-gradient(180deg, var(--color-blue-light) 0%, var(--color-blue) 100%);
   padding: 80px 32px;
 }
 

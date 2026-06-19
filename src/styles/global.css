@@ -18,6 +18,13 @@ html, body {
 
 :root {
   --color-blue: #002FA7;
+  /* Shades/tints derived from the primary so gradients, overlays and tinted
+     backgrounds track the admin-editable color (App.jsx overrides --color-blue
+     from the `color_primary` setting). */
+  --color-blue-dark: color-mix(in srgb, var(--color-blue) 60%, #000);
+  --color-blue-light: color-mix(in srgb, var(--color-blue) 80%, #fff);
+  --color-blue-overlay: color-mix(in srgb, var(--color-blue) 70%, transparent);
+  --color-blue-tint: color-mix(in srgb, var(--color-blue) 8%, transparent);
   --color-white: #FFFFFF;
   --color-cream: #F8F6F4;
   --color-black: #1A1A1A;

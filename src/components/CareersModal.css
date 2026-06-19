@@ -65,7 +65,7 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: rgba(0, 47, 167, 0.08);
+  background: var(--color-blue-tint);
   color: var(--color-blue);
   display: inline-flex;
   align-items: center;
@@ -118,7 +118,7 @@
 .careers-field textarea:focus {
   outline: none;
   border-color: var(--color-blue);
-  box-shadow: 0 0 0 3px rgba(0, 47, 167, 0.1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-blue) 10%, transparent);
 }
 
 .careers-field input::placeholder,
@@ -142,7 +142,7 @@
 
 .careers-file-upload:hover {
   border-color: var(--color-blue);
-  background: rgba(0, 47, 167, 0.03);
+  background: color-mix(in srgb, var(--color-blue) 3%, transparent);
 }
 
 .careers-file-upload span {
@@ -195,7 +195,7 @@
 }
 
 .careers-submit-btn:hover:not(:disabled) {
-  background: #001f70;
+  background: var(--color-blue-dark);
   transform: translateY(-1px);
 }
 
@@ -251,7 +251,7 @@
 }
 
 .careers-done-btn:hover {
-  background: #001f70;
+  background: var(--color-blue-dark);
 }
 
 @media (max-width: 768px) {

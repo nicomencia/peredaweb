@@ -17,7 +17,7 @@
 .area-hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 47, 167, 0.7);
+  background: var(--color-blue-overlay);
 }
 
 .area-hero-content {
@@ -332,7 +332,7 @@
 .area-cta-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #001a5e 0%, #002FA7 50%, #0040cc 100%);
+  background: linear-gradient(135deg, var(--color-blue-dark) 0%, var(--color-blue) 50%, var(--color-blue-light) 100%);
 }
 
 .area-cta-bg::before {

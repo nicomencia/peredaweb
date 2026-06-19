@@ -1,7 +1,7 @@
 .brands-carousel {
   padding: var(--spacing-lg) 0;
   margin-top: var(--spacing-xl);
-  border-top: 1px solid rgba(44, 90, 135, 0.1);
+  border-top: 1px solid color-mix(in srgb, var(--color-blue) 12%, transparent);
 }
 
 .brands-carousel-track-wrapper {
