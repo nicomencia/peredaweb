@@ -59,7 +59,7 @@
 
 .about-photo-full img {
   width: 100%;
-  aspect-ratio: 6 / 7;
+  aspect-ratio: 7 / 6;
   object-fit: cover;
   display: block;
 }
@@ -124,7 +124,7 @@
 
 .about-photo-half img {
   width: 100%;
-  aspect-ratio: 6 / 7;
+  aspect-ratio: 7 / 6;
   object-fit: cover;
   display: block;
 }

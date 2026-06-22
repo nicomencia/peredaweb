@@ -36,6 +36,9 @@
   border-radius: 0;
   padding: var(--spacing-lg) var(--spacing-md);
   text-align: left;
+  aspect-ratio: 6 / 7;
+  display: flex;
+  flex-direction: column;
 }
 
 .inspirate-card-icon {
@@ -137,6 +140,10 @@ button.inspirate-item img {
 
   .inspirate-cards {
     grid-template-columns: 1fr;
+  }
+
+  .inspirate-card {
+    aspect-ratio: auto;
   }
 
   .inspirate-grid {
