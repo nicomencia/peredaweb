@@ -139,6 +139,7 @@ export default function App() {
     apply('color_primary', '--color-blue');
     apply('color_secondary', '--color-cream');
     apply('color_dark', '--color-black');
+    apply('color_accent', '--color-accent');
   }, []);
 
   useEffect(() => {
@@ -203,7 +204,7 @@ export default function App() {
       const { data } = await api
         .from('site_settings')
         .select('key, value')
-        .or('key.in.(color_primary,color_secondary,color_dark),key.like.category_banner_%');
+        .or('key.in.(color_primary,color_secondary,color_dark,color_accent),key.like.category_banner_%');
       if (data) {
         primeCache(data);
         const banners = {};
@@ -211,6 +212,7 @@ export default function App() {
           if (row.key === 'color_primary') document.documentElement.style.setProperty('--color-blue', row.value);
           else if (row.key === 'color_secondary') document.documentElement.style.setProperty('--color-cream', row.value);
           else if (row.key === 'color_dark') document.documentElement.style.setProperty('--color-black', row.value);
+          else if (row.key === 'color_accent') document.documentElement.style.setProperty('--color-accent', row.value);
           else if (row.key.startsWith('category_banner_')) {
             banners[row.key.replace('category_banner_', '')] = row.value;
           }

@@ -11,6 +11,7 @@ const SETTINGS_KEYS = [
   'color_primary',
   'color_secondary',
   'color_dark',
+  'color_accent',
   'navbar_logo',
   'favicon',
   'footer_logo',
@@ -150,6 +151,21 @@ export default function AdminAjustes() {
                 type="text"
                 value={values.color_dark || '#1A1A1A'}
                 onChange={(e) => handleChange('color_dark', e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="admin-ajustes-color-item">
+            <label>Color de acento</label>
+            <div className="admin-ajustes-color-row">
+              <input
+                type="color"
+                value={values.color_accent || '#B06808'}
+                onChange={(e) => handleChange('color_accent', e.target.value)}
+              />
+              <input
+                type="text"
+                value={values.color_accent || '#B06808'}
+                onChange={(e) => handleChange('color_accent', e.target.value)}
               />
             </div>
           </div>
