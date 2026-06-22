@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { api } from '../lib/api';
 import './BrandsCarousel.css';
 
-export default function BrandsCarousel({ category = null }) {
+export default function BrandsCarousel({ category = null, eyebrow = null, title = null }) {
   const [brands, setBrands] = useState([]);
 
   useEffect(() => {
@@ -29,6 +29,12 @@ export default function BrandsCarousel({ category = null }) {
 
   return (
     <div className="brands-carousel">
+      {(eyebrow || title) && (
+        <div className="brands-carousel-header">
+          {eyebrow && <span className="eyebrow">{eyebrow}</span>}
+          {title && <h2 className="brands-carousel-title">{title}</h2>}
+        </div>
+      )}
       <div className="brands-carousel-track-wrapper">
         <div className="brands-carousel-track">
           {duplicated.map((brand, i) => (

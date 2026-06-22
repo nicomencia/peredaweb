@@ -5,6 +5,7 @@ import { cachedSetting, cachedByPrefix, primeCache, loadSettings } from './lib/s
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import AboutIntro from './components/AboutIntro';
+import BrandsCarousel from './components/BrandsCarousel';
 import QuienesSomos from './components/QuienesSomos';
 import Productos from './components/Productos';
 import Inspirate from './components/Inspirate';
@@ -263,6 +264,11 @@ export default function App() {
             <>
               <Hero setCurrentView={setCurrentView} />
               <AboutIntro setCurrentView={setCurrentView} />
+              <BrandsCarousel
+                category="home"
+                eyebrow="Marcas"
+                title="Trabajamos con las mejores marcas"
+              />
             </>
           }
         />

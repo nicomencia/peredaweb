@@ -195,7 +195,11 @@ export default function AdminProductos() {
   );
 }
 
-function BrandsManager({ category }) {
+export function BrandsManager({
+  category,
+  title = 'Marcas',
+  description = 'Logos de marcas que aparecen en el carrusel de esta categoría.',
+}) {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -263,9 +267,9 @@ function BrandsManager({ category }) {
   return (
     <>
       <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.25rem' }}>
-        Marcas
+        {title}
       </h2>
-      <p className="admin-homepage-desc">Logos de marcas que aparecen en el carrusel de esta categoría.</p>
+      <p className="admin-homepage-desc">{description}</p>
 
       {message && <div className="admin-homepage-msg">{message}</div>}
 
