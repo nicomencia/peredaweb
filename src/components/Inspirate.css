@@ -87,7 +87,7 @@
 button.inspirate-item {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 1;
+  aspect-ratio: 6 / 7;
   border-radius: 0;
   cursor: pointer;
   border: none;

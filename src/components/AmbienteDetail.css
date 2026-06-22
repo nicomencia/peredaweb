@@ -35,11 +35,12 @@
 
 .ambiente-main-photo {
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-md);
   border-radius: 0;
   overflow: hidden;
   cursor: pointer;
-  margin-bottom: var(--spacing-md);
-  aspect-ratio: 16/9;
+  aspect-ratio: 6 / 7;
 }
 
 .ambiente-main-photo img {
@@ -47,11 +48,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
-}
-
-.ambiente-main-photo:hover img {
-  transform: scale(1.02);
 }
 
 .ambiente-gallery {
@@ -62,7 +58,7 @@
 
 .ambiente-gallery-item {
   position: relative;
-  aspect-ratio: 1/1;
+  aspect-ratio: 6 / 7;
   overflow: hidden;
   border-radius: 0;
   cursor: pointer;
@@ -73,11 +69,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
-}
-
-.ambiente-gallery-item:hover img {
-  transform: scale(1.06);
 }
 
 .ambiente-lightbox {
@@ -195,7 +186,7 @@
   }
 
   .ambiente-main-photo {
-    aspect-ratio: 4/3;
+    aspect-ratio: 6 / 7;
   }
 
   .ambiente-lightbox-nav {
