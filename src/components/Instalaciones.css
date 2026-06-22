@@ -157,6 +157,11 @@
   font-weight: 600;
 }
 
+/* Each time range stays on one line; line breaks happen only between ranges. */
+.hours-range {
+  white-space: nowrap;
+}
+
 .detail-section.emails {
   gap: 0.3rem;
 }

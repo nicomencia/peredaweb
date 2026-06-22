@@ -13,6 +13,17 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
+// Renders an hours value with each time range on its own line (split on " y "),
+// and each range kept on a single line so it never breaks mid-way.
+function HoursValue({ value }) {
+  return value.split(/\s+y\s+/).map((part, i) => (
+    <span className="hours-range" key={i}>
+      {i > 0 && <br />}
+      {part}
+    </span>
+  ));
+}
+
 export default function Instalaciones({ setCurrentView }) {
   const [bannerTitle, setBannerTitle] = useState('Pide cita para tus proyectos de reformas');
   const [bannerButton, setBannerButton] = useState('PIDE CITA');
@@ -100,9 +111,9 @@ export default function Instalaciones({ setCurrentView }) {
                       </div>
 
                       <div className="detail-section">
-                        {store.hours_tienda && <p><strong>Tienda Exposición:</strong> {store.hours_tienda}</p>}
-                        {store.hours_fontaneria && <p><strong>Fontanería y Construcción:</strong> {store.hours_fontaneria}</p>}
-                        {store.hours_sabados && <p><strong>Sábados:</strong> {store.hours_sabados}</p>}
+                        {store.hours_tienda && <p><strong>Tienda Exposición:</strong> <HoursValue value={store.hours_tienda} /></p>}
+                        {store.hours_fontaneria && <p><strong>Fontanería y Construcción:</strong> <HoursValue value={store.hours_fontaneria} /></p>}
+                        {store.hours_sabados && <p><strong>Sábados:</strong> <HoursValue value={store.hours_sabados} /></p>}
                         {store.hours_verano && <p className="verano">{store.hours_verano}</p>}
                       </div>
 
