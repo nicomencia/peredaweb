@@ -46,7 +46,7 @@
 
 .productos-cat-title {
   font-size: clamp(2rem, 4vw, 3rem);
-  color: var(--color-blue);
+  color: var(--color-black);
   font-weight: 400;
   margin-bottom: 18px;
   letter-spacing: -0.02em;

@@ -7,7 +7,7 @@
 .ambiente-detail-title {
   text-align: center;
   font-size: clamp(1.75rem, 3vw, 2.5rem);
-  color: var(--color-blue);
+  color: var(--color-black);
   margin: 1rem 0 2rem;
 }
 

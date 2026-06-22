@@ -17,7 +17,7 @@
 
 .productos-hero-title {
   font-size: clamp(2rem, 4vw, 3.2rem);
-  color: var(--color-blue);
+  color: var(--color-black);
   font-weight: 400;
   margin-bottom: 12px;
   letter-spacing: -0.02em;
@@ -73,7 +73,7 @@
 .category-tile-title {
   font-size: 0.98rem;
   font-weight: 500;
-  color: var(--color-blue);
+  color: var(--color-black);
   margin: 0 0 4px 0;
   letter-spacing: 0.005em;
   line-height: 1.3;

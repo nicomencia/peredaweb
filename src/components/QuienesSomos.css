@@ -85,7 +85,7 @@
 
 .about-team-section h3 {
   text-align: center;
-  color: var(--color-blue);
+  color: var(--color-black);
   font-weight: 600;
   letter-spacing: 0.03em;
   margin-bottom: 0.5rem;
@@ -157,7 +157,7 @@
   text-align: left;
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 700;
-  color: var(--color-blue);
+  color: var(--color-black);
   margin: 0 0 16px;
 }
 
@@ -165,7 +165,7 @@
   text-align: left;
   max-width: 720px;
   margin: 0 0 var(--spacing-xl);
-  color: var(--color-blue);
+  color: var(--color-gray);
   font-size: 1.05rem;
   line-height: 1.6;
 }
@@ -198,7 +198,7 @@
 .servicio-name {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--color-blue);
+  color: var(--color-black);
   margin: 0 0 12px;
 }
 
@@ -227,7 +227,7 @@
 
 .about-porqué h3 {
   text-align: center;
-  color: var(--color-blue);
+  color: var(--color-black);
   font-weight: 600;
   letter-spacing: 0.03em;
   margin-bottom: var(--spacing-lg);
