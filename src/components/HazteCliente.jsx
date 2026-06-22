@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import './SimplePage.css';
 
@@ -170,7 +171,8 @@ export default function HazteCliente() {
                     onChange={(e) => setAccepted(e.target.checked)}
                   />
                   <span>
-                    He leído y acepto la <strong>política de privacidad</strong>
+                    He leído y acepto la{' '}
+                    <Link to="/politica-privacidad" className="presupuesto-policy-link">política de privacidad</Link>
                   </span>
                 </label>
 

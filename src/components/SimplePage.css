@@ -172,6 +172,27 @@
   color: var(--color-black);
   font-size: 0.95rem;
   margin-top: 8px;
+  cursor: pointer;
+}
+
+/* The checkbox would otherwise inherit the form inputs' width: 100% and push
+   the label text to the far side; keep it at its natural size next to the text. */
+.presupuesto-check input[type="checkbox"] {
+  width: auto;
+  flex: 0 0 auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.presupuesto-policy-link {
+  color: var(--color-blue);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.presupuesto-policy-link:hover {
+  color: var(--color-blue-dark);
 }
 
 .presupuesto-submit {
