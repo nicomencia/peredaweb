@@ -62,7 +62,6 @@
 .hero-button:hover {
   background: #ffffff;
   color: var(--color-blue);
-  transform: translateY(-2px);
 }
 
 /* Minimal animated scroll cue. */

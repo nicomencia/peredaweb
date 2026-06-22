@@ -48,14 +48,13 @@
   cursor: pointer;
   text-align: left;
   font-family: inherit;
-  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  transition: border-color 0.25s ease, background 0.25s ease;
   position: relative;
 }
 
 .category-tile:hover {
   border-color: var(--color-blue);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-blue) 8%, transparent);
+  background: color-mix(in srgb, var(--color-blue) 3%, #ffffff);
 }
 
 .category-tile-icon {

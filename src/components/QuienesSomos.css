@@ -155,8 +155,8 @@
 
 .servicios-title {
   text-align: left;
-  font-size: clamp(1.75rem, 3vw, 2.25rem);
-  font-weight: 700;
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 400;
   color: var(--color-blue);
   margin: 0 0 16px;
 }
@@ -178,16 +178,9 @@
 
 .servicio-card {
   background: var(--color-white);
-  padding: 36px 28px;
+  padding: 38px 32px;
   text-align: left;
-  border-radius: 12px;
-  border-top: 3px solid var(--color-blue);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.servicio-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  border-top: 1px solid color-mix(in srgb, var(--color-blue) 22%, transparent);
 }
 
 .servicio-icon {
