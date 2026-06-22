@@ -61,7 +61,7 @@
 .productos-cat-media {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 7 / 6;
   border-radius: 0;
   overflow: hidden;
   background: #ececec;
@@ -95,6 +95,6 @@
   }
 
   .productos-cat-media {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 7 / 6;
   }
 }
