@@ -4,7 +4,7 @@ import { cachedSetting, loadSettings } from '../lib/settings';
 import './Footer.css';
 
 export default function Footer({ setCurrentView }) {
-  const [description, setDescription] = useState(() => cachedSetting('footer_description', 'Especialistas en equipamiento de baño desde 1985. Empresa familiar con más de 35 años de experiencia ofreciendo productos de alta calidad y servicio profesional.'));
+  const [description, setDescription] = useState(() => cachedSetting('footer_description', 'Especialistas en equipamiento de baño desde 1959. Empresa familiar con más de 50 años de experiencia ofreciendo productos de alta calidad y servicio profesional.'));
   const [facebookUrl, setFacebookUrl] = useState(() => cachedSetting('footer_facebook_url', 'https://facebook.com/Pereda.Asturias'));
   const [instagramUrl, setInstagramUrl] = useState(() => cachedSetting('footer_instagram_url', 'https://instagram.com/saneamientospereda/'));
   const [logoUrl, setLogoUrl] = useState(() => cachedSetting('footer_logo', '/base/navbar-logo.webp'));

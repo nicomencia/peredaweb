@@ -10,10 +10,10 @@ const SEEDS = {
   quienes_caption_2: 'Nuestras instalaciones',
   quienes_servicios_title: 'Servicios asociados',
   quienes_servicios_subtitle: 'Nuestros especialistas en diseño de interiores te acompañarán en cada paso para ayudarte a crear el baño que siempre has imaginado.',
-  quienes_porque_title: '¿POR QUÉ ELEGIR SANEAMIENTOS PEREDA?',
-  quienes_equipo_title: 'NUESTRO EQUIPO',
+  quienes_porque_title: '¿Por qué elegir Saneamientos Pereda?',
+  quienes_equipo_title: 'Nuestro equipo',
   quienes_equipo_subtitle: 'Las personas que hacen posible Saneamientos Pereda',
-  quienes_careers_title: 'TRABAJA CON NOSOTROS',
+  quienes_careers_title: 'Trabaja con nosotros',
   quienes_careers_text: '¿Quieres formar parte de nuestro equipo? Envíanos tu CV.',
   quienes_careers_button: 'Enviar CV',
   quienes_servicios: JSON.stringify([
