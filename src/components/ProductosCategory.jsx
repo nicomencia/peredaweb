@@ -110,6 +110,7 @@ export default function ProductosCategory({ category, setCurrentView, categoryBa
 
         <div className="productos-cat-main">
           <div className="productos-cat-text">
+            <span className="eyebrow">Productos</span>
             <h1 className="productos-cat-title">{config.label}</h1>
             <p className="productos-cat-desc">{customDesc || config.description}</p>
           </div>

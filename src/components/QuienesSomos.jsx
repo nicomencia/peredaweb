@@ -105,6 +105,7 @@ export default function QuienesSomos() {
       <div className="about-hero" style={{ backgroundImage: images.quienes_somos_bg ? `url('${images.quienes_somos_bg}')` : undefined }}>
         <div className="about-hero-overlay" />
         <div className="about-hero-content">
+          <span className="eyebrow eyebrow--light">Saneamientos Pereda · Oviedo</span>
           <h1>¿QUIÉNES SOMOS?</h1>
           <p className="about-hero-subtitle">
             {texts.quienes_subtitle}
@@ -133,12 +134,13 @@ export default function QuienesSomos() {
 
       <div className="servicios-section">
         <div className="container">
-          <h3 className="servicios-title">{texts.quienes_servicios_title}</h3>
-          <p className="servicios-subtitle">
+          <span className="eyebrow reveal">Servicios</span>
+          <h3 className="servicios-title reveal">{texts.quienes_servicios_title}</h3>
+          <p className="servicios-subtitle reveal">
             {texts.quienes_servicios_subtitle}
           </p>
 
-          <div className="servicios-grid">
+          <div className="servicios-grid reveal">
             {servicios.map((s, i) => (
               <div className="servicio-card" key={i}>
                 <div className="servicio-icon">{SERVICIO_ICONS[i] || SERVICIO_ICONS[0]}</div>
@@ -152,8 +154,9 @@ export default function QuienesSomos() {
 
       <div className="about-porqué">
         <div className="container">
-          <h3>{texts.quienes_porque_title}</h3>
-          <div className="porqué-grid">
+          <span className="eyebrow reveal">Por qué nosotros</span>
+          <h3 className="reveal">{texts.quienes_porque_title}</h3>
+          <div className="porqué-grid reveal">
             {porque.map((item, i) => (
               <div className="porqué-item" key={i}>
                 <span className="porqué-check">{PORQUE_CHECK}</span>
@@ -166,10 +169,11 @@ export default function QuienesSomos() {
 
       <div className="about-team-section">
         <div className="container">
-          <h3>{texts.quienes_equipo_title}</h3>
-          <p className="about-team-subtitle">{texts.quienes_equipo_subtitle}</p>
+          <span className="eyebrow reveal">El equipo</span>
+          <h3 className="reveal">{texts.quienes_equipo_title}</h3>
+          <p className="about-team-subtitle reveal">{texts.quienes_equipo_subtitle}</p>
         </div>
-        <div className="about-team-stats">
+        <div className="about-team-stats reveal">
           {stats.map((stat, i) => (
             <div className="stat-card" key={i}>
               <span className="stat-number">{stat.number}</span>

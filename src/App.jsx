@@ -145,6 +145,39 @@ export default function App() {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [location.pathname]);
 
+  // Global scroll-reveal: any element with `.reveal` fades/slides in when it
+  // enters the viewport. Re-scans on route change and as async content mounts;
+  // a final safety pass force-reveals anything still hidden so content can
+  // never stay invisible if the observer misses it.
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') {
+      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    const scan = () =>
+      document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => observer.observe(el));
+    scan();
+    const rescans = [300, 800, 1600].map((ms) => setTimeout(scan, ms));
+    const safety = setTimeout(() => {
+      document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => el.classList.add('is-visible'));
+    }, 2600);
+
+    return () => {
+      rescans.forEach(clearTimeout);
+      clearTimeout(safety);
+      observer.disconnect();
+    };
+  }, [location.pathname]);
+
   useEffect(() => {
     const title = TITLES[currentView];
     const fullTitle = title && currentView !== 'home' ? `${title} | Saneamientos Pereda` : 'Saneamientos Pereda';

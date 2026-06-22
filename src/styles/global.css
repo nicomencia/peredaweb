@@ -53,12 +53,18 @@ body {
 /* --- Editorial design-language utilities (minimal/premium) --- */
 /* Small uppercase label that sits above a heading. */
 .eyebrow {
-  display: inline-block;
+  display: block;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--color-blue);
+  margin-bottom: 14px;
+}
+
+/* For use over dark images/sections. */
+.eyebrow--light {
+  color: rgba(255, 255, 255, 0.82);
 }
 
 /* Scroll-reveal: start hidden + slightly down, animate in when `.is-visible`

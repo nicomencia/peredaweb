@@ -227,6 +227,11 @@
   padding: var(--spacing-xl) 0;
 }
 
+.about-porqué .eyebrow,
+.about-team-section .eyebrow {
+  text-align: center;
+}
+
 .about-porqué h3 {
   text-align: center;
   color: var(--color-blue);

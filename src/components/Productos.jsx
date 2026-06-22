@@ -86,13 +86,14 @@ export default function Productos({ onCategorySelect }) {
     <section className="productos">
       <div className="productos-container">
         <div className="productos-hero">
+          <span className="eyebrow">Catálogo</span>
           <h1 className="productos-hero-title">Productos</h1>
           <p className="productos-hero-subtitle">
             {subtitle}
           </p>
         </div>
 
-        <div className="category-tiles">
+        <div className="category-tiles reveal">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.key}

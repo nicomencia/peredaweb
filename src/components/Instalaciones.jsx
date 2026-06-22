@@ -67,13 +67,14 @@ export default function Instalaciones({ setCurrentView }) {
         </div>
       </div>
       <div className="container">
-        <h1>Nuestras Tiendas</h1>
+        <span className="eyebrow reveal">Dónde estamos</span>
+        <h1 className="reveal">Nuestras Tiendas</h1>
         {loading ? (
           <p style={{ textAlign: 'center', padding: '2rem 0' }}>Cargando tiendas...</p>
         ) : (
           <div className="stores-list">
             {stores.map((store, index) => (
-              <div key={store.id} className={`store-row ${index % 2 === 1 ? 'reverse' : ''}`}>
+              <div key={store.id} className={`store-row reveal ${index % 2 === 1 ? 'reverse' : ''}`}>
                 <div className="store-image">
                   <ImageCarousel
                     images={[

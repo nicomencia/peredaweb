@@ -4,6 +4,10 @@
   min-height: 100vh;
 }
 
+.inspirate .eyebrow {
+  text-align: center;
+}
+
 .inspirate h1,
 .inspirate h2 {
   text-align: center;

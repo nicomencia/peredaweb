@@ -97,12 +97,13 @@ export default function AreaProfesional({ setCurrentView }) {
 
       <section className="area-benefits">
         <div className="area-benefits-container">
-          <h2>{texts.area_benefits_title}</h2>
-          <p className="area-benefits-subtitle">
+          <span className="eyebrow reveal">Ventajas</span>
+          <h2 className="reveal">{texts.area_benefits_title}</h2>
+          <p className="area-benefits-subtitle reveal">
             {texts.area_benefits_subtitle}
           </p>
 
-          <div className="area-features-grid">
+          <div className="area-features-grid reveal">
             {features.map((f, i) => (
               <div className="area-feature" key={i}>
                 <div className="area-feature-icon">{FEATURE_ICONS[i] || FEATURE_ICONS[0]}</div>
@@ -116,7 +117,8 @@ export default function AreaProfesional({ setCurrentView }) {
 
       <section className="area-faq">
         <div className="area-faq-container">
-          <h2>Preguntas frecuentes</h2>
+          <span className="eyebrow reveal">Dudas</span>
+          <h2 className="reveal">Preguntas frecuentes</h2>
           {faq.length === 0 ? (
             <p className="area-faq-placeholder">
               Próximamente publicaremos aquí las preguntas y respuestas más habituales de nuestros profesionales.

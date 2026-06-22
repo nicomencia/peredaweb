@@ -49,9 +49,10 @@ export default function Inspirate({ onSelectAmbiente }) {
   return (
     <section id="inspirate" className="inspirate">
       <div className="container">
-        <h1>{heading}</h1>
+        <span className="eyebrow reveal">Ambientes</span>
+        <h1 className="reveal">{heading}</h1>
         <div className="inspirate-content">
-          <div className="inspirate-cards">
+          <div className="inspirate-cards reveal">
             {cards.map((card, i) => (
               <div className="inspirate-card" key={i}>
                 <div className="inspirate-card-icon">
@@ -82,7 +83,7 @@ export default function Inspirate({ onSelectAmbiente }) {
             {loading ? (
               <div className="inspirate-loading">Cargando ambientes...</div>
             ) : (
-              <div className="inspirate-grid">
+              <div className="inspirate-grid reveal">
                 {ambientes.map((ambiente) => (
                   <button
                     key={ambiente.id}
