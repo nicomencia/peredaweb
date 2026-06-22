@@ -82,7 +82,7 @@
 
 .store-row {
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 68% 32%;
   background: var(--color-white);
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--color-blue) 12%, transparent);
