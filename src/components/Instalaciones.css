@@ -157,7 +157,13 @@
   font-weight: 600;
 }
 
-/* Each time range stays on one line; line breaks happen only between ranges. */
+/* Label on its own line so the times line up consistently regardless of how
+   long the label is; each time range then sits on its own line below. */
+.hours-line strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
 .hours-range {
   white-space: nowrap;
 }
@@ -170,6 +176,11 @@
   color: var(--color-blue);
   text-decoration: none;
   font-size: 0.95rem;
+}
+
+/* Long emails wrap cleanly at the @ instead of breaking mid-domain. */
+.email-domain {
+  white-space: nowrap;
 }
 
 .verano {

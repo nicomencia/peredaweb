@@ -111,16 +111,24 @@ export default function Instalaciones({ setCurrentView }) {
                       </div>
 
                       <div className="detail-section">
-                        {store.hours_tienda && <p><strong>Tienda Exposición:</strong> <HoursValue value={store.hours_tienda} /></p>}
-                        {store.hours_fontaneria && <p><strong>Fontanería y Construcción:</strong> <HoursValue value={store.hours_fontaneria} /></p>}
-                        {store.hours_sabados && <p><strong>Sábados:</strong> <HoursValue value={store.hours_sabados} /></p>}
+                        {store.hours_tienda && <p className="hours-line"><strong>Tienda Exposición:</strong> <HoursValue value={store.hours_tienda} /></p>}
+                        {store.hours_fontaneria && <p className="hours-line"><strong>Fontanería y Construcción:</strong> <HoursValue value={store.hours_fontaneria} /></p>}
+                        {store.hours_sabados && <p className="hours-line"><strong>Sábados:</strong> <HoursValue value={store.hours_sabados} /></p>}
                         {store.hours_verano && <p className="verano">{store.hours_verano}</p>}
                       </div>
 
                       <div className="detail-section emails">
-                        {(store.emails || []).map((email, i) => (
-                          <a key={i} href={`mailto:${email}`}>{email}</a>
-                        ))}
+                        {(store.emails || []).map((email, i) => {
+                          const at = email.indexOf('@');
+                          const local = at === -1 ? email : email.slice(0, at + 1);
+                          const domain = at === -1 ? '' : email.slice(at + 1);
+                          return (
+                            <a key={i} href={`mailto:${email}`}>
+                              {local}<wbr />
+                              {domain && <span className="email-domain">{domain}</span>}
+                            </a>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
