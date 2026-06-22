@@ -155,7 +155,8 @@
 .servicios-title {
   text-align: left;
   font-size: clamp(1.75rem, 3vw, 2.25rem);
-  font-weight: 700;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   color: var(--color-black);
   margin: 0 0 16px;
 }
@@ -196,7 +197,7 @@
 
 .servicio-name {
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--color-black);
   margin: 0 0 12px;
 }

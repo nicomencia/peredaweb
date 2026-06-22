@@ -126,7 +126,7 @@
 .store-info h3 {
   color: var(--color-black);
   margin-bottom: var(--spacing-md);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .store-details {
