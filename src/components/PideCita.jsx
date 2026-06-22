@@ -33,6 +33,7 @@ export default function PideCita() {
   return (
     <div className="simple-page">
       <div className="simple-page-hero">
+        <span className="eyebrow eyebrow--light">Atención al cliente</span>
         <h1 className="simple-page-hero-title">cita previa</h1>
       </div>
 

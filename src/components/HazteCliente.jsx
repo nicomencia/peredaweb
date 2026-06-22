@@ -85,6 +85,7 @@ export default function HazteCliente() {
   return (
     <div className="simple-page">
       <div className="simple-page-hero">
+        <span className="eyebrow eyebrow--light">Profesionales</span>
         <h1 className="simple-page-hero-title">hazte cliente</h1>
       </div>
 

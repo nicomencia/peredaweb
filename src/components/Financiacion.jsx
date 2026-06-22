@@ -22,6 +22,7 @@ export default function Financiacion() {
   return (
     <div className="simple-page">
       <div className="simple-page-hero">
+        <span className="eyebrow eyebrow--light">Servicio</span>
         <h1 className="simple-page-hero-title">financiación</h1>
       </div>
 

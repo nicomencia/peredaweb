@@ -70,6 +70,7 @@ export default function Presupuesto() {
   return (
     <div className="simple-page">
       <div className="simple-page-hero">
+        <span className="eyebrow eyebrow--light">Contacto</span>
         <h1 className="simple-page-hero-title">solicita presupuesto</h1>
       </div>
 
