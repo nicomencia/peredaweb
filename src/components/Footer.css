@@ -23,10 +23,6 @@
   margin: 0 0 22px;
   display: block;
   object-fit: contain;
-  /* Render the (admin-editable) logo as a clean white monochrome on the dark
-     ground, regardless of the uploaded logo's colours. */
-  filter: brightness(0) invert(1);
-  opacity: 0.92;
 }
 
 .footer-brand p {

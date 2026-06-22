@@ -52,6 +52,7 @@
 
 .nav-menu {
   display: flex;
+  align-items: center;
   gap: var(--spacing-lg);
   list-style: none;
 }
@@ -108,8 +109,6 @@
 }
 
 .nav-dropdown-trigger {
-  display: flex;
-  align-items: center;
   gap: 4px;
 }
 

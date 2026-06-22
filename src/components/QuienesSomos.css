@@ -304,7 +304,7 @@
 .careers-banner {
   position: relative;
   overflow: hidden;
-  padding: var(--spacing-xl) var(--spacing-md);
+  padding: clamp(44px, 5vw, 64px) var(--spacing-md);
 }
 
 .careers-banner-bg {
@@ -334,8 +334,8 @@
 }
 
 .careers-icon {
-  width: 72px;
-  height: 72px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.2);
