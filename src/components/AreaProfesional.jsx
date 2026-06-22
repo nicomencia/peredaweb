@@ -61,8 +61,7 @@ export default function AreaProfesional({ setCurrentView }) {
       <section className="area-hero" style={{ backgroundImage: bgUrl ? `url('${bgUrl}')` : undefined }}>
         <div className="area-hero-overlay" />
         <div className="area-hero-content">
-          <span className="area-hero-tag">Area Profesional</span>
-          <span className="area-hero-subtag">Ecommerce</span>
+          <span className="eyebrow eyebrow--light">Área Profesional</span>
           <h1>{texts.area_hero_title}</h1>
           <p className="area-hero-subtitle">
             {texts.area_hero_subtitle}
