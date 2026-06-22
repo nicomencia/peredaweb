@@ -54,7 +54,7 @@
   text-transform: uppercase;
   text-decoration: none;
   border: 1px solid var(--color-blue);
-  border-radius: 4px;
+  border-radius: 0;
   box-shadow: 0 6px 18px color-mix(in srgb, var(--color-blue) 25%, transparent);
   transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }

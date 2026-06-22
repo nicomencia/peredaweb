@@ -35,7 +35,7 @@
 
 .ambiente-main-photo {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 0;
   overflow: hidden;
   cursor: pointer;
   margin-bottom: var(--spacing-md);
@@ -64,7 +64,7 @@
   position: relative;
   aspect-ratio: 1/1;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 0;
   cursor: pointer;
 }
 

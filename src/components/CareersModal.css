@@ -24,7 +24,7 @@
 .careers-modal {
   position: relative;
   background: var(--color-white);
-  border-radius: 16px;
+  border-radius: 0;
   width: 100%;
   max-width: 520px;
   max-height: 90vh;
@@ -105,7 +105,7 @@
   width: 100%;
   padding: 0.8rem 1rem;
   border: 1.5px solid var(--color-light-gray);
-  border-radius: 8px;
+  border-radius: 0;
   font-family: var(--font-sans);
   font-size: 0.95rem;
   color: var(--color-black);
@@ -132,7 +132,7 @@
   gap: 0.6rem;
   padding: 0.8rem 1rem;
   border: 1.5px dashed var(--color-light-gray);
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   transition: border-color 0.3s ease, background 0.2s ease;
   color: var(--color-gray);
@@ -176,7 +176,7 @@
   background: #fef2f2;
   color: #b91c1c;
   padding: 0.75rem 1rem;
-  border-radius: 8px;
+  border-radius: 0;
   font-size: 0.9rem;
   border: 1px solid #fecaca;
 }
@@ -189,7 +189,7 @@
   font-size: 1rem;
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
 }
@@ -245,7 +245,7 @@
   font-size: 0.95rem;
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   transition: background 0.3s ease;
 }
@@ -263,6 +263,6 @@
   .careers-modal {
     padding: var(--spacing-md);
     max-height: 85vh;
-    border-radius: 16px 16px 0 0;
+    border-radius: 0;
   }
 }
