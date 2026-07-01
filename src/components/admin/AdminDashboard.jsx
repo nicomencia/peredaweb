@@ -8,28 +8,18 @@ import AdminAjustes from './AdminAjustes';
 import AdminProductos from './AdminProductos';
 import './AdminDashboard.css';
 
+// Fields ordered to match how they appear on the public Quiénes somos page,
+// top to bottom (hero → fotos superiores → intro → servicios → por qué →
+// equipo → trabaja con nosotros).
 const quienesFields = [
+  { key: 'quienes_somos_bg', label: 'Imagen de cabecera', type: 'image', folder: 'quienes-somos' },
   { key: 'quienes_subtitle', label: 'Subtítulo del hero', type: 'input' },
+  { key: 'quienes_somos_1', label: 'Foto 1 (Nuestros orígenes)', type: 'image', folder: 'quienes-somos' },
+  { key: 'quienes_caption_1', label: 'Pie de la foto 1', type: 'input' },
+  { key: 'quienes_somos_2', label: 'Foto 2 (Nuestras instalaciones)', type: 'image', folder: 'quienes-somos' },
+  { key: 'quienes_caption_2', label: 'Pie de la foto 2', type: 'input' },
   { key: 'quienes_intro_1', label: 'Primer párrafo de introducción', type: 'textarea', rows: 5 },
   { key: 'quienes_intro_2', label: 'Segundo párrafo de introducción', type: 'textarea', rows: 5 },
-  {
-    key: 'quienes_stats',
-    label: 'Estadísticas del equipo',
-    type: 'list',
-    addLabel: '+ Añadir estadística',
-    fields: [
-      { key: 'number', label: 'Cifra (p. ej. +50)' },
-      { key: 'label', label: 'Etiqueta' },
-      { key: 'description', label: 'Descripción', textarea: true },
-    ],
-  },
-  { key: 'quienes_somos_bg', label: 'Imagen de cabecera', type: 'image', folder: 'quienes-somos' },
-  { key: 'quienes_somos_1', label: 'Foto 1 (Nuestros orígenes)', type: 'image', folder: 'quienes-somos' },
-  { key: 'quienes_somos_2', label: 'Foto 2 (Nuestras instalaciones)', type: 'image', folder: 'quienes-somos' },
-  { key: 'quienes_somos_3', label: 'Foto 3 (Equipo)', type: 'image', folder: 'quienes-somos' },
-  { key: 'quienes_somos_4', label: 'Foto 4 (Profesionales)', type: 'image', folder: 'quienes-somos' },
-  { key: 'quienes_caption_1', label: 'Pie de la foto 1', type: 'input' },
-  { key: 'quienes_caption_2', label: 'Pie de la foto 2', type: 'input' },
   { key: 'quienes_servicios_title', label: 'Servicios asociados - Título', type: 'input' },
   { key: 'quienes_servicios_subtitle', label: 'Servicios asociados - Subtítulo', type: 'textarea', rows: 3 },
   {
@@ -52,6 +42,19 @@ const quienesFields = [
   },
   { key: 'quienes_equipo_title', label: 'Nuestro equipo - Título', type: 'input' },
   { key: 'quienes_equipo_subtitle', label: 'Nuestro equipo - Subtítulo', type: 'input' },
+  {
+    key: 'quienes_stats',
+    label: 'Estadísticas del equipo',
+    type: 'list',
+    addLabel: '+ Añadir estadística',
+    fields: [
+      { key: 'number', label: 'Cifra (p. ej. +50)' },
+      { key: 'label', label: 'Etiqueta' },
+      { key: 'description', label: 'Descripción', textarea: true },
+    ],
+  },
+  { key: 'quienes_somos_3', label: 'Foto 3 (Equipo)', type: 'image', folder: 'quienes-somos' },
+  { key: 'quienes_somos_4', label: 'Foto 4 (Profesionales)', type: 'image', folder: 'quienes-somos' },
   { key: 'quienes_careers_title', label: 'Trabaja con nosotros - Título', type: 'input' },
   { key: 'quienes_careers_text', label: 'Trabaja con nosotros - Texto', type: 'textarea', rows: 2 },
   { key: 'quienes_careers_button', label: 'Trabaja con nosotros - Botón', type: 'input' },
@@ -90,7 +93,9 @@ const pidecitaFields = [
   },
 ];
 
+// Ordered to match the public Área Profesional page (hero → beneficios → FAQ).
 const areaFields = [
+  { key: 'area_profesional_bg', label: 'Imagen de cabecera', type: 'image', folder: 'area-profesional' },
   { key: 'area_hero_title', label: 'Título principal', type: 'input' },
   { key: 'area_hero_subtitle', label: 'Subtítulo principal', type: 'textarea', rows: 3 },
   { key: 'area_benefits_title', label: 'Título sección beneficios', type: 'input' },
@@ -105,7 +110,6 @@ const areaFields = [
       { key: 'text', label: 'Texto', textarea: true },
     ],
   },
-  { key: 'area_profesional_bg', label: 'Imagen de cabecera', type: 'image', folder: 'area-profesional' },
   { key: 'area_faq', label: 'Preguntas frecuentes', type: 'faq' },
 ];
 
