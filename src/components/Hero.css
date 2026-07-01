@@ -132,7 +132,7 @@
   }
 
   .hero-logo {
-    width: min(400px, calc(100vw - 48px)); /* never touch the screen edges */
+    width: min(500px, calc(100vw - 24px)); /* bigger, but keeps a small edge margin */
     height: auto;
     margin: 0 auto;
   }
