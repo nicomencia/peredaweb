@@ -1,0 +1,57 @@
+# ============================================================================
+# 301 REDIRECTS — old WordPress URLs -> new SPA routes
+# ----------------------------------------------------------------------------
+# DRAFT for the PRODUCTION cutover. This is NOT deployed to /html/dev.
+#
+# When the SPA replaces WordPress at the production docroot, paste this block
+# near the TOP of the production .htaccess, ABOVE the SPA front-controller
+# (index.php) rewrite rules, so old URLs 301 before the SPA tries to serve them.
+#
+# Context: the old site had ~750 mostly programmatic local-SEO landing pages
+# (e.g. /mueble-de-bano-con-cajones-en-asturias/) plus a WooCommerce shop. This
+# site sells nothing (commerce lives on the ecommerce subdomain) and has ~15
+# routes, so old URLs are consolidated (301) to the closest category/page.
+#
+# NOTE (SEO): consolidating hundreds of thin pages into a handful of categories
+# preserves link equity and kills 404s, but the *specific* long-tail rankings of
+# those pages will largely fade. Before launch, pull Search Console "top pages"
+# and give any genuine traffic-drivers their own dedicated redirect target (or
+# recreate that content). This map is the safety net, not an SEO strategy.
+#
+# Same-slug pages (financiacion, hazte-cliente, aviso-legal, politica-privacidad)
+# are intentionally OMITTED — the SPA already serves those exact paths, so
+# redirecting them would create a loop.
+# ============================================================================
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # --- WooCommerce shop -> professional ecommerce subdomain ---
+  RewriteRule ^(tienda|tienda-online|carrito|finalizar-compra|mi-cuenta)(/.*)?$ https://ecommerce.saneamientos-pereda.com/ [R=301,L]
+
+  # --- Fixed pages whose slug DIFFERS from the new site ---
+  RewriteRule ^cita/?$                 /pide-cita          [R=301,L]
+  RewriteRule ^contacto/?$             /instalaciones      [R=301,L]
+  RewriteRule ^trabaja-con-nosotros/?$ /quienes-somos      [R=301,L]
+  RewriteRule ^politica-de-cookies/?$  /politica-cookies   [R=301,L]
+  RewriteRule ^condiciones-de-venta/?$ /condiciones-venta  [R=301,L]
+
+  # --- Programmatic SEO landing pages -> closest category ---
+  # (the trailing [-/] means: the slug continues with "-word…" or is the bare "/")
+  RewriteRule ^(mueble|muebles|armario|armarios|espejo|espejos|estanteria|estanterias|mobiliario)[-/] /productos/muebles-bano [R=301,L]
+  RewriteRule ^(mampara|mamparas)[-/]  /productos/mamparas   [R=301,L]
+  RewriteRule ^(griferia|griferias|grifo|grifos)[-/] /productos/griferia [R=301,L]
+  RewriteRule ^(sanitario|sanitarios|inodoro|inodoros|lavabo|lavabos|bide|bides|cisterna)[-/] /productos/sanitarios [R=301,L]
+  RewriteRule ^(suelo|suelos|azulejo|azulejos|revestimiento|revestimientos|porcelanico|porcelanicos|ceramica|ceramicas|baldosa|baldosas|pavimento)[-/] /productos/ceramica [R=301,L]
+  RewriteRule ^(calefaccion|climatizacion|radiador|radiadores|aerotermia|caldera|calderas)[-/] /productos/climatizacion [R=301,L]
+
+  # --- "comprar-…", "precio-…" and store-locator pages ---
+  RewriteRule ^comprar[-/]             /productos          [R=301,L]
+  RewriteRule ^precio[-/]              /productos          [R=301,L]
+  RewriteRule ^(mejores-tiendas|tiendas)[-/] /instalaciones [R=301,L]
+
+  # --- Portfolio / ambientes ---
+  RewriteRule ^portfolio(/.*)?$        /inspirate          [R=301,L]
+
+  # --- Old Yoast sitemap index -> our dynamic sitemap ---
+  RewriteRule ^sitemap_index\.xml$     /sitemap.xml        [R=301,L]
+</IfModule>
