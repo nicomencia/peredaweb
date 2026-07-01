@@ -1,5 +1,6 @@
 .hero {
   height: 100vh;
+  height: 100dvh; /* dynamic viewport: avoids the iOS address-bar 100vh gap/jump */
   background-color: var(--color-cream);
   background-size: cover;
   background-position: center;
@@ -126,11 +127,12 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
+    height: 100dvh;
     padding-top: 160px;
   }
 
   .hero-logo {
-    width: 400px;
+    width: min(400px, calc(100vw - 48px)); /* never touch the screen edges */
     height: auto;
     margin: 0 auto;
   }

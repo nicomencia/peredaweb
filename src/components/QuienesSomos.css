@@ -210,7 +210,8 @@
 }
 
 @media (max-width: 960px) {
-  .servicios-grid {
+  .servicios-grid,
+  .porqué-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }

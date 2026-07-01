@@ -24,8 +24,7 @@ export default function CookieConsent() {
     <div className="cookie-consent" role="dialog" aria-live="polite" aria-label="Aviso de cookies">
       <div className="cookie-consent-inner">
         <p className="cookie-consent-text">
-          Utilizamos cookies propias y de terceros con fines analíticos para mejorar tu experiencia.
-          Puedes aceptarlas, rechazarlas o consultar más información en nuestra{' '}
+          Usamos cookies propias y de terceros con fines analíticos. Más información en nuestra{' '}
           <Link to="/politica-cookies" className="cookie-consent-link">política de cookies</Link>.
         </p>
         <div className="cookie-consent-actions">
