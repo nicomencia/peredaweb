@@ -408,8 +408,11 @@
   }
 
   .area-hero {
-    height: 320px;
-    padding-top: 80px;
+    min-height: auto;
+    height: auto;
+    align-items: flex-start;
+    padding-top: 130px;
+    padding-bottom: 60px;
   }
 
   .area-gallery {
