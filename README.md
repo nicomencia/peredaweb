@@ -40,6 +40,24 @@ Otros scripts útiles: `npm run sync:base`, `npm run sftp:ls <dir>`, `scripts/db
 - **[docs/DATABASE.md](docs/DATABASE.md)** — referencia de la base de datos (tablas y uso en el frontend).
 - **[CLAUDE.md](CLAUDE.md)** — contexto del proyecto para asistentes de IA / desarrolladores.
 
-## Estado
+## Estado (2026-07-01)
 
-Desplegado y funcionando en el subdominio de desarrollo `/html/dev`. Pendiente: publicación del DNS del subdominio + certificado SSL (lado del proveedor de hosting) y salida a producción. Ver RUNBOOK.
+Desplegado y funcionando como **staging** en `https://dev.saneamientos-pereda.com` (sobre `/html/dev`).
+
+- **DNS + SSL resueltos** (2026-07-01): el subdominio ya publica en DNS y sirve HTTPS con el certificado comodín `*.saneamientos-pereda.com`, con redirección HTTP→HTTPS. Ya no hace falta la entrada `hosts` local.
+- **Contenido** editable desde el panel; el cliente está terminando de cargar los datos reales (fotos de categorías, logos de marcas, FAQ del Área Profesional, etc.).
+- **Cookies + analítica**: banner de consentimiento activo; Google Analytics (GA4) se activa solo tras aceptar cookies **y** cuando se rellene el *ID de medición* en Ajustes (vacío por ahora = sin seguimiento).
+- **Sin comercio**: la web no vende nada; todo el ecommerce vive en `ecommerce.saneamientos-pereda.com`.
+- **Móvil** revisado y pulido.
+
+## Próximos pasos (salida a producción)
+
+El código está listo; la salida a producción depende de contenido + migración, no de infraestructura:
+
+1. **Cliente**: terminar de cargar el contenido real desde el panel.
+2. **Analítica**: pegar el *ID de GA4* (`G-XXXXXXXXXX`) en Ajustes (o confirmar que no se quiere analítica).
+3. **SEO / redirecciones**: la web actual (WordPress en `/html`) tiene ~750 URLs indexadas (páginas SEO tipo `…-en-asturias`, tienda WooCommerce, blog). Hay un mapa de redirecciones 301 preparado en **[docs/prod-redirects.htaccess](docs/prod-redirects.htaccess)** (URLs antiguas → nuevas rutas; tienda → subdominio ecommerce). Conviene revisar Search Console para proteger las URLs con tráfico real.
+4. **Corte a producción**: mover el docroot del dominio principal a la SPA (`/html` es el WordPress vivo del cliente — **hacer copia antes**), pegar el bloque de redirecciones en el `.htaccess` de producción y activar Let's Encrypt en el dominio principal.
+5. **Post-lanzamiento**: enviar el nuevo sitemap en Search Console y vigilar los 404.
+
+Detalles técnicos completos en **[CLAUDE.md](CLAUDE.md)** y **[docs/RUNBOOK.md](docs/RUNBOOK.md)**.
