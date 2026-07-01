@@ -5,7 +5,7 @@ import AdminPageEditor from './AdminPageEditor';
 import AdminAmbientes from './AdminAmbientes';
 import AdminTiendas from './AdminTiendas';
 import AdminAjustes from './AdminAjustes';
-import AdminProductos, { BrandsManager } from './AdminProductos';
+import AdminProductos from './AdminProductos';
 import './AdminDashboard.css';
 
 const quienesFields = [
@@ -131,18 +131,7 @@ export default function AdminDashboard() {
   const renderTab = () => {
     switch (activeTab) {
       case 'portada':
-        return (
-          <>
-            <AdminHomepage />
-            <div style={{ marginTop: '3rem', borderTop: '1px solid #e0e0e0', paddingTop: '2rem' }}>
-              <BrandsManager
-                category="home"
-                title="Marcas (carrusel de inicio)"
-                description="Logos de las marcas que se muestran en el carrusel sobre el pie de página de la portada. Sube los logos (preferiblemente PNG con fondo transparente)."
-              />
-            </div>
-          </>
-        );
+        return <AdminHomepage />;
       case 'quienes':
         return (
           <AdminPageEditor

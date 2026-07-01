@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '../../lib/api';
 import { uploadImage } from '../../lib/upload';
+import { BrandsManager } from './AdminProductos';
 import './AdminHomepage.css';
 
 const defaultCtas = [
@@ -247,6 +248,14 @@ export default function AdminHomepage() {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="admin-homepage-section">
+        <BrandsManager
+          category="home"
+          title="Marcas (carrusel de inicio)"
+          description="Logos de las marcas que se muestran en el carrusel sobre el pie de página de la portada. Sube los logos (preferiblemente PNG con fondo transparente). Se guardan al subirlos (no usan el botón «Guardar cambios»)."
+        />
       </div>
 
       <button
