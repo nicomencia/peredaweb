@@ -99,12 +99,16 @@
 .store-right-col {
   display: flex;
   flex-direction: column;
+  /* min-width:0 lets the grid column stay 1fr instead of growing to a long
+     unbreakable string's width (which would overflow the row on mobile). */
+  min-width: 0;
 }
 
 .store-image {
   position: relative;
   overflow: hidden;
   min-height: 350px;
+  min-width: 0;
 }
 
 .store-image img {
@@ -164,8 +168,10 @@
   margin-bottom: 2px;
 }
 
+/* Times stay intact via non-breaking spaces (see HoursValue), so the range can
+   wrap as a whole and any trailing note wraps too — no forced overflow. */
 .hours-range {
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .detail-section.emails {

@@ -13,15 +13,20 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// Renders an hours value with each time range on its own line (split on " y "),
-// and each range kept on a single line so it never breaks mid-way.
+// Renders an hours value with each time range on its own line (split on " y ").
 function HoursValue({ value }) {
-  return value.split(/\s+y\s+/).map((part, i) => (
-    <span className="hours-range" key={i}>
-      {i > 0 && <br />}
-      {part}
-    </span>
-  ));
+  return value.split(/\s+y\s+/).map((part, i) => {
+    // Keep the "HH:MM – HH:MM" digits together with non-breaking spaces; any
+    // trailing note (e.g. "(abierto sólo...)") may then wrap instead of forcing
+    // horizontal overflow that would clip the carousel arrows on mobile.
+    const nb = part.replace(/(\d{1,2}:\d{2})\s*[\u2013-]\s*(\d{1,2}:\d{2})/g, '$1\u00a0\u2013\u00a0$2');
+    return (
+      <span className="hours-range" key={i}>
+        {i > 0 && <br />}
+        {nb}
+      </span>
+    );
+  });
 }
 
 export default function Instalaciones({ setCurrentView }) {
