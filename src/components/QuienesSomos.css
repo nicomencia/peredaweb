@@ -86,8 +86,8 @@
 .about-team-section h3 {
   text-align: center;
   color: var(--color-black);
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
 }
 
@@ -229,8 +229,8 @@
 .about-porqué h3 {
   text-align: center;
   color: var(--color-black);
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   margin-bottom: var(--spacing-lg);
 }
 

@@ -138,7 +138,7 @@
   border: none;
   cursor: pointer;
   font-family: var(--font-sans);
-  padding: 0.2rem 0.4rem;
+  padding: 0.45rem 0.6rem;
   transition: color 0.25s ease;
 }
 
@@ -173,5 +173,14 @@
 
   .footer-brand {
     max-width: 100%;
+  }
+
+  /* Wrapped legal links read cleaner without orphaned pipe separators. */
+  .footer-legal-sep {
+    display: none;
+  }
+
+  .footer-legal {
+    gap: 2px 12px;
   }
 }
