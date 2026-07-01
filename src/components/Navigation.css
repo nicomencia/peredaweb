@@ -92,12 +92,12 @@
 }
 
 .nav-menu .nav-area-pro {
-  color: rgba(255, 255, 255, 0.78);
-  font-weight: 300;
+  color: var(--color-accent);
+  font-weight: 500;
 }
 
 .navigation--solid .nav-menu .nav-area-pro {
-  color: #7a7a7a;
+  color: var(--color-accent);
 }
 
 .nav-item-mobile-categories {
