@@ -91,13 +91,24 @@
   opacity: 0.7;
 }
 
+/* Desktop: a small filled accent chip so it reads clearly over any hero image
+   (mobile keeps plain accent text — see the media query below). */
 .nav-menu .nav-area-pro {
-  color: var(--color-accent);
-  font-weight: 500;
+  color: #fff;
+  background: var(--color-accent);
+  font-weight: 600;
+  padding: 8px 16px;
+  text-shadow: none;
+}
+
+.nav-menu .nav-area-pro:hover {
+  opacity: 1;
+  background: color-mix(in srgb, var(--color-accent) 82%, #000);
 }
 
 .navigation--solid .nav-menu .nav-area-pro {
-  color: var(--color-accent);
+  color: #fff;
+  background: var(--color-accent);
 }
 
 .nav-item-mobile-categories {
@@ -327,6 +338,13 @@
   .nav-menu button {
     color: var(--color-black);
     text-shadow: none;
+  }
+
+  /* Mobile keeps it as plain accent text (no chip). */
+  .nav-menu .nav-area-pro {
+    color: var(--color-accent);
+    background: none;
+    padding: 0;
   }
 
   .nav-logo-btn {
