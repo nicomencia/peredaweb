@@ -1,30 +1,30 @@
+/* Compact card anchored bottom-left so it never covers the floating shop
+   button (bottom-right). */
 .cookie-consent {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 24px;
+  bottom: 24px;
+  right: auto;
+  width: min(440px, calc(100vw - 48px));
   z-index: 4000;
   background: var(--color-black);
   color: rgba(255, 255, 255, 0.9);
   border-top: 2px solid var(--color-accent);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.32);
 }
 
 .cookie-consent-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 18px var(--spacing-md);
+  padding: 20px 22px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
 }
 
 .cookie-consent-text {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   line-height: 1.6;
-  max-width: 820px;
   color: rgba(255, 255, 255, 0.82);
 }
 
@@ -36,12 +36,12 @@
 
 .cookie-consent-actions {
   display: flex;
-  gap: 12px;
-  flex-shrink: 0;
+  gap: 10px;
+  justify-content: flex-end;
 }
 
 .cookie-consent-btn {
-  padding: 11px 26px;
+  padding: 10px 22px;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -76,11 +76,13 @@
   color: #fff;
 }
 
+/* On phones, keep it a left-anchored card but leave room on the right for the
+   circular shop button so they don't overlap. */
 @media (max-width: 600px) {
-  .cookie-consent-inner {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
+  .cookie-consent {
+    left: 16px;
+    bottom: 16px;
+    width: min(340px, calc(100vw - 96px));
   }
 
   .cookie-consent-actions {
