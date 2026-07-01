@@ -61,7 +61,11 @@
 .productos-cat-media {
   position: relative;
   width: 100%;
-  aspect-ratio: 7 / 6;
+  /* Padding-based 7:6 ratio: gives the absolutely-positioned carousel a reliable
+     height in every layout context (aspect-ratio can collapse to 0 here because
+     the only child is absolutely positioned and the grid item isn't stretched). */
+  height: 0;
+  padding-bottom: calc(100% * 6 / 7);
   border-radius: 0;
   overflow: hidden;
   background: #ececec;
@@ -92,9 +96,5 @@
 
   .productos-cat-text {
     max-width: none;
-  }
-
-  .productos-cat-media {
-    aspect-ratio: 7 / 6;
   }
 }

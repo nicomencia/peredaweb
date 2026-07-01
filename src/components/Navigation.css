@@ -340,8 +340,10 @@
     text-shadow: none;
   }
 
-  /* Mobile keeps it as plain accent text (no chip). */
-  .nav-menu .nav-area-pro {
+  /* Mobile keeps it as plain accent text (no chip) — must also override the
+     higher-specificity solid-state rule, else the chip reappears on inner pages. */
+  .nav-menu .nav-area-pro,
+  .navigation--solid .nav-menu .nav-area-pro {
     color: var(--color-accent);
     background: none;
     padding: 0;
