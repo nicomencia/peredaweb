@@ -18,6 +18,7 @@ const SETTINGS_KEYS = [
   'contact_phone',
   'shop_url',
   'ecommerce_url',
+  'analytics_id',
 ];
 
 // Confidential keys: hidden from the public API, read via the authenticated endpoint.
@@ -268,6 +269,25 @@ export default function AdminAjustes() {
               type="text"
               value={values.ecommerce_url || ''}
               onChange={(e) => handleChange('ecommerce_url', e.target.value)}
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="admin-ajustes-section">
+        <h3>Analítica web (Google Analytics)</h3>
+        <p className="admin-homepage-desc">
+          Pega aquí el ID de medición de Google Analytics 4 (formato «G-XXXXXXXXXX»). La analítica solo
+          se activa cuando el visitante acepta las cookies. Déjalo vacío para desactivarla.
+        </p>
+        <div className="admin-ajustes-fields">
+          <label>
+            ID de Google Analytics (GA4)
+            <input
+              type="text"
+              placeholder="G-XXXXXXXXXX"
+              value={values.analytics_id || ''}
+              onChange={(e) => handleChange('analytics_id', e.target.value)}
             />
           </label>
         </div>

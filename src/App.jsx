@@ -6,6 +6,8 @@ import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import AboutIntro from './components/AboutIntro';
 import BrandsCarousel from './components/BrandsCarousel';
+import CookieConsent from './components/CookieConsent';
+import { initAnalytics, trackPageview } from './lib/analytics';
 import QuienesSomos from './components/QuienesSomos';
 import Productos from './components/Productos';
 import Inspirate from './components/Inspirate';
@@ -180,6 +182,22 @@ export default function App() {
     };
   }, [location.pathname]);
 
+  // Prime the analytics id into cache once, then start GA if already consented.
+  useEffect(() => {
+    loadSettings(['analytics_id']).then(() => {
+      initAnalytics();
+      trackPageview(location.pathname);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Analytics (consent-gated): logs each subsequent SPA route change. initAnalytics
+  // is idempotent and a no-op until the visitor accepts cookies and an id is set.
+  useEffect(() => {
+    initAnalytics();
+    trackPageview(location.pathname);
+  }, [location.pathname]);
+
   useEffect(() => {
     const title = TITLES[currentView];
     const fullTitle = title && currentView !== 'home' ? `${title} | Saneamientos Pereda` : 'Saneamientos Pereda';
@@ -301,6 +319,7 @@ export default function App() {
       </main>
       <Footer setCurrentView={setCurrentView} />
       {currentView !== 'admin' && <FloatingShopButton currentView={currentView} />}
+      <CookieConsent />
     </>
   );
 }
