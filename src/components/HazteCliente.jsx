@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import './SimplePage.css';
 
@@ -164,6 +163,52 @@ export default function HazteCliente() {
                   onChange={handleChange}
                 />
 
+                <div className="consent-clause">
+                  <p className="consent-clause-title">
+                    Consentimiento para el tratamiento de datos personales
+                  </p>
+                  <div className="consent-clause-body">
+                    <p>
+                      <strong>SANEAMIENTOS PEREDA SA</strong> es el Responsable del tratamiento de
+                      los datos personales del Usuario y le informa de que estos datos se tratarán
+                      de conformidad con lo dispuesto en el Reglamento (UE) 2016/679, de 27 de
+                      abril (RGPD), y la Ley Orgánica 3/2018, de 5 de diciembre (LOPDGDD), por lo
+                      que se le facilita la siguiente información del tratamiento:
+                    </p>
+                    <p>
+                      <strong>Fines y legitimación del tratamiento:</strong> mantener una relación
+                      comercial (por interés legítimo del responsable, art. 6.1.f RGPD) y envío de
+                      comunicaciones de productos o servicios (con el consentimiento del
+                      interesado, art. 6.1.a RGPD).
+                    </p>
+                    <p>
+                      <strong>Criterios de conservación de los datos:</strong> se conservarán
+                      durante no más tiempo del necesario para mantener el fin del tratamiento o
+                      existan prescripciones legales que dictaminen su custodia y cuando ya no sea
+                      necesario para ello, se suprimirán con medidas de seguridad adecuadas para
+                      garantizar la anonimización de los datos o la destrucción total de los
+                      mismos.
+                    </p>
+                    <p>
+                      <strong>Comunicación de los datos:</strong> no se comunicarán los datos a
+                      terceros, salvo obligación legal.
+                    </p>
+                    <p>
+                      <strong>Derechos que asisten al Usuario:</strong> derecho a retirar el
+                      consentimiento en cualquier momento; derecho de acceso, rectificación,
+                      portabilidad y supresión de sus datos, y de limitación u oposición a su
+                      tratamiento; derecho a presentar una reclamación ante la Autoridad de
+                      control (www.aepd.es) si considera que el tratamiento no se ajusta a la
+                      normativa vigente.
+                    </p>
+                    <p>
+                      <strong>Datos de contacto para ejercer sus derechos:</strong> SANEAMIENTOS
+                      PEREDA SA. CALLE INDEPENDENCIA, 43 BAJO - 33004 OVIEDO (Asturias). E-mail:
+                      alberto@saneamientos-pereda.com
+                    </p>
+                  </div>
+                </div>
+
                 <label className="presupuesto-check">
                   <input
                     type="checkbox"
@@ -171,8 +216,7 @@ export default function HazteCliente() {
                     onChange={(e) => setAccepted(e.target.checked)}
                   />
                   <span>
-                    He leído y acepto la{' '}
-                    <Link to="/politica-privacidad" className="presupuesto-policy-link">política de privacidad</Link>
+                    <strong>ACEPTAR</strong> — He leído y estoy conforme con la cláusula anterior
                   </span>
                 </label>
 

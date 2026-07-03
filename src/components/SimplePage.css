@@ -165,6 +165,38 @@
   min-height: 140px;
 }
 
+/* Data-processing consent clause shown above its ACEPTAR checkbox. */
+.consent-clause {
+  border: 1px solid var(--color-light-gray);
+  background: var(--color-cream);
+  padding: 14px 16px;
+  margin-top: 8px;
+}
+
+.consent-clause-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-black);
+  margin: 0 0 8px;
+}
+
+.consent-clause-body {
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.consent-clause-body p {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--color-gray);
+  margin: 0 0 8px;
+}
+
+.consent-clause-body p:last-child {
+  margin-bottom: 0;
+}
+
 .presupuesto-check {
   display: flex;
   align-items: center;

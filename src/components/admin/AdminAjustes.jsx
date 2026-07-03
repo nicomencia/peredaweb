@@ -27,6 +27,7 @@ const MAIL_KEYS = [
   'mail_to_denuncia',
   'mail_to_presupuesto',
   'mail_to_cliente',
+  'mail_to_desistimiento',
 ];
 const API_BASE = import.meta.env.VITE_API_BASE || '';
 
@@ -314,6 +315,10 @@ export default function AdminAjustes() {
           <label>
             Hazte cliente
             <input type="text" value={values.mail_to_cliente || ''} onChange={(e) => handleChange('mail_to_cliente', e.target.value)} />
+          </label>
+          <label>
+            Desistimiento
+            <input type="text" value={values.mail_to_desistimiento || ''} onChange={(e) => handleChange('mail_to_desistimiento', e.target.value)} />
           </label>
         </div>
       </div>

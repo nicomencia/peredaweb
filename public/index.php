@@ -21,6 +21,7 @@ $ROUTES = [
     '/area-profesional', '/pide-cita', '/financiacion', '/presupuesto',
     '/hazte-cliente', '/canal-denuncias',
     '/aviso-legal', '/politica-privacidad', '/politica-cookies', '/condiciones-venta',
+    '/politica-redes-sociales', '/desistimiento',
 ];
 
 // ---- Dynamic robots.txt (Sitemap line uses the live host) ----
@@ -60,6 +61,8 @@ $META = [
     '/politica-privacidad' => ['Política de privacidad | Saneamientos Pereda', $DEFAULT[1]],
     '/politica-cookies' => ['Política de cookies | Saneamientos Pereda', $DEFAULT[1]],
     '/condiciones-venta' => ['Condiciones de venta | Saneamientos Pereda', $DEFAULT[1]],
+    '/politica-redes-sociales' => ['Política de privacidad en redes sociales | Saneamientos Pereda', $DEFAULT[1]],
+    '/desistimiento' => ['Desistimiento | Saneamientos Pereda', 'Ejerce tu derecho de desistimiento de forma sencilla mediante el formulario en línea de Saneamientos Pereda.'],
 ];
 
 // Map dynamic sub-paths to their parent's metadata.

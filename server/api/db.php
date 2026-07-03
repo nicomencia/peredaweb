@@ -74,6 +74,7 @@ const TABLE_COLUMNS = [
     'job_applications' => ['id', 'nombre', 'email', 'telefono', 'mensaje', 'cv_url', 'created_at'],
     'presupuesto_requests' => ['id', 'nombre', 'localidad', 'email', 'asunto', 'mensaje', 'created_at'],
     'cliente_requests' => ['id', 'nombre', 'empresa', 'cif', 'localidad', 'telefono', 'email', 'actividad', 'mensaje', 'created_at'],
+    'desistimiento_requests' => ['id', 'nombre', 'pedido', 'email', 'created_at'],
 ];
 
 // JSON-typed columns that must be decoded when reading / encoded when writing.

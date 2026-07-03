@@ -129,6 +129,15 @@ CREATE TABLE cliente_requests (
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Online withdrawal declarations (Directive (EU) 2023/2673 "withdrawal function").
+CREATE TABLE desistimiento_requests (
+  id CHAR(36) NOT NULL PRIMARY KEY,
+  nombre TEXT NOT NULL,
+  pedido TEXT NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE admin_users (
   id CHAR(36) NOT NULL PRIMARY KEY,
   email VARCHAR(255) NOT NULL UNIQUE,

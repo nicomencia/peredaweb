@@ -1,10 +1,12 @@
 <?php
-// Public form endpoints (candidatura, denuncia, presupuesto, cliente).
-// POST forms.php?form=candidatura   (multipart: nombre, email, telefono, mensaje, cv[pdf])
-// POST forms.php?form=denuncia      (json) -> returns generated PIN
-// GET  forms.php?form=denuncia&pin= -> complaint status lookup
-// POST forms.php?form=presupuesto   (json)
-// POST forms.php?form=cliente       (json)
+// Public form endpoints (candidatura, denuncia, presupuesto, cliente, desistimiento).
+// POST forms.php?form=candidatura    (multipart: nombre, email, telefono, mensaje, cv[pdf])
+// POST forms.php?form=denuncia       (json) -> returns generated PIN
+// GET  forms.php?form=denuncia&pin=  -> complaint status lookup
+// POST forms.php?form=presupuesto    (json)
+// POST forms.php?form=cliente        (json)
+// POST forms.php?form=desistimiento  (json) -> stores the withdrawal declaration and
+//   emails the mandatory acknowledgment (acuse de recibo) to the consumer
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
 
@@ -153,6 +155,36 @@ try {
                 'Nombre' => $nombre, 'Empresa' => trim($b['empresa'] ?? ''), 'CIF' => trim($b['cif'] ?? ''),
                 'Localidad' => trim($b['localidad'] ?? ''), 'Teléfono' => trim($b['telefono'] ?? ''),
                 'Email' => $email, 'Actividad' => trim($b['actividad'] ?? ''), 'Mensaje' => trim($b['mensaje'] ?? ''),
+            ]), $email, $to);
+            json_out(['success' => true], 201);
+        }
+
+        case 'desistimiento': {
+            $b = read_json_body();
+            $nombre = trim($b['nombre'] ?? '');
+            $pedido = trim($b['pedido'] ?? '');
+            $email = trim($b['email'] ?? '');
+            if ($nombre === '') json_error('El nombre es obligatorio', 400);
+            if ($pedido === '') json_error('La identificación del contrato o pedido es obligatoria', 400);
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) json_error('El formato del email no es válido', 400);
+
+            db()->prepare('INSERT INTO desistimiento_requests (id, nombre, pedido, email) VALUES (?, ?, ?, ?)')
+                ->execute([uuid4(), $nombre, $pedido, $email]);
+
+            $fecha = date('d/m/Y H:i:s');
+            // Mandatory acknowledgment to the consumer (durable medium) with the
+            // declaration content and its date/time (Directive (EU) 2023/2673).
+            send_email('Acuse de recibo de su desistimiento — Saneamientos Pereda', notification_html(
+                'Acuse de recibo de su declaración de desistimiento',
+                ['Nombre' => $nombre, 'Contrato/Pedido' => $pedido, 'Fecha y hora' => $fecha],
+                '<p>Hemos recibido su declaración de desistimiento con los datos indicados. '
+                . 'Tramitaremos su solicitud y nos pondremos en contacto con usted si necesitamos '
+                . 'información adicional.</p><p>SANEAMIENTOS PEREDA SA — CALLE INDEPENDENCIA, 43 - BAJO, '
+                . '33004 OVIEDO (Asturias) — Telf. 985 271 026</p>'
+            ), null, $email);
+            // Internal notification.
+            send_email("Nuevo desistimiento: $nombre", notification_html('Nueva declaración de desistimiento', [
+                'Nombre' => $nombre, 'Contrato/Pedido' => $pedido, 'Email' => $email, 'Fecha y hora' => $fecha,
             ]), $email, $to);
             json_out(['success' => true], 201);
         }

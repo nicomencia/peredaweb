@@ -24,7 +24,8 @@ import PideCita from './components/PideCita';
 import Financiacion from './components/Financiacion';
 import Presupuesto from './components/Presupuesto';
 import HazteCliente from './components/HazteCliente';
-import { AvisoLegal, PoliticaPrivacidad, PoliticaCookies, CondicionesVenta } from './components/LegalPages';
+import { AvisoLegal, PoliticaPrivacidad, PoliticaCookies, CondicionesVenta, PoliticaRRSS } from './components/LegalPages';
+import Desistimiento from './components/Desistimiento';
 
 // view name (legacy, still used by child components) -> URL path
 const VIEW_TO_PATH = {
@@ -42,7 +43,9 @@ const VIEW_TO_PATH = {
   'aviso-legal': '/aviso-legal',
   'politica-privacidad': '/politica-privacidad',
   'politica-cookies': '/politica-cookies',
+  'politica-redes-sociales': '/politica-redes-sociales',
   'condiciones-venta': '/condiciones-venta',
+  desistimiento: '/desistimiento',
   admin: '/admin',
 };
 
@@ -63,7 +66,9 @@ function pathToView(pathname) {
   if (pathname.startsWith('/aviso-legal')) return 'aviso-legal';
   if (pathname.startsWith('/politica-privacidad')) return 'politica-privacidad';
   if (pathname.startsWith('/politica-cookies')) return 'politica-cookies';
+  if (pathname.startsWith('/politica-redes-sociales')) return 'politica-redes-sociales';
   if (pathname.startsWith('/condiciones-venta')) return 'condiciones-venta';
+  if (pathname.startsWith('/desistimiento')) return 'desistimiento';
   if (pathname.startsWith('/admin')) return 'admin';
   return 'home';
 }
@@ -100,7 +105,9 @@ const TITLES = {
   'aviso-legal': 'Aviso legal',
   'politica-privacidad': 'Política de privacidad',
   'politica-cookies': 'Política de cookies',
+  'politica-redes-sociales': 'Política de privacidad en redes sociales',
   'condiciones-venta': 'Condiciones de venta',
+  desistimiento: 'Desistimiento',
   admin: 'Administración',
 };
 
@@ -305,7 +312,9 @@ export default function App() {
         <Route path="/aviso-legal" element={<AvisoLegal />} />
         <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
         <Route path="/politica-cookies" element={<PoliticaCookies />} />
+        <Route path="/politica-redes-sociales" element={<PoliticaRRSS />} />
         <Route path="/condiciones-venta" element={<CondicionesVenta />} />
+        <Route path="/desistimiento" element={<Desistimiento />} />
         <Route
           path="/admin"
           element={

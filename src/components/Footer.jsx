@@ -87,7 +87,7 @@ export default function Footer({ setCurrentView }) {
 
         <div className="footer-bottom">
           <a
-            href="https://legalveritas.es"
+            href="https://www.legalveritas.es"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-veritas"
@@ -106,7 +106,11 @@ export default function Footer({ setCurrentView }) {
             <span className="footer-legal-sep">|</span>
             <button onClick={() => setCurrentView('politica-cookies')}>Política de Cookies</button>
             <span className="footer-legal-sep">|</span>
+            <button onClick={() => setCurrentView('politica-redes-sociales')}>Privacidad en redes sociales</button>
+            <span className="footer-legal-sep">|</span>
             <button onClick={() => setCurrentView('condiciones-venta')}>Condiciones generales de venta</button>
+            <span className="footer-legal-sep">|</span>
+            <button onClick={() => setCurrentView('desistimiento')}>Desistir del contrato aquí</button>
             <span className="footer-legal-sep">|</span>
             <button onClick={() => setCurrentView('canal-denuncias')}>Canal de Denuncias</button>
             <span className="footer-legal-sep">|</span>
