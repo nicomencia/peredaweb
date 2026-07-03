@@ -115,7 +115,7 @@
 /* Legal Veritas compliance badge (links to legalveritas.es). */
 .footer-veritas {
   display: block;
-  margin-bottom: 6px;
+  margin-top: 4px;
   opacity: 0.85;
   transition: opacity 0.25s ease;
 }
@@ -125,7 +125,7 @@
 }
 
 .footer-veritas img {
-  width: 220px;
+  width: 110px;
   height: auto;
   display: block;
 }

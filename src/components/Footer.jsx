@@ -86,19 +86,6 @@ export default function Footer({ setCurrentView }) {
         </div>
 
         <div className="footer-bottom">
-          <a
-            href="https://www.legalveritas.es"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-veritas"
-            aria-label="Certificado de cumplimiento normativo Legal Veritas"
-          >
-            <img
-              src="/base/legalveritas.webp"
-              alt="Certificado de cumplimiento GDPR y LSSICE — Legal Veritas"
-              loading="lazy"
-            />
-          </a>
           <div className="footer-legal">
             <button onClick={() => setCurrentView('aviso-legal')}>Aviso Legal</button>
             <span className="footer-legal-sep">|</span>
@@ -119,6 +106,19 @@ export default function Footer({ setCurrentView }) {
             </button>
           </div>
           <p>&copy; {new Date().getFullYear()} Saneamientos Pereda. Todos los derechos reservados.</p>
+          <a
+            href="https://www.legalveritas.es"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-veritas"
+            aria-label="Certificado de cumplimiento normativo Legal Veritas"
+          >
+            <img
+              src="/base/legalveritas.webp"
+              alt="Certificado de cumplimiento GDPR y LSSICE — Legal Veritas"
+              loading="lazy"
+            />
+          </a>
           <div className="footer-admin">
             <button onClick={() => setCurrentView('admin')}>Admin</button>
           </div>
