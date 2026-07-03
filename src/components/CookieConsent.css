@@ -34,8 +34,44 @@
   text-underline-offset: 2px;
 }
 
+.cookie-consent-prefs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.cookie-consent-pref {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+}
+
+.cookie-consent-pref input {
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.cookie-consent-pref input:disabled {
+  cursor: default;
+}
+
+.cookie-consent-pref strong {
+  color: #fff;
+  font-weight: 600;
+}
+
 .cookie-consent-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   justify-content: flex-end;
 }

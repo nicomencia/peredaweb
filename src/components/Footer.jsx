@@ -96,6 +96,10 @@ export default function Footer({ setCurrentView }) {
             <button onClick={() => setCurrentView('condiciones-venta')}>Condiciones generales de venta</button>
             <span className="footer-legal-sep">|</span>
             <button onClick={() => setCurrentView('canal-denuncias')}>Canal de Denuncias</button>
+            <span className="footer-legal-sep">|</span>
+            <button onClick={() => window.dispatchEvent(new Event('open-cookie-preferences'))}>
+              Configuración de cookies
+            </button>
           </div>
           <p>&copy; {new Date().getFullYear()} Saneamientos Pereda. Todos los derechos reservados.</p>
           <div className="footer-admin">

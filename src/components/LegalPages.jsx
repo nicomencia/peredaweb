@@ -372,6 +372,40 @@ export function PoliticaCookies() {
         por el responsable de la cookie, y que puede ir de unos minutos a varios años.
       </p>
 
+      <h2>Cookies utilizadas en este sitio web</h2>
+      <p>
+        A continuación se identifican las cookies y tecnologías similares (almacenamiento local)
+        que utiliza este sitio web:
+      </p>
+      <ul>
+        <li>
+          <strong>cookie_consent</strong> (propia, técnica, persistente): almacenamiento local que
+          guarda la elección de consentimiento de cookies realizada por el usuario, para no volver
+          a preguntarle en cada visita. No contiene datos personales.
+        </li>
+        <li>
+          <strong>sp_settings_cache_v1</strong> (propia, técnica, persistente): almacenamiento
+          local que guarda una copia de la configuración pública del sitio (textos, imágenes,
+          colores) para que la web cargue más rápido. No contiene datos personales.
+        </li>
+        <li>
+          <strong>PHPSESSID</strong> (propia, técnica, de sesión): cookie de sesión que se utiliza
+          únicamente para el acceso al área de administración del sitio. Desaparece al cerrar la
+          sesión o el navegador.
+        </li>
+        <li>
+          <strong>_ga, _ga_*</strong> (de terceros — Google Analytics, analíticas, persistentes
+          hasta 2 años): permiten medir de forma estadística las visitas a la web (páginas vistas,
+          origen de la visita, etc.). Proveedor: Google LLC. Estas cookies <strong>solo se
+          instalan si el usuario acepta las cookies analíticas</strong> en el aviso de cookies;
+          si se rechazan o no se contesta, no se instala ninguna cookie analítica.
+        </li>
+      </ul>
+      <p>
+        El usuario puede cambiar su elección en cualquier momento mediante el enlace
+        «Configuración de cookies» disponible en el pie de página de la web.
+      </p>
+
       <h2>Tratamiento de datos personales</h2>
       <p>
         SANEAMIENTOS PEREDA SA es el Responsable del tratamiento de los datos personales del
