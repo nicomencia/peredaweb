@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
+import { DataConsentClause } from './ConsentClauses';
 import './SimplePage.css';
 
 const defaultDescription = 'Más de 50 años de experiencia. Más de 40 profesionales especializados en diferentes áreas del sector. Locales de exposición y autoservicio. Venta a profesionales del gremio y a particulares. Líderes del mercado asturiano.';
@@ -155,6 +155,8 @@ export default function Presupuesto() {
                   required
                 />
 
+                <DataConsentClause />
+
                 <label className="presupuesto-check">
                   <input
                     type="checkbox"
@@ -162,8 +164,7 @@ export default function Presupuesto() {
                     onChange={(e) => setAccepted(e.target.checked)}
                   />
                   <span>
-                    He leído y acepto la{' '}
-                    <Link to="/politica-privacidad" className="presupuesto-policy-link">política de privacidad</Link>
+                    <strong>ACEPTAR</strong> — He leído y estoy conforme con la cláusula anterior
                   </span>
                 </label>
 

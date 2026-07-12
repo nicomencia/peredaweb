@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { CvConsentClause } from './ConsentClauses';
 import './CareersModal.css';
 
 export default function CareersModal({ isOpen, onClose }) {
@@ -9,6 +10,7 @@ export default function CareersModal({ isOpen, onClose }) {
     mensaje: '',
   });
   const [cvFile, setCvFile] = useState(null);
+  const [accepted, setAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(null);
@@ -28,6 +30,7 @@ export default function CareersModal({ isOpen, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!accepted) return;
     setSubmitting(true);
     setError(null);
 
@@ -59,6 +62,7 @@ export default function CareersModal({ isOpen, onClose }) {
   const handleClose = () => {
     setFormData({ nombre: '', email: '', telefono: '', mensaje: '' });
     setCvFile(null);
+    setAccepted(false);
     setSubmitted(false);
     setError(null);
     onClose();
@@ -173,9 +177,22 @@ export default function CareersModal({ isOpen, onClose }) {
                 />
               </div>
 
+              <CvConsentClause />
+
+              <label className="presupuesto-check careers-consent-check">
+                <input
+                  type="checkbox"
+                  checked={accepted}
+                  onChange={(e) => setAccepted(e.target.checked)}
+                />
+                <span>
+                  <strong>ACEPTAR</strong> — He leído y estoy conforme con la cláusula anterior
+                </span>
+              </label>
+
               {error && <div className="careers-form-error">{error}</div>}
 
-              <button type="submit" className="careers-submit-btn" disabled={submitting}>
+              <button type="submit" className="careers-submit-btn" disabled={submitting || !accepted}>
                 {submitting ? 'Enviando...' : 'Enviar CV'}
               </button>
             </form>

@@ -181,6 +181,11 @@
   border: 1px solid #fecaca;
 }
 
+.careers-consent-check {
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
 .careers-submit-btn {
   width: 100%;
   padding: 0.9rem;
