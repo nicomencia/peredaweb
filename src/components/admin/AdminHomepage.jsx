@@ -25,6 +25,7 @@ export default function AdminHomepage() {
   const [bgUrl, setBgUrl] = useState('');
   const [ctas, setCtas] = useState(defaultCtas);
   const [heroButtons, setHeroButtons] = useState([]);
+  const [announcement, setAnnouncement] = useState('');
   const [saving, setSaving] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingBg, setUploadingBg] = useState(false);
@@ -39,7 +40,7 @@ export default function AdminHomepage() {
       .from('site_settings')
       .select('key, value')
       .in('key', [
-        'hero_logo', 'hero_background', 'hero_buttons',
+        'hero_logo', 'hero_background', 'hero_buttons', 'hero_announcement',
         'cta_1_title', 'cta_1_label', 'cta_1_description',
         'cta_2_title', 'cta_2_label', 'cta_2_description',
         'cta_3_title', 'cta_3_label', 'cta_3_description',
@@ -52,6 +53,7 @@ export default function AdminHomepage() {
         if (row.key === 'hero_logo') setLogoUrl(row.value);
         if (row.key === 'hero_background') setBgUrl(row.value);
         if (row.key === 'hero_buttons') setHeroButtons(parseButtons(row.value));
+        if (row.key === 'hero_announcement') setAnnouncement(row.value || '');
         const ctaMatch = row.key.match(/^cta_(\d)_(title|label|description)$/);
         if (ctaMatch) {
           const idx = parseInt(ctaMatch[1]) - 1;
@@ -117,6 +119,7 @@ export default function AdminHomepage() {
         { key: 'hero_logo', value: logoUrl },
         { key: 'hero_background', value: bgUrl },
         { key: 'hero_buttons', value: JSON.stringify(heroButtons.filter((b) => b.label || b.url)) },
+        { key: 'hero_announcement', value: announcement.trim() },
         ...ctas.flatMap((cta, i) => [
           { key: `cta_${i + 1}_title`, value: cta.title },
           { key: `cta_${i + 1}_label`, value: cta.label },
@@ -143,7 +146,7 @@ export default function AdminHomepage() {
   return (
     <div className="admin-homepage">
       <h2>Portada (Home)</h2>
-      <p className="admin-homepage-desc">Edita el logo, la imagen de fondo y los botones de la portada.</p>
+      <p className="admin-homepage-desc">Edita el logo, la imagen de fondo, el texto de anuncio y los botones de la portada.</p>
 
       {message && <div className="admin-homepage-msg">{message}</div>}
 
@@ -178,6 +181,25 @@ export default function AdminHomepage() {
               disabled={uploadingBg}
             />
           </label>
+        </div>
+      </div>
+
+      <div className="admin-homepage-section">
+        <h3>Texto de anuncio</h3>
+        <p className="admin-homepage-desc">
+          Texto destacado que aparece sobre la imagen principal, encima de los botones (por ejemplo
+          «Rebajas de verano» o «Feria del Instalador — 15 y 16 de octubre»). Puedes escribir varias
+          líneas. Déjalo vacío para no mostrar nada.
+        </p>
+        <div className="admin-faq-editor">
+          <div className="admin-faq-row">
+            <textarea
+              rows="3"
+              placeholder={"p. ej. Feria del Instalador\n15 y 16 de octubre en Pruvia"}
+              value={announcement}
+              onChange={(e) => setAnnouncement(e.target.value)}
+            />
+          </div>
         </div>
       </div>
 

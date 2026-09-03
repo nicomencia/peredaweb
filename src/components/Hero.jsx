@@ -15,15 +15,17 @@ export default function Hero({ setCurrentView }) {
   const [logoUrl, setLogoUrl] = useState(() => cachedSetting('hero_logo', '/base/hero-logo.webp'));
   const [bgUrl, setBgUrl] = useState(() => cachedSetting('hero_background', '/base/hero-bg.webp'));
   const [buttons, setButtons] = useState(() => parseButtons(cachedSetting('hero_buttons', '[]')));
+  const [announcement, setAnnouncement] = useState(() => cachedSetting('hero_announcement', '').trim());
 
   useEffect(() => {
     async function load() {
-      const data = await loadSettings(['hero_logo', 'hero_background', 'hero_buttons']);
+      const data = await loadSettings(['hero_logo', 'hero_background', 'hero_buttons', 'hero_announcement']);
       if (data) {
         data.forEach((row) => {
           if (row.key === 'hero_logo' && row.value) setLogoUrl(row.value);
           if (row.key === 'hero_background' && row.value) setBgUrl(row.value);
           if (row.key === 'hero_buttons') setButtons(parseButtons(row.value));
+          if (row.key === 'hero_announcement') setAnnouncement((row.value || '').trim());
         });
       }
     }
@@ -38,27 +40,26 @@ export default function Hero({ setCurrentView }) {
       <div className="hero-content">
         <h1 className="sr-only">Saneamientos Pereda — Baño, fontanería y materiales de construcción en Oviedo</h1>
         <img src={logoUrl || undefined} alt="Saneamientos Pereda" className="hero-logo" />
-        {buttons.length > 0 && (
-          <div className="hero-buttons">
-            {buttons.map((b, i) => (
-              <a
-                key={i}
-                className="hero-button"
-                href={b.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {b.label}
-              </a>
-            ))}
+        {(announcement || buttons.length > 0) && (
+          <div className="hero-message">
+            {announcement && <p className="hero-announcement">{announcement}</p>}
+            {buttons.length > 0 && (
+              <div className="hero-buttons">
+                {buttons.map((b, i) => (
+                  <a
+                    key={i}
+                    className="hero-button"
+                    href={b.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {b.label}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         )}
-      </div>
-
-      <div className="hero-scroll" aria-hidden="true">
-        <span className="hero-scroll-track">
-          <span className="hero-scroll-thumb" />
-        </span>
       </div>
     </section>
   );
