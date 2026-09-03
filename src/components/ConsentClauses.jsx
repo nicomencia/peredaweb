@@ -22,8 +22,9 @@ export function DataConsentClause() {
         </p>
         <p>
           <strong>Fines y legitimación del tratamiento:</strong> mantener una relación comercial
-          (por interés legítimo del responsable, art. 6.1.f RGPD) y envío de comunicaciones de
-          productos o servicios (con el consentimiento del interesado, art. 6.1.a RGPD).
+          por la relación contractual/precontractual (alta en formulario para compras de
+          profesionales), art. 6.1.b RGPD y envío de comunicaciones de productos o servicios (con
+          el consentimiento del interesado, art. 6.1.a RGPD).
         </p>
         <p>
           <strong>Criterios de conservación de los datos:</strong> se conservarán durante no más
