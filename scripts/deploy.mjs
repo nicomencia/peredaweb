@@ -12,8 +12,19 @@ if (!existsSync(localDir)) {
   console.error('dist/ not found — run `npm run build` first.');
   process.exit(1);
 }
-if (!remoteDir || remoteDir === '/') {
-  console.error('Refusing to deploy: set a remote directory (arg or SFTP_REMOTE_DIR), and never "/".');
+// The remote dir must be an absolute POSIX path. This also catches Git Bash
+// (MSYS) rewriting a POSIX argument into a Windows path: "/html/dev" arrives
+// as "C:/Program Files/Git/html/dev", which is not absolute, so it would be
+// taken as relative to the SFTP home and quietly deploy into a junk tree.
+if (!remoteDir || !remoteDir.startsWith('/')) {
+  console.error('Refusing to deploy: the remote directory must be an absolute path starting with "/", got ' + JSON.stringify(remoteDir) + '.');
+  console.error('From Git Bash on Windows use PowerShell instead, or prefix the command with MSYS_NO_PATHCONV=1.');
+  process.exit(1);
+}
+
+const target = remoteDir.replace(/\/+$/, '');
+if (target === '' || target === '/html') {
+  console.error('Refusing to deploy to ' + JSON.stringify(remoteDir) + ' — that is the server root or the live WordPress docroot.');
   process.exit(1);
 }
 

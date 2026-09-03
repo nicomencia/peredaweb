@@ -41,6 +41,7 @@ try {
         'brands', 'ambientes', 'ambiente_photos',
         'tiendas', 'tienda_photos', 'site_settings',
         'denuncias', 'job_applications', 'presupuesto_requests', 'cliente_requests',
+        'desistimiento_requests',
     ];
     foreach ($order as $table) {
         $file = __DIR__ . "/import/$table.json";

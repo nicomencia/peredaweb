@@ -21,6 +21,22 @@ async function apiFetch(path, options = {}) {
   return body;
 }
 
+// content.php returns a whole table, and a single page mounts several components
+// that each want the same one — the home page asks for site_settings eight times,
+// ~25 KB apiece. Share the in-flight request so concurrent readers make one round
+// trip. Only the pending promise is cached, never the resolved rows, so a read
+// issued after a write still goes to the server.
+const inFlightReads = new Map();
+
+function readTable(table) {
+  const pending = inFlightReads.get(table);
+  if (pending) return pending;
+  const request = apiFetch('/api/content.php?resource=' + table)
+    .finally(() => inFlightReads.delete(table));
+  inFlightReads.set(table, request);
+  return request;
+}
+
 function postJson(path, payload) {
   return apiFetch(path, {
     method: 'POST',
@@ -115,7 +131,7 @@ class QueryBuilder {
 
   async _execute() {
     if (this.action === 'select') {
-      let rows = await apiFetch(`/api/content.php?resource=${this.table}`);
+      let rows = await readTable(this.table);
       rows = rows.filter((row) => this.filters.every((f) => f(row)));
       for (const { col, ascending } of [...this.orderings].reverse()) {
         rows.sort((a, b) => {

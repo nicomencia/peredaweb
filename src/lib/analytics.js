@@ -43,7 +43,15 @@ export function initAnalytics() {
 }
 
 // Sends a manual page_view for SPA route changes (once GA is loaded).
+// lastPath suppresses the mount-time double fire: App starts GA synchronously from
+// the cached id in one effect and again after the settings fetch resolves in another,
+// and both report the same path. Only an immediate repeat is skipped, so leaving a
+// page and coming back still counts.
+let lastPath = null;
+
 export function trackPageview(path) {
   if (!loaded || typeof window.gtag !== 'function') return;
+  if (path === lastPath) return;
+  lastPath = path;
   window.gtag('event', 'page_view', { page_path: path, page_location: window.location.href });
 }

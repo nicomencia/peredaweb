@@ -78,9 +78,10 @@ try {
 
   console.log('Uploading import data...');
   const tables = [
-    'products', 'product_photos', 'brands', 'ambientes', 'ambiente_photos',
+    'brands', 'ambientes', 'ambiente_photos',
     'tiendas', 'tienda_photos', 'site_settings',
     'denuncias', 'job_applications', 'presupuesto_requests', 'cliente_requests',
+    'desistimiento_requests',
   ];
   for (const t of tables) {
     const f = resolve(ROOT, `migration-data/${t}.json`);

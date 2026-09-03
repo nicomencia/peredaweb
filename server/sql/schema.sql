@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS denuncias;
 DROP TABLE IF EXISTS job_applications;
 DROP TABLE IF EXISTS presupuesto_requests;
 DROP TABLE IF EXISTS cliente_requests;
+DROP TABLE IF EXISTS desistimiento_requests;
 DROP TABLE IF EXISTS admin_users;
 SET FOREIGN_KEY_CHECKS = 1;
 

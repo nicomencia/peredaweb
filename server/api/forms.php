@@ -109,14 +109,27 @@ try {
             $b = read_json_body();
             $hechos = trim($b['hechos'] ?? '');
             if ($hechos === '') json_error('La descripción de los hechos es obligatoria', 400);
-            $pin = str_pad((string) random_int(0, 99999999), 8, '0', STR_PAD_LEFT);
-            db()->prepare('INSERT INTO denuncias (id, pin, hechos, seccion_lugar, vinculacion, personas_involucradas, momento, documentos_info) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
-                ->execute([
-                    uuid4(), $pin, $hechos,
-                    trim($b['seccion_lugar'] ?? ''), trim($b['vinculacion'] ?? ''),
-                    trim($b['personas_involucradas'] ?? ''), trim($b['momento'] ?? ''),
-                    trim($b['documentos_info'] ?? ''),
-                ]);
+            $stmt = db()->prepare('INSERT INTO denuncias (id, pin, hechos, seccion_lugar, vinculacion, personas_involucradas, momento, documentos_info) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+            // The pin column is UNIQUE. Retry on the (rare) collision instead of
+            // losing the report to a generic 500.
+            $pin = null;
+            for ($attempt = 0; $attempt < 5; $attempt++) {
+                $candidate = str_pad((string) random_int(0, 99999999), 8, '0', STR_PAD_LEFT);
+                try {
+                    $stmt->execute([
+                        uuid4(), $candidate, $hechos,
+                        trim($b['seccion_lugar'] ?? ''), trim($b['vinculacion'] ?? ''),
+                        trim($b['personas_involucradas'] ?? ''), trim($b['momento'] ?? ''),
+                        trim($b['documentos_info'] ?? ''),
+                    ]);
+                    $pin = $candidate;
+                    break;
+                } catch (PDOException $e) {
+                    // 23000 = integrity constraint violation, i.e. the PIN was taken.
+                    if ($e->getCode() !== '23000') throw $e;
+                }
+            }
+            if ($pin === null) json_error('No se pudo registrar la denuncia. Inténtelo de nuevo.', 500);
             send_email('Nueva denuncia recibida', notification_html('Nueva denuncia recibida', [
                 'Sección/Lugar' => trim($b['seccion_lugar'] ?? ''),
                 'Vinculación' => trim($b['vinculacion'] ?? ''),
