@@ -22,10 +22,9 @@
 }
 
 /* Three bands: the logo sits in a centre row of its own height, so it lands on
-   the true vertical centre no matter what else is present, while the
-   announcement and the buttons each centre inside the equal 1fr bands above
-   and below it. That keeps the announcement high on the screen and well clear
-   of the logo, and the composition holds up with either, both or neither. */
+   the true vertical centre. The announcement and its button share the 1fr band
+   above; the matching empty 1fr band below is what holds the logo on the centre
+   line, whether or not there is an announcement. */
 .hero-content {
   text-align: center;
   z-index: 1;
@@ -39,9 +38,19 @@
   box-sizing: border-box;
 }
 
-.hero-announcement { grid-row: 1; }
+/* The announcement and its button travel together: side by side on desktop to
+   use the horizontal space, stacked on mobile to use the vertical. wrap is the
+   safety net for a long announcement on a narrow desktop window. */
+.hero-message {
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
 .hero-logo { grid-row: 2; }
-.hero-buttons { grid-row: 3; }
 
 .hero-logo {
   width: 670px;
@@ -135,6 +144,11 @@
     width: min(500px, calc(100vw - 24px)); /* bigger, but keeps a small edge margin */
     height: auto;
     margin: 0 auto;
+  }
+
+  .hero-message {
+    flex-direction: column;
+    gap: var(--spacing-sm);
   }
 
   .hero-announcement {

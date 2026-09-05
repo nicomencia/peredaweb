@@ -39,23 +39,27 @@ export default function Hero({ setCurrentView }) {
     >
       <div className={`hero-content${announcement ? ' hero-content--announced' : ''}`}>
         <h1 className="sr-only">Saneamientos Pereda — Baño, fontanería y materiales de construcción en Oviedo</h1>
-        {announcement && <p className="hero-announcement">{announcement}</p>}
-        <img src={logoUrl || undefined} alt="Saneamientos Pereda" className="hero-logo" />
-        {buttons.length > 0 && (
-          <div className="hero-buttons">
-            {buttons.map((b, i) => (
-              <a
-                key={i}
-                className="hero-button"
-                href={b.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {b.label}
-              </a>
-            ))}
+        {(announcement || buttons.length > 0) && (
+          <div className="hero-message">
+            {announcement && <p className="hero-announcement">{announcement}</p>}
+            {buttons.length > 0 && (
+              <div className="hero-buttons">
+                {buttons.map((b, i) => (
+                  <a
+                    key={i}
+                    className="hero-button"
+                    href={b.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {b.label}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         )}
+        <img src={logoUrl || undefined} alt="Saneamientos Pereda" className="hero-logo" />
       </div>
     </section>
   );
