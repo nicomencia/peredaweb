@@ -35,27 +35,26 @@
   animation: fadeInScale 1s ease-out;
 }
 
-/* Announcement + link buttons, grouped so they stay together on mobile, where
-   .hero-content spreads its children with space-between. */
-.hero-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 /* Free announcement text over the hero (rebajas, feria del instalador...),
-   written in Portada. Empty by default, so nothing renders until it is filled in.
+   written in Portada. It leads the composition, above the logo, so it reads
+   first. Empty by default, so nothing renders until it is filled in.
    pre-line keeps the line breaks the editor types. */
 .hero-announcement {
-  max-width: 30ch;
-  margin: 0 auto;
+  max-width: 28ch;
+  margin: 0 auto var(--spacing-sm);
   color: #ffffff;
-  font-size: clamp(1.15rem, 2.4vw, 1.75rem);
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.25;
   white-space: pre-line;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.45);
   animation: fadeInUp 1s ease-out 0.15s both;
+}
+
+/* An announcement is temporary, the logo is not — so the logo only gives up
+   size while one is live. With no announcement the hero is unchanged. */
+.hero-content--announced .hero-logo {
+  width: 560px;
 }
 
 .hero-buttons {
@@ -133,6 +132,10 @@
   }
 
   .hero-announcement {
-    max-width: min(30ch, calc(100vw - 40px));
+    max-width: min(28ch, calc(100vw - 40px));
+  }
+
+  .hero-content--announced .hero-logo {
+    width: min(420px, calc(100vw - 48px));
   }
 }
