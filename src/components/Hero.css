@@ -21,16 +21,33 @@
   pointer-events: none;
 }
 
+/* Three bands: the logo sits in a centre row of its own height, so it lands on
+   the true vertical centre no matter what else is present, while the
+   announcement and the buttons each centre inside the equal 1fr bands above
+   and below it. That keeps the announcement high on the screen and well clear
+   of the logo, and the composition holds up with either, both or neither. */
 .hero-content {
   text-align: center;
-  z-index: 1; 
+  z-index: 1;
+  align-self: stretch;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  justify-items: center;
+  align-items: center;
+  padding: 110px var(--spacing-sm) 40px;
+  box-sizing: border-box;
 }
+
+.hero-announcement { grid-row: 1; }
+.hero-logo { grid-row: 2; }
+.hero-buttons { grid-row: 3; }
 
 .hero-logo {
   width: 670px;
   height: auto;
   object-fit: contain;
-  margin: 0 auto var(--spacing-md);
+  margin: 0 auto;
   filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.15));
   animation: fadeInScale 1s ease-out;
 }
@@ -41,7 +58,7 @@
    pre-line keeps the line breaks the editor types. */
 .hero-announcement {
   max-width: 28ch;
-  margin: 0 auto var(--spacing-sm);
+  margin: 0 auto;
   color: #ffffff;
   font-size: clamp(1.5rem, 3.2vw, 2.5rem);
   font-weight: 600;
@@ -62,7 +79,6 @@
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
-  margin-top: var(--spacing-sm);
   animation: fadeInUp 1s ease-out 0.3s both;
 }
 
@@ -110,19 +126,9 @@
 }
 
 @media (max-width: 768px) {
+  /* Same three bands as desktop, just a tighter top pad over the mobile navbar. */
   .hero-content {
-    display: flex;
-    flex-direction: column;
-    /* Centred as one group, like the desktop hero. space-between pinned the
-       announcement and buttons to the very bottom edge of the screen. */
-    justify-content: center;
-    gap: var(--spacing-md);
-    height: 100vh;
-    height: 100svh;
-    /* Top pad clears the fixed navbar; the smaller bottom pad leaves the group
-       sitting a touch below true centre, which reads as balanced rather than low. */
-    padding-top: 96px;
-    padding-bottom: 40px;
+    padding: 76px 12px 32px;
   }
 
   .hero-logo {
