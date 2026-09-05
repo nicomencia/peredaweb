@@ -44,7 +44,7 @@
 .inspirate-card-icon {
   width: 56px;
   height: 56px;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--color-blue-tint);
   color: var(--color-blue);
   display: flex;

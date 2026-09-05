@@ -64,7 +64,7 @@
 .careers-modal-icon {
   width: 56px;
   height: 56px;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--color-blue-tint);
   color: var(--color-blue);
   display: inline-flex;
@@ -222,7 +222,7 @@
   height: 80px;
   background: #ecfdf5;
   color: #059669;
-  border-radius: 50%;
+  border-radius: 0;
   margin-bottom: var(--spacing-sm);
 }
 
