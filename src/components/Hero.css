@@ -114,10 +114,16 @@
   .hero-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* Centred as one group, like the desktop hero. space-between pinned the
+       announcement and buttons to the very bottom edge of the screen. */
+    justify-content: center;
+    gap: var(--spacing-md);
     height: 100vh;
     height: 100svh;
-    padding-top: 160px;
+    /* Top pad clears the fixed navbar; the smaller bottom pad leaves the group
+       sitting a touch below true centre, which reads as balanced rather than low. */
+    padding-top: 96px;
+    padding-bottom: 40px;
   }
 
   .hero-logo {
