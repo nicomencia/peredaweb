@@ -42,7 +42,9 @@
     bottom: 20px;
     right: 20px;
     padding: 14px;
-    border-radius: 50%;
+    /* Square, like every other control on the site. With the label hidden the
+       24px icon plus 14px padding already makes a 52x52 box. */
+    border-radius: 0;
   }
 
   .floating-shop-text {
