@@ -26,6 +26,7 @@ import Presupuesto from './components/Presupuesto';
 import HazteCliente from './components/HazteCliente';
 import { AvisoLegal, PoliticaPrivacidad, PoliticaCookies, CondicionesVenta, PoliticaRRSS } from './components/LegalPages';
 import Desistimiento from './components/Desistimiento';
+import Faq from './components/Faq';
 
 // view name (legacy, still used by child components) -> URL path
 const VIEW_TO_PATH = {
@@ -46,6 +47,7 @@ const VIEW_TO_PATH = {
   'politica-redes-sociales': '/politica-redes-sociales',
   'condiciones-venta': '/condiciones-venta',
   desistimiento: '/desistimiento',
+  'preguntas-frecuentes': '/preguntas-frecuentes',
   admin: '/admin',
 };
 
@@ -69,6 +71,7 @@ function pathToView(pathname) {
   if (pathname.startsWith('/politica-redes-sociales')) return 'politica-redes-sociales';
   if (pathname.startsWith('/condiciones-venta')) return 'condiciones-venta';
   if (pathname.startsWith('/desistimiento')) return 'desistimiento';
+  if (pathname.startsWith('/preguntas-frecuentes')) return 'preguntas-frecuentes';
   if (pathname.startsWith('/admin')) return 'admin';
   return 'home';
 }
@@ -87,6 +90,7 @@ const DESCRIPTIONS = {
   financiacion: 'Financiación al 0% de interés en Saneamientos Pereda: fracciona tu compra hasta en 24 meses.',
   presupuesto: 'Solicita presupuesto sin compromiso a Saneamientos Pereda para tu proyecto de baño o reforma.',
   'hazte-cliente': 'Hazte cliente profesional de Saneamientos Pereda y accede a condiciones y ventajas exclusivas.',
+  'preguntas-frecuentes': 'Preguntas frecuentes de Saneamientos Pereda: dudas habituales sobre productos, pedidos, entregas, instalación y garantías.',
 };
 
 const TITLES = {
@@ -108,6 +112,7 @@ const TITLES = {
   'politica-redes-sociales': 'Política de privacidad en redes sociales',
   'condiciones-venta': 'Condiciones de venta',
   desistimiento: 'Desistimiento',
+  'preguntas-frecuentes': 'Preguntas frecuentes',
   admin: 'Administración',
 };
 
@@ -315,6 +320,7 @@ export default function App() {
         <Route path="/politica-redes-sociales" element={<PoliticaRRSS />} />
         <Route path="/condiciones-venta" element={<CondicionesVenta />} />
         <Route path="/desistimiento" element={<Desistimiento />} />
+        <Route path="/preguntas-frecuentes" element={<Faq />} />
         <Route
           path="/admin"
           element={

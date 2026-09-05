@@ -46,6 +46,7 @@ export default function Footer({ setCurrentView }) {
               <li><button onClick={() => setCurrentView('instalaciones')}>Nuestras tiendas</button></li>
               <li><button onClick={() => setCurrentView('colecciones')}>Productos</button></li>
               <li><button onClick={() => setCurrentView('area-profesional')}>Área Profesional</button></li>
+              <li><button onClick={() => setCurrentView('preguntas-frecuentes')}>Preguntas frecuentes</button></li>
             </ul>
           </div>
 

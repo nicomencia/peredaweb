@@ -113,6 +113,15 @@ const areaFields = [
   { key: 'area_faq', label: 'Preguntas frecuentes', type: 'faq' },
 ];
 
+// General FAQ shown at /preguntas-frecuentes. Kept separate from `area_faq`
+// (Área Profesional) because that one is for trade customers and this one is
+// for private customers.
+const faqFields = [
+  { key: 'faq_title', label: 'Título de la página', type: 'input' },
+  { key: 'faq_subtitle', label: 'Texto de introducción (opcional)', type: 'textarea', rows: 3 },
+  { key: 'faq_general', label: 'Preguntas y respuestas', type: 'faq' },
+];
+
 const tabs = [
   { id: 'portada', label: 'Portada' },
   { id: 'cita', label: 'Cita previa' },
@@ -121,6 +130,7 @@ const tabs = [
   { id: 'tiendas', label: 'Tiendas' },
   { id: 'productos', label: 'Productos' },
   { id: 'area', label: 'Área Profesional' },
+  { id: 'faq', label: 'Preguntas frecuentes' },
   { id: 'ajustes', label: 'Ajustes generales' },
 ];
 
@@ -189,6 +199,14 @@ export default function AdminDashboard() {
             title="Área Profesional"
             description="Edita los textos de la página de Área Profesional."
             fields={areaFields}
+          />
+        );
+      case 'faq':
+        return (
+          <AdminPageEditor
+            title="Preguntas frecuentes"
+            description="Preguntas frecuentes para clientes particulares, que se muestran en la página enlazada desde el pie (/preguntas-frecuentes). Son independientes de las del Área Profesional, pensadas para profesionales."
+            fields={faqFields}
           />
         );
       case 'cita':

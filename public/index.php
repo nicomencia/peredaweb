@@ -20,6 +20,7 @@ $ROUTES = [
     '/', '/productos', '/quienes-somos', '/inspirate', '/instalaciones',
     '/area-profesional', '/pide-cita', '/financiacion', '/presupuesto',
     '/hazte-cliente', '/canal-denuncias',
+    '/preguntas-frecuentes',
     '/aviso-legal', '/politica-privacidad', '/politica-cookies', '/condiciones-venta',
     '/politica-redes-sociales', '/desistimiento',
 ];
@@ -57,6 +58,7 @@ $META = [
     '/presupuesto' => ['Presupuesto | Saneamientos Pereda', 'Solicita presupuesto sin compromiso a Saneamientos Pereda para tu proyecto de baño o reforma.'],
     '/hazte-cliente' => ['Hazte cliente | Saneamientos Pereda', 'Hazte cliente profesional de Saneamientos Pereda y accede a condiciones y ventajas exclusivas.'],
     '/canal-denuncias' => ['Canal de denuncias | Saneamientos Pereda', 'Canal de denuncias de Saneamientos Pereda. Comunica de forma confidencial y consulta el estado con tu PIN.'],
+    '/preguntas-frecuentes' => ['Preguntas frecuentes | Saneamientos Pereda', 'Preguntas frecuentes de Saneamientos Pereda: dudas habituales sobre productos, pedidos, entregas, instalación y garantías.'],
     '/aviso-legal' => ['Aviso legal | Saneamientos Pereda', $DEFAULT[1]],
     '/politica-privacidad' => ['Política de privacidad | Saneamientos Pereda', $DEFAULT[1]],
     '/politica-cookies' => ['Política de cookies | Saneamientos Pereda', $DEFAULT[1]],
