@@ -8,7 +8,7 @@ Manual de operación y mantenimiento. Para la arquitectura general ver [README](
 - IP del servidor web: **217.76.142.23**.
 - SFTP: **ftp.saneamientos-pereda.com:22**, usuario = nombre de dominio. Credenciales en `.env` (`SFTP_*`).
 - **Raíz `/html` = WordPress en producción del cliente — NO TOCAR.** La app se despliega solo en **`/html/dev`**.
-- Subdominio `dev.saneamientos-pereda.com` apuntando a `/html/dev` (pendiente de DNS, ver Problemas conocidos).
+- Subdominio `dev.saneamientos-pereda.com` → `/html/dev`. **DNS y SSL resueltos (2026-07-01)**: resuelve en resolvers públicos y sirve HTTPS con el comodín `*.saneamientos-pereda.com` (Sectigo DV, válido hasta 2026-12-16), con redirección HTTP→HTTPS.
 
 ## Variables de entorno (`.env`, NO se commitea)
 
@@ -27,7 +27,7 @@ En el servidor, estas se traducen a `server/api/config.php` (generado por los sc
 1. Instalar **Node 24+** (y **PHP 8.2** opcional, para `php -l`).
 2. `npm install`.
 3. Copiar `.env` por un canal privado (nunca por git/email).
-4. Hosts local (mientras el DNS no publique): añadir `217.76.142.23 dev.saneamientos-pereda.com` a `C:\Windows\System32\drivers\etc\hosts`.
+4. ~~Hosts local~~ — **ya no hace falta** (el DNS publica desde 2026-07-01). Si tienes la línea `217.76.142.23 dev.saneamientos-pereda.com` en `C:\Windows\System32\drivers\etc\hosts` de la migración, puedes borrarla.
 
 ## Despliegue
 
@@ -42,12 +42,22 @@ En el servidor, estas se traducen a `server/api/config.php` (generado por los sc
 
 El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquier carpeta/host.
 
+> **En Windows, lanza los despliegues desde PowerShell, no desde Git Bash.** MSYS reescribe
+> los argumentos que parecen rutas POSIX: `npm run deploy /html/dev` le llega al script como
+> `C:/Program Files/Git/html/dev`, que al no ser absoluta se interpretaría como relativa al
+> home del SFTP. `deploy.mjs` ahora rechaza cualquier destino no absoluto, y también `/` y
+> `/html` (el WordPress vivo del cliente).
+
+> **`push-api.mjs` vuelve a subir `setup.php`** (sube todos los `.php` de `server/api/` salvo
+> `config.php`). Después de usarlo, bórralo otra vez con
+> `node scripts/prune-deployed.mjs api/setup.php`.
+
 ## Base de datos
 
 - MySQL `qaqu803`. **`DB_HOST=lldg503.servidoresdns.net`** (el servidor real de BBDD): el nombre del panel `qaqu803.saneamientos-pereda.com` es un CNAME no publicado (ver Problemas), y `localhost` apunta al MySQL propio del host web, que NO tiene esta BBDD.
 - Esquema: `server/sql/schema.sql` (UUIDs como CHAR(36); `specs`/`emails` como JSON). El mapa de columnas permitidas por la API está en `TABLE_COLUMNS` de `server/api/db.php` — **mantener ambos sincronizados**.
 - Auditorías: `node scripts/db-audit.mjs` (conteos + referencias a `/media`), `node scripts/audit-media.mjs` (árbol de `/media`). Conectan directo por el puerto 3306 con SSL.
-- **Re-importación desde cero** (solo si hiciera falta): re-desplegar `setup.php` (está borrado del servidor) con `deploy-backend`, subir los JSON de datos a `api/import/`, y hacer `POST /api/setup.php` con `{token, admin_email, admin_password}`.
+- **Re-importación desde cero** (solo si hiciera falta): re-desplegar `setup.php` (borrado del servidor el 2026-09-04) con `deploy-backend` o `push-api`, subir los JSON de datos a `api/import/`, y hacer `POST /api/setup.php` con `{token, admin_email, admin_password}`. **Vuelve a borrarlo al terminar** (`node scripts/prune-deployed.mjs api/setup.php`): hace `DROP` de todas las tablas.
 - **Copias de seguridad**: la BBDD es ahora el dato vivo. Recomendado un `mysqldump` periódico (o export desde el panel) y backup de `/html/dev/media/`.
 
 ## Imágenes / media
@@ -70,12 +80,12 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 
 ## Problemas conocidos
 
-- **Publicación de DNS atascada (proveedor)**: los registros añadidos en el editor del panel (`dev` A, `www.dev` A, `qaqu803` CNAME) aparecen pero **no los sirven** ns1/ns2.dns-servicios.com, mientras que los registros antiguos sí resuelven. Consecuencias: el subdominio dev necesita entrada en `hosts` y va por **HTTP** (sin SSL); la BBDD se conecta por `lldg503...` directo. **Acción**: ticket al proveedor para que regeneren/republiquen la zona. Al resolverse: emitir Let's Encrypt en el panel (sección SSL).
+- ~~**Publicación de DNS atascada (proveedor)**~~ — **RESUELTO 2026-07-01**. La zona ya publica (`dev` A, `www.dev` A → 217.76.142.23, y el CNAME `qaqu803` → lldg503.servidoresdns.net). El subdominio dev va por HTTPS con el certificado comodín instalado desde el panel; ya no hace falta la entrada en `hosts`. `DB_HOST` sigue apuntando directo a `lldg503.servidoresdns.net` (funciona; podría usar el CNAME, pero no aporta nada).
 - **Caché de estáticos del hosting**: sirve copias cacheadas de archivos en la misma ruta durante un TTL, incluso tras borrarlos, e ignora el `?v=`. Las subidas del panel usan nombres únicos, así que no se ven afectadas.
 
 ## Salida a producción (checklist)
 
-1. Resolver la publicación de DNS y emitir SSL para el subdominio.
+1. ~~Resolver la publicación de DNS y emitir SSL para el subdominio~~ — hecho (2026-07-01). Para producción hará falta emitir/instalar el certificado del dominio principal.
 2. Decidir la ubicación de producción y su relación con el WordPress de `/html`.
 3. Confirmar el dominio canónico de SEO (en el JSON-LD de `index.html` está fijado `https://www.saneamientos-pereda.com`; `sitemap.xml`/`robots.txt`/`og:url` usan el host real dinámicamente vía `public/index.php`).
 4. Configurar copias de seguridad periódicas (MySQL + `/media`).

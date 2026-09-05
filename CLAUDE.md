@@ -22,13 +22,43 @@ Key facts established during cutover:
 - **DB connection: `DB_HOST=lldg503.servidoresdns.net`** (the real DB server, IP 82.223.113.26). The panel's `qaqu803.saneamientos-pereda.com` is an unpublished CNAME to it (stuck DNS — see Known issues), so it doesn't resolve from PHP; `localhost` reaches the web host's *own* MySQL which does NOT have this DB. DB name/user `qaqu803`, password in `.env`.
 - **Schema was corrected from the live exported data, NOT the old migration files** (which were stale): `tiendas` has `lat`/`lon`. `server/sql/schema.sql` `DROP`s then `CREATE`s, with defaults so imports are strict-mode-safe. `TABLE_COLUMNS` in `db.php` mirrors this. **(Update 2026-06-18: the `products`/`product_photos` tables were later dropped — see Recent changes.)**
 - Admin user: `admin@saneamientos-pereda.com` (created via setup). Login/upload verified; security boundaries verified (401 unauth upload/admin, 403 on config.php/db.php/import).
-- `setup.php` + `api/import/` were deleted from the server post-import (`scripts/cleanup-setup.mjs`).
+- `api/import/` was deleted from the server post-import (`scripts/archive/cleanup-setup.mjs`).
+  **`setup.php` was not** — it was still live (and still `DROP`s every table behind
+  `SETUP_TOKEN`) until it was finally removed on 2026-09-04 with
+  `node scripts/prune-deployed.mjs api/setup.php`. Verified gone: `/api/setup.php` now 404s.
 
-Helper scripts: `scripts/push-config.mjs` (regen+upload config.php from .env), `scripts/push-api.mjs` (upload api/*.php + schema, no media), `scripts/cleanup-setup.mjs`.
+Helper scripts: `scripts/push-config.mjs` (regen+upload config.php from .env), `scripts/push-api.mjs` (upload api/*.php + schema, no media), `scripts/archive/cleanup-setup.mjs`.
+
+**Note:** `push-api.mjs` uploads *every* `.php` in `server/api/` except `config.php` —
+including `setup.php`. After running it, re-remove setup.php
+(`node scripts/prune-deployed.mjs api/setup.php`) or it goes back on the server.
 
 Remaining / later:
 - Re-running `setup.php` requires re-deploying it (deploy-backend) — only needed for a fresh re-import.
 - Forms email works via SMTP (above), independent of the stuck DNS. Resend resources + their DNS records (`send` MX/SPF, `resend._domainkey` TXT) were deleted.
+
+## Recent changes (2026-09-04)
+
+- **Legal**: the shared `DataConsentClause` legitimation basis moved from legitimate
+  interest (art. 6.1.f) to the contractual/precontractual relationship (art. 6.1.b),
+  verbatim from the client's legal team. Applies to both Hazte cliente and Presupuesto.
+- **Hero**: the animated scroll-cue line was removed (markup + styles). `100dvh` →
+  `100svh` on `.hero` and mobile `.hero-content`: dvh tracks the mobile address bar as
+  it hides on scroll, so the hero height — and with it the `cover`-sized background —
+  resized mid-scroll. svh is stable for the life of the page.
+- **`hero_announcement`** (new `site_settings` key, seeded): free announcement text over
+  the hero for sales/trade fairs, edited in Portada above the link buttons. Rendered with
+  `white-space: pre-line`. Announcement + buttons are wrapped in `.hero-message` so mobile
+  `space-between` keeps them together instead of flinging them apart.
+- **Perf**: `api.js` now shares the in-flight `content.php` read per table. The home page
+  mounts eight components that each fetched the whole `site_settings` table (~25 KB, and
+  the host does not gzip JSON) — eight identical round trips, now one. Only the pending
+  promise is shared, never resolved rows, so reads after writes stay fresh.
+- **Fixes**: duplicate mount-time GA `page_view` (App starts GA in two effects);
+  `desistimiento_requests` was created but never dropped in `schema.sql`, so re-running
+  setup left a half-rebuilt DB; denuncia PIN collisions (the column is UNIQUE) now retry
+  instead of 500ing and losing the report.
+- **`setup.php` removed from the server** (see Status above).
 
 ## Recent changes (2026-06-18)
 
@@ -45,6 +75,12 @@ Shared hosting ("Hosting Avanzado Linux", panel at panelcontrolhosting.com): Apa
 
 - Web root `/html` = client's **live WordPress — never touch**. We deploy only to `/html/dev`.
 - `npm run deploy /html/dev` (frontend), `node scripts/deploy-backend.mjs` (backend), `npm run sftp:ls <dir>`, `scripts/optimize-images.mjs`, `scripts/prune-orphan-media.mjs`.
+- **Run deploys from PowerShell, not Git Bash.** MSYS rewrites a POSIX path argument
+  into a Windows path, so `npm run deploy /html/dev` reaches the script as
+  `C:/Program Files/Git/html/dev` and would deploy into a junk tree relative to the
+  SFTP home. `deploy.mjs` now refuses any target that is not absolute, and also
+  refuses `/` and `/html`. `deploy-backend.mjs`, `push-api.mjs` and
+  `prune-deployed.mjs` hardcode `/html/dev`, so only `deploy.mjs` took an argument.
 - `uploadDir` only adds/overwrites — frontend deploys won't delete `/api` or `/media`.
 
 ## Known issues / pending
