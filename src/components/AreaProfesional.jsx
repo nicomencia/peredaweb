@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { cachedSetting, loadSettings } from '../lib/settings';
 import './AreaProfesional.css';
 
@@ -80,16 +81,15 @@ export default function AreaProfesional({ setCurrentView }) {
               </svg>
               <span>Acceso ecommerce</span>
             </a>
-            <button
-              type="button"
-              onClick={() => setCurrentView('hazte-cliente')}
-              className="area-hero-btn area-hero-btn--secondary"
+            <Link
+              to="/hazte-cliente"
+              className="area-hero-btn area-hero-btn--secondary as-button"
             >
               <span>Hazte cliente</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 6l6 6-6 6"/>
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </section>

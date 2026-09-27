@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { categoryPath } from '../lib/routes';
 import { api } from '../lib/api';
 import BrandsCarousel from './BrandsCarousel';
 import './Productos.css';
@@ -95,10 +97,10 @@ export default function Productos({ onCategorySelect }) {
 
         <div className="category-tiles reveal">
           {CATEGORIES.map((cat) => (
-            <button
+            <Link
               key={cat.key}
-              className="category-tile"
-              onClick={() => onCategorySelect(cat.key)}
+              to={categoryPath(cat.key)}
+              className="category-tile as-button"
             >
               <svg className="category-tile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                 <path d={cat.icon} />
@@ -108,7 +110,7 @@ export default function Productos({ onCategorySelect }) {
                 <p className="category-tile-desc">{cat.description}</p>
               </div>
               <span className="category-tile-arrow" aria-hidden="true">&#8594;</span>
-            </button>
+            </Link>
           ))}
         </div>
 

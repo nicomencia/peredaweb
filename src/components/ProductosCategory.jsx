@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import BrandsCarousel from './BrandsCarousel';
 import ImageCarousel from './ImageCarousel';
@@ -96,17 +97,15 @@ export default function ProductosCategory({ category, setCurrentView, categoryBa
   // fall back to the legacy single banner image so nothing disappears.
   const images = hasPhotosKey ? photos : bannerSrc ? [bannerSrc] : [];
 
-  const handleBack = () => setCurrentView('colecciones');
-
   return (
     <section className="productos-cat">
       <div className="productos-cat-container">
-        <button className="productos-cat-back" onClick={handleBack}>
+        <Link to="/productos" className="productos-cat-back as-button">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M13 4l-6 6 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           Todos los productos
-        </button>
+        </Link>
 
         <div className="productos-cat-main">
           <div className="productos-cat-text">

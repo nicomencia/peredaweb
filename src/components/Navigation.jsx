@@ -1,4 +1,6 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { pathFor, categoryPath } from '../lib/routes';
 import { cachedSetting, loadSettings } from '../lib/settings';
 import './Navigation.css';
 
@@ -15,7 +17,7 @@ const PRODUCT_CATEGORIES = [
   { key: 'electricidad', label: 'Electricidad', icon: 'M13 2L4 14h7l-1 8 9-12h-7z' },
 ];
 
-export default function Navigation({ currentView, setCurrentView, onCategorySelect }) {
+export default function Navigation({ currentView }) {
   const [isOpen, setIsOpen] = useState(false);
   const [productosOpen, setProductosOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/base/navbar-logo.webp'));
@@ -89,18 +91,8 @@ export default function Navigation({ currentView, setCurrentView, onCategorySele
     loadLogo();
   }, []);
 
-  const handleNavClick = (view) => {
-    setCurrentView(view);
-    setIsOpen(false);
-    setProductosOpen(false);
-  };
-
-  const handleProductosClick = () => {
-    handleNavClick('colecciones');
-  };
-
-  const handleCategoryClick = (categoryKey) => {
-    onCategorySelect(categoryKey);
+  // Links navigate on their own; clicking one only has to close the menus.
+  const closeMenus = () => {
     setIsOpen(false);
     setProductosOpen(false);
   };
@@ -112,10 +104,11 @@ export default function Navigation({ currentView, setCurrentView, onCategorySele
     >
       <div className="nav-container" ref={containerRef}>
         {!isHome && (
-          <button
+          <Link
             ref={logoRef}
-            className="nav-logo-btn"
-            onClick={() => handleNavClick('home')}
+            to="/"
+            className="nav-logo-btn as-button"
+            onClick={closeMenus}
             aria-label="Ir a inicio"
           >
             <img
@@ -124,7 +117,7 @@ export default function Navigation({ currentView, setCurrentView, onCategorySele
               className="nav-logo"
               onLoad={() => checkFitRef.current?.()}
             />
-          </button>
+          </Link>
         )}
 
         <button
@@ -139,28 +132,28 @@ export default function Navigation({ currentView, setCurrentView, onCategorySele
 
         <ul ref={menuRef} className={`nav-menu ${isOpen ? 'nav-menu--open' : ''}`}>
           <li>
-            <button onClick={() => handleNavClick('sobre-mi')}>
+            <Link to={pathFor('sobre-mi')} className="as-button" onClick={closeMenus}>
               Quiénes somos
-            </button>
+            </Link>
           </li>
           <li>
-            <button onClick={() => handleNavClick('inspirate')}>
+            <Link to={pathFor('inspirate')} className="as-button" onClick={closeMenus}>
               Inspírate
-            </button>
+            </Link>
           </li>
           <li>
-            <button onClick={() => handleNavClick('instalaciones')}>
+            <Link to={pathFor('instalaciones')} className="as-button" onClick={closeMenus}>
               Nuestras tiendas
-            </button>
+            </Link>
           </li>
           <li
             className="nav-item-dropdown"
             onMouseEnter={() => setProductosOpen(true)}
             onMouseLeave={() => setProductosOpen(false)}
           >
-            <button className="nav-dropdown-trigger" onClick={handleProductosClick}>
+            <Link to="/productos" className="nav-dropdown-trigger as-button" onClick={closeMenus}>
               Productos
-            </button>
+            </Link>
             <div
               className={`nav-mega ${productosOpen ? 'nav-mega--open' : ''}`}
               onMouseEnter={() => setProductosOpen(true)}
@@ -169,47 +162,48 @@ export default function Navigation({ currentView, setCurrentView, onCategorySele
               <div className="nav-mega-inner">
                 <div className="nav-mega-header">
                   <h3 className="nav-mega-title">Productos</h3>
-                  <button className="nav-mega-all" onClick={handleProductosClick}>
+                  <Link to="/productos" className="nav-mega-all as-button" onClick={closeMenus}>
                     Ir a Productos <span aria-hidden="true">&#8594;</span>
-                  </button>
+                  </Link>
                 </div>
                 <div className="nav-mega-grid">
                   {PRODUCT_CATEGORIES.map((cat) => (
-                    <button
+                    <Link
                       key={cat.key}
-                      className="nav-mega-item"
-                      onClick={() => handleCategoryClick(cat.key)}
+                      to={categoryPath(cat.key)}
+                      className="nav-mega-item as-button"
+                      onClick={closeMenus}
                     >
                       <svg className="nav-mega-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d={cat.icon} />
                       </svg>
                       <span>{cat.label}</span>
-                    </button>
+                    </Link>
                   ))}
                 </div>
               </div>
             </div>
           </li>
           <li className="nav-item-mobile-categories">
-            <button onClick={handleProductosClick}>
+            <Link to="/productos" className="as-button" onClick={closeMenus}>
               Productos
-            </button>
+            </Link>
             {productosOpen && (
               <ul className="nav-mobile-subcategories">
                 {PRODUCT_CATEGORIES.map((cat) => (
                   <li key={cat.key}>
-                    <button onClick={() => handleCategoryClick(cat.key)}>
+                    <Link to={categoryPath(cat.key)} className="as-button" onClick={closeMenus}>
                       {cat.label}
-                    </button>
+                    </Link>
                   </li>
                 ))}
               </ul>
             )}
           </li>
           <li className="nav-item-area-pro">
-            <button className="nav-area-pro" onClick={() => handleNavClick('area-profesional')}>
+            <Link to={pathFor('area-profesional')} className="nav-area-pro as-button" onClick={closeMenus}>
               Área Profesional
-            </button>
+            </Link>
           </li>
         </ul>
       </div>

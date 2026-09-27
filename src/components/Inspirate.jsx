@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ambientePath } from '../lib/routes';
 import { api } from '../lib/api';
 import './Inspirate.css';
 
@@ -85,17 +87,17 @@ export default function Inspirate({ onSelectAmbiente }) {
             ) : (
               <div className="inspirate-grid reveal">
                 {ambientes.map((ambiente) => (
-                  <button
+                  <Link
                     key={ambiente.id}
-                    className="inspirate-item"
-                    onClick={() => onSelectAmbiente(ambiente.id)}
+                    to={ambientePath(ambiente.id)}
+                    className="inspirate-item as-button"
                   >
                     <img src={ambiente.cover_image_url} alt={ambiente.title} loading="lazy" />
                     <div className="inspirate-item-overlay">
                       <span className="inspirate-item-title">{ambiente.title}</span>
                       <span className="inspirate-item-cta">Ver ambiente</span>
                     </div>
-                  </button>
+                  </Link>
                 ))}
               </div>
             )}

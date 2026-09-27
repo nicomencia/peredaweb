@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import ImageCarousel from './ImageCarousel';
 import './Instalaciones.css';
@@ -74,12 +75,9 @@ export default function Instalaciones({ setCurrentView }) {
       <div className="instalaciones-cita-banner">
         <div className="instalaciones-cita-inner">
           <h3 className="instalaciones-cita-title">{bannerTitle}</h3>
-          <button
-            className="instalaciones-cita-button"
-            onClick={() => setCurrentView && setCurrentView('pide-cita')}
-          >
+          <Link to="/pide-cita" className="instalaciones-cita-button as-button">
             {bannerButton}
-          </button>
+          </Link>
         </div>
       </div>
       <div className="container">

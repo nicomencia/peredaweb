@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { pathFor } from '../lib/routes';
 import { api } from '../lib/api';
 import { useInView } from '../hooks/useInView';
 import './AboutIntro.css';
@@ -57,11 +59,11 @@ export default function AboutIntro({ setCurrentView }) {
 
         <div className="home-services-grid">
           {ctas.map((item, i) => (
-            <button
-              className="service-item"
+            <Link
+              className="service-item as-button"
               key={item.view}
               style={{ '--i': i }}
-              onClick={() => setCurrentView && setCurrentView(item.view)}
+              to={pathFor(item.view)}
             >
               <span className="service-index">{String(i + 1).padStart(2, '0')}</span>
               <span className="service-title">{item.title}</span>
@@ -69,7 +71,7 @@ export default function AboutIntro({ setCurrentView }) {
                 {item.label}
                 {ARROW}
               </span>
-            </button>
+            </Link>
           ))}
         </div>
       </div>

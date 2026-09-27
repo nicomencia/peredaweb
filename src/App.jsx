@@ -1,4 +1,7 @@
+// First, so every component stylesheet can override the link reset.
+import './styles/links.css';
 import { useState, useEffect, useLayoutEffect, useCallback, lazy, Suspense } from 'react';
+import { VIEW_TO_PATH } from './lib/routes';
 import { Routes, Route, Navigate, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { api } from './lib/api';
 import { cachedSetting, cachedByPrefix, primeCache, loadSettings } from './lib/settings';
@@ -28,28 +31,6 @@ import { AvisoLegal, PoliticaPrivacidad, PoliticaCookies, CondicionesVenta, Poli
 import Desistimiento from './components/Desistimiento';
 import Faq from './components/Faq';
 
-// view name (legacy, still used by child components) -> URL path
-const VIEW_TO_PATH = {
-  home: '/',
-  colecciones: '/productos',
-  'sobre-mi': '/quienes-somos',
-  inspirate: '/inspirate',
-  instalaciones: '/instalaciones',
-  'area-profesional': '/area-profesional',
-  'pide-cita': '/pide-cita',
-  financiacion: '/financiacion',
-  presupuesto: '/presupuesto',
-  'hazte-cliente': '/hazte-cliente',
-  'canal-denuncias': '/canal-denuncias',
-  'aviso-legal': '/aviso-legal',
-  'politica-privacidad': '/politica-privacidad',
-  'politica-cookies': '/politica-cookies',
-  'politica-redes-sociales': '/politica-redes-sociales',
-  'condiciones-venta': '/condiciones-venta',
-  desistimiento: '/desistimiento',
-  'preguntas-frecuentes': '/preguntas-frecuentes',
-  admin: '/admin',
-};
 
 // Coarse view name derived from the URL (for nav highlight, floating button, title).
 function pathToView(pathname) {

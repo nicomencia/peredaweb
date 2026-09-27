@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import './AmbienteDetail.css';
 
@@ -74,9 +75,9 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
     return (
       <section className="ambiente-detail">
         <div className="container">
-          <button onClick={() => setCurrentView('inspirate')} className="ambiente-back-button">
+          <Link to="/inspirate" className="ambiente-back-button as-button">
             &#8592; Volver a Inspírate
-          </button>
+          </Link>
           <p className="ambiente-loading-text">Cargando...</p>
         </div>
       </section>
@@ -87,9 +88,9 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
     return (
       <section className="ambiente-detail">
         <div className="container">
-          <button onClick={() => setCurrentView('inspirate')} className="ambiente-back-button">
+          <Link to="/inspirate" className="ambiente-back-button as-button">
             &#8592; Volver a Inspírate
-          </button>
+          </Link>
           <p className="ambiente-loading-text">Ambiente no encontrado.</p>
         </div>
       </section>
@@ -99,9 +100,9 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
   return (
     <section className="ambiente-detail">
       <div className="container">
-        <button onClick={() => setCurrentView('inspirate')} className="ambiente-back-button">
+        <Link to="/inspirate" className="ambiente-back-button as-button">
           &#8592; Volver a Inspírate
-        </button>
+        </Link>
         <h1 className="ambiente-detail-title">{ambiente.title}</h1>
 
         {ambiente.cover_image_url && (

@@ -52,7 +52,7 @@
   margin-bottom: 0.7rem;
 }
 
-.footer-links button {
+.footer-links :is(button, a) {
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.9rem;
   background: none;
@@ -64,7 +64,7 @@
   transition: color 0.25s ease;
 }
 
-.footer-links button:hover {
+.footer-links :is(button, a):hover {
   color: #ffffff;
 }
 
@@ -149,7 +149,7 @@
   font-size: 0.75rem;
 }
 
-.footer-legal button {
+.footer-legal :is(button, a) {
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.78rem;
   background: none;
@@ -160,7 +160,7 @@
   transition: color 0.25s ease;
 }
 
-.footer-legal button:hover {
+.footer-legal :is(button, a):hover {
   color: #ffffff;
 }
 
@@ -168,7 +168,7 @@
   margin-top: 4px;
 }
 
-.footer-admin button {
+.footer-admin :is(button, a) {
   color: rgba(255, 255, 255, 0.3);
   font-size: 0.72rem;
   background: none;
@@ -179,7 +179,7 @@
   transition: color 0.25s ease;
 }
 
-.footer-admin button:hover {
+.footer-admin :is(button, a):hover {
   color: rgba(255, 255, 255, 0.7);
 }
 

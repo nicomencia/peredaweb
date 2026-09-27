@@ -1,0 +1,27 @@
+/* Internal navigation used to be <button onClick> — invisible to crawlers, which
+   only follow <a href>. Those controls are now <Link>s, and .as-button makes an
+   anchor render exactly as the button it replaced did: the browser's own button
+   defaults, which the component styles were written on top of.
+
+   Imported first in App.jsx, so every component rule with the same specificity
+   still overrides it; it only fills in what a component never set. */
+/* No margin/padding here: global.css's `*` reset already zeroes both on buttons
+   and anchors alike, so re-adding the browser's 1px 6px would widen things. */
+.as-button {
+  display: inline-block;
+  text-align: center;
+  font-size: 13.3333px;
+  line-height: normal;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0;
+  text-shadow: none;
+  color: buttontext;
+  cursor: pointer;
+}
+
+/* Global a:hover fades every link to 70%; buttons never did. */
+.as-button:hover {
+  opacity: 1;
+}

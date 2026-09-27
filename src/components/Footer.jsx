@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { pathFor } from '../lib/routes';
 import { api } from '../lib/api';
 import { cachedSetting, loadSettings } from '../lib/settings';
 import './Footer.css';
 
-export default function Footer({ setCurrentView }) {
+export default function Footer() {
   const [description, setDescription] = useState(() => cachedSetting('footer_description', 'Especialistas en equipamiento de baño desde 1959. Empresa familiar con más de 50 años de experiencia ofreciendo productos de alta calidad y servicio profesional.'));
   const [facebookUrl, setFacebookUrl] = useState(() => cachedSetting('footer_facebook_url', 'https://facebook.com/Pereda.Asturias'));
   const [instagramUrl, setInstagramUrl] = useState(() => cachedSetting('footer_instagram_url', 'https://instagram.com/saneamientospereda/'));
@@ -41,12 +43,12 @@ export default function Footer({ setCurrentView }) {
           <div className="footer-links">
             <h4>Navegar</h4>
             <ul>
-              <li><button onClick={() => setCurrentView('sobre-mi')}>Quiénes somos</button></li>
-              <li><button onClick={() => setCurrentView('inspirate')}>Inspírate</button></li>
-              <li><button onClick={() => setCurrentView('instalaciones')}>Nuestras tiendas</button></li>
-              <li><button onClick={() => setCurrentView('colecciones')}>Productos</button></li>
-              <li><button onClick={() => setCurrentView('area-profesional')}>Área Profesional</button></li>
-              <li><button onClick={() => setCurrentView('preguntas-frecuentes')}>Preguntas frecuentes</button></li>
+              <li><Link to={pathFor('sobre-mi')} className="as-button">Quiénes somos</Link></li>
+              <li><Link to={pathFor('inspirate')} className="as-button">Inspírate</Link></li>
+              <li><Link to={pathFor('instalaciones')} className="as-button">Nuestras tiendas</Link></li>
+              <li><Link to={pathFor('colecciones')} className="as-button">Productos</Link></li>
+              <li><Link to={pathFor('area-profesional')} className="as-button">Área Profesional</Link></li>
+              <li><Link to={pathFor('preguntas-frecuentes')} className="as-button">Preguntas frecuentes</Link></li>
             </ul>
           </div>
 
@@ -88,19 +90,19 @@ export default function Footer({ setCurrentView }) {
 
         <div className="footer-bottom">
           <div className="footer-legal">
-            <button onClick={() => setCurrentView('aviso-legal')}>Aviso Legal</button>
+            <Link to={pathFor('aviso-legal')} className="as-button">Aviso Legal</Link>
             <span className="footer-legal-sep">|</span>
-            <button onClick={() => setCurrentView('politica-privacidad')}>Política de Privacidad</button>
+            <Link to={pathFor('politica-privacidad')} className="as-button">Política de Privacidad</Link>
             <span className="footer-legal-sep">|</span>
-            <button onClick={() => setCurrentView('politica-cookies')}>Política de Cookies</button>
+            <Link to={pathFor('politica-cookies')} className="as-button">Política de Cookies</Link>
             <span className="footer-legal-sep">|</span>
-            <button onClick={() => setCurrentView('politica-redes-sociales')}>Privacidad en redes sociales</button>
+            <Link to={pathFor('politica-redes-sociales')} className="as-button">Privacidad en redes sociales</Link>
             <span className="footer-legal-sep">|</span>
-            <button onClick={() => setCurrentView('condiciones-venta')}>Condiciones generales de venta</button>
+            <Link to={pathFor('condiciones-venta')} className="as-button">Condiciones generales de venta</Link>
             <span className="footer-legal-sep">|</span>
-            <button onClick={() => setCurrentView('desistimiento')}>Desistir del contrato aquí</button>
+            <Link to={pathFor('desistimiento')} className="as-button">Desistir del contrato aquí</Link>
             <span className="footer-legal-sep">|</span>
-            <button onClick={() => setCurrentView('canal-denuncias')}>Canal de Denuncias</button>
+            <Link to={pathFor('canal-denuncias')} className="as-button">Canal de Denuncias</Link>
             <span className="footer-legal-sep">|</span>
             <button onClick={() => window.dispatchEvent(new Event('open-cookie-preferences'))}>
               Configuración de cookies
@@ -121,7 +123,7 @@ export default function Footer({ setCurrentView }) {
             />
           </a>
           <div className="footer-admin">
-            <button onClick={() => setCurrentView('admin')}>Admin</button>
+            <Link to={pathFor('admin')} className="as-button">Admin</Link>
           </div>
         </div>
       </div>
