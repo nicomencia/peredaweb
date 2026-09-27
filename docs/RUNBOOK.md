@@ -37,6 +37,7 @@ En el servidor, estas se traducen a `server/api/config.php` (generado por los sc
 | `node scripts/push-api.mjs` | sube los `.php` + schema (no toca config ni media, y **nunca sube `setup.php`**) |
 | `node scripts/push-config.mjs` | regenera y sube solo `config.php` desde `.env` |
 | `npm run sync:base` | refresca `public/base/` (logo+hero) desde la BBDD |
+| `node scripts/verify-live.mjs [--dev]` | comprueba la web desplegada de punta a punta (páginas, indexación, redirecciones de las 755 URLs antiguas, https, API, archivos privados); solo lectura |
 | `node scripts/prune-deployed.mjs <archivos>` | borra del servidor archivos eliminados localmente (deploy solo añade/sobrescribe) |
 
 Todos van a staging (`/html/dev`) por defecto y a producción (`/html`) con **`--prod`** (`npm run deploy -- --prod`). `deploy` y `prune-deployed` se niegan a tocar `/html` mientras siga el WordPress. El cambio de WordPress a la web nueva es `node scripts/go-live.mjs plan|preload|switch|rollback`.

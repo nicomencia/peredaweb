@@ -74,8 +74,9 @@ temporary names, the plan is written to `/data/wp-old/.go-live-plan.json`, then 
 WordPress's entries to `/data/wp-old/`, ours into place. `go-live.mjs rollback` reverses it
 from that plan file (works after a half-finished switch too).
 
-**Right after:** status codes, one old URL per redirect rule, http → https, apex → www,
-`/sitemap.xml` + `/robots.txt` (indexing on), a form, admin login, a GA4 real-time hit.
+**Right after:** `node scripts/verify-live.mjs` (≈30 s; passes on dev with `--dev`): pages, titles,
+canonicals and indexing, 404s, sitemap/robots, http → https, apex → www, **all 755 old URLs followed
+live**, API, gzip/caching and the private files. By hand: one form, admin login, a GA4 real-time hit.
 Submit `https://www.saneamientos-pereda.com/sitemap.xml` in Search Console.
 
 **After launch, content is edited on `www` only:** its uploads land in `/html/media`, which
