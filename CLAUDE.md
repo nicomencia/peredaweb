@@ -35,7 +35,15 @@ Remaining / later:
 - Re-running `setup.php` requires re-deploying it (`scripts/archive/deploy-backend.mjs`) — only needed for a fresh re-import.
 - Forms email works via SMTP (above), independent of the stuck DNS. Resend resources + their DNS records (`send` MX/SPF, `resend._domainkey` TXT) were deleted.
 
-## Go-live (2026-09-27/28, in progress)
+## Live on www since 2026-09-28
+
+**Switched 2026-09-28 ~01:45 (2.1 s, `go-live.mjs switch`); `verify-live.mjs` passed all checks on www.**
+Production = `/html` (deploy with `--prod`); staging = `/html/dev`. WordPress's 21 entries are in
+`/data/wp-old/` (rollback: `node scripts/go-live.mjs rollback`). `vieja/`, `nueva/`,
+`2intraneteliminar/`, `check-prices.php` (2021 ERP→WooCommerce price sync; now 500s without WordPress)
+and `.tmb` were left in `/html` for the post-launch cleanup (IMPROVEMENTS.md F).
+
+### How it was done
 
 - **Plan**: the new site moves into `/html`; WordPress moves out to `/data/wp-old/` (outside the
   web root; the SFTP root is read-only, `/data` is writable). `/html/dev` stays as staging on the
@@ -47,7 +55,7 @@ Remaining / later:
   `/data/backups/`.
 - The server allows **SFTP only** (no shell: no tar/mysqldump remotely). The hosting panel
   (Arsys) could not be logged into by script.
-- Until the switch is done, `/html` is still the live WordPress: the rules below apply.
+- The "never touch /html" rule below is historical: `/html` is now the production site.
 
 ## Recent changes (2026-09-04)
 
@@ -85,7 +93,7 @@ Remaining / later:
 
 Shared hosting ("Hosting Avanzado Linux", panel at panelcontrolhosting.com): Apache + PHP 8.2 + MySQL, ~54 GB free. Server IP 217.76.142.23. SFTP `ftp.saneamientos-pereda.com:22`, user = domain name, password in `.env` (SFTP_*) — **transfer .env between machines via a private channel, never commit it** (it was committed once by accident; that password has been rotated).
 
-- Web root `/html` = client's **live WordPress — never touch**. We deploy only to `/html/dev`.
+- Web root `/html` = **production** (since 2026-09-28; before that it was the client's WordPress). `/html/dev` = staging. Deploy to staging first, then `--prod`; run `node scripts/verify-live.mjs` after a production deploy.
 - `npm run deploy` (frontend), `node scripts/push-api.mjs` (backend code), `node scripts/push-config.mjs` (config.php), `node scripts/prune-deployed.mjs <files>` — all to `/html/dev` by default, to `/html` with `--prod` (`npm run deploy -- --prod`); `deploy`/`prune` refuse `/html` while WordPress (`wp-config.php`) is there. The switch itself: `node scripts/go-live.mjs plan|preload|switch|rollback`. End-to-end check of a deployed site: `node scripts/verify-live.mjs` (www) / `--dev` (read-only, ~30 s, exits 1 on failure). Also `npm run sftp:ls <dir>`, `scripts/optimize-images.mjs`, `scripts/prune-orphan-media.mjs`.
 - **Run deploys from PowerShell, not Git Bash.** MSYS rewrites a POSIX path argument
   into a Windows path, so `npm run deploy /html/dev` reaches the script as

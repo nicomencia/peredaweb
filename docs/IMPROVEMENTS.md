@@ -70,6 +70,8 @@ as staging on the same database.
   staging `media/` go into `/html` next to WordPress, which keeps serving; the API then
   already answers on www.
 
+✅ **Done 2026-09-28 ~01:45: switched in 2.1 s; `verify-live.mjs` passed every check on www.**
+
 **The switch** (`go-live.mjs switch`, ~10 s): our three entry files are staged under
 temporary names, the plan is written to `/data/wp-old/.go-live-plan.json`, then renames only —
 WordPress's entries to `/data/wp-old/`, ours into place. `go-live.mjs rollback` reverses it

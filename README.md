@@ -45,7 +45,7 @@ Otros scripts útiles: `npm run sync:base`, `npm run sftp:ls <dir>`, `scripts/db
 
 ## Estado (2026-09-28)
 
-Listo para producción. Funciona como **staging** en `https://dev.saneamientos-pereda.com` (`/html/dev`) y sale a `www.saneamientos-pereda.com` sustituyendo al WordPress de `/html`.
+**En producción desde el 2026-09-28** en `https://www.saneamientos-pereda.com` (`/html`), sustituyendo al WordPress anterior. Staging en `https://dev.saneamientos-pereda.com` (`/html/dev`).
 
 - **SEO de lanzamiento hecho**: enlaces rastreables, títulos por página, sitemap completo, 404 reales, gzip, apex → www, y **mapa 301 de las 755 URLs antiguas** dentro del propio `public/.htaccess`. Fuera de `www`, todo va con `noindex`.
 - **Analítica**: GA4 configurado en Ajustes; solo carga en `www` y tras aceptar cookies.

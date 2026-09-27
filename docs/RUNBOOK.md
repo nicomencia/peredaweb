@@ -7,7 +7,7 @@ Manual de operación y mantenimiento. Para la arquitectura general ver [README](
 - Panel: **panelcontrolhosting.com** ("Hosting Avanzado Linux"). Apache + PHP 8.2 + MySQL, ~54 GB.
 - IP del servidor web: **217.76.142.23**.
 - SFTP: **ftp.saneamientos-pereda.com:22**, usuario = nombre de dominio. Credenciales en `.env` (`SFTP_*`).
-- **Raíz `/html` = WordPress en producción del cliente — NO TOCAR.** La app se despliega solo en **`/html/dev`**.
+- **Raíz `/html` = la web en producción** (desde el 2026-09-28; antes era el WordPress del cliente, ahora en `/data/wp-old/`). **`/html/dev`** = staging. Despliega primero a staging y después con `--prod`, y comprueba con `node scripts/verify-live.mjs`.
 - Subdominio `dev.saneamientos-pereda.com` → `/html/dev`. **DNS y SSL resueltos (2026-07-01)**: resuelve en resolvers públicos y sirve HTTPS con el comodín `*.saneamientos-pereda.com` (Sectigo DV, válido hasta 2026-12-16), con redirección HTTP→HTTPS.
 
 ## Variables de entorno (`.env`, NO se commitea)
