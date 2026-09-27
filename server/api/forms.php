@@ -49,33 +49,21 @@ function notification_html(string $title, array $fields, string $extra = ''): st
         . 'Este email se ha generado automáticamente desde la web.</p></div>';
 }
 
-// A PIN is all that guards a report, so cap failed lookups per IP (10 per clock
-// hour) rather than let the 8-digit space be walked. Counter files live in the
-// system temp dir; losing them only resets the window.
-const PIN_MISSES_PER_HOUR = 10;
-
-function pin_miss_file(): string {
-    return sys_get_temp_dir() . '/pereda_pin_' . hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '') . date('YmdH'));
-}
-
-function pin_misses(): int {
-    return (int) @file_get_contents(pin_miss_file());
-}
-
 $form = $_GET['form'] ?? '';
 
 try {
     if ($form === 'denuncia' && $_SERVER['REQUEST_METHOD'] === 'GET') {
         $pin = trim($_GET['pin'] ?? '');
         if ($pin === '') json_error('Falta el PIN', 400);
-        if (pin_misses() >= PIN_MISSES_PER_HOUR) {
+        // A PIN is all that guards a report: don't let the 8-digit space be walked.
+        if (too_many_failures('pin', 10)) {
             json_error('Demasiados intentos. Vuelva a intentarlo en una hora.', 429);
         }
         $stmt = db()->prepare('SELECT hechos, estado, respuesta, created_at FROM denuncias WHERE pin = ?');
         $stmt->execute([$pin]);
         $row = $stmt->fetch();
         if (!$row) {
-            @file_put_contents(pin_miss_file(), (string) (pin_misses() + 1), LOCK_EX);
+            record_failure('pin');
             json_error('PIN no encontrado', 404);
         }
         json_out($row);

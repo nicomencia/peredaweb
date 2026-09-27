@@ -53,7 +53,7 @@ Each submission inserts a row **and** emails a notification via authenticated SM
 
 | Table | Purpose |
 |---|---|
-| `admin_users` | Admin panel accounts (email + bcrypt `password_hash`). Login via `api/auth.php`; currently one user, `admin@saneamientos-pereda.com`. |
+| `admin_users` | Admin panel accounts (email + bcrypt `password_hash`), one per person: `admin@` (developer; password in `.env`), `ines@` and `alberto@` (client, created 2026-09-28; their password is not in `.env`). Login via `api/auth.php` (10 failures per IP per hour); each user changes their own password in the "Mi cuenta" tab (`change_password`). |
 
 ## Maintenance
 

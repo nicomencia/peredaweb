@@ -225,6 +225,19 @@ export const api = {
       }
     },
 
+    async changePassword(currentPassword, newPassword) {
+      try {
+        await postJson('/api/auth.php', {
+          action: 'change_password',
+          current_password: currentPassword,
+          new_password: newPassword,
+        });
+        return { error: null };
+      } catch (err) {
+        return { error: { message: err.message } };
+      }
+    },
+
     async signOut() {
       try {
         await postJson('/api/auth.php', { action: 'logout' });

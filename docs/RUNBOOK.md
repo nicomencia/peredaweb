@@ -81,7 +81,8 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 ## Admin / auth
 
 - Sesiones PHP + bcrypt en la tabla `admin_users`. Login vía `api/auth.php`; acceso desde el enlace **«Admin»** del footer.
-- Crear/cambiar admin: vía `setup.php` (re-import) o un `INSERT`/`UPDATE` directo con `password_hash(..., PASSWORD_BCRYPT)`.
+- Una cuenta por persona: `admin@` (desarrollo, contraseña en `.env`), `ines@` y `alberto@` (cliente; su contraseña **no** está en `.env`). Cada uno cambia la suya en la pestaña **Mi cuenta**. Login: máx. 10 fallos por IP y hora.
+- Crear una cuenta o poner una contraseña nueva a quien la haya olvidado: `INSERT`/`UPDATE` directo en `admin_users` con un hash de `password_hash(..., PASSWORD_BCRYPT)` (generarlo con `php -r`).
 
 ## Problemas conocidos
 

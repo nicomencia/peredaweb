@@ -54,6 +54,22 @@ function start_session(): void {
     }
 }
 
+// Per-IP failure counter for guessable secrets (admin passwords, denuncia PINs),
+// per clock hour. Shared hosting has no rate limiter, so the counters are small
+// files in the system temp dir; losing them only resets the window.
+function failure_file(string $scope): string {
+    return sys_get_temp_dir() . '/pereda_' . $scope . '_' . hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '') . date('YmdH'));
+}
+
+function too_many_failures(string $scope, int $maxPerHour): bool {
+    return (int) @file_get_contents(failure_file($scope)) >= $maxPerHour;
+}
+
+function record_failure(string $scope): void {
+    $file = failure_file($scope);
+    @file_put_contents($file, (string) ((int) @file_get_contents($file) + 1), LOCK_EX);
+}
+
 function require_admin(): void {
     start_session();
     if (empty($_SESSION['admin_id'])) {

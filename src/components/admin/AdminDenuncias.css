@@ -151,3 +151,21 @@
     flex-basis: 100%;
   }
 }
+
+/* Mi cuenta (shares the denuncia edit form styles) */
+.admin-cuenta-form {
+  max-width: 24rem;
+}
+
+.admin-cuenta-form input {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font: inherit;
+  color: #1a1a1a;
+}
+
+.admin-cuenta-ok {
+  color: #2e7d32;
+  font-weight: 500;
+}

@@ -58,6 +58,9 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 - Cambia su **estado** (Pendiente de revisión → En revisión → Resuelta) y escribe una **respuesta**. El denunciante verá el estado y la respuesta cuando consulte su denuncia con su **PIN** en la web. El PIN no se muestra en el panel: es la clave privada del denunciante.
 - Plazos legales: **acusar recibo en 7 días** como máximo (basta con pasarla a «En revisión» con una respuesta breve) y **responder en 3 meses** como máximo.
 
+### Mi cuenta
+- **Cambiar tu contraseña**: escribe la actual y la nueva dos veces (mínimo 12 caracteres). Cada persona tiene su propia cuenta, así que cambiar la tuya no afecta a nadie más. Tras 10 intentos fallidos de entrar, el acceso se bloquea una hora desde esa conexión.
+
 ### Ajustes generales
 - **Colores** de la marca y textos/enlaces del **pie de página** (descripción, redes sociales).
 - **Logos e icono** (cuatro, independientes): el **logo principal** sobre la cabecera de la portada se edita en **Portada**; el **logo superior** (barra de navegación), el **icono del navegador** (favicon, la imagen de la pestaña del navegador) y el **logo del pie de página** se editan aquí en Ajustes generales.
@@ -85,6 +88,6 @@ Los formularios de la web (candidatura/empleo, presupuesto, hazte cliente, desis
 
 ## ¿Algo no funciona?
 
-- **No puedo entrar**: revisa correo/contraseña; si persiste, contacta con el responsable técnico.
+- **No puedo entrar**: revisa correo/contraseña. Si ves «Demasiados intentos fallidos», espera una hora. Si has olvidado la contraseña, contacta con el responsable técnico: otra persona con cuenta no puede verla, pero sí se puede poner una nueva.
 - **Subí una imagen y no cambia**: refresca la página; si sigue igual tras unos minutos, vuelve a guardar.
 - **Quiero deshacer un texto**: vuelve a escribir el anterior y guarda (no hay historial automático).
