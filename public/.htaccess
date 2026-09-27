@@ -29,6 +29,11 @@ DirectoryIndex index.php
   RewriteCond %{HTTP_HOST} ^saneamientos-pereda\.com$ [NC]
   RewriteRule ^ https://www.saneamientos-pereda.com%{REQUEST_URI} [R=301,L]
 
+  # Candidates' CVs are personal data: never serve them as static files. The
+  # admin-only api/cv.php streams them to a logged-in admin.
+  RewriteRule ^media/cvs/([^/]+)$ api/cv.php?f=$1 [L]
+  RewriteRule ^media/cvs/?$ - [F,L]
+
   # index.html is the raw shell (no per-route meta, no canonical): never serve it
   # at its own URL.
   RewriteCond %{THE_REQUEST} \s/index\.html[\s?]
@@ -40,8 +45,9 @@ DirectoryIndex index.php
   # with `node scripts/check-redirects.mjs` (exit 0 = nothing falls through).
   # Targets are relative so the same file can be tested on dev.
   # ==========================================================================
-  # --- WooCommerce shop -> professional ecommerce subdomain ---
-  RewriteRule ^(tienda|tienda-online|carrito|finalizar-compra|mi-cuenta)(/.*)?$ https://ecommerce.saneamientos-pereda.com/ [R=301,L]
+  # --- WooCommerce shop -> the public online shop (same target as the site's
+  # "Tienda" button; ecommerce.saneamientos-pereda.com is the trade login) ---
+  RewriteRule ^(tienda|tienda-online|carrito|finalizar-compra|mi-cuenta)(/.*)?$ https://www.saneamientos-pereda.es/ [R=301,L]
 
   # --- WordPress leftovers: gone for good ---
   RewriteRule ^(hola-mundo|prueba|author|category|area-item)(/.*)?$ - [G,L]

@@ -6,6 +6,7 @@ import AdminAmbientes from './AdminAmbientes';
 import AdminTiendas from './AdminTiendas';
 import AdminAjustes from './AdminAjustes';
 import AdminProductos from './AdminProductos';
+import AdminDenuncias from './AdminDenuncias';
 import './AdminDashboard.css';
 
 // Fields ordered to match how they appear on the public Quiénes somos page,
@@ -131,6 +132,7 @@ const tabs = [
   { id: 'productos', label: 'Productos' },
   { id: 'area', label: 'Área Profesional' },
   { id: 'faq', label: 'Preguntas frecuentes' },
+  { id: 'denuncias', label: 'Canal de denuncias' },
   { id: 'ajustes', label: 'Ajustes generales' },
 ];
 
@@ -217,6 +219,8 @@ export default function AdminDashboard() {
             fields={pidecitaFields}
           />
         );
+      case 'denuncias':
+        return <AdminDenuncias />;
       case 'ajustes':
         return <AdminAjustes />;
       default:

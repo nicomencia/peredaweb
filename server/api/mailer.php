@@ -11,7 +11,8 @@ function mail_header_encode(string $s): string {
     return preg_match('/[^\x20-\x7E]/', $s) ? '=?UTF-8?B?' . base64_encode($s) . '?=' : $s;
 }
 
-function smtp_send(string $subject, string $html, ?string $replyTo = null, ?string $to = null): bool {
+// $attachments: [['path' => …, 'name' => …, 'type' => …], …]; unreadable files are skipped.
+function smtp_send(string $subject, string $html, ?string $replyTo = null, ?string $to = null, array $attachments = []): bool {
     if (!defined('SMTP_HOST') || SMTP_HOST === '' || SMTP_HOST === 'CHANGE_ME') return false;
 
     $secure = defined('SMTP_SECURE') ? SMTP_SECURE : 'ssl';
@@ -74,11 +75,27 @@ function smtp_send(string $subject, string $html, ?string $replyTo = null, ?stri
     if ($replyTo) $headers[] = 'Reply-To: ' . $replyTo;
     $headers[] = 'Subject: ' . mail_header_encode($subject);
     $headers[] = 'MIME-Version: 1.0';
-    $headers[] = 'Content-Type: text/html; charset=UTF-8';
-    $headers[] = 'Content-Transfer-Encoding: base64';
     $headers[] = 'Date: ' . date('r');
-    // base64 body: fixed short lines, no dot-stuffing or 998-octet concerns.
-    $message = implode("\r\n", $headers) . "\r\n\r\n" . chunk_split(base64_encode($html));
+    // base64 everywhere: fixed short lines, no dot-stuffing or 998-octet concerns.
+    $htmlPart = "Content-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n"
+        . chunk_split(base64_encode($html));
+    $files = array_filter($attachments, fn($a) => is_readable($a['path'] ?? ''));
+    if (!$files) {
+        $message = implode("\r\n", $headers) . "\r\n" . $htmlPart;
+    } else {
+        $boundary = 'sp_' . bin2hex(random_bytes(12));
+        $headers[] = 'Content-Type: multipart/mixed; boundary="' . $boundary . '"';
+        $message = implode("\r\n", $headers) . "\r\n\r\n--$boundary\r\n" . $htmlPart;
+        foreach ($files as $a) {
+            $name = mail_header_encode($a['name'] ?? basename($a['path']));
+            $message .= "\r\n--$boundary\r\n"
+                . 'Content-Type: ' . ($a['type'] ?? 'application/octet-stream') . "; name=\"$name\"\r\n"
+                . "Content-Transfer-Encoding: base64\r\n"
+                . "Content-Disposition: attachment; filename=\"$name\"\r\n\r\n"
+                . chunk_split(base64_encode(file_get_contents($a['path'])));
+        }
+        $message .= "\r\n--$boundary--\r\n";
+    }
     fwrite($fp, $message);
     fwrite($fp, "\r\n.\r\n");
     if (!$expect($read(), 250)) return $fail('message body rejected');

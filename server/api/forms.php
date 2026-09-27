@@ -11,8 +11,8 @@ require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
 
 // Notification email is best-effort: never let a mail failure break the form.
-function send_email(string $subject, string $html, ?string $replyTo = null, ?string $to = null): void {
-    smtp_send($subject, $html, $replyTo, $to);
+function send_email(string $subject, string $html, ?string $replyTo = null, ?string $to = null, array $attachments = []): void {
+    smtp_send($subject, $html, $replyTo, $to, $attachments);
 }
 
 // Per-form recipient from site_settings (mail_to_<form>); falls back to MAIL_TO.
@@ -49,16 +49,35 @@ function notification_html(string $title, array $fields, string $extra = ''): st
         . 'Este email se ha generado automáticamente desde la web.</p></div>';
 }
 
+// A PIN is all that guards a report, so cap failed lookups per IP (10 per clock
+// hour) rather than let the 8-digit space be walked. Counter files live in the
+// system temp dir; losing them only resets the window.
+const PIN_MISSES_PER_HOUR = 10;
+
+function pin_miss_file(): string {
+    return sys_get_temp_dir() . '/pereda_pin_' . hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '') . date('YmdH'));
+}
+
+function pin_misses(): int {
+    return (int) @file_get_contents(pin_miss_file());
+}
+
 $form = $_GET['form'] ?? '';
 
 try {
     if ($form === 'denuncia' && $_SERVER['REQUEST_METHOD'] === 'GET') {
         $pin = trim($_GET['pin'] ?? '');
         if ($pin === '') json_error('Falta el PIN', 400);
-        $stmt = db()->prepare('SELECT estado, respuesta, created_at FROM denuncias WHERE pin = ?');
+        if (pin_misses() >= PIN_MISSES_PER_HOUR) {
+            json_error('Demasiados intentos. Vuelva a intentarlo en una hora.', 429);
+        }
+        $stmt = db()->prepare('SELECT hechos, estado, respuesta, created_at FROM denuncias WHERE pin = ?');
         $stmt->execute([$pin]);
         $row = $stmt->fetch();
-        if (!$row) json_error('PIN no encontrado', 404);
+        if (!$row) {
+            @file_put_contents(pin_miss_file(), (string) (pin_misses() + 1), LOCK_EX);
+            json_error('PIN no encontrado', 404);
+        }
         json_out($row);
     }
 
@@ -78,6 +97,7 @@ try {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) json_error('El formato del email no es válido', 400);
 
             $cvUrl = '';
+            $safe = strtolower(preg_replace('/[^a-zA-Z0-9]/', '_', $nombre));
             if (isset($_FILES['cv']) && $_FILES['cv']['error'] === UPLOAD_ERR_OK && $_FILES['cv']['size'] > 0) {
                 if ($_FILES['cv']['size'] > 5 * 1024 * 1024) json_error('El archivo no puede superar 5 MB', 400);
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -86,7 +106,6 @@ try {
                 if ($mime !== 'application/pdf') json_error('Solo se permiten archivos PDF', 400);
                 $dir = dirname(__DIR__) . '/media/cvs';
                 if (!is_dir($dir) && !mkdir($dir, 0755, true)) json_error('Error al subir el archivo', 500);
-                $safe = strtolower(preg_replace('/[^a-zA-Z0-9]/', '_', $nombre));
                 $name = $safe . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.pdf';
                 if (!move_uploaded_file($_FILES['cv']['tmp_name'], "$dir/$name")) json_error('Error al subir el archivo', 500);
                 $cvUrl = "/media/cvs/$name";
@@ -96,12 +115,15 @@ try {
                 ->execute([uuid4(), $nombre, $email, $telefono, $mensaje, $cvUrl]);
 
             $proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+            // The PDF travels as an attachment. The link is a fallback: /media/cvs/
+            // is served only to a logged-in admin (api/cv.php).
             $cvLink = $cvUrl
-                ? '<p><strong>CV:</strong> <a href="' . $proto . '://' . $_SERVER['HTTP_HOST'] . $cvUrl . '">Descargar PDF</a></p>'
+                ? '<p><strong>CV:</strong> adjunto a este correo. También disponible <a href="' . $proto . '://' . $_SERVER['HTTP_HOST'] . $cvUrl . '">aquí</a> (requiere sesión en el panel de administración).</p>'
                 : '<p><strong>CV:</strong> No adjuntado</p>';
+            $attachments = $cvUrl ? [['path' => dirname(__DIR__) . $cvUrl, 'name' => 'CV_' . $safe . '.pdf', 'type' => 'application/pdf']] : [];
             send_email("Nueva candidatura: $nombre", notification_html('Nueva candidatura recibida', [
                 'Nombre' => $nombre, 'Email' => $email, 'Teléfono' => $telefono, 'Mensaje' => $mensaje,
-            ], $cvLink), $email, $to);
+            ], $cvLink), $email, $to, $attachments);
             json_out(['success' => true], 201);
         }
 

@@ -190,6 +190,16 @@ export const api = {
     return new QueryBuilder(table);
   },
 
+  // Session-protected read of a private table (form submissions such as
+  // denuncias), newest first. content.php never serves these, so from() can't.
+  async list(table) {
+    try {
+      return { data: await postJson('/api/admin.php', { action: 'list', resource: table }), error: null };
+    } catch (err) {
+      return { data: null, error: { message: err.message } };
+    }
+  },
+
   auth: {
     async getSession() {
       try {

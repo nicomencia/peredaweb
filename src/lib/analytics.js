@@ -4,8 +4,12 @@
 // (a GA4 "G-XXXXXXXXXX" measurement id) has been configured in the admin panel
 // (Ajustes). Everything here is a no-op until both are true, so the site ships
 // analytics-ready without tracking anyone by default.
+//
+// It also only runs on the production host: dev shares the database (and so the
+// measurement id), and staging visits would otherwise land in the real reports.
 import { cachedSetting } from './settings';
 
+const PRODUCTION_HOST = 'www.saneamientos-pereda.com';
 const CONSENT_KEY = 'cookie_consent'; // 'accepted' | 'rejected'
 let loaded = false;
 
@@ -25,6 +29,7 @@ function measurementId() {
 // Injects the GA4 script once, if consent is granted and an id is configured.
 export function initAnalytics() {
   if (loaded) return;
+  if (window.location.hostname !== PRODUCTION_HOST) return;
   if (getConsent() !== 'accepted') return;
   const id = measurementId();
   if (!id) return;

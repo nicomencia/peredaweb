@@ -82,6 +82,14 @@ try {
             json_out(['success' => true]);
         }
 
+        case 'list': {
+            // Authenticated read of a whole table: the form submissions
+            // (denuncias, …) that content.php never serves publicly.
+            $order = in_array('created_at', $allowed, true) ? ' ORDER BY created_at DESC' : '';
+            $rows = db()->query("SELECT * FROM `$resource`$order")->fetchAll();
+            json_out(decode_json_columns($resource, $rows));
+        }
+
         case 'get_settings': {
             // Authenticated read of specific settings (incl. confidential keys
             // that content.php hides, e.g. form recipients).

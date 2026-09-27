@@ -1,0 +1,153 @@
+.admin-denuncias-summary {
+  font-weight: 600;
+  color: #b26a00;
+  margin: 0 0 1rem;
+}
+
+.admin-denuncias-empty,
+.admin-denuncias-error {
+  color: #666;
+}
+
+.admin-denuncias-error {
+  color: #c62828;
+}
+
+.admin-denuncias-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-denuncia {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-denuncia.is-open {
+  border-color: #b0b0b0;
+}
+
+.admin-denuncia-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: none;
+  border: none;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.admin-denuncia-date {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  color: #666;
+  min-width: 9.5rem;
+}
+
+.admin-denuncia-excerpt {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #1a1a1a;
+}
+
+.admin-denuncia-badge {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #eee;
+  color: #444;
+}
+
+.admin-denuncia-badge.estado-pendiente {
+  background: #fff3e0;
+  color: #b26a00;
+}
+
+.admin-denuncia-badge.estado-en_revision {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.admin-denuncia-badge.estado-resuelta {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.admin-denuncia-body {
+  padding: 0 1.25rem 1.25rem;
+  border-top: 1px solid #eee;
+}
+
+.admin-denuncia-body dl > div {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.admin-denuncia-body dt {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.25rem;
+}
+
+.admin-denuncia-body dd {
+  white-space: pre-line;
+  color: #1a1a1a;
+}
+
+.admin-denuncia-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.admin-denuncia-edit label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.admin-denuncia-edit select,
+.admin-denuncia-edit textarea {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font: inherit;
+  color: #1a1a1a;
+}
+
+.admin-denuncia-edit select {
+  max-width: 16rem;
+}
+
+.admin-denuncia-edit .admin-homepage-save {
+  align-self: flex-start;
+}
+
+@media (max-width: 600px) {
+  .admin-denuncia-head {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .admin-denuncia-excerpt {
+    order: 3;
+    flex-basis: 100%;
+  }
+}
