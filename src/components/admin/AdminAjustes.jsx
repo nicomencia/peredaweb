@@ -71,7 +71,7 @@ export default function AdminAjustes() {
     setUploading(key);
     setMessage('');
     try {
-      const url = await uploadImage(file, 'logo');
+      const url = await uploadImage(file, 'logo', { square: key === 'favicon' });
       handleChange(key, url);
       setMessage('Logo subido. Pulsa "Guardar cambios" para aplicar.');
     } catch (err) {
@@ -190,7 +190,7 @@ export default function AdminAjustes() {
 
       <div className="admin-ajustes-section">
         <h3>Icono del navegador (favicon)</h3>
-        <p className="admin-homepage-desc">Icono que aparece en la pestaña del navegador. Conviene una imagen cuadrada y sencilla.</p>
+        <p className="admin-homepage-desc">Icono que aparece en la pestaña del navegador. Se muestra muy pequeño, así que usa solo el símbolo (el rombo), sin el texto del logo. Si subes una imagen alargada se encaja en un cuadrado sin deformarla, pero el texto no se leerá.</p>
         <div className="admin-ajustes-logo">
           <div className="admin-ajustes-logo-preview">
             {values.favicon && <img src={values.favicon} alt="Icono del navegador actual" />}

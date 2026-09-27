@@ -35,8 +35,33 @@ async function optimizeImage(file) {
   return new File([blob], `${baseName}.webp`, { type: 'image/webp' });
 }
 
-export async function uploadImage(file, folder = 'uploads') {
-  const optimized = await optimizeImage(file);
+// Browser tabs draw the favicon in a square, so a wide image gets squashed.
+// Fit whatever was uploaded, undistorted, inside a transparent square instead.
+async function squareImage(file, size = 512) {
+  let bitmap;
+  try {
+    bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+  } catch {
+    return file;
+  }
+  const scale = Math.min(size / bitmap.width, size / bitmap.height);
+  const w = Math.round(bitmap.width * scale);
+  const h = Math.round(bitmap.height * scale);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  canvas.getContext('2d').drawImage(bitmap, (size - w) / 2, (size - h) / 2, w, h);
+  bitmap.close();
+
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+  if (!blob) return file;
+  const baseName = file.name.replace(/\.[^.]+$/, '');
+  return new File([blob], `${baseName}.png`, { type: 'image/png' });
+}
+
+export async function uploadImage(file, folder = 'uploads', { square = false } = {}) {
+  const optimized = square ? await squareImage(file) : await optimizeImage(file);
 
   const form = new FormData();
   form.append('file', optimized);
