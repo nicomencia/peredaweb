@@ -56,7 +56,8 @@ as staging on the same database.
 - ✅ `copia1.zip` (a 1.7 GB backup that was publicly downloadable from `/html`) moved to
   `/data/backups/` on 2026-09-28.
 - ✅ Backup of the WordPress DB (`qaav753`, 90 tables, 96,422 rows) taken 2026-09-28, kept
-  outside the repo. File backup of `/html`: in progress.
+  outside the repo. File backup of `/html`: the panel's zip (4.0 GB), checked against the
+  server listing — all 86,649 files present with matching sizes, hidden files included.
 - ✅ Scripts: `deploy`, `push-api`, `push-config` and `prune-deployed` take `--prod` (default
   stays `/html/dev`); `deploy` and `prune` refuse `/html` while `wp-config.php` is there.
   The switch is `scripts/go-live.mjs plan|preload|switch|rollback`.
