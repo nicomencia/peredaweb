@@ -90,11 +90,17 @@
   border: none;
   cursor: pointer;
   padding: 0;
+  min-width: max-content;
 }
 
+/* Never shrinks: the global img max-width:100% would otherwise squash it
+   horizontally as its column narrows (height stays fixed), and a squashed logo
+   also under-reports its width to the fit check in Navigation.jsx. */
 .nav-logo {
   height: 50px;
   width: auto;
+  max-width: none;
+  flex-shrink: 0;
 }
 
 .nav-menu button {
