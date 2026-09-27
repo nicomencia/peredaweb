@@ -11,6 +11,12 @@ try {
 } catch {
   cache = {};
 }
+// Values the server inlined into the page (index.php: the home hero image) are
+// fresher than anything stored, and let a first visit render the right image
+// straight away instead of the bundled fallback.
+if (typeof window !== 'undefined' && window.__SETTINGS__) {
+  cache = { ...cache, ...window.__SETTINGS__ };
+}
 
 // Initial value for a piece of state: the cached value if we have one, else the
 // component's own fallback. Use in useState initializers.

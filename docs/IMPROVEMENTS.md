@@ -99,14 +99,8 @@ previous period). Update the website link on the Google Business Profiles of the
   (`category_desc_<cat>`, edited in Productos): brands, product types, which store shows them.
 - **Ambiente names.** 7 of the 12 were still "Ambiente 1…7" on 2026-09-15; the name is the
   page H1 and the photos' alt text.
-- **Store JSON-LD** is static in `index.html` while store data lives in `tiendas`, so an edit
-  in the panel won't reach it. Generate it in `index.php` from the DB and add
-  `openingHoursSpecification` from the `hours_*` columns.
 - **Share image.** `og:image` is the logo; a 1200×630 image with
   `twitter:card = summary_large_image` previews better.
-- **Hero LCP.** The hero image is a CSS background applied after JS runs, and a first visit
-  loads the bundled `/base/hero-bg.webp` before the DB value arrives. Preload the DB image from
-  `index.php` (`<link rel="preload" as="image">`); measure with Lighthouse.
 - Low priority: slugs for ambientes instead of UUIDs (needs a column), BreadcrumbList schema,
   GA Consent Mode v2.
 

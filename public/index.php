@@ -78,10 +78,11 @@ $META = [
 ];
 $NOT_FOUND = ["Página no encontrada | $SITE", $DEFAULT_DESC];
 
-// Ambientes live in MySQL. On the server index.php sits next to api/, so the API's
-// connection helper is reachable. Any failure yields null: the sitemap then omits
-// ambientes and an ambiente URL is served as 200 rather than a false 404.
-function ambientes_query(string $sql, array $params = []): ?array {
+// Content lives in MySQL. On the server index.php sits next to api/, so the API's
+// connection helper is reachable. Any failure yields null and each caller degrades:
+// the sitemap omits ambientes, an ambiente URL is served as 200 rather than a false
+// 404, and the store JSON-LD / hero preload are simply left out.
+function site_query(string $sql, array $params = []): ?array {
     static $ready = null;
     if ($ready === null) {
         $ready = is_file(__DIR__ . '/api/config.php') && is_file(__DIR__ . '/api/db.php');
@@ -113,7 +114,7 @@ if ($path === '/robots.txt') {
 if ($path === '/sitemap.xml') {
     $urls = $ROUTES;
     foreach (array_keys($CATEGORIES) as $k) $urls[] = "/productos/$k";
-    foreach (ambientes_query('SELECT id FROM ambientes ORDER BY display_order') ?? [] as $row) {
+    foreach (site_query('SELECT id FROM ambientes ORDER BY display_order') ?? [] as $row) {
         $urls[] = '/inspirate/' . rawurlencode($row['id']);
     }
     header('Content-Type: application/xml; charset=utf-8');
@@ -145,7 +146,7 @@ if (isset($META[$path])) {
     [$name, $desc] = $CATEGORIES[$m[1]];
     $title = "$name | $SITE";
 } elseif (preg_match('#^/inspirate/([^/]+)$#', $path, $m)) {
-    $rows = ambientes_query('SELECT title, summary, cover_image_url FROM ambientes WHERE id = ?', [rawurldecode($m[1])]);
+    $rows = site_query('SELECT title, summary, cover_image_url FROM ambientes WHERE id = ?', [rawurldecode($m[1])]);
     if ($rows === null) {
         [$title, $desc] = $META['/inspirate'];           // DB unreachable: don't claim 404
     } elseif ($rows) {
@@ -163,6 +164,86 @@ if (isset($META[$path])) {
 if ($status === 404) {
     [$title, $desc] = $NOT_FOUND;
     $noindex = true;
+}
+
+// ---- Store JSON-LD (home + stores page), built from the tiendas table ----
+// So a store edited in the admin (hours, phone, address) reaches Google too.
+// Hours: "Tienda Exposición" Monday-Friday + Saturdays, read from the free-text
+// hours fields; a store whose text yields no time ranges gets no hours at all
+// rather than wrong ones. "sábados de julio y agosto cerrado" becomes a seasonal
+// Saturday closure (opens = closes = 00:00, Google's convention).
+function time_ranges(?string $text): array {
+    preg_match_all('/(\d{1,2})[:.](\d{2})\s*[\x{2013}\x{2014}-]\s*(\d{1,2})[:.](\d{2})/u', (string) $text, $m, PREG_SET_ORDER);
+    return array_map(fn($r) => [sprintf('%02d:%s', $r[1], $r[2]), sprintf('%02d:%s', $r[3], $r[4])], $m);
+}
+
+function store_graph(): array {
+    $rows = site_query('SELECT * FROM tiendas ORDER BY display_order') ?? [];
+    $base = 'https://' . PRODUCTION_HOST;
+    $weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    $graph = [];
+    foreach ($rows as $s) {
+        [$postal, $locality] = preg_match('/^(\d{5})\s*(.*)$/', trim((string) $s['postal_code']), $pc)
+            ? [$pc[1], $pc[2] ?: $s['name']] : [trim((string) $s['postal_code']), $s['name']];
+        $store = [
+            '@type' => 'HardwareStore',
+            'name' => "Saneamientos Pereda — {$s['name']} ({$s['address']})",
+            'url' => "$base/instalaciones",
+            'image' => $base . ($s['cover_image_url'] ?: '/media/base/logo.png'),
+            'parentOrganization' => ['@id' => "$base/#org"],
+            'priceRange' => '€€',
+            'address' => [
+                '@type' => 'PostalAddress', 'streetAddress' => $s['address'], 'postalCode' => $postal,
+                'addressLocality' => $locality, 'addressRegion' => 'Asturias', 'addressCountry' => 'ES',
+            ],
+        ];
+        $digits = preg_replace('/\D/', '', (string) $s['phone']);
+        if (strlen($digits) === 9) $store['telephone'] = "+34$digits";
+        $emails = json_decode((string) $s['emails'], true);
+        if (is_array($emails) && $emails) $store['email'] = $emails[0];
+        if ($s['lat'] !== null && $s['lon'] !== null) {
+            $store['geo'] = ['@type' => 'GeoCoordinates', 'latitude' => (float) $s['lat'], 'longitude' => (float) $s['lon']];
+        }
+        $hours = [];
+        foreach (time_ranges($s['hours_tienda']) as [$o, $c]) {
+            $hours[] = ['@type' => 'OpeningHoursSpecification', 'dayOfWeek' => $weekdays, 'opens' => $o, 'closes' => $c];
+        }
+        foreach (time_ranges($s['hours_sabados']) as [$o, $c]) {
+            $hours[] = ['@type' => 'OpeningHoursSpecification', 'dayOfWeek' => 'Saturday', 'opens' => $o, 'closes' => $c];
+        }
+        if ($hours && preg_match('/s[aá]bados.*julio.*agosto.*cerrad/iu', (string) $s['hours_verano'])) {
+            $year = (int) date('Y') + (date('md') > '0831' ? 1 : 0);
+            $hours[] = ['@type' => 'OpeningHoursSpecification', 'dayOfWeek' => 'Saturday', 'opens' => '00:00', 'closes' => '00:00',
+                'validFrom' => "$year-07-01", 'validThrough' => "$year-08-31"];
+        }
+        if ($hours) $store['openingHoursSpecification'] = $hours;
+        $graph[] = $store;
+    }
+    return $graph;
+}
+
+$headExtra = '';
+if ($status === 200 && in_array($path, ['/', '/instalaciones'], true)) {
+    $stores = store_graph();
+    if ($stores) {
+        $headExtra .= '<script type="application/ld+json">'
+            . json_encode(['@context' => 'https://schema.org', '@graph' => $stores], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG)
+            . '</script>';
+    }
+}
+
+// ---- Home: the hero image is the largest paint. Preload the admin-chosen image
+// before any JS runs, and hand its URL to the client (window.__SETTINGS__, read by
+// src/lib/settings.js) so the first render uses it: otherwise a first visit
+// downloads the bundled /base/hero-bg.webp and then the DB image as well.
+$settings = [];
+if ($status === 200 && $path === '/') {
+    foreach (site_query("SELECT `key`, value FROM site_settings WHERE `key` IN ('hero_background', 'hero_logo')") ?? [] as $row) {
+        if ($row['value'] !== '') $settings[$row['key']] = $row['value'];
+    }
+    if (isset($settings['hero_background'])) {
+        $headExtra .= '<link rel="preload" as="image" fetchpriority="high" href="' . htmlspecialchars($settings['hero_background'], ENT_QUOTES) . '" />';
+    }
 }
 
 // ---- Serve index.html with metadata swapped in ----
@@ -194,7 +275,11 @@ if ($noindex) {
 // One metadata source for the client, too.
 $seo = ['routes' => $META, 'notFound' => $NOT_FOUND, 'categories' => []];
 foreach ($CATEGORIES as $k => [$name, $cdesc]) $seo['categories'][$k] = ["$name | $SITE", $cdesc];
-$inject .= '<script>window.__SEO__=' . json_encode($seo, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) . ';</script>';
+$inject .= '<script>window.__SEO__=' . json_encode($seo, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) . ';';
+if ($settings) {
+    $inject .= 'window.__SETTINGS__=' . json_encode($settings, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) . ';';
+}
+$inject .= '</script>' . $headExtra;
 
 $html = preg_replace('#</head>#i', $inject . '</head>', $html, 1);
 
