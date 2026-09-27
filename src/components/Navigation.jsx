@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { cachedSetting, loadSettings } from '../lib/settings';
 import './Navigation.css';
 
@@ -20,6 +20,65 @@ export default function Navigation({ currentView, setCurrentView, onCategorySele
   const [productosOpen, setProductosOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/base/navbar-logo.webp'));
   const isHome = currentView === 'home';
+
+  // Compact (hamburger) mode is decided by whether the full desktop bar actually
+  // fits, not by a guessed breakpoint: on a 13" laptop, or any screen at 125-150%
+  // OS scaling or browser zoom, the logo + five items need more room than a fixed
+  // width can promise. Mobile widths are always compact.
+  const navRef = useRef(null);
+  const containerRef = useRef(null);
+  const logoRef = useRef(null);
+  const menuRef = useRef(null);
+  const checkFitRef = useRef(null);
+  const [compact, setCompact] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth <= 768
+  );
+
+  useLayoutEffect(() => {
+    const nav = navRef.current;
+    const container = containerRef.current;
+    const menu = menuRef.current;
+    if (!nav || !container || !menu) return undefined;
+
+    // Measures the desktop layout even while compact: the compact class is lifted
+    // for a synchronous read and restored before the browser paints, with
+    // transitions suspended so the swap never animates.
+    function checkFit() {
+      const wasCompact = nav.classList.contains('navigation--compact');
+      nav.classList.add('navigation--measuring');
+      nav.classList.remove('navigation--compact');
+
+      const cs = getComputedStyle(container);
+      const logo = logoRef.current;
+      const breathingRoom = 24;
+      const needed =
+        parseFloat(cs.paddingLeft) +
+        parseFloat(cs.paddingRight) +
+        menu.offsetWidth +
+        (logo ? logo.offsetWidth + (parseFloat(cs.columnGap) || 0) : 0) +
+        breathingRoom;
+      const available = container.clientWidth;
+
+      if (wasCompact) nav.classList.add('navigation--compact');
+      void nav.offsetWidth; // settle the restored styles before transitions return
+      nav.classList.remove('navigation--measuring');
+
+      setCompact(window.innerWidth <= 768 || needed > available);
+    }
+
+    checkFitRef.current = checkFit;
+    checkFit();
+
+    const observer = new ResizeObserver(checkFit);
+    observer.observe(container);
+    // Web fonts change text width once they arrive.
+    document.fonts?.ready.then(checkFit);
+    return () => observer.disconnect();
+  }, [isHome, logoUrl]);
+
+  useEffect(() => {
+    if (!compact) setIsOpen(false);
+  }, [compact]);
 
   useEffect(() => {
     async function loadLogo() {
@@ -47,15 +106,24 @@ export default function Navigation({ currentView, setCurrentView, onCategorySele
   };
 
   return (
-    <nav className={`navigation ${!isHome ? 'navigation--solid' : ''}`}>
-      <div className="nav-container">
+    <nav
+      ref={navRef}
+      className={`navigation${!isHome ? ' navigation--solid' : ''}${compact ? ' navigation--compact' : ''}`}
+    >
+      <div className="nav-container" ref={containerRef}>
         {!isHome && (
           <button
+            ref={logoRef}
             className="nav-logo-btn"
             onClick={() => handleNavClick('home')}
             aria-label="Ir a inicio"
           >
-            <img src={logoUrl || undefined} alt="Saneamientos Pereda" className="nav-logo" />
+            <img
+              src={logoUrl || undefined}
+              alt="Saneamientos Pereda"
+              className="nav-logo"
+              onLoad={() => checkFitRef.current?.()}
+            />
           </button>
         )}
 
@@ -69,7 +137,7 @@ export default function Navigation({ currentView, setCurrentView, onCategorySele
           <span></span>
         </button>
 
-        <ul className={`nav-menu ${isOpen ? 'nav-menu--open' : ''}`}>
+        <ul ref={menuRef} className={`nav-menu ${isOpen ? 'nav-menu--open' : ''}`}>
           <li>
             <button onClick={() => handleNavClick('sobre-mi')}>
               Quiénes somos
