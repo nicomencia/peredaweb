@@ -86,13 +86,12 @@ Remaining / later:
 Shared hosting ("Hosting Avanzado Linux", panel at panelcontrolhosting.com): Apache + PHP 8.2 + MySQL, ~54 GB free. Server IP 217.76.142.23. SFTP `ftp.saneamientos-pereda.com:22`, user = domain name, password in `.env` (SFTP_*) — **transfer .env between machines via a private channel, never commit it** (it was committed once by accident; that password has been rotated).
 
 - Web root `/html` = client's **live WordPress — never touch**. We deploy only to `/html/dev`.
-- `npm run deploy /html/dev` (frontend), `node scripts/push-api.mjs` (backend code), `node scripts/push-config.mjs` (config.php), `npm run sftp:ls <dir>`, `scripts/optimize-images.mjs`, `scripts/prune-orphan-media.mjs`.
+- `npm run deploy` (frontend), `node scripts/push-api.mjs` (backend code), `node scripts/push-config.mjs` (config.php), `node scripts/prune-deployed.mjs <files>` — all to `/html/dev` by default, to `/html` with `--prod` (`npm run deploy -- --prod`); `deploy`/`prune` refuse `/html` while WordPress (`wp-config.php`) is there. The switch itself: `node scripts/go-live.mjs plan|preload|switch|rollback`. Also `npm run sftp:ls <dir>`, `scripts/optimize-images.mjs`, `scripts/prune-orphan-media.mjs`.
 - **Run deploys from PowerShell, not Git Bash.** MSYS rewrites a POSIX path argument
   into a Windows path, so `npm run deploy /html/dev` reaches the script as
   `C:/Program Files/Git/html/dev` and would deploy into a junk tree relative to the
-  SFTP home. `deploy.mjs` now refuses any target that is not absolute, and also
-  refuses `/` and `/html`. `push-api.mjs`, `push-config.mjs` and
-  `prune-deployed.mjs` hardcode `/html/dev`, so only `deploy.mjs` took an argument.
+  SFTP home. `deploy.mjs` now only accepts `--prod` or the legacy `/html/dev` argument, so a mangled path is refused. The target
+  logic lives in `scripts/lib/remote.mjs`.
 - `uploadDir` only adds/overwrites — frontend deploys won't delete `/api` or `/media`.
 
 ## Known issues / pending

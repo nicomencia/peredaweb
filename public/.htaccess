@@ -29,6 +29,12 @@ DirectoryIndex index.php
   RewriteCond %{HTTP_HOST} ^saneamientos-pereda\.com$ [NC]
   RewriteRule ^ https://www.saneamientos-pereda.com%{REQUEST_URI} [R=301,L]
 
+  # http -> https. On www this was done by a WordPress plugin (Really Simple
+  # Security, in WordPress's .htaccess), not by the hosting panel as on dev, so
+  # it would go away with WordPress.
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
   # Candidates' CVs are personal data: never serve them as static files. The
   # admin-only api/cv.php streams them to a logged-in admin.
   RewriteRule ^media/cvs/([^/]+)$ api/cv.php?f=$1 [L]

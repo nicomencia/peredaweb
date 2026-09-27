@@ -1,7 +1,8 @@
-import 'dotenv/config';
-import SftpClient from 'ssh2-sftp-client';
+import { connect, remoteRoot } from './lib/remote.mjs';
 
-// Regenerates /html/dev/api/config.php from .env and uploads only that file.
+// Usage: node scripts/push-config.mjs [--prod]
+// Regenerates api/config.php from .env and uploads only that file, to /html/dev
+// or, with --prod, /html.
 // Fast path for tweaking DB_HOST / credentials without re-deploying media.
 const esc = (s) => String(s ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 const defs = [
@@ -20,18 +21,12 @@ const defs = [
 ];
 const php = '<?php\n' + defs.map(([k, v]) => `define('${k}', '${esc(v)}');`).join('\n') + '\n';
 
-const sftp = new SftpClient();
+const REMOTE = remoteRoot();
+const sftp = await connect();
 try {
-  await sftp.connect({
-    host: process.env.SFTP_HOST,
-    port: Number(process.env.SFTP_PORT) || 22,
-    username: process.env.SFTP_USER,
-    password: process.env.SFTP_PASS,
-    readyTimeout: 20000,
-    tryKeyboard: true,
-  });
-  await sftp.put(Buffer.from(php), '/html/dev/api/config.php');
-  console.log(`config.php updated (DB_HOST=${process.env.DB_HOST})`);
+  await sftp.mkdir(`${REMOTE}/api`, true);
+  await sftp.put(Buffer.from(php), `${REMOTE}/api/config.php`);
+  console.log(`${REMOTE}/api/config.php updated (DB_HOST=${process.env.DB_HOST})`);
 } finally {
   await sftp.end();
 }

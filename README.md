@@ -27,9 +27,10 @@ npm run dev      # desarrollo local (proxya /api y /media al hosting dev)
 ## Despliegue
 
 ```bash
-npm run deploy /html/dev            # sincroniza imágenes base, build y sube el frontend
+npm run deploy                      # sincroniza imágenes base, build y sube el frontend a staging
 node scripts/push-api.mjs           # sube los .php del backend + schema (nunca setup.php ni config.php)
 node scripts/push-config.mjs        # regenera y sube config.php desde .env
+# Producción: el mismo comando con --prod (npm run deploy -- --prod)
 ```
 
 Otros scripts útiles: `npm run sync:base`, `npm run sftp:ls <dir>`, `scripts/db-audit.mjs`, `scripts/audit-media.mjs`, `scripts/check-redirects.mjs` (valida el mapa 301 contra las 755 URLs antiguas). Los one-off de la migración están en `scripts/archive/`.

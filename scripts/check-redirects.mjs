@@ -75,10 +75,12 @@ const unknownConds = new Set();
 function condHolds({ test, pattern, flags }) {
   const negate = pattern.startsWith('!');
   const p = negate ? pattern.slice(1) : pattern;
+  // "=value" is Apache's exact string comparison, not a regex.
+  const matches = (value) => (p.startsWith('=') ? value === p.slice(1) : new RegExp(p, /NC/i.test(flags) ? 'i' : '').test(value));
   let result;
   if (p === '-f' || p === '-d') result = false;
-  else if (test === '%{HTTP_HOST}') result = new RegExp(p, /NC/i.test(flags) ? 'i' : '').test(HOST);
-  else if (test === '%{HTTPS}') result = new RegExp(p, 'i').test('on');
+  else if (test === '%{HTTP_HOST}') result = matches(HOST);
+  else if (test === '%{HTTPS}') result = matches('on'); // the simulated requests are https
   else {
     unknownConds.add(test);
     result = true;

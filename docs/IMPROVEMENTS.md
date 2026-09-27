@@ -57,13 +57,22 @@ as staging on the same database.
   `/data/backups/` on 2026-09-28.
 - ✅ Backup of the WordPress DB (`qaav753`, 90 tables, 96,422 rows) taken 2026-09-28, kept
   outside the repo. File backup of `/html`: in progress.
-- Scripts able to target `/html` (today they hardcode `/html/dev`; `deploy.mjs` refuses `/html`).
-- Dry run: the exact list of WordPress entries to move; check WordPress's `.htaccess` for
-  anything the new one must keep (e.g. whether http → https is done there or by the panel).
-- Pre-load `api/` (+ `config.php`), `assets/`, `base/`, `media/` into `/html` next to WordPress.
+- ✅ Scripts: `deploy`, `push-api`, `push-config` and `prune-deployed` take `--prod` (default
+  stays `/html/dev`); `deploy` and `prune` refuse `/html` while `wp-config.php` is there.
+  The switch is `scripts/go-live.mjs plan|preload|switch|rollback`.
+- ✅ Dry run (`go-live.mjs plan`): 21 WordPress entries move; `vieja`, `nueva`,
+  `2intraneteliminar`, `check-prices.php` and `.tmb` stay in place (see F). Finding:
+  **http → https on www came from a WordPress plugin** (Really Simple Security), not the
+  panel — now in `public/.htaccess`. Nothing else in WordPress's `.htaccess` is needed (the rest
+  is WP Fastest Cache and WordPress routing).
+- `go-live.mjs preload`: the build, `api/` + `config.php`, `sql/` (denied) and a copy of the
+  staging `media/` go into `/html` next to WordPress, which keeps serving; the API then
+  already answers on www.
 
-**The switch** (seconds): move the WordPress entries to `/data/wp-old/`, upload `index.php`,
-`index.html`, `.htaccess`. Rollback = the same moves in reverse.
+**The switch** (`go-live.mjs switch`, ~10 s): our three entry files are staged under
+temporary names, the plan is written to `/data/wp-old/.go-live-plan.json`, then renames only —
+WordPress's entries to `/data/wp-old/`, ours into place. `go-live.mjs rollback` reverses it
+from that plan file (works after a half-finished switch too).
 
 **Right after:** status codes, one old URL per redirect rule, http → https, apex → www,
 `/sitemap.xml` + `/robots.txt` (indexing on), a form, admin login, a GA4 real-time hit.

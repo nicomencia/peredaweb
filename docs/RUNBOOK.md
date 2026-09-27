@@ -33,11 +33,13 @@ En el servidor, estas se traducen a `server/api/config.php` (generado por los sc
 
 | Comando | Qué hace |
 |---|---|
-| `npm run deploy /html/dev` | sincroniza imágenes base (sync:base), hace `build` y sube `dist/` a `/html/dev` |
+| `npm run deploy` | sincroniza imágenes base (sync:base), hace `build` y sube `dist/` a `/html/dev` |
 | `node scripts/push-api.mjs` | sube los `.php` + schema (no toca config ni media, y **nunca sube `setup.php`**) |
 | `node scripts/push-config.mjs` | regenera y sube solo `config.php` desde `.env` |
 | `npm run sync:base` | refresca `public/base/` (logo+hero) desde la BBDD |
 | `node scripts/prune-deployed.mjs <archivos>` | borra del servidor archivos eliminados localmente (deploy solo añade/sobrescribe) |
+
+Todos van a staging (`/html/dev`) por defecto y a producción (`/html`) con **`--prod`** (`npm run deploy -- --prod`). `deploy` y `prune-deployed` se niegan a tocar `/html` mientras siga el WordPress. El cambio de WordPress a la web nueva es `node scripts/go-live.mjs plan|preload|switch|rollback`.
 
 El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquier carpeta/host.
 
