@@ -43,7 +43,7 @@ switch ($action) {
         if (empty($_SESSION['admin_id'])) json_error('No autorizado', 401);
         $current = $body['current_password'] ?? '';
         $new = $body['new_password'] ?? '';
-        if (mb_strlen($new) < 12) json_error('La nueva contraseña debe tener al menos 12 caracteres', 400);
+        if (mb_strlen($new) < 8) json_error('La nueva contraseña debe tener al menos 8 caracteres', 400);
         // Guessing the current password from a hijacked session counts as failed logins.
         if (too_many_failures('login', 10)) {
             json_error('Demasiados intentos fallidos. Vuelve a intentarlo en una hora.', 429);

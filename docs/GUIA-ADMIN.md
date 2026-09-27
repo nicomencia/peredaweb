@@ -59,7 +59,7 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 - Plazos legales: **acusar recibo en 7 días** como máximo (basta con pasarla a «En revisión» con una respuesta breve) y **responder en 3 meses** como máximo.
 
 ### Mi cuenta
-- **Cambiar tu contraseña**: escribe la actual y la nueva dos veces (mínimo 12 caracteres). Cada persona tiene su propia cuenta, así que cambiar la tuya no afecta a nadie más. Tras 10 intentos fallidos de entrar, el acceso se bloquea una hora desde esa conexión.
+- **Cambiar tu contraseña**: escribe la actual y la nueva dos veces (mínimo 8 caracteres). Cada persona tiene su propia cuenta, así que cambiar la tuya no afecta a nadie más. Tras 10 intentos fallidos de entrar, el acceso se bloquea una hora desde esa conexión.
 
 ### Ajustes generales
 - **Colores** de la marca y textos/enlaces del **pie de página** (descripción, redes sociales).

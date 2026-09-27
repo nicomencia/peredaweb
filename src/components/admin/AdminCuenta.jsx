@@ -3,7 +3,7 @@ import { api } from '../../lib/api';
 import './AdminHomepage.css';
 import './AdminDenuncias.css';
 
-const MIN_LENGTH = 12;
+const MIN_LENGTH = 8;
 
 // Change the signed-in admin's own password. Each person has their own account,
 // so this never affects anyone else's login.
