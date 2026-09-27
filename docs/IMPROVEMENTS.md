@@ -5,6 +5,7 @@ Findings from a full review on **2026-09-15**; delete items as they land.
 - **[C. Launch process](#c-launch-process)** — the go-live steps.
 - **[D. SEO after launch](#d-seo-after-launch)** — worthwhile, not blocking.
 - **[E. Other findings](#e-other-findings)** — what is left outside SEO.
+- **[F. Hosting cleanup](#f-hosting-cleanup)** — after launch, once a rollback is no longer needed.
 
 **Done (2026-09-27/28):** all of A (crawlable links, full sitemap, real 404s, apex → www,
 gzip + immutable caching, per-page titles, noindex off `www`) and B (the 301 map now lives in
@@ -107,3 +108,32 @@ previous period). Update the website link on the Google Business Profiles of the
 2. **Email deliverability.** SPF is set, but there is **no DKIM and no DMARC** (checked
    2026-09-28). Enable DKIM in the mail provider's panel and publish `_dmarc` TXT
    `v=DMARC1; p=none`.
+
+---
+
+## F. Hosting cleanup
+
+**When:** a few weeks after launch, once a rollback to WordPress is no longer needed. **Ask the
+client before deleting anything** — some of this may still be in use. Take a backup of each
+item first (DB dump / file download) and keep it outside the repo.
+
+Inventory as of 2026-09-28:
+
+| Item | What it is | Proposal |
+|---|---|---|
+| DB `qaqu803` (lldg503, 0.3 MB) | **The new website** | Keep |
+| DB `qaav753` (lldf084, 89 MB) | The WordPress being replaced (backed up 2026-09-28) | Delete after the rollback window |
+| DB `qtq808` (lldc718, 25 MB) | Unknown — likely one of the old sites below | Identify, then decide |
+| DB `qtr125` (lldc718, 4 MB) | Unknown — likely one of the old sites below | Identify, then decide |
+| `/data/wp-old/` | WordPress files after the switch | Delete after the rollback window |
+| `/data/backups/copia1.zip` (1.7 GB) | Site backup from 2026-05-05, was public until 2026-09-28 | Delete (superseded by the 2026-09-28 backup) |
+| `/html/vieja/` | An old site; answers 500 | Likely delete |
+| `/html/2intraneteliminar/` | Old intranet ("eliminar" = to delete); 404 at its root | Confirm with the client, then delete |
+| `/html/nueva/` | One file; 403 | Likely delete |
+| `/html/check-prices.php` | Unknown script, publicly executable (200) | Find out what calls it; delete if nothing |
+| `/html/.tmb` | Empty (file-manager thumbnails) | Delete |
+
+To identify `qtq808` / `qtr125`: match their names against the DB settings in the old sites'
+config files (`vieja/`, `2intraneteliminar/`, `nueva/`) — those files hold credentials, so
+read them deliberately, not in passing. Also review the panel for unused mailboxes, FTP users,
+subdomains and cron jobs.
