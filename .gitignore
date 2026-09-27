@@ -1,6 +1,8 @@
 node_modules/
 .env
 dist/
+# One-off local scripts (backups, audits); never committed
+scripts/*.tmp.mjs
 migration-data/
 # Client legal source documents (PDFs/DOCX) — not for publication
 legal/

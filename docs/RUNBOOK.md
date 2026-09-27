@@ -18,7 +18,7 @@ Manual de operación y mantenimiento. Para la arquitectura general ver [README](
 | `DB_HOST/NAME/USER/PASS` | MySQL (`DB_HOST=lldg503.servidoresdns.net`, ver Base de datos) |
 | `SMTP_HOST/PORT/SECURE/USER/PASS` | envío de email de los formularios |
 | `MAIL_FROM` / `MAIL_TO` | remitente y destinatario de los avisos |
-| `SETUP_TOKEN` | protege `setup.php` (lo autogenera `deploy-backend`) |
+| `SETUP_TOKEN` | protege `setup.php` (solo para una re-importación desde cero) |
 
 En el servidor, estas se traducen a `server/api/config.php` (generado por los scripts; nunca se commitea). Plantilla: `server/api/config.sample.php`.
 
@@ -34,8 +34,7 @@ En el servidor, estas se traducen a `server/api/config.php` (generado por los sc
 | Comando | Qué hace |
 |---|---|
 | `npm run deploy /html/dev` | sincroniza imágenes base (sync:base), hace `build` y sube `dist/` a `/html/dev` |
-| `node scripts/deploy-backend.mjs` | sube `server/api/*` + `schema.sql` + genera y sube `config.php` (úsalo al cambiar el backend) |
-| `node scripts/push-api.mjs` | sube solo los `.php` + schema (iteración rápida, no toca config ni media) |
+| `node scripts/push-api.mjs` | sube los `.php` + schema (no toca config ni media, y **nunca sube `setup.php`**) |
 | `node scripts/push-config.mjs` | regenera y sube solo `config.php` desde `.env` |
 | `npm run sync:base` | refresca `public/base/` (logo+hero) desde la BBDD |
 | `node scripts/prune-deployed.mjs <archivos>` | borra del servidor archivos eliminados localmente (deploy solo añade/sobrescribe) |
@@ -48,16 +47,17 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 > home del SFTP. `deploy.mjs` ahora rechaza cualquier destino no absoluto, y también `/` y
 > `/html` (el WordPress vivo del cliente).
 
-> **`push-api.mjs` vuelve a subir `setup.php`** (sube todos los `.php` de `server/api/` salvo
-> `config.php`). Después de usarlo, bórralo otra vez con
-> `node scripts/prune-deployed.mjs api/setup.php`.
+> `setup.php` hace `DROP` de todas las tablas, así que ningún script de uso diario lo sube.
+> `scripts/archive/deploy-backend.mjs` (el despliegue de la migración) sí lo hace: úsalo solo
+> para una re-importación desde cero.
 
 ## Base de datos
 
 - MySQL `qaqu803`. **`DB_HOST=lldg503.servidoresdns.net`** (el servidor real de BBDD): el nombre del panel `qaqu803.saneamientos-pereda.com` es un CNAME no publicado (ver Problemas), y `localhost` apunta al MySQL propio del host web, que NO tiene esta BBDD.
 - Esquema: `server/sql/schema.sql` (UUIDs como CHAR(36); `specs`/`emails` como JSON). El mapa de columnas permitidas por la API está en `TABLE_COLUMNS` de `server/api/db.php` — **mantener ambos sincronizados**.
 - Auditorías: `node scripts/db-audit.mjs` (conteos + referencias a `/media`), `node scripts/audit-media.mjs` (árbol de `/media`). Conectan directo por el puerto 3306 con SSL.
-- **Re-importación desde cero** (solo si hiciera falta): re-desplegar `setup.php` (borrado del servidor el 2026-09-04) con `deploy-backend` o `push-api`, subir los JSON de datos a `api/import/`, y hacer `POST /api/setup.php` con `{token, admin_email, admin_password}`. **Vuelve a borrarlo al terminar** (`node scripts/prune-deployed.mjs api/setup.php`): hace `DROP` de todas las tablas.
+- **Re-importación desde cero** (solo si hiciera falta): re-desplegar `setup.php` (borrado del servidor el 2026-09-04) con `scripts/archive/deploy-backend.mjs`, subir los JSON de datos a `api/import/`, y hacer `POST /api/setup.php` con `{token, admin_email, admin_password}`. **Vuelve a borrarlo al terminar** (`node scripts/prune-deployed.mjs api/setup.php`): hace `DROP` de todas las tablas.
+- **Copia del WordPress antiguo** (BBDD `qaav753` + archivos de `/html`): tomada el 2026-09-28 antes de la salida a producción, guardada fuera del repo (contiene datos personales y credenciales).
 - **Copias de seguridad**: la BBDD es ahora el dato vivo. Recomendado un `mysqldump` periódico (o export desde el panel) y backup de `/html/dev/media/`.
 
 ## Imágenes / media
@@ -70,8 +70,11 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 ## Email (formularios)
 
 - `server/api/mailer.php` envía por **SMTP autenticado** vía `smtp.serviciodecorreo.es:465` (SSL) con el buzón `web@saneamientos-pereda.com`. Pasa el SPF del dominio (`include:_spf.serviciodecorreo.es`). **No usa Resend** (se descartó).
-- Destinatario por defecto: `MAIL_TO` (admite lista separada por comas). **Por formulario** se puede sobrescribir desde el panel (Ajustes → Destinatarios) con las claves `mail_to_candidatura|denuncia|presupuesto|cliente` en `site_settings`. `forms.php` lee la clave del formulario y cae a `MAIL_TO` si está vacía. Estas claves son **confidenciales**: `content.php` las excluye de la API pública y el panel las lee por el endpoint autenticado `admin.php` (`action: get_settings`).
-- Los formularios nunca fallan por un problema de email (el envío es "best-effort").
+- Destinatario por defecto: `MAIL_TO` (admite lista separada por comas). **Por formulario** se puede sobrescribir desde el panel (Ajustes → Destinatarios) con las claves `mail_to_<formulario>` en `site_settings`. `forms.php` lee la clave del formulario y cae a `MAIL_TO` si está vacía. Estas claves son **confidenciales**: `content.php` las excluye de la API pública y el panel las lee por el endpoint autenticado `admin.php` (`action: get_settings`).
+- Los formularios nunca fallan por un problema de email (el envío es "best-effort"): un fallo solo queda en el log de errores de PHP, así que tras cambiar credenciales SMTP prueba un formulario de verdad.
+- Candidaturas: el CV va **adjunto** al aviso. `/media/cvs/*` no se sirve como estático: `.htaccess` lo pasa a `api/cv.php`, que exige sesión de admin.
+- Canal de denuncias: la consulta por PIN admite 10 fallos por IP y hora (contador en el directorio temporal del sistema).
+- **Entregabilidad**: el dominio tiene SPF pero **ni DKIM ni DMARC** (comprobado 2026-09-28). Activar DKIM en el panel de correo y publicar `_dmarc` TXT `v=DMARC1; p=none` reduce el riesgo de spam.
 
 ## Admin / auth
 
@@ -83,10 +86,9 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 - ~~**Publicación de DNS atascada (proveedor)**~~ — **RESUELTO 2026-07-01**. La zona ya publica (`dev` A, `www.dev` A → 217.76.142.23, y el CNAME `qaqu803` → lldg503.servidoresdns.net). El subdominio dev va por HTTPS con el certificado comodín instalado desde el panel; ya no hace falta la entrada en `hosts`. `DB_HOST` sigue apuntando directo a `lldg503.servidoresdns.net` (funciona; podría usar el CNAME, pero no aporta nada).
 - **Caché de estáticos del hosting**: sirve copias cacheadas de archivos en la misma ruta durante un TTL, incluso tras borrarlos, e ignora el `?v=`. Las subidas del panel usan nombres únicos, así que no se ven afectadas.
 
-## Salida a producción (checklist)
+## Salida a producción
 
-1. ~~Resolver la publicación de DNS y emitir SSL para el subdominio~~ — hecho (2026-07-01). Para producción hará falta emitir/instalar el certificado del dominio principal.
-2. Decidir la ubicación de producción y su relación con el WordPress de `/html`.
-3. Confirmar el dominio canónico de SEO (en el JSON-LD de `index.html` está fijado `https://www.saneamientos-pereda.com`; `sitemap.xml`/`robots.txt`/`og:url` usan el host real dinámicamente vía `public/index.php`).
-4. Configurar copias de seguridad periódicas (MySQL + `/media`).
-5. Rotar contraseñas si fuera necesario (admin, SMTP, DB).
+El proceso (copia, cambio, verificación, Search Console) está en [IMPROVEMENTS.md → C](IMPROVEMENTS.md#c-launch-process). Pendientes de infraestructura:
+
+- **Certificado**: el comodín `*.saneamientos-pereda.com` + apex caduca el **2026-12-15**. Hay que tener claro quién lo renueva.
+- Configurar copias de seguridad periódicas (MySQL + `/media`).

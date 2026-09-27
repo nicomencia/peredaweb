@@ -1,6 +1,6 @@
 # Database reference — Saneamientos Pereda
 
-MySQL database `qaqu803` on `lldg503.servidoresdns.net`. Schema lives in [`server/sql/schema.sql`](../server/sql/schema.sql). All 11 tables are in active use.
+MySQL database `qaqu803` on `lldg503.servidoresdns.net`. Schema lives in [`server/sql/schema.sql`](../server/sql/schema.sql). All 12 tables are in active use.
 
 ## How the frontend reaches each table
 
@@ -9,8 +9,9 @@ The React app never talks to MySQL directly. Four PHP endpoints sit in front of 
 | Endpoint | Purpose | Used by |
 |---|---|---|
 | `api/content.php?resource=<table>` | public **read** of content tables | `src/lib/api.js` client → every public page |
-| `api/admin.php` | session-protected **insert/update/delete** | admin panel (via the shim) |
-| `api/forms.php?form=<name>` | public form **submissions** | the 4 form components |
+| `api/admin.php` | session-protected **insert/update/delete**, plus `list` (read a private table, e.g. denuncias) | admin panel (via the shim; `api.list()`) |
+| `api/forms.php?form=<name>` | public form **submissions** | the 5 form components |
+| `api/cv.php?f=<file>` | admin-only CV download; `.htaccess` routes `/media/cvs/*` here | links in candidatura emails |
 | `api/auth.php` | admin **login/session** | `AdminLogin` + `App.jsx` |
 
 `src/lib/api.js` is a small chainable client, so components read with `api.from('table').select()...`. JSON columns (`ambientes.specs`, `tiendas.emails`) are decoded automatically.
@@ -34,18 +35,19 @@ The React app never talks to MySQL directly. Four PHP endpoints sit in front of 
 - **Per category**: `category_desc_<cat>`, `category_photos_<cat>` (JSON array of image URLs for the carousel). `category_banner_<cat>` is the legacy single-image key, still read as a fallback.
 - **Misc**: `color_primary`, `<page>_subtitle`, repeatable lists as JSON (`area_faq`, `quienes_stats`, `pidecita_locations`, …).
 
-## Form tables (written by public forms, read in admin)
+## Form tables (written by public forms)
 
-Written via `api/forms.php` (not the shim); never publicly readable.
+Written via `api/forms.php` (not the shim); never publicly readable. Only `denuncias` has an admin view (tab "Canal de denuncias"); the others arrive by email.
 
 | Table | Form | Submitted from | Notes |
 |---|---|---|---|
-| `job_applications` | `candidatura` | `CareersModal` | optional CV PDF → `/media/cvs/`, `cv_url` |
-| `denuncias` | `denuncia` | `CanalDenuncias` | generates an 8-digit `pin`; status looked up by PIN via GET |
+| `job_applications` | `candidatura` | `CareersModal` | optional CV PDF → `/media/cvs/` (admin-only, via `api/cv.php`) and attached to the email, `cv_url` |
+| `denuncias` | `denuncia` | `CanalDenuncias` | generates an 8-digit `pin`; the reporter looks up `hechos`/`estado`/`respuesta` by PIN (GET, max 10 failed tries per IP per hour); `estado` + `respuesta` set in the admin |
 | `presupuesto_requests` | `presupuesto` | `Presupuesto` | budget request |
 | `cliente_requests` | `cliente` | `HazteCliente` | become-a-client request |
+| `desistimiento_requests` | `desistimiento` | `Desistimiento` | right of withdrawal; also emails an acknowledgment to the consumer |
 
-Each submission inserts a row **and** emails a notification to `MAIL_TO` (`ines@saneamientos-pereda.com`) via authenticated SMTP — see [email setup](../CLAUDE.md).
+Each submission inserts a row **and** emails a notification via authenticated SMTP — see [email setup](../CLAUDE.md). The recipient is the per-form `mail_to_<form>` setting (Ajustes → Destinatarios; hidden from `content.php`), falling back to `MAIL_TO`.
 
 ## Auth
 

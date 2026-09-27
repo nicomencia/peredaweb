@@ -5,6 +5,10 @@ import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 
+// ARCHIVED: the one-off 2026-06 migration deploy (backend + migrated media + import
+// JSON + setup.php). For code changes use scripts/push-api.mjs; for config.php use
+// scripts/push-config.mjs. Kept only for a from-scratch re-import.
+//
 // Uploads the PHP backend + migration payload to /html/dev:
 //   server/api/*        -> /html/dev/api/
 //   server/sql/         -> /html/dev/sql/   (+ deny .htaccess)
@@ -12,9 +16,9 @@ import { randomBytes } from 'node:crypto';
 //   migration-data/media/* -> /html/dev/media/
 //   migration-data/*.json  -> /html/dev/api/import/
 // And generates + uploads api/config.php from .env values:
-//   DB_NAME, DB_USER, DB_PASS, DB_HOST (opt), RESEND_API_KEY (opt), SETUP_TOKEN (auto)
+//   DB_NAME, DB_USER, DB_PASS, DB_HOST (opt), SMTP_* / MAIL_* (opt), SETUP_TOKEN (auto)
 
-const ROOT = resolve(import.meta.dirname, '..');
+const ROOT = resolve(import.meta.dirname, '../..');
 const REMOTE = '/html/dev';
 
 const required = ['DB_NAME', 'DB_USER', 'DB_PASS'];

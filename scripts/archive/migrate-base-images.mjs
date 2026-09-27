@@ -8,7 +8,7 @@ import { readFile } from 'node:fs/promises';
 // One-time: moves the base images that DB settings still reference in /public into
 // the managed /media store, then repoints every DB reference. Afterwards the app
 // is fully DB/media-driven and the public/ copies can be deleted.
-const PUBLIC = resolve(import.meta.dirname, '../public');
+const PUBLIC = resolve(import.meta.dirname, '../../public');
 const REMOTE_BASE = '/html/dev/media/base';
 
 // public file -> { remote webp name, the old URL the DB currently uses }

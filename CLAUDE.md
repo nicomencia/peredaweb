@@ -5,14 +5,16 @@ Website for Saneamientos Pereda (Spanish bathroom/plumbing/construction-material
 ## Architecture
 
 - **Frontend**: static build deployed to client server `/html/dev` (dev subdomain `dev.saneamientos-pereda.com`). **react-router** (BrowserRouter) gives real per-page URLs; `App.jsx` keeps a `setCurrentView(view)` adapter (maps view→path via `VIEW_TO_PATH`) so child components navigate unchanged. Admin panel + Instalaciones (Leaflet) code-split via `React.lazy`.
-- **SEO**: a PHP front controller `public/index.php` (served via `.htaccess`, `DirectoryIndex index.php`) serves the SPA shell with per-route `<title>`/description/`og:*`/canonical injected, and generates `/sitemap.xml` + `/robots.txt` dynamically (live host). JSON-LD `HardwareStore` in `index.html`. Per-route meta also set client-side in `App.jsx`. Canonical domain in the JSON-LD is hardcoded `https://www.saneamientos-pereda.com` — confirm at production launch.
+- **SEO**: a PHP front controller `public/index.php` (served via `.htaccess`, `DirectoryIndex index.php`) serves the SPA shell with per-route `<title>`/description/`og:*`/canonical injected, and generates `/sitemap.xml` + `/robots.txt` dynamically (live host). JSON-LD `HardwareStore` in `index.html`. One metadata map in `index.php`, inlined as `window.__SEO__` and applied on client-side navigation by `src/lib/seo.js` (no second copy in JS). Real 404 status for unknown paths; `noindex` + `X-Robots-Tag` on every host except `PRODUCTION_HOST` (`www.saneamientos-pereda.com`). Internal links are real `<Link>`s (class `as-button` makes an anchor look like the old `<button>`; see `src/styles/links.css`). `public/.htaccess` holds gzip, immutable caching for `/assets/`, apex → www, and the **301 map for the 755 old WordPress URLs** (`docs/seo/old-site-urls.txt`) — verify changes with `node scripts/check-redirects.mjs` (exit 0).
 - **Backend**: PHP API in `server/api/` (deployed to `/html/dev/api/`), MySQL, images on server disk under `/html/dev/media/`.
   - `src/lib/api.js` is a small **chainable client** (`from().select().eq().in().or().order().maybeSingle()`, `insert/update/delete`, `auth.*`) that calls the PHP API — components use it like a mini query builder. Don't "clean it up" into per-component fetches without reason.
   - `src/lib/upload.js` resizes client-side (≤1920px WebP) then POSTs to `api/upload.php` (PHP-session protected).
   - Admin auth: PHP sessions (`auth.php`, bcrypt in `admin_users` table) via the shim's `auth.*` methods.
-  - Forms: `api/forms.php?form=candidatura|denuncia|presupuesto|cliente` → MySQL insert + notification email. Denuncia status lookup: GET with `&pin=`.
+  - Private tables (form submissions) are read with `api.list(table)` → `admin.php` `list` (session-protected); `content.php` only serves public content tables.
+  - Forms: `api/forms.php?form=candidatura|denuncia|presupuesto|cliente|desistimiento` → MySQL insert + notification email (recipient per form: `mail_to_<form>` setting, fallback `MAIL_TO`). Denuncia lookup: GET with `&pin=` returns `hechos/estado/respuesta` (10 failed tries per IP per hour); managed in the admin tab "Canal de denuncias". CVs: attached to the email; `/media/cvs/*` is rewritten to admin-only `api/cv.php`.
+  - Analytics: GA4 (`analytics_id` setting) loads only after cookie consent **and** only on `www` (`src/lib/analytics.js`), so staging visits stay out of the reports.
   - Email: `api/mailer.php` sends via **authenticated SMTP through the domain's own provider** (`smtp.serviciodecorreo.es:465` SSL, mailbox `web@saneamientos-pereda.com`) — passes the domain SPF (`include:_spf.serviciodecorreo.es`). **Resend was dropped** (its DNS verification was stuck for a month). Config keys: `SMTP_HOST/PORT/SECURE/USER/PASS`, `MAIL_FROM`, `MAIL_TO`.
-  - Local dev: `vite.config.js` proxies `/api` and `/media` to `http://dev.saneamientos-pereda.com`.
+  - Local dev: `vite.config.js` proxies `/api` and `/media` to `https://dev.saneamientos-pereda.com` (`changeOrigin`).
 
 ## Status as of 2026-06-15 (live on client infra)
 
@@ -27,15 +29,25 @@ Key facts established during cutover:
   `SETUP_TOKEN`) until it was finally removed on 2026-09-04 with
   `node scripts/prune-deployed.mjs api/setup.php`. Verified gone: `/api/setup.php` now 404s.
 
-Helper scripts: `scripts/push-config.mjs` (regen+upload config.php from .env), `scripts/push-api.mjs` (upload api/*.php + schema, no media), `scripts/archive/cleanup-setup.mjs`.
-
-**Note:** `push-api.mjs` uploads *every* `.php` in `server/api/` except `config.php` —
-including `setup.php`. After running it, re-remove setup.php
-(`node scripts/prune-deployed.mjs api/setup.php`) or it goes back on the server.
+Helper scripts: `scripts/push-config.mjs` (regen+upload config.php from .env), `scripts/push-api.mjs` (upload api/*.php + schema, no media; **skips `setup.php` and `config.php`**). One-offs live in `scripts/archive/` (incl. `deploy-backend.mjs`, the migration deploy — the only script that still uploads `setup.php`).
 
 Remaining / later:
-- Re-running `setup.php` requires re-deploying it (deploy-backend) — only needed for a fresh re-import.
+- Re-running `setup.php` requires re-deploying it (`scripts/archive/deploy-backend.mjs`) — only needed for a fresh re-import.
 - Forms email works via SMTP (above), independent of the stuck DNS. Resend resources + their DNS records (`send` MX/SPF, `resend._domainkey` TXT) were deleted.
+
+## Go-live (2026-09-27/28, in progress)
+
+- **Plan**: the new site moves into `/html`; WordPress moves out to `/data/wp-old/` (outside the
+  web root; the SFTP root is read-only, `/data` is writable). `/html/dev` stays as staging on the
+  same DB — after launch, edit content on `www` only (uploads land in `/html/media`, which dev
+  doesn't see). Steps and checks: `docs/IMPROVEMENTS.md` → C.
+- **Backups (2026-09-28)**: WordPress DB `qaav753` (its own DB, not ours) dumped and `/html`
+  downloaded to `Desktop/peredaweb/backup-2026-09-28/` — outside the repo, contains personal
+  data and credentials. `copia1.zip` (1.7 GB, was publicly downloadable from `/html`) moved to
+  `/data/backups/`.
+- The server allows **SFTP only** (no shell: no tar/mysqldump remotely). The hosting panel
+  (Arsys) could not be logged into by script.
+- Until the switch is done, `/html` is still the live WordPress: the rules below apply.
 
 ## Recent changes (2026-09-04)
 
@@ -74,25 +86,25 @@ Remaining / later:
 Shared hosting ("Hosting Avanzado Linux", panel at panelcontrolhosting.com): Apache + PHP 8.2 + MySQL, ~54 GB free. Server IP 217.76.142.23. SFTP `ftp.saneamientos-pereda.com:22`, user = domain name, password in `.env` (SFTP_*) — **transfer .env between machines via a private channel, never commit it** (it was committed once by accident; that password has been rotated).
 
 - Web root `/html` = client's **live WordPress — never touch**. We deploy only to `/html/dev`.
-- `npm run deploy /html/dev` (frontend), `node scripts/deploy-backend.mjs` (backend), `npm run sftp:ls <dir>`, `scripts/optimize-images.mjs`, `scripts/prune-orphan-media.mjs`.
+- `npm run deploy /html/dev` (frontend), `node scripts/push-api.mjs` (backend code), `node scripts/push-config.mjs` (config.php), `npm run sftp:ls <dir>`, `scripts/optimize-images.mjs`, `scripts/prune-orphan-media.mjs`.
 - **Run deploys from PowerShell, not Git Bash.** MSYS rewrites a POSIX path argument
   into a Windows path, so `npm run deploy /html/dev` reaches the script as
   `C:/Program Files/Git/html/dev` and would deploy into a junk tree relative to the
   SFTP home. `deploy.mjs` now refuses any target that is not absolute, and also
-  refuses `/` and `/html`. `deploy-backend.mjs`, `push-api.mjs` and
+  refuses `/` and `/html`. `push-api.mjs`, `push-config.mjs` and
   `prune-deployed.mjs` hardcode `/html/dev`, so only `deploy.mjs` took an argument.
 - `uploadDir` only adds/overwrites — frontend deploys won't delete `/api` or `/media`.
 
 ## Known issues / pending
 
 - **Hosting DNS + SSL: RESOLVED 2026-07-01.** The previously-stuck zone now publishes: `dev` A, `www.dev` A (→ 217.76.142.23) and the `qaqu803` CNAME (→ lldg503.servidoresdns.net → 82.223.113.26) all resolve on public resolvers (8.8.8.8, 1.1.1.1). SSL for `dev.saneamientos-pereda.com` is served by the existing **`*.saneamientos-pereda.com` wildcard** (Sectigo DV, valid to 2026-12-16) — installed on the dev subdomain via the panel (SSL → Operaciones certificado → *Instalar* ON), with **Redirección HTTPS** ON (http→https 302). So dev is now a proper HTTPS staging site; the local hosts entry is no longer required (can be removed). `DB_HOST` still uses `lldg503.servidoresdns.net` directly (works fine); it *could* now switch to the `qaqu803` CNAME but there's no need. The Resend records (`send` MX/SPF, `resend._domainkey` TXT) were **deleted** by the user (email moved to SMTP, see above).
-  - **Production launch is still gated on migration/parity work, not infra:** the live `/html` WordPress site has 700+ indexed URLs (WooCommerce shop `/tienda/` etc., hundreds of programmatic local-SEO landing pages like `/mueble-de-bano-*-en-asturias/`, blog, portfolio, `/contacto/`, `/trabaja-con-nosotros/`, differing legal slugs). Cutover needs: a 301 redirect map (old→new), a decision on whether the `www` WooCommerce shop is still used for sales, a cookie-consent banner + web analytics (GA/GTM id needed — SPA currently has neither), and the docroot swap. Client is still testing content on dev.
-- All site images are now DB-driven/admin-editable (2026-06-15): Quiénes Somos (bg + 4 photos → `quienes_somos_*` settings), Área Profesional bg (`area_profesional_bg`), per-category images (now `category_photos_<key>`, a JSON photo list driving the carousel — supersedes the legacy single `category_banner_<key>`, still read as a fallback; edited in AdminProductos). `AdminPageEditor` gained an `image` field type. Base images seeded via `scripts/seed-image-settings.mjs`. Unused `inspirate1-3.jpg` and the corrupt `productos_construccion.jpg` were removed.
+  - *(Historical — superseded by "Go-live" above.)* **Production launch was gated on migration/parity work, not infra:** the live `/html` WordPress site has 700+ indexed URLs (WooCommerce shop `/tienda/` etc., hundreds of programmatic local-SEO landing pages like `/mueble-de-bano-*-en-asturias/`, blog, portfolio, `/contacto/`, `/trabaja-con-nosotros/`, differing legal slugs). Cutover needs: a 301 redirect map (old→new), a decision on whether the `www` WooCommerce shop is still used for sales, a cookie-consent banner + web analytics (GA/GTM id needed — SPA currently has neither), and the docroot swap. Client is still testing content on dev.
+- All site images are now DB-driven/admin-editable (2026-06-15): Quiénes Somos (bg + 4 photos → `quienes_somos_*` settings), Área Profesional bg (`area_profesional_bg`), per-category images (now `category_photos_<key>`, a JSON photo list driving the carousel — supersedes the legacy single `category_banner_<key>`, still read as a fallback; edited in AdminProductos). `AdminPageEditor` gained an `image` field type. Base images seeded via `scripts/archive/seed-image-settings.mjs`. Unused `inspirate1-3.jpg` and the corrupt `productos_construccion.jpg` were removed.
 - Note: the hosting serves static assets through a **cache** that ignores query-string busting and outlives file deletion by a TTL — deleted/replaced same-path files linger briefly. Admin uploads use unique filenames so they're unaffected. `scripts/prune-deployed.mjs` deletes server files removed locally (deploy only adds/overwrites).
 - Timeline (README): 2026-06-15 aesthetics review; 2026-06-22 production launch + SEO.
 
 ## Conventions
 
 - UI text Spanish; commit messages short imperative summaries.
-- `.env` keys: `SFTP_HOST/PORT/USER/PASS`, `DB_HOST/NAME/USER/PASS`, `SMTP_HOST/PORT/SECURE/USER/PASS`, `MAIL_FROM/TO`, `SETUP_TOKEN` (auto-generated by deploy-backend).
+- `.env` keys: `SFTP_HOST/PORT/USER/PASS`, `DB_HOST/NAME/USER/PASS`, `SMTP_HOST/PORT/SECURE/USER/PASS`, `MAIL_FROM/TO`, `SETUP_TOKEN` (auto-generated by `scripts/archive/deploy-backend.mjs`; only for a re-import).
 - Local tooling on the original dev machine: Node 24 + PHP 8.2 via winget (`php -l` for linting). On a fresh machine: install Node, `npm install`, copy `.env` (DNS now resolves publicly, so no hosts entry needed).

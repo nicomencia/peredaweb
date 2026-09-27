@@ -170,7 +170,8 @@ export default function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    async function loadSettings() {
+    // Not the loadSettings imported from lib/settings: this one applies the theme.
+    async function loadThemeSettings() {
       const { data } = await api
         .from('site_settings')
         .select('key, value')
@@ -190,7 +191,7 @@ export default function App() {
         setCategoryBanners(banners);
       }
     }
-    loadSettings();
+    loadThemeSettings();
   }, []);
 
   // The "browser logo" (favicon) is its own setting, independent of the navbar logo.

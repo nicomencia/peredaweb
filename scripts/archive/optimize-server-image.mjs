@@ -10,7 +10,7 @@ import { resolve, posix } from 'node:path';
 // DB reference, then delete the original. Source files come from migration-data/.
 const MAX = 1920;
 const REMOTE_ROOT = '/html/dev';
-const LOCAL_MEDIA = resolve(import.meta.dirname, '../migration-data/media');
+const LOCAL_MEDIA = resolve(import.meta.dirname, '../../migration-data/media');
 
 const TARGETS = [
   '/media/site-assets/site-assets/1780423936917-0upffo.jpg',

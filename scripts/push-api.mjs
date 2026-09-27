@@ -3,8 +3,10 @@ import SftpClient from 'ssh2-sftp-client';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-// Uploads PHP code + schema + import JSON to /html/dev (NOT media, NOT config.php).
+// Uploads PHP code + schema to /html/dev (NOT media, NOT config.php).
 // Fast iteration path for backend code changes; config.php stays as deployed.
+// setup.php is never uploaded: it DROPs every table and must stay off the server.
+// A fresh re-import is the one exception - see docs/RUNBOOK.md.
 const ROOT = resolve(import.meta.dirname, '..');
 const REMOTE = '/html/dev';
 
@@ -21,7 +23,7 @@ try {
 
   // API .php files (skip config.php so we never clobber server credentials)
   for (const f of await readdir(resolve(ROOT, 'server/api'))) {
-    if (f === 'config.php') continue;
+    if (f === 'config.php' || f === 'setup.php') continue;
     await sftp.put(resolve(ROOT, 'server/api', f), `${REMOTE}/api/${f}`);
   }
   // Schema

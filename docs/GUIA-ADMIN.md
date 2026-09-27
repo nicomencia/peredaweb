@@ -52,6 +52,12 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 ### Cita previa
 - **Puntos de contacto** que aparecen en la página de cita previa: edita el nombre, teléfono y correo de cada uno; puedes añadir o eliminar. (El texto introductorio se edita en **Portada**, en el botón «Pide cita».)
 
+### Canal de denuncias
+- Lista de las **denuncias recibidas**, la más reciente primero. Las pendientes se indican arriba.
+- Pulsa una denuncia para ver **todo su contenido**. Solo es visible aquí: el aviso por correo no incluye los hechos.
+- Cambia su **estado** (Pendiente de revisión → En revisión → Resuelta) y escribe una **respuesta**. El denunciante verá el estado y la respuesta cuando consulte su denuncia con su **PIN** en la web. El PIN no se muestra en el panel: es la clave privada del denunciante.
+- Plazos legales: **acusar recibo en 7 días** como máximo (basta con pasarla a «En revisión» con una respuesta breve) y **responder en 3 meses** como máximo.
+
 ### Ajustes generales
 - **Colores** de la marca y textos/enlaces del **pie de página** (descripción, redes sociales).
 - **Logos e icono** (cuatro, independientes): el **logo principal** sobre la cabecera de la portada se edita en **Portada**; el **logo superior** (barra de navegación), el **icono del navegador** (favicon, la imagen de la pestaña del navegador) y el **logo del pie de página** se editan aquí en Ajustes generales.
@@ -71,9 +77,11 @@ El panel está dividido en **pestañas**, una por sección de la web. En cada un
 
 ## Formularios
 
-Los formularios de la web (candidatura/empleo, presupuesto, hazte cliente y canal de denuncias) **se guardan y envían un aviso por correo** a la dirección configurada (actualmente `ines@saneamientos-pereda.com`). El canal de denuncias genera un **PIN** para que la persona consulte el estado.
+Los formularios de la web (candidatura/empleo, presupuesto, hazte cliente, desistimiento y canal de denuncias) **se guardan y envían un aviso por correo** a la dirección de cada formulario, que se cambia en **Ajustes generales → Destinatarios de los formularios**.
 
-Para cambiar la dirección que recibe los avisos, contacta con quien gestiona la web (es un ajuste de configuración).
+- **Candidaturas**: el CV llega **adjunto al correo**. Por privacidad, el enlace al CV solo funciona con la sesión del panel iniciada.
+- **Canal de denuncias**: el contenido se gestiona en la pestaña **Canal de denuncias** (ver arriba).
+- **Desistimiento**: además del aviso interno, la persona recibe automáticamente un **acuse de recibo** por correo.
 
 ## ¿Algo no funciona?
 
