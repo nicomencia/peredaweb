@@ -297,3 +297,34 @@
     padding: 48px 24px 80px;
   }
 }
+
+/* 404 page */
+.not-found {
+  max-width: 640px;
+  text-align: center;
+}
+
+.not-found-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.not-found-links a {
+  padding: 12px 22px;
+  border: 1px solid var(--color-blue);
+  color: var(--color-blue);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.not-found-links a:hover {
+  background: var(--color-blue);
+  color: var(--color-white);
+  opacity: 1;
+}

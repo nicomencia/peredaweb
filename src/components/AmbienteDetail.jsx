@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { setPageMeta, ambienteTitle } from '../lib/seo';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import './AmbienteDetail.css';
@@ -19,7 +20,10 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
           .eq('id', ambienteId)
           .maybeSingle();
 
-        if (ambienteResult.data) setAmbiente(ambienteResult.data);
+        if (ambienteResult.data) {
+          setAmbiente(ambienteResult.data);
+          setPageMeta(ambienteTitle(ambienteResult.data.title), ambienteResult.data.summary);
+        }
 
         const photosResult = await api
           .from('ambiente_photos')

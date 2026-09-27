@@ -1,8 +1,9 @@
 // First, so every component stylesheet can override the link reset.
 import './styles/links.css';
-import { useState, useEffect, useLayoutEffect, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useLayoutEffect, useCallback, useRef, lazy, Suspense } from 'react';
 import { VIEW_TO_PATH } from './lib/routes';
-import { Routes, Route, Navigate, useNavigate, useLocation, useParams } from 'react-router-dom';
+import { metaFor, setPageMeta } from './lib/seo';
+import { Routes, Route, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { api } from './lib/api';
 import { cachedSetting, cachedByPrefix, primeCache, loadSettings } from './lib/settings';
 import Navigation from './components/Navigation';
@@ -22,7 +23,8 @@ const AdminLogin = lazy(() => import('./components/admin/AdminLogin'));
 const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard'));
 import FloatingShopButton from './components/FloatingShopButton';
 import CanalDenuncias from './components/CanalDenuncias';
-import ProductosCategory from './components/ProductosCategory';
+import ProductosCategory, { isKnownCategory } from './components/ProductosCategory';
+import NotFound from './components/NotFound';
 import PideCita from './components/PideCita';
 import Financiacion from './components/Financiacion';
 import Presupuesto from './components/Presupuesto';
@@ -54,52 +56,15 @@ function pathToView(pathname) {
   if (pathname.startsWith('/desistimiento')) return 'desistimiento';
   if (pathname.startsWith('/preguntas-frecuentes')) return 'preguntas-frecuentes';
   if (pathname.startsWith('/admin')) return 'admin';
-  return 'home';
+  // Only the root is home: unknown paths render the 404 page with the normal
+  // solid navbar, not the transparent home one.
+  return pathname === '/' ? 'home' : 'not-found';
 }
-
-const DEFAULT_DESCRIPTION = 'Saneamientos Pereda: especialistas en baño, fontanería y materiales de construcción en Oviedo. Productos, ambientes, tiendas y presupuesto sin compromiso.';
-const DESCRIPTIONS = {
-  colecciones: 'Catálogo de Saneamientos Pereda: sanitarios, grifería, muebles de baño, cerámica, fontanería, climatización y materiales de construcción.',
-  'productos-categoria': 'Productos de Saneamientos Pereda por categoría: las mejores marcas en baño, fontanería y construcción.',
-  'sobre-mi': 'Empresa familiar de Oviedo fundada en 1959. Más de 50 años equipando baños y proyectos con calidad y asesoramiento profesional.',
-  inspirate: 'Inspírate con nuestros ambientes de baño: cerámica, mobiliario y decoración seleccionados por Saneamientos Pereda.',
-  'ambiente-detail': 'Descubre este ambiente de baño de Saneamientos Pereda.',
-  instalaciones: 'Nuestras tiendas en Oviedo, Pruvia y Gijón: direcciones, horarios y contacto de Saneamientos Pereda.',
-  'area-profesional': 'Área profesional de Saneamientos Pereda: ventajas, stock y ecommerce para instaladores y profesionales.',
-  'canal-denuncias': 'Canal de denuncias de Saneamientos Pereda. Comunica de forma confidencial y consulta el estado con tu PIN.',
-  'pide-cita': 'Pide cita previa en Saneamientos Pereda y recibe atención personalizada para tu proyecto de reforma.',
-  financiacion: 'Financiación al 0% de interés en Saneamientos Pereda: fracciona tu compra hasta en 24 meses.',
-  presupuesto: 'Solicita presupuesto sin compromiso a Saneamientos Pereda para tu proyecto de baño o reforma.',
-  'hazte-cliente': 'Hazte cliente profesional de Saneamientos Pereda y accede a condiciones y ventajas exclusivas.',
-  'preguntas-frecuentes': 'Preguntas frecuentes de Saneamientos Pereda: dudas habituales sobre productos, pedidos, entregas, instalación y garantías.',
-};
-
-const TITLES = {
-  colecciones: 'Productos',
-  'productos-categoria': 'Productos',
-  'sobre-mi': 'Quiénes somos',
-  inspirate: 'Inspírate',
-  'ambiente-detail': 'Inspírate',
-  instalaciones: 'Instalaciones',
-  'area-profesional': 'Área profesional',
-  'canal-denuncias': 'Canal de denuncias',
-  'pide-cita': 'Pide cita',
-  financiacion: 'Financiación',
-  presupuesto: 'Presupuesto',
-  'hazte-cliente': 'Hazte cliente',
-  'aviso-legal': 'Aviso legal',
-  'politica-privacidad': 'Política de privacidad',
-  'politica-cookies': 'Política de cookies',
-  'politica-redes-sociales': 'Política de privacidad en redes sociales',
-  'condiciones-venta': 'Condiciones de venta',
-  desistimiento: 'Desistimiento',
-  'preguntas-frecuentes': 'Preguntas frecuentes',
-  admin: 'Administración',
-};
 
 // Param routes read the URL param and forward it as the prop the component expects.
 function CategoryRoute({ setCurrentView, categoryBanners }) {
   const { categoria } = useParams();
+  if (!isKnownCategory(categoria)) return <NotFound />;
   return <ProductosCategory category={categoria} setCurrentView={setCurrentView} categoryBanners={categoryBanners} />;
 }
 function AmbienteRoute({ setCurrentView }) {
@@ -191,25 +156,18 @@ export default function App() {
     trackPageview(location.pathname);
   }, [location.pathname]);
 
+  // Titles/descriptions come from public/index.php (window.__SEO__), so they match
+  // what crawlers get. The first render keeps the head as the server sent it,
+  // which is already correct for this exact URL (ambiente names included).
+  const firstMetaRun = useRef(true);
   useEffect(() => {
-    const title = TITLES[currentView];
-    const fullTitle = title && currentView !== 'home' ? `${title} | Saneamientos Pereda` : 'Saneamientos Pereda';
-    const description = DESCRIPTIONS[currentView] || DEFAULT_DESCRIPTION;
-    document.title = fullTitle;
-    const upsertMeta = (attr, key, content) => {
-      let el = document.head.querySelector(`meta[${attr}="${key}"]`);
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', content);
-    };
-    upsertMeta('name', 'description', description);
-    upsertMeta('property', 'og:title', fullTitle);
-    upsertMeta('property', 'og:description', description);
-    upsertMeta('property', 'og:url', window.location.href);
-  }, [currentView]);
+    if (firstMetaRun.current) {
+      firstMetaRun.current = false;
+      return;
+    }
+    const meta = metaFor(location.pathname);
+    if (meta) setPageMeta(meta[0], meta[1]);
+  }, [location.pathname]);
 
   useEffect(() => {
     async function loadSettings() {
@@ -310,7 +268,7 @@ export default function App() {
             </Suspense>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       </main>
       <Footer setCurrentView={setCurrentView} />

@@ -52,6 +52,10 @@ const CATEGORY_CONFIG = {
   },
 };
 
+// Real categories only. 'bano' is a retired key kept as a config fallback; the
+// server 301s /productos/bano to /productos.
+export const isKnownCategory = (key) => key !== 'bano' && Object.hasOwn(CATEGORY_CONFIG, key);
+
 export default function ProductosCategory({ category, setCurrentView, categoryBanners }) {
   const [customDesc, setCustomDesc] = useState('');
   const [photos, setPhotos] = useState([]);
