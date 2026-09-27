@@ -1,93 +1,53 @@
-# Guía de administración — Saneamientos Pereda
+# Guía rápida del panel — Saneamientos Pereda
 
-Guía para editar el contenido de la web desde el panel de administración. No requiere conocimientos técnicos.
+## Entrar
 
-## Acceder al panel
+**www.saneamientos-pereda.com/admin** (o el enlace «Admin» al final de cualquier página) → tu correo y contraseña.
 
-1. Entra en la web.
-2. Baja hasta el **pie de página** (footer) y pulsa el enlace **«Admin»**.
-3. Introduce tu **correo y contraseña** de administrador.
+La primera vez, **cambia la contraseña** en la pestaña **Mi cuenta** (mínimo 8 caracteres). Cada persona tiene su propia cuenta.
 
-Para salir, usa el botón **«Logout»** arriba a la derecha del panel.
+## Lo importante
 
-> Consejo: tras guardar un cambio, refresca la página pública para verlo. Si una imagen tarda un instante en actualizarse, es normal (el servidor la cachea unos minutos).
+1. **Pulsa «Guardar»** después de cada cambio. Si no, no se aplica.
+2. **Fotos**: sube cualquiera, también del móvil. El panel las ajusta solo.
+3. Para ver el cambio, **recarga la página** de la web. Una imagen puede tardar unos minutos en actualizarse.
 
-## Cómo funciona
+## Qué se edita en cada pestaña
 
-El panel está dividido en **pestañas**, una por sección de la web. En cada una editas textos e imágenes y pulsas **«Guardar cambios»**. Las imágenes se optimizan solas al subirlas (no hace falta que las prepares: puedes subir una foto del móvil directamente).
-
----
-
-## Pestañas
-
-### Portada
-- **Logo** y **imagen de fondo** de la cabecera principal.
-- **Botones del hero (enlaces)**: botones que aparecen sobre la imagen principal y abren un **enlace externo** en una pestaña nueva (por ejemplo, una publicación de Instagram con las ofertas de verano). Para cada botón pones el **texto** y la **URL completa** (empezando por `https://`). Puedes añadir varios o eliminarlos; si no hay ninguno, no se muestra nada.
-- Los **4 botones** de la portada: título, texto del botón y texto descriptivo de cada uno.
-
-### Quiénes somos
-- **Subtítulo** de la cabecera y los **dos párrafos** de introducción.
-- **Estadísticas del equipo** (las cifras tipo «+50 Años de Experiencia»): edita la cifra, la etiqueta y la descripción de cada una; puedes añadir o eliminar.
-- **Imagen de cabecera** y las **4 fotos** de la página, con sus **pies de foto**.
-- **Servicios asociados** (título, subtítulo y las tarjetas), bloque **«¿Por qué elegirnos?»** (título y puntos), títulos de **«Nuestro equipo»** y el banner **«Trabaja con nosotros»** (título, texto y botón). Casi todo el texto de la página es editable.
-
-### Inspírate
-- **Título** de la sección y **textos** de las tres tarjetas.
-- **Ambientes**: crea, edita o elimina ambientes (título, resumen, descripción, características y **fotos**). Cada ambiente puede tener varias fotos.
-
-### Tiendas
-- **Banner** (título y texto del botón).
-- **Tiendas**: añade o edita cada tienda — dirección, código postal, teléfono, **horarios** (tienda, fontanería, sábados, verano), correos, **ubicación en el mapa** (latitud/longitud), foto de portada y fotos adicionales. En la web, la foto de portada y las fotos adicionales se muestran como un **carrusel** (con flechas para pasar las fotos).
-
-### Productos
-- **Subtítulo** de la página.
-- Por **categoría** (selecciona la categoría arriba): su **texto descriptivo**, las **fotos del carrusel** (puedes subir varias, reordenarlas con las flechas ← → y eliminarlas; la primera es la que se ve al abrir) y las **marcas** (logos del carrusel).
-- En la web, al entrar en una categoría se muestra todo en una pantalla: el **texto a la izquierda**, el **carrusel de fotos a la derecha** y las **marcas debajo**. No es un catálogo producto a producto, sino una presentación rápida de cada categoría.
-
-### Área Profesional
-- **Textos** (título, subtítulo, sección de beneficios) e **imagen de cabecera**.
-- **Tarjetas de beneficios** (Calidad garantizada, Stock permanente…): edita el título y el texto de cada una; puedes añadir o eliminar (cada tarjeta conserva su icono por posición).
-- **Preguntas frecuentes**: pulsa **«+ Añadir pregunta»**, escribe la pregunta y la respuesta, y guarda. Puedes añadir varias o **eliminar** las que no quieras. En la web se muestran como un desplegable. Si no hay ninguna, la sección muestra un texto provisional.
-
-### Cita previa
-- **Puntos de contacto** que aparecen en la página de cita previa: edita el nombre, teléfono y correo de cada uno; puedes añadir o eliminar. (El texto introductorio se edita en **Portada**, en el botón «Pide cita».)
-
-### Canal de denuncias
-- Lista de las **denuncias recibidas**, la más reciente primero. Las pendientes se indican arriba.
-- Pulsa una denuncia para ver **todo su contenido**. Solo es visible aquí: el aviso por correo no incluye los hechos.
-- Cambia su **estado** (Pendiente de revisión → En revisión → Resuelta) y escribe una **respuesta**. El denunciante verá el estado y la respuesta cuando consulte su denuncia con su **PIN** en la web. El PIN no se muestra en el panel: es la clave privada del denunciante.
-- Plazos legales: **acusar recibo en 7 días** como máximo (basta con pasarla a «En revisión» con una respuesta breve) y **responder en 3 meses** como máximo.
-
-### Mi cuenta
-- **Cambiar tu contraseña**: escribe la actual y la nueva dos veces (mínimo 8 caracteres). Cada persona tiene su propia cuenta, así que cambiar la tuya no afecta a nadie más. Tras 10 intentos fallidos de entrar, el acceso se bloquea una hora desde esa conexión.
-
-### Ajustes generales
-- **Colores** de la marca y textos/enlaces del **pie de página** (descripción, redes sociales).
-- **Logos e icono** (cuatro, independientes): el **logo principal** sobre la cabecera de la portada se edita en **Portada**; el **logo superior** (barra de navegación), el **icono del navegador** (favicon, la imagen de la pestaña del navegador) y el **logo del pie de página** se editan aquí en Ajustes generales.
-- **Contacto y tienda**: teléfono postventa (página de Financiación) y los enlaces de los botones **«Tienda»** (todos los clientes) y **«Acceso ecommerce»** (profesionales). Cuando ambas tiendas pasen a ser el mismo enlace, basta con poner la misma URL en los dos.
-
-- **Destinatarios de los formularios**: el correo que recibe el aviso de cada formulario (candidaturas, canal de denuncias, presupuestos, hazte cliente). Puedes poner varios separados por comas. Por privacidad, estos correos **no son visibles en la web**, solo desde el panel.
-
-> Las **direcciones y teléfonos de las tiendas que aparecen en el pie de página** se toman automáticamente de la sección **Tiendas**: edítalas allí y el pie se actualiza solo.
-
----
-
-## Imágenes
-
-- Sube cualquier foto: se redimensiona y comprime automáticamente para que la web cargue rápido.
-- Cada imagen tiene una vista previa. Tras subir una nueva, **pulsa «Guardar cambios»** para aplicarla.
-- Todas las imágenes de la web son editables desde aquí; no hay imágenes «fijas».
+| Pestaña | Qué cambias |
+|---|---|
+| **Portada** | Imagen y logo principales, **aviso destacado** (ferias, promociones), botones con enlace y los 4 bloques de la portada |
+| **Cita previa** | Personas de contacto (nombre, teléfono, correo) |
+| **Quiénes somos** | Textos, cifras y fotos de la página |
+| **Inspírate** | Los **ambientes**: título, textos y fotos de cada uno |
+| **Tiendas** | Dirección, teléfono, horarios, fotos y ubicación en el mapa de cada tienda. El pie de la web se actualiza solo |
+| **Productos** | Por categoría: texto, fotos y marcas |
+| **Área Profesional** | Textos, ventajas y preguntas frecuentes para profesionales |
+| **Preguntas frecuentes** | Preguntas y respuestas para clientes particulares |
+| **Canal de denuncias** | Denuncias recibidas (ver abajo) |
+| **Ajustes generales** | Colores, logos, redes sociales, enlaces de la tienda y **qué correo recibe cada formulario** |
+| **Mi cuenta** | Tu contraseña |
 
 ## Formularios
 
-Los formularios de la web (candidatura/empleo, presupuesto, hazte cliente, desistimiento y canal de denuncias) **se guardan y envían un aviso por correo** a la dirección de cada formulario, que se cambia en **Ajustes generales → Destinatarios de los formularios**.
+Cada formulario de la web (presupuesto, hazte cliente, empleo, desistimiento y denuncias) **envía un correo** a la dirección elegida en *Ajustes generales → Destinatarios*.
 
-- **Candidaturas**: el CV llega **adjunto al correo**. Por privacidad, el enlace al CV solo funciona con la sesión del panel iniciada.
-- **Canal de denuncias**: el contenido se gestiona en la pestaña **Canal de denuncias** (ver arriba).
-- **Desistimiento**: además del aviso interno, la persona recibe automáticamente un **acuse de recibo** por correo.
+- **Empleo**: el CV llega adjunto al correo.
+- **Desistimiento**: el cliente recibe además un acuse de recibo automático.
 
-## ¿Algo no funciona?
+## Canal de denuncias
 
-- **No puedo entrar**: revisa correo/contraseña. Si ves «Demasiados intentos fallidos», espera una hora. Si has olvidado la contraseña, contacta con el responsable técnico: otra persona con cuenta no puede verla, pero sí se puede poner una nueva.
-- **Subí una imagen y no cambia**: refresca la página; si sigue igual tras unos minutos, vuelve a guardar.
-- **Quiero deshacer un texto**: vuelve a escribir el anterior y guarda (no hay historial automático).
+El correo solo avisa. **El contenido se lee en la pestaña Canal de denuncias.**
+
+1. Abre la denuncia.
+2. Cambia el estado (*Pendiente → En revisión → Resuelta*) y escribe una respuesta.
+3. Pulsa **Guardar**. El denunciante lo verá al consultar con su PIN.
+
+**Plazos legales:** acusar recibo en **7 días** (basta con pasarla a «En revisión» con una respuesta breve) y responder en **3 meses**.
+
+## Si algo falla
+
+- **«Demasiados intentos fallidos»**: espera una hora y vuelve a probar.
+- **Contraseña olvidada**: escríbenos y te ponemos una nueva.
+- **Un cambio no se ve**: recarga la página; si sigue igual tras unos minutos, vuelve a guardar.
+- **Deshacer un texto**: no hay historial; escribe el anterior y guarda.
