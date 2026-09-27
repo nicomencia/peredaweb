@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-// Checks docs/prod-redirects.htaccess against every URL the old WordPress site
+// Checks public/.htaccess (the live redirect map) against every URL the old WordPress site
 // published in its Yoast sitemap (snapshot: docs/seo/old-site-urls.txt).
 // Reports where each old URL ends up, which ones fall through with no redirect,
 // redirect chains, and targets that are not real routes of the new site.
@@ -19,7 +19,7 @@ import { resolve } from 'node:path';
 // Exits 1 if anything falls through or lands on an unknown route.
 
 const ROOT = resolve(import.meta.dirname, '..');
-const HTACCESS = resolve(ROOT, process.argv.slice(2).find((a) => !a.startsWith('--')) ?? 'docs/prod-redirects.htaccess');
+const HTACCESS = resolve(ROOT, process.argv.slice(2).find((a) => !a.startsWith('--')) ?? 'public/.htaccess');
 const SNAPSHOT = resolve(ROOT, 'docs/seo/old-site-urls.txt');
 const HOST = 'www.saneamientos-pereda.com';
 const OLD_ORIGIN = `https://${HOST}`;
