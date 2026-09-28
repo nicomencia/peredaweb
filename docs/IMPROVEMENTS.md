@@ -80,13 +80,19 @@ from that plan file (works after a half-finished switch too).
 **Right after:** `node scripts/verify-live.mjs` (≈30 s; passes on dev with `--dev`): pages, titles,
 canonicals and indexing, 404s, sitemap/robots, http → https, apex → www, **all 755 old URLs followed
 live**, API, gzip/caching and the private files. By hand: one form, admin login, a GA4 real-time hit.
-Submit `https://www.saneamientos-pereda.com/sitemap.xml` in Search Console.
+✅ Done 2026-09-28: all green on www; form, admin login and GA4 real-time checked by hand.
+
+**Search Console:** ✅ the existing URL-prefix property (with its 16-month history) is verified for
+the client's account via `public/googlecbef9800fec986d9.html` — keep that file. ✅ `sitemap.xml`
+submitted. Still to do: confirm it turns "Correcto" (it read "No se ha podido obtener" right after
+submitting, which is normal before the first fetch), remove the old Yoast sitemaps from the list,
+request indexing of the main pages, and export Performance → Pages (16 months) as the before-picture.
 
 **After launch, content is edited on `www` only:** its uploads land in `/html/media`, which
 dev doesn't see (shared DB, separate media folders).
 
 **First month:** weekly Search Console check (404 / soft 404 / redirect errors, clicks vs the
-previous period). Update the website link on the Google Business Profiles of the four stores.
+previous period). ✅ Google Business Profiles checked 2026-09-28: all four stores link to the new site.
 
 **At three months:** compare clicks and impressions year over year.
 
@@ -115,6 +121,9 @@ previous period). Update the website link on the Google Business Profiles of the
 2. **Email deliverability.** SPF is set, but there is **no DKIM and no DMARC** (checked
    2026-09-28). Enable DKIM in the mail provider's panel and publish `_dmarc` TXT
    `v=DMARC1; p=none`.
+3. **SSL certificate expires 2026-12-15** (`*.saneamientos-pereda.com` + apex, Sectigo). Find out who
+   renews it (panel auto-renewal, the client, their provider) and check in early December: an
+   expired certificate puts a full-page browser warning in front of the whole site.
 
 ---
 
