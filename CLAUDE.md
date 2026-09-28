@@ -42,6 +42,9 @@ Production = `/html` (deploy with `--prod`); staging = `/html/dev`. WordPress's 
 `/data/wp-old/` (rollback: `node scripts/go-live.mjs rollback`). `vieja/`, `nueva/`,
 `2intraneteliminar/`, `check-prices.php` (2021 ERP→WooCommerce price sync; now 500s without WordPress)
 and `.tmb` were left in `/html` for the post-launch cleanup (IMPROVEMENTS.md F).
+Search Console: the existing `https://www.saneamientos-pereda.com/` property (16 months of history) is
+verified for the client's account by **`public/googlecbef9800fec986d9.html` — never delete it**;
+`sitemap.xml` submitted 2026-09-28.
 
 ### How it was done
 
@@ -108,7 +111,7 @@ Shared hosting ("Hosting Avanzado Linux", panel at panelcontrolhosting.com): Apa
   - *(Historical — superseded by "Go-live" above.)* **Production launch was gated on migration/parity work, not infra:** the live `/html` WordPress site has 700+ indexed URLs (WooCommerce shop `/tienda/` etc., hundreds of programmatic local-SEO landing pages like `/mueble-de-bano-*-en-asturias/`, blog, portfolio, `/contacto/`, `/trabaja-con-nosotros/`, differing legal slugs). Cutover needs: a 301 redirect map (old→new), a decision on whether the `www` WooCommerce shop is still used for sales, a cookie-consent banner + web analytics (GA/GTM id needed — SPA currently has neither), and the docroot swap. Client is still testing content on dev.
 - All site images are now DB-driven/admin-editable (2026-06-15): Quiénes Somos (bg + 4 photos → `quienes_somos_*` settings), Área Profesional bg (`area_profesional_bg`), per-category images (now `category_photos_<key>`, a JSON photo list driving the carousel — supersedes the legacy single `category_banner_<key>`, still read as a fallback; edited in AdminProductos). `AdminPageEditor` gained an `image` field type. Base images seeded via `scripts/archive/seed-image-settings.mjs`. Unused `inspirate1-3.jpg` and the corrupt `productos_construccion.jpg` were removed.
 - Note: the hosting serves static assets through a **cache** that ignores query-string busting and outlives file deletion by a TTL — deleted/replaced same-path files linger briefly. Admin uploads use unique filenames so they're unaffected. `scripts/prune-deployed.mjs` deletes server files removed locally (deploy only adds/overwrites).
-- Timeline (README): 2026-06-15 aesthetics review; 2026-06-22 production launch + SEO.
+- Timeline: planned for 2026-06-22, **launched 2026-09-28**.
 
 ## Conventions
 
