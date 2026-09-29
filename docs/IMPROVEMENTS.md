@@ -14,9 +14,9 @@ E1 (denuncias admin), E2 (vite proxy), E3 (`push-api` never uploads `setup.php`;
 `deploy-backend` archived), E4 (CVs admin-only), E5 (docs) and E7 (`loadSettings` shadowing).
 
 **Client report.** A Spanish report comparing the old and new site for the client:
-https://claude.ai/artifact/1ma79BJDk5faKfGqxgeDNZ. Written before the final map: its redirect
-chart sends the old WooCommerce URLs to the ecommerce subdomain, but they now go to the public
-shop `www.saneamientos-pereda.es` — update it before sharing.
+https://claude.ai/artifact/1ma79BJDk5faKfGqxgeDNZ. Updated after launch (2026-09-29): past tense, plan
+with each step's status, live-verified redirect figures. Shared viewers see a pinned version: update
+the pin from the page's Share menu after each change.
 
 ## Facts established during the review
 
