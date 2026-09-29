@@ -1,120 +1,157 @@
 # Saneamientos Pereda — project context
 
-Website for Saneamientos Pereda (Spanish bathroom/plumbing/construction-materials company in Oviedo). React 19 + Vite 7 SPA with an integrated admin panel, on the client's own hosting (PHP 8.2 + MySQL + images on disk).
+Website for Saneamientos Pereda (Spanish bathroom/plumbing/construction-materials company in
+Oviedo, four stores in Asturias). React 19 + Vite 7 SPA with an integrated admin panel, on the
+client's own hosting (PHP 8.2 + MySQL + images on disk).
+
+## Status
+
+**Finished and live** on `https://www.saneamientos-pereda.com` since **2026-09-28**, replacing the
+client's WordPress. Handed over 2026-09-29 (git tag `v1.0`). The project is now in maintenance:
+open follow-up lives in `docs/IMPROVEMENTS.md`; the launch record in `docs/LAUNCH.md`.
+
+## Environments
+
+| | Production | Staging |
+|---|---|---|
+| URL | `https://www.saneamientos-pereda.com` | `https://dev.saneamientos-pereda.com` (noindex) |
+| Server folder | `/html` | `/html/dev` |
+| Database | `qaqu803` (`DB_*` in `.env`) | `qars573` (`DEV_DB_*`), separate since 2026-09-29 |
+| Form emails | per-form recipients set in the admin | all to `DEV_MAIL_TO` (never the client) |
+| Analytics | GA4, after cookie consent | never loads |
+
+Both databases are on `lldg503.servidoresdns.net` (the real DB server; the panel's
+`qaqu803.saneamientos-pereda.com` name is a CNAME to it, and `localhost` is the web host's own MySQL,
+which does NOT have these DBs). **Content is edited on www**; staging is a sandbox for code and tests,
+refreshed from www with `node scripts/refresh-dev.mjs` (DB with the form tables emptied, new images,
+CVs never copied).
 
 ## Architecture
 
-- **Frontend**: static build deployed to client server `/html/dev` (dev subdomain `dev.saneamientos-pereda.com`). **react-router** (BrowserRouter) gives real per-page URLs; `App.jsx` keeps a `setCurrentView(view)` adapter (maps view→path via `VIEW_TO_PATH`) so child components navigate unchanged. Admin panel + Instalaciones (Leaflet) code-split via `React.lazy`.
-- **SEO**: a PHP front controller `public/index.php` (served via `.htaccess`, `DirectoryIndex index.php`) serves the SPA shell with per-route `<title>`/description/`og:*`/canonical injected, and generates `/sitemap.xml` + `/robots.txt` dynamically (live host). JSON-LD: `Organization` is static in `index.html`; the four `HardwareStore`s (with `openingHoursSpecification` parsed from the free-text `hours_*` columns) are generated from `tiendas` by `index.php` on `/` and `/instalaciones`. On `/`, `index.php` also preloads the DB hero image and inlines it as `window.__SETTINGS__` (merged into the settings cache by `src/lib/settings.js`), so a first visit downloads one hero image, early. `index.php` also fills `#root` with the page's real text (heading, DB content: category texts + brands, stores with hours, ambientes, FAQ) and links to every section, for crawlers that don't run JS; it is visually hidden (shown under `<noscript>`) and `createRoot` replaces it. Share image: `public/base/og-image.jpg` (1200×630, hero photo + logo; ambientes use their cover). One metadata map in `index.php`, inlined as `window.__SEO__` and applied on client-side navigation by `src/lib/seo.js` (no second copy in JS). Real 404 status for unknown paths; `noindex` + `X-Robots-Tag` on every host except `PRODUCTION_HOST` (`www.saneamientos-pereda.com`). Internal links are real `<Link>`s (class `as-button` makes an anchor look like the old `<button>`; see `src/styles/links.css`). `public/.htaccess` holds gzip, immutable caching for `/assets/`, apex → www, and the **301 map for the 755 old WordPress URLs** (`docs/seo/old-site-urls.txt`) — verify changes with `node scripts/check-redirects.mjs` (exit 0).
-- **Backend**: PHP API in `server/api/` (deployed to `/html/api/` and `/html/dev/api/`), MySQL, images on server disk under `media/`.
-  - **Two databases since 2026-09-29**: www uses `qaqu803` (`DB_*`), staging uses its own `qars573` (`DEV_DB_*`, same host), so edits and tests on dev never reach www. Staging's form notifications all go to `DEV_MAIL_TO`. `node scripts/refresh-dev.mjs` makes staging a fresh copy of www (database with the form tables emptied, plus new images, CVs excluded); `push-config.mjs` picks the right credentials per target.
-  - `src/lib/api.js` is a small **chainable client** (`from().select().eq().in().or().order().maybeSingle()`, `insert/update/delete`, `auth.*`) that calls the PHP API — components use it like a mini query builder. Don't "clean it up" into per-component fetches without reason.
-  - `src/lib/upload.js` resizes client-side (≤1920px WebP) then POSTs to `api/upload.php` (PHP-session protected).
-  - Admin auth: PHP sessions (`auth.php`, bcrypt in `admin_users` table) via the shim's `auth.*` methods. One account per person: `admin@` (ours, in `.env`), `ines@` + `alberto@` (client, 2026-09-28, password not in `.env`). Self-service password change ("Mi cuenta" tab, `change_password`, ≥8 chars). Login and denuncia PIN lookups share a per-IP limiter (`too_many_failures`/`record_failure` in `db.php`: 10 failures per hour).
-  - Private tables (form submissions) are read with `api.list(table)` → `admin.php` `list` (session-protected); `content.php` only serves public content tables.
-  - Forms: `api/forms.php?form=candidatura|denuncia|presupuesto|cliente|desistimiento` → MySQL insert + notification email (recipient per form: `mail_to_<form>` setting, fallback `MAIL_TO`). Denuncia lookup: GET with `&pin=` returns `hechos/estado/respuesta` (10 failed tries per IP per hour); managed in the admin tab "Canal de denuncias". CVs: attached to the email; `/media/cvs/*` is rewritten to admin-only `api/cv.php`.
-  - Analytics: GA4 (`analytics_id` setting) loads only after cookie consent **and** only on `www` (`src/lib/analytics.js`), so staging visits stay out of the reports.
-  - Email: `api/mailer.php` sends via **authenticated SMTP through the domain's own provider** (`smtp.serviciodecorreo.es:465` SSL, mailbox `web@saneamientos-pereda.com`) — passes the domain SPF (`include:_spf.serviciodecorreo.es`). **Resend was dropped** (its DNS verification was stuck for a month). Config keys: `SMTP_HOST/PORT/SECURE/USER/PASS`, `MAIL_FROM`, `MAIL_TO`.
-  - Local dev: `vite.config.js` proxies `/api` and `/media` to `https://dev.saneamientos-pereda.com` (`changeOrigin`).
+- **Frontend** (`src/`): **react-router** (BrowserRouter) with real per-page URLs; `App.jsx` keeps a
+  `setCurrentView(view)` adapter (view → path via `VIEW_TO_PATH` in `src/lib/routes.js`) so child
+  components navigate unchanged. Admin panel + Instalaciones (Leaflet) are code-split via `React.lazy`.
+  Internal links are real `<Link>`s; class `as-button` makes an anchor look like the old `<button>`
+  (`src/styles/links.css`, imported first so the global reset doesn't undo it).
+- **Front controller** `public/index.php` (via `.htaccess`, `DirectoryIndex index.php`) serves the SPA
+  shell for every route:
+  - Per-route `<title>`/description/`og:*`/canonical from one metadata map, also inlined as
+    `window.__SEO__` and applied on client-side navigation by `src/lib/seo.js` (no second copy in JS).
+    Keep the `$ROUTES` array format: `scripts/check-redirects.mjs` parses it.
+  - Real status codes: 404 (+ noindex) for unknown paths; ambiente IDs checked against the DB (DB down
+    → 200, never a false 404). `noindex` + `X-Robots-Tag` on every host except `PRODUCTION_HOST`.
+  - `/sitemap.xml` (static routes, 10 categories, ambientes) and `/robots.txt`, generated per host.
+  - JSON-LD: `Organization` static in `index.html`; the four `HardwareStore`s generated from `tiendas`
+    on `/` and `/instalaciones`, with `openingHoursSpecification` parsed from the free-text `hours_*`
+    columns (a store whose text doesn't parse gets no hours rather than wrong ones).
+  - Home: preloads the DB hero image and inlines it as `window.__SETTINGS__` (merged into the settings
+    cache by `src/lib/settings.js`), so a first visit downloads one hero image, early.
+  - Fills `#root` with the page's real text (heading, DB content, links to every section) for crawlers
+    that don't run JS; visually hidden, shown under `<noscript>`, replaced by `createRoot`.
+  - Share image `public/base/og-image.jpg` (1200×630, hero photo + logo); ambientes use their cover.
+- **`public/.htaccess`**: gzip, one-year immutable cache for `/assets/`, apex → www, http → https (this
+  used to come from a WordPress plugin, not the panel), `/index.php` and `/index.html` → `/`, CVs
+  routed to `api/cv.php`, and the **301 map for the 755 old WordPress URLs**
+  (`docs/seo/old-site-urls.txt`) plus old URLs seen in the logs after launch. Old WordPress media
+  (`/wp-content/`) and pre-WordPress `/images/` answer 410 by decision. Verify any change with
+  `node scripts/check-redirects.mjs` (exit 0).
+- **Backend** (`server/api/`, deployed to `api/` in both environments): PHP + PDO on MySQL.
+  - `src/lib/api.js` is a small **chainable client** (`from().select().eq().in().or().order()…`,
+    `insert/update/delete`, `auth.*`, `list()`) that calls the PHP API. Don't "clean it up" into
+    per-component fetches without reason. It shares in-flight `content.php` reads per table.
+  - `content.php`: public read of content tables only (`mail_to_*` settings filtered out).
+    `admin.php`: session-protected CRUD, `list` (private tables, e.g. denuncias) and `get_settings`.
+    Identifiers are validated against `TABLE_COLUMNS` in `db.php`; keep it in sync with
+    `server/sql/schema.sql`.
+  - `upload.php` (session-protected) takes images resized client-side to ≤1920px WebP
+    (`src/lib/upload.js`); `square` option for the favicon.
+  - Admin auth: PHP sessions + bcrypt (`admin_users`). One account per person: `admin@` (developer,
+    password in `.env`), `ines@` + `alberto@` (client; their password is not in `.env`). "Mi cuenta"
+    tab changes one's own password (≥ 8 chars). Logins and denuncia PIN lookups share a per-IP
+    limiter in `db.php` (`too_many_failures`/`record_failure`: 10 failures per hour).
+  - Forms: `forms.php?form=candidatura|denuncia|presupuesto|cliente|desistimiento` → insert +
+    notification email (recipient `mail_to_<form>` setting, fallback `MAIL_TO`). Email is
+    best-effort: a send failure never fails the form (it only reaches the PHP error log).
+    Candidatura: CV attached to the email; `/media/cvs/*` only via admin-only `api/cv.php`.
+    Denuncia: GET with `&pin=` returns `hechos/estado/respuesta`; managed in the admin tab
+    "Canal de denuncias" (legal deadlines: acknowledge in 7 days, answer in 3 months).
+    Desistimiento: also emails an acknowledgment to the consumer.
+  - Email: `mailer.php`, authenticated SMTP through the domain's own provider
+    (`smtp.serviciodecorreo.es:465`, mailbox `web@saneamientos-pereda.com`), which passes the domain
+    SPF. No DKIM/DMARC on the domain: the company's email belongs to another provider, out of scope.
+- **Content model**: almost everything the public sees is a `site_settings` key edited in the admin
+  (texts, four independent logos, hero image/announcement/buttons, per-category text + photo list,
+  FAQ lists as JSON). **New keys must be seeded** (`node scripts/seed-setting.mjs <key> [value]`):
+  admin saves use `update`, which won't create a missing row. There is no product catalogue by
+  design (15k+ SKUs): each category is a one-screen presentation (text + photo carousel + brands).
+- **Analytics**: GA4 (`analytics_id` setting) loads only after cookie consent and only on www
+  (`src/lib/analytics.js`).
 
-## Status as of 2026-06-15 (live on client infra)
+## Operating
 
-The public site on `/html/dev` reads from the client's MySQL, serves images from the client's disk under `/media/`, and uses PHP session admin auth + PHP form endpoints.
+Shared hosting ("Hosting Avanzado Linux", Arsys panel at panelcontrolhosting.com): Apache + PHP 8.2
++ MySQL. Server IP 217.76.142.23. **SFTP only** (no shell): `ftp.saneamientos-pereda.com:22`, user =
+domain name, password in `.env`. **Transfer `.env` between machines via a private channel, never
+commit it** (it was committed once by accident; that password was rotated).
 
-Key facts established during cutover:
-- **DB connection: `DB_HOST=lldg503.servidoresdns.net`** (the real DB server, IP 82.223.113.26). The panel's `qaqu803.saneamientos-pereda.com` is an unpublished CNAME to it (stuck DNS — see Known issues), so it doesn't resolve from PHP; `localhost` reaches the web host's *own* MySQL which does NOT have this DB. DB name/user `qaqu803`, password in `.env`.
-- **Schema was corrected from the live exported data, NOT the old migration files** (which were stale): `tiendas` has `lat`/`lon`. `server/sql/schema.sql` `DROP`s then `CREATE`s, with defaults so imports are strict-mode-safe. `TABLE_COLUMNS` in `db.php` mirrors this. **(Update 2026-06-18: the `products`/`product_photos` tables were later dropped — see Recent changes.)**
-- Admin user: `admin@saneamientos-pereda.com` (created via setup). Login/upload verified; security boundaries verified (401 unauth upload/admin, 403 on config.php/db.php/import).
-- `api/import/` was deleted from the server post-import (`scripts/archive/cleanup-setup.mjs`).
-  **`setup.php` was not** — it was still live (and still `DROP`s every table behind
-  `SETUP_TOKEN`) until it was finally removed on 2026-09-04 with
-  `node scripts/prune-deployed.mjs api/setup.php`. Verified gone: `/api/setup.php` now 404s.
+- **Flow**: change → deploy to staging → check → deploy with `--prod` → `node scripts/verify-live.mjs`.
+- `npm run deploy` (frontend), `node scripts/push-api.mjs` (PHP + schema; never uploads `setup.php`
+  or `config.php`), `node scripts/push-config.mjs` (config.php from `.env`; picks `DEV_DB_*` /
+  `DEV_MAIL_TO` for staging and refuses a staging config pointing at the www DB),
+  `node scripts/prune-deployed.mjs <files>` (deploys only add/overwrite). All target `/html/dev` by
+  default and `/html` with `--prod` (`npm run deploy -- --prod`); target logic in
+  `scripts/lib/remote.mjs`.
+- **Run deploys from PowerShell, not Git Bash**: MSYS rewrites `/html/dev` into
+  `C:/Program Files/Git/html/dev`. `deploy.mjs` only accepts `--prod` or the legacy `/html/dev`.
+- `node scripts/verify-live.mjs [--dev]`: read-only end-to-end check (pages, titles, canonicals,
+  indexing, 404s, sitemap/robots, http → https, apex → www, all 755 old URLs followed live, API,
+  gzip/caching, private files, SSL certificate ≥ 21 days left). Networks that block port 80 or drop
+  connections get "could not check", not a failure.
+- **GitHub Actions**: `checks.yml` (build + `php -l` + `check-redirects.mjs` on every push) and
+  `monitor.yml` (`verify-live` on www and staging daily at 06:17 UTC; a failure emails the repo owner).
+- Other scripts: `npm run sync:base` (refresh `public/base/` hero/logos from the DB; runs before each
+  deploy), `npm run sftp:ls <dir>`, `db-audit.mjs`, `audit-media.mjs`, `optimize-images.mjs`,
+  `prune-orphan-media.mjs` (dry-run by default). `go-live.mjs` did the WordPress → SPA switch; it stays
+  for `go-live.mjs rollback` until `/data/wp-old/` is deleted (`docs/LAUNCH.md`). Other one-offs,
+  incl. the migration's `deploy-backend.mjs` (the only script that uploads `setup.php`), are in
+  `scripts/archive/`.
+- Search Console: the existing `https://www.saneamientos-pereda.com/` property is verified for the
+  client's account by **`public/googlecbef9800fec986d9.html` — never delete it**.
 
-Helper scripts: `scripts/push-config.mjs` (regen+upload config.php from .env), `scripts/push-api.mjs` (upload api/*.php + schema, no media; **skips `setup.php` and `config.php`**). One-offs live in `scripts/archive/` (incl. `deploy-backend.mjs`, the migration deploy — the only script that still uploads `setup.php`).
+## Gotchas
 
-Remaining / later:
-- Re-running `setup.php` requires re-deploying it (`scripts/archive/deploy-backend.mjs`) — only needed for a fresh re-import.
-- Forms email works via SMTP (above), independent of the stuck DNS. Resend resources + their DNS records (`send` MX/SPF, `resend._domainkey` TXT) were deleted.
-
-## Live on www since 2026-09-28
-
-**Switched 2026-09-28 ~01:45 (2.1 s, `go-live.mjs switch`); `verify-live.mjs` passed all checks on www.**
-Production = `/html` (deploy with `--prod`); staging = `/html/dev`. WordPress's 21 entries are in
-`/data/wp-old/` (rollback: `node scripts/go-live.mjs rollback`). `vieja/`, `nueva/`,
-`2intraneteliminar/`, `check-prices.php` (2021 ERP→WooCommerce price sync; now 500s without WordPress)
-and `.tmb` were left in `/html` for the post-launch cleanup (IMPROVEMENTS.md F).
-Search Console: the existing `https://www.saneamientos-pereda.com/` property (16 months of history) is
-verified for the client's account by **`public/googlecbef9800fec986d9.html` — never delete it**;
-`sitemap.xml` submitted 2026-09-28.
-
-### How it was done
-
-- **Plan**: the new site moves into `/html`; WordPress moves out to `/data/wp-old/` (outside the
-  web root; the SFTP root is read-only, `/data` is writable). `/html/dev` stays as staging on the
-  DB at the time — superseded 2026-09-29: staging now has its own database (see Backend). Steps and checks: `docs/IMPROVEMENTS.md` → C.
-- **Backups (2026-09-28)**: WordPress DB `qaav753` (its own DB, not ours) dumped and `/html`
-  downloaded to `Desktop/peredaweb/backup-2026-09-28/` — outside the repo, contains personal
-  data and credentials. `copia1.zip` (1.7 GB, was publicly downloadable from `/html`) moved to
-  `/data/backups/`.
-- The server allows **SFTP only** (no shell: no tar/mysqldump remotely). The hosting panel
-  (Arsys) could not be logged into by script.
-- The "never touch /html" rule below is historical: `/html` is now the production site.
-
-## Recent changes (2026-09-04)
-
-- **Legal**: the shared `DataConsentClause` legitimation basis moved from legitimate
-  interest (art. 6.1.f) to the contractual/precontractual relationship (art. 6.1.b),
-  verbatim from the client's legal team. Applies to both Hazte cliente and Presupuesto.
-- **Hero**: the animated scroll-cue line was removed (markup + styles). `100dvh` →
-  `100svh` on `.hero` and mobile `.hero-content`: dvh tracks the mobile address bar as
-  it hides on scroll, so the hero height — and with it the `cover`-sized background —
-  resized mid-scroll. svh is stable for the life of the page.
-- **`hero_announcement`** (new `site_settings` key, seeded): free announcement text over
-  the hero for sales/trade fairs, edited in Portada above the link buttons. Rendered with
-  `white-space: pre-line`. Announcement + buttons are wrapped in `.hero-message` so mobile
-  `space-between` keeps them together instead of flinging them apart.
-- **Perf**: `api.js` now shares the in-flight `content.php` read per table. The home page
-  mounts eight components that each fetched the whole `site_settings` table (~25 KB, and
-  the host does not gzip JSON) — eight identical round trips, now one. Only the pending
-  promise is shared, never resolved rows, so reads after writes stay fresh.
-- **Fixes**: duplicate mount-time GA `page_view` (App starts GA in two effects);
-  `desistimiento_requests` was created but never dropped in `schema.sql`, so re-running
-  setup left a half-rebuilt DB; denuncia PIN collisions (the column is UNIQUE) now retry
-  instead of 500ing and losing the report.
-- **`setup.php` removed from the server** (see Status above).
-
-## Recent changes (2026-06-18)
-
-- **Product catalogue removed.** `products`/`product_photos` tables were dropped (client has 15k+ SKUs, unmanageable one by one). Each category is now a one-screen presentation: descriptive text (left) + photo carousel (right) + brand carousel (below), all from `site_settings` (`category_desc_<cat>`, `category_photos_<cat>` JSON image list; legacy `category_banner_<cat>` is a fallback). Dead components `ProductCard`/`CollectionDetail` removed; `products`/`product_photos` scrubbed from `db.php`/`content.php`/`schema.sql`/`setup.php`. `AdminProductos` now manages only per-category text/photos + brands.
-- **Reusable `ImageCarousel`** (`src/components/ImageCarousel.jsx`, arrows + dots) powers the store photos (`Instalaciones`) and the category photos.
-- **Four independent logos** (all `site_settings`): `hero_logo` (over the hero, edited in Portada), `navbar_logo` (top bar), `favicon` (browser tab), `footer_logo` (footer); the last three edited in Ajustes.
-- **Hero link buttons**: `hero_buttons` (JSON `[{label,url}]`) renders external-link buttons over the hero (e.g. an Instagram offers post). Edited in Portada (folded into `AdminHomepage` so the tab has a single save button).
-- **Sticky admin save**: the page-level "Guardar cambios" floats via `position: sticky`; this required changing the global `html, body { overflow-x: hidden }` → `overflow-x: clip` (hidden creates a scroll container that breaks sticky).
-- New `site_settings` keys must be **seeded** (`node scripts/seed-setting.mjs <key> [value]`) because admin saves use `update` (which won't create a missing row).
-
-## Client hosting environment
-
-Shared hosting ("Hosting Avanzado Linux", panel at panelcontrolhosting.com): Apache + PHP 8.2 + MySQL, ~54 GB free. Server IP 217.76.142.23. SFTP `ftp.saneamientos-pereda.com:22`, user = domain name, password in `.env` (SFTP_*) — **transfer .env between machines via a private channel, never commit it** (it was committed once by accident; that password has been rotated).
-
-- Web root `/html` = **production** (since 2026-09-28; before that it was the client's WordPress). `/html/dev` = staging. Deploy to staging first, then `--prod`; run `node scripts/verify-live.mjs` after a production deploy.
-- `npm run deploy` (frontend), `node scripts/push-api.mjs` (backend code), `node scripts/push-config.mjs` (config.php), `node scripts/prune-deployed.mjs <files>` — all to `/html/dev` by default, to `/html` with `--prod` (`npm run deploy -- --prod`); `deploy`/`prune` refuse `/html` while WordPress (`wp-config.php`) is there. The switch itself: `node scripts/go-live.mjs plan|preload|switch|rollback`. End-to-end check of a deployed site: `node scripts/verify-live.mjs` (www) / `--dev` (read-only, ~30 s, exits 1 on failure; also fails when the SSL certificate has < 21 days left). **GitHub Actions**: `checks.yml` (build + `php -l` + `check-redirects.mjs` on every push) and `monitor.yml` (`verify-live` on www and staging daily at 06:17 UTC; a failure emails the repo owner). Also `npm run sftp:ls <dir>`, `scripts/optimize-images.mjs`, `scripts/prune-orphan-media.mjs`.
-- **Run deploys from PowerShell, not Git Bash.** MSYS rewrites a POSIX path argument
-  into a Windows path, so `npm run deploy /html/dev` reaches the script as
-  `C:/Program Files/Git/html/dev` and would deploy into a junk tree relative to the
-  SFTP home. `deploy.mjs` now only accepts `--prod` or the legacy `/html/dev` argument, so a mangled path is refused. The target
-  logic lives in `scripts/lib/remote.mjs`.
-- `uploadDir` only adds/overwrites — frontend deploys won't delete `/api` or `/media`.
-
-## Known issues / pending
-
-- **Hosting DNS + SSL: RESOLVED 2026-07-01.** The previously-stuck zone now publishes: `dev` A, `www.dev` A (→ 217.76.142.23) and the `qaqu803` CNAME (→ lldg503.servidoresdns.net → 82.223.113.26) all resolve on public resolvers (8.8.8.8, 1.1.1.1). SSL for `dev.saneamientos-pereda.com` is served by the existing **`*.saneamientos-pereda.com` wildcard** (Sectigo DV, valid to 2026-12-16) — installed on the dev subdomain via the panel (SSL → Operaciones certificado → *Instalar* ON), with **Redirección HTTPS** ON (http→https 302). So dev is now a proper HTTPS staging site; the local hosts entry is no longer required (can be removed). `DB_HOST` still uses `lldg503.servidoresdns.net` directly (works fine); it *could* now switch to the `qaqu803` CNAME but there's no need. The Resend records (`send` MX/SPF, `resend._domainkey` TXT) were **deleted** by the user (email moved to SMTP, see above).
-  - *(Historical — superseded by "Go-live" above.)* **Production launch was gated on migration/parity work, not infra:** the live `/html` WordPress site has 700+ indexed URLs (WooCommerce shop `/tienda/` etc., hundreds of programmatic local-SEO landing pages like `/mueble-de-bano-*-en-asturias/`, blog, portfolio, `/contacto/`, `/trabaja-con-nosotros/`, differing legal slugs). Cutover needs: a 301 redirect map (old→new), a decision on whether the `www` WooCommerce shop is still used for sales, a cookie-consent banner + web analytics (GA/GTM id needed — SPA currently has neither), and the docroot swap. Client is still testing content on dev.
-- All site images are now DB-driven/admin-editable (2026-06-15): Quiénes Somos (bg + 4 photos → `quienes_somos_*` settings), Área Profesional bg (`area_profesional_bg`), per-category images (now `category_photos_<key>`, a JSON photo list driving the carousel — supersedes the legacy single `category_banner_<key>`, still read as a fallback; edited in AdminProductos). `AdminPageEditor` gained an `image` field type. Base images seeded via `scripts/archive/seed-image-settings.mjs`. Unused `inspirate1-3.jpg` and the corrupt `productos_construccion.jpg` were removed.
-- Note: the hosting serves static assets through a **cache** that ignores query-string busting and outlives file deletion by a TTL — deleted/replaced same-path files linger briefly. Admin uploads use unique filenames so they're unaffected. `scripts/prune-deployed.mjs` deletes server files removed locally (deploy only adds/overwrites).
-- Timeline: planned for 2026-06-22, **launched 2026-09-28**.
+- The hosting serves static files through a **cache** that ignores `?v=` and outlives deletion by a
+  TTL. Admin uploads use unique filenames; `/assets/` names are content-hashed.
+- `setup.php` `DROP`s every table (behind `SETUP_TOKEN`). It lives in the repo only for a
+  from-scratch re-import and must never stay on the server.
+- `global.css` uses `overflow-x: clip` (not `hidden`) on `html, body`: `hidden` breaks the sticky
+  admin save button.
+- `.hero` uses `100svh`, not `dvh` (dvh resizes the cover background while the mobile address bar
+  hides).
+- `/html` still holds `vieja/`, `nueva/`, `2intraneteliminar/` (old sites, not ours) and `/data/wp-old/`
+  (the WordPress, kept for rollback): see the cleanup plan in `docs/IMPROVEMENTS.md`.
 
 ## Conventions
 
 - UI text Spanish; commit messages short imperative summaries.
-- `.env` keys: `SFTP_HOST/PORT/USER/PASS`, `DB_HOST/NAME/USER/PASS` (www), `DEV_DB_HOST/NAME/USER/PASS` + `DEV_MAIL_TO` (staging), `SMTP_HOST/PORT/SECURE/USER/PASS`, `MAIL_FROM/TO`, `SETUP_TOKEN` (auto-generated by `scripts/archive/deploy-backend.mjs`; only for a re-import).
-- Local tooling on the original dev machine: Node 24 + PHP 8.2 via winget (`php -l` for linting). On a fresh machine: install Node, `npm install`, copy `.env` (DNS now resolves publicly, so no hosts entry needed).
+- `.env` keys: `SFTP_HOST/PORT/USER/PASS`, `DB_HOST/NAME/USER/PASS` (www),
+  `DEV_DB_HOST/NAME/USER/PASS` + `DEV_MAIL_TO` (staging), `SMTP_HOST/PORT/SECURE/USER/PASS`,
+  `MAIL_FROM/TO`, `SETUP_TOKEN` (only for a re-import).
+- Tooling: Node 24 (+ PHP 8.2 for `php -l`, via winget on Windows). Fresh machine: install Node,
+  `npm install`, copy `.env`.
+
+## History
+
+- **2026-06**: built on Supabase/Bolt, migrated to the client's hosting (PHP API + MySQL + disk
+  images); schema rebuilt from the live exported data. Product catalogue dropped (2026-06-18); all
+  images and texts made admin-editable.
+- **2026-07-01**: hosting DNS finally published; dev served over HTTPS with the
+  `*.saneamientos-pereda.com` wildcard. Email moved from Resend to the domain's own SMTP.
+- **2026-09-04**: legal basis of the consent clause changed to art. 6.1.b; hero announcement; shared
+  `content.php` reads; `setup.php` finally removed from the server.
+- **2026-09-15**: full review → SEO launch blockers and the 755-URL redirect map.
+- **2026-09-27/28**: SEO work landed (crawlable links, real 404s, sitemap, titles, noindex off www,
+  gzip/caching); denuncias admin, private CVs, per-person admin accounts; backups; **switch to www**
+  (2.1 s) — see `docs/LAUNCH.md`.
+- **2026-09-29**: staging on its own database; share image; page text for non-JS crawlers; CI +
+  daily monitor; post-launch redirects from the access logs; first hosting cleanup.

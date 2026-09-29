@@ -8,7 +8,7 @@ Manual de operación y mantenimiento. Para la arquitectura general ver [README](
 - IP del servidor web: **217.76.142.23**.
 - SFTP: **ftp.saneamientos-pereda.com:22**, usuario = nombre de dominio. Credenciales en `.env` (`SFTP_*`).
 - **Raíz `/html` = la web en producción** (desde el 2026-09-28; antes era el WordPress del cliente, ahora en `/data/wp-old/`). **`/html/dev`** = staging. Despliega primero a staging y después con `--prod`, y comprueba con `node scripts/verify-live.mjs`.
-- Subdominio `dev.saneamientos-pereda.com` → `/html/dev`. **DNS y SSL resueltos (2026-07-01)**: resuelve en resolvers públicos y sirve HTTPS con el comodín `*.saneamientos-pereda.com` (Sectigo DV, válido hasta 2026-12-16), con redirección HTTP→HTTPS.
+- Subdominio `dev.saneamientos-pereda.com` → `/html/dev`. **DNS y SSL resueltos (2026-07-01)**: resuelve en resolvers públicos y sirve HTTPS con el comodín `*.saneamientos-pereda.com` (Sectigo DV, caduca el **2026-12-15**; el monitor diario avisa 21 días antes), con redirección HTTP→HTTPS.
 
 ## Variables de entorno (`.env`, NO se commitea)
 
@@ -43,15 +43,17 @@ En el servidor, estas se traducen a `server/api/config.php` (generado por los sc
 | `node scripts/verify-live.mjs [--dev]` | comprueba la web desplegada de punta a punta (páginas, indexación, redirecciones de las 755 URLs antiguas, https, API, archivos privados); solo lectura |
 | `node scripts/prune-deployed.mjs <archivos>` | borra del servidor archivos eliminados localmente (deploy solo añade/sobrescribe) |
 
-Todos van a staging (`/html/dev`) por defecto y a producción (`/html`) con **`--prod`** (`npm run deploy -- --prod`). `deploy` y `prune-deployed` se niegan a tocar `/html` mientras siga el WordPress. El cambio de WordPress a la web nueva es `node scripts/go-live.mjs plan|preload|switch|rollback`.
+Todos van a staging (`/html/dev`) por defecto y a producción (`/html`) con **`--prod`** (`npm run deploy -- --prod`, `node scripts/push-api.mjs --prod`…). Flujo: staging → comprobar → `--prod` → `node scripts/verify-live.mjs`.
+
+`scripts/go-live.mjs` hizo el cambio desde WordPress el 2026-09-28 ([LAUNCH.md](LAUNCH.md)); se conserva por `go-live.mjs rollback` (vuelve a poner el WordPress en segundos) hasta que se borre `/data/wp-old/`.
 
 El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquier carpeta/host.
 
 > **En Windows, lanza los despliegues desde PowerShell, no desde Git Bash.** MSYS reescribe
 > los argumentos que parecen rutas POSIX: `npm run deploy /html/dev` le llega al script como
 > `C:/Program Files/Git/html/dev`, que al no ser absoluta se interpretaría como relativa al
-> home del SFTP. `deploy.mjs` ahora rechaza cualquier destino no absoluto, y también `/` y
-> `/html` (el WordPress vivo del cliente).
+> home del SFTP. `deploy.mjs` solo acepta `--prod` o el antiguo `/html/dev`, así que una ruta
+> reescrita se rechaza.
 
 > `setup.php` hace `DROP` de todas las tablas, así que ningún script de uso diario lo sube.
 > `scripts/archive/deploy-backend.mjs` (el despliegue de la migración) sí lo hace: úsalo solo
@@ -69,15 +71,16 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 - Esquema: `server/sql/schema.sql` (UUIDs como CHAR(36); `specs`/`emails` como JSON). El mapa de columnas permitidas por la API está en `TABLE_COLUMNS` de `server/api/db.php` — **mantener ambos sincronizados**.
 - Auditorías: `node scripts/db-audit.mjs` (conteos + referencias a `/media`), `node scripts/audit-media.mjs` (árbol de `/media`). Conectan directo por el puerto 3306 con SSL.
 - **Re-importación desde cero** (solo si hiciera falta): re-desplegar `setup.php` (borrado del servidor el 2026-09-04) con `scripts/archive/deploy-backend.mjs`, subir los JSON de datos a `api/import/`, y hacer `POST /api/setup.php` con `{token, admin_email, admin_password}`. **Vuelve a borrarlo al terminar** (`node scripts/prune-deployed.mjs api/setup.php`): hace `DROP` de todas las tablas.
-- **Copia del WordPress antiguo** (BBDD `qaav753` + archivos de `/html`): tomada el 2026-09-28 antes de la salida a producción, guardada fuera del repo (contiene datos personales y credenciales).
-- **Copias de seguridad**: la BBDD es ahora el dato vivo. Recomendado un `mysqldump` periódico (o export desde el panel) y backup de `/html/dev/media/`.
+- **Copia del WordPress antiguo** (BBDD `qaav753` + archivos de `/html`): tomada el 2026-09-28 antes de la salida a producción, guardada fuera del repo (contiene datos personales y credenciales). Se entregó al cliente una copia cifrada (`.7z`, AES-256) con una guía de restauración.
+- **Nuevos ajustes** (`site_settings`): `node scripts/seed-setting.mjs <clave> [valor]` los crea en las dos bases de datos; sin la fila, el panel no guarda ese campo.
+- **Copias de seguridad**: la BBDD es ahora el dato vivo. Recomendado un `mysqldump` periódico (o export desde el panel) y backup de `/html/media/` (www).
 
 ## Imágenes / media
 
-- Subidas del panel → `/html/dev/media/...` (nombres únicos, así esquivan la caché de estáticos). El frontend las optimiza a WebP ≤1920px antes de subir (`src/lib/upload.js`).
-- Imágenes base (logo, hero) bundleadas en `public/base/` y mantenidas al día por `sync-base-images.mjs` (corre antes de cada deploy). El resto es 100% de BBDD.
+- Subidas del panel → `media/` de cada entorno (`/html/media` en www, `/html/dev/media` en staging), con nombres únicos que esquivan la caché de estáticos. El frontend las optimiza a WebP ≤1920px antes de subir (`src/lib/upload.js`).
+- Imágenes base (logo, hero) bundleadas en `public/base/` y mantenidas al día por `sync-base-images.mjs`, que las toma de **www** (corre antes de cada deploy). El resto es 100% de BBDD. La imagen para compartir (`public/base/og-image.jpg`, 1200×630) es fija: si cambia la foto de portada, se regenera a mano.
 - Recompresión puntual: `scripts/optimize-images.mjs` (sobre `public/`).
-- **Limpieza de huérfanos**: al reemplazar una imagen desde el panel, el archivo antiguo queda en disco (nombres únicos). `node scripts/prune-orphan-media.mjs` lista las imágenes que ninguna fila de la BBDD referencia; añade `--delete` para borrarlas. Salvaguardas: dry-run por defecto, **periodo de gracia** (`--days N`, 7 por defecto, nunca borra subidas recientes), ignora `/media/base/` y los dotfiles (`.htaccess`). Recomendado ejecutarlo de forma puntual (p. ej. trimestral) o cuando el disco crezca; no es urgente (imágenes WebP ~100-300 KB, ~54 GB libres).
+- **Limpieza de huérfanos**: al reemplazar una imagen desde el panel, el archivo antiguo queda en disco (nombres únicos). `node scripts/prune-orphan-media.mjs` lista las imágenes de staging que su BBDD no referencia (con `--prod`, las de www contra la BBDD de www); añade `--delete` para borrarlas. Salvaguardas: dry-run por defecto, **periodo de gracia** (`--days N`, 7 por defecto, nunca borra subidas recientes), ignora `/media/base/` y los dotfiles (`.htaccess`). Recomendado ejecutarlo de forma puntual (p. ej. trimestral) o cuando el disco crezca; no es urgente (imágenes WebP ~100-300 KB, ~54 GB libres).
 
 ## Email (formularios)
 
@@ -99,9 +102,15 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 - ~~**Publicación de DNS atascada (proveedor)**~~ — **RESUELTO 2026-07-01**. La zona ya publica (`dev` A, `www.dev` A → 217.76.142.23, y el CNAME `qaqu803` → lldg503.servidoresdns.net). El subdominio dev va por HTTPS con el certificado comodín instalado desde el panel; ya no hace falta la entrada en `hosts`. `DB_HOST` sigue apuntando directo a `lldg503.servidoresdns.net` (funciona; podría usar el CNAME, pero no aporta nada).
 - **Caché de estáticos del hosting**: sirve copias cacheadas de archivos en la misma ruta durante un TTL, incluso tras borrarlos, e ignora el `?v=`. Las subidas del panel usan nombres únicos, así que no se ven afectadas.
 
-## Salida a producción
+## Mantenimiento periódico
 
-El proceso (copia, cambio, verificación, Search Console) está en [IMPROVEMENTS.md → C](IMPROVEMENTS.md#c-launch-process). Pendientes de infraestructura:
+| Cuándo | Qué |
+|---|---|
+| Cada día (automático) | GitHub Actions comprueba www y staging (`monitor.yml`); si falla, llega un correo |
+| Primer mes tras el lanzamiento | Search Console cada semana: 404, redirecciones, clics |
+| Trimestral | `node scripts/prune-orphan-media.mjs --prod` (y sin `--prod` para staging): revisar y, si procede, `--delete` |
+| Cuando staging se quede atrás | `node scripts/refresh-dev.mjs` |
+| Antes del **2026-12-15** | Renovar el certificado SSL (el monitor avisa 21 días antes) |
+| Periódico | Copia de la BBDD de www y de `/html/media` (pendiente de automatizar; ver [IMPROVEMENTS.md](IMPROVEMENTS.md)) |
 
-- **Certificado**: el comodín `*.saneamientos-pereda.com` + apex caduca el **2026-12-15**. Hay que tener claro quién lo renueva.
-- Configurar copias de seguridad periódicas (MySQL + `/media`).
+Pendientes abiertos y limpieza del hosting: [IMPROVEMENTS.md](IMPROVEMENTS.md).

@@ -1,10 +1,9 @@
-import 'dotenv/config';
-import SftpClient from 'ssh2-sftp-client';
+import { connect, remoteRoot } from './lib/remote.mjs';
 
-// Recursively lists /html/dev/media with sizes, so we can compare against
-// what the DB actually references and prune orphans.
-const ROOT = '/html/dev/media';
-const sftp = new SftpClient();
+// Recursively lists the staging media folder (www's with --prod) with sizes, so
+// we can compare against what the DB actually references and prune orphans.
+const ROOT = `${remoteRoot()}/media`;
+let sftp;
 
 async function walk(dir, depth = 0) {
   const list = await sftp.list(dir);
@@ -20,15 +19,8 @@ async function walk(dir, depth = 0) {
 }
 
 try {
-  await sftp.connect({
-    host: process.env.SFTP_HOST,
-    port: Number(process.env.SFTP_PORT) || 22,
-    username: process.env.SFTP_USER,
-    password: process.env.SFTP_PASS,
-    readyTimeout: 20000,
-    tryKeyboard: true,
-  });
+  sftp = await connect();
   await walk(ROOT);
 } finally {
-  await sftp.end();
+  await sftp?.end();
 }

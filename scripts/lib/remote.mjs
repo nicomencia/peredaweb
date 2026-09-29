@@ -11,6 +11,18 @@ export const remoteRoot = (argv = process.argv) => (isProd(argv) ? PROD_ROOT : D
 // Positional arguments without the flags.
 export const positional = (argv = process.argv) => argv.slice(2).filter((a) => !a.startsWith('--'));
 
+// MySQL connection options for one environment. Production and staging have
+// separate databases since 2026-09-29 (DB_* and DEV_DB_* in .env), so a script
+// that pairs a database with a media folder must take both from the same side.
+export function dbConfig(prod) {
+  const p = prod ? 'DB_' : 'DEV_DB_';
+  if (!process.env[`${p}NAME`]) throw new Error(`Missing ${p}NAME in .env`);
+  return {
+    host: process.env[`${p}HOST`], user: process.env[`${p}USER`], password: process.env[`${p}PASS`],
+    database: process.env[`${p}NAME`], ssl: { rejectUnauthorized: false },
+  };
+}
+
 export async function connect() {
   const sftp = new SftpClient();
   await sftp.connect({

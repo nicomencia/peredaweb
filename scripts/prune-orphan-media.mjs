@@ -1,6 +1,5 @@
-import 'dotenv/config';
 import mysql from 'mysql2/promise';
-import SftpClient from 'ssh2-sftp-client';
+import { connect, dbConfig, isProd, remoteRoot } from './lib/remote.mjs';
 
 // Finds media files on the server that NO database row references (orphans left
 // behind when an admin replaces an image) and optionally deletes them.
@@ -8,13 +7,16 @@ import SftpClient from 'ssh2-sftp-client';
 //   node scripts/prune-orphan-media.mjs              # dry run: list orphans only
 //   node scripts/prune-orphan-media.mjs --delete     # actually delete them
 //   node scripts/prune-orphan-media.mjs --days 30    # grace period (default 7)
+//   add --prod for www; without it, staging. Each side is checked against its
+//   own database (they are separate since 2026-09-29).
 //
 // Safety rails:
 //  - Dry run by default; never deletes without --delete.
 //  - Grace period: never touches files modified in the last N days (avoids
 //    deleting a fresh upload not yet saved/referenced).
 //  - Skips /media/base/ (bundled defaults + favicon, referenced outside the DB).
-const REMOTE_MEDIA = '/html/dev/media';
+const ROOT = remoteRoot();
+const REMOTE_MEDIA = `${ROOT}/media`;
 const args = process.argv.slice(2);
 const DO_DELETE = args.includes('--delete');
 const GRACE_DAYS = (() => {
@@ -36,10 +38,7 @@ const REF_COLUMNS = {
   job_applications: ['cv_url'],
 };
 
-const conn = await mysql.createConnection({
-  host: process.env.DB_HOST, user: process.env.DB_USER, password: process.env.DB_PASS,
-  database: process.env.DB_NAME, ssl: { rejectUnauthorized: false },
-});
+const conn = await mysql.createConnection(dbConfig(isProd()));
 
 // 1. Every /media path referenced anywhere in the DB.
 const referenced = new Set();
@@ -61,12 +60,7 @@ for (const [table, cols] of Object.entries(REF_COLUMNS)) {
 await conn.end();
 
 // 2. Walk the media tree on the server.
-const sftp = new SftpClient();
-await sftp.connect({
-  host: process.env.SFTP_HOST, port: Number(process.env.SFTP_PORT) || 22,
-  username: process.env.SFTP_USER, password: process.env.SFTP_PASS,
-  readyTimeout: 20000, tryKeyboard: true,
-});
+const sftp = await connect();
 
 const orphans = [];
 let scanned = 0;
@@ -78,7 +72,7 @@ async function walk(dir) {
     } else {
       if (item.name.startsWith('.')) continue;                // dotfiles (.htaccess)
       scanned++;
-      const url = path.replace('/html/dev', ''); // -> /media/...
+      const url = path.slice(ROOT.length); // -> /media/...
       if (url.startsWith('/media/base/')) continue;          // managed defaults
       if (referenced.has(url)) continue;                      // still in use
       if (item.modifyTime > graceCutoff) continue;            // too recent
@@ -90,7 +84,7 @@ try {
   await walk(REMOTE_MEDIA);
 
   const totalKB = Math.round(orphans.reduce((s, o) => s + o.size, 0) / 1024);
-  console.log(`Scanned ${scanned} files, ${referenced.size} referenced.`);
+  console.log(`${REMOTE_MEDIA}: scanned ${scanned} files, ${referenced.size} referenced.`);
   console.log(`Orphans (>${GRACE_DAYS}d old, not /media/base/): ${orphans.length} (${totalKB} KB)\n`);
   for (const o of orphans) console.log(`  ${o.url}  (${Math.round(o.size / 1024)} KB)`);
 

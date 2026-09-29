@@ -1,55 +1,87 @@
 # Saneamientos Pereda
 
-Sitio web de **Saneamientos Pereda** (empresa de baño, fontanería y materiales de construcción, Oviedo). SPA en React 19 + Vite 7 con panel de administración integrado, sobre backend propio en PHP 8.2 + MySQL alojado en el hosting del cliente (datos en MySQL, imágenes en disco bajo `/media/`).
+Web de **Saneamientos Pereda**, empresa de baño, fontanería y materiales de construcción de Oviedo con
+cuatro tiendas en Asturias. SPA en React 19 + Vite 7 con panel de administración integrado, sobre un
+backend propio en PHP 8.2 + MySQL en el hosting del cliente.
+
+**En producción desde el 28 de septiembre de 2026** en <https://www.saneamientos-pereda.com>,
+sustituyendo a la web anterior en WordPress. Proyecto terminado y entregado (`v1.0`); en
+mantenimiento.
+
+## Qué hace
+
+- **Web pública**: portada, productos (10 categorías con texto, fotos y marcas), ambientes de
+  inspiración, tiendas con mapa y horarios, quiénes somos, área profesional, preguntas frecuentes,
+  financiación, cita previa y páginas legales.
+- **Formularios**: presupuesto, hazte cliente, empleo (con CV), desistimiento y **canal de
+  denuncias** con PIN de seguimiento. Se guardan en la base de datos y avisan por correo.
+- **Panel de administración** (`/admin`): casi todo el contenido es editable (textos, imágenes,
+  logos, ambientes, tiendas, categorías, avisos), gestión del canal de denuncias, destinatarios de
+  cada formulario y una cuenta por persona.
+- **SEO**: URLs reales por página con título y descripción propios, sitemap y robots generados,
+  404 reales, datos estructurados de la empresa y sus tiendas (con horarios), imagen para compartir,
+  texto de cada página legible sin JavaScript, y **redirecciones 301 de las 755 direcciones de la web
+  anterior**.
+- **Privacidad**: analítica (GA4) solo con consentimiento de cookies; CV y denuncias solo para
+  administradores; límite de intentos en el login y en la consulta por PIN.
+
+## Entornos
+
+| | Producción | Staging (pruebas) |
+|---|---|---|
+| Dirección | www.saneamientos-pereda.com | dev.saneamientos-pereda.com (oculta a Google) |
+| Carpeta en el servidor | `/html` | `/html/dev` |
+| Base de datos | `qaqu803` | `qars573` (independiente) |
+
+El contenido real se edita en www. Staging es para probar código y cambios; se refresca desde www
+con `node scripts/refresh-dev.mjs`.
 
 ## Arquitectura
 
 ```
 Navegador
-  ├─ React SPA (estático)            HTML / JS / CSS / imágenes base
-  ├─ /api/*.php   (PHP + MySQL)      contenido, admin, formularios, login
-  └─ /media/*     (disco servidor)   imágenes subidas desde el panel
+  ├─ React SPA (estático)          /assets, /base      HTML, JS, CSS, imágenes base
+  ├─ public/index.php                                  meta SEO por ruta, sitemap, robots, 404
+  ├─ /api/*.php  (PHP + MySQL)                         contenido, admin, formularios, login
+  └─ /media/*    (disco del servidor)                  imágenes subidas desde el panel
 ```
 
-- **Frontend** (`src/`): SPA con **react-router** (BrowserRouter), con URLs reales por página; `src/App.jsx` mantiene un adaptador `setCurrentView(view)` para que los componentes naveguen sin cambios. Contenido y ajustes se leen de la BBDD vía un pequeño cliente encadenable (`src/lib/api.js`) que llama al backend PHP. Imágenes optimizadas en cliente antes de subir (`src/lib/upload.js`).
-- **Backend** (`server/api/`): endpoints PHP sobre MySQL (PDO) — `content.php` (lectura pública), `admin.php` (CRUD protegido por sesión), `auth.php` (login admin), `upload.php` (subida de imágenes), `forms.php` (formularios) y `mailer.php` (email SMTP). Esquema en `server/sql/schema.sql`. Un front controller `public/index.php` (vía `.htaccess`) sirve el shell de la SPA con meta SEO por ruta y genera `sitemap.xml`/`robots.txt`.
-- **Email**: los formularios envían aviso por SMTP autenticado a través del proveedor del propio dominio (serviciodecorreo.es).
+- **Frontend** (`src/`): react-router; el contenido se lee de la base de datos con un pequeño
+  cliente encadenable (`src/lib/api.js`). Las imágenes se optimizan en el navegador antes de subir.
+- **Backend** (`server/api/`): `content.php` (lectura pública), `admin.php` (CRUD con sesión),
+  `auth.php`, `upload.php`, `forms.php`, `cv.php` y `mailer.php` (SMTP del dominio). Esquema en
+  `server/sql/schema.sql`.
+- **`public/.htaccess`**: compresión, caché, www y https, y el mapa de redirecciones.
 
 ## Puesta en marcha
 
-Requisitos: Node 24+, y `.env` con las credenciales (ver `.env` / `server/api/config.sample.php`).
+Node 24+ y el `.env` con las credenciales (se pasa por un canal privado, nunca por git).
 
 ```bash
 npm install
-npm run dev      # desarrollo local (proxya /api y /media al hosting dev)
+npm run dev        # desarrollo local; /api y /media van a staging
 ```
 
 ## Despliegue
 
+Primero a staging, después a producción. **En Windows, desde PowerShell.**
+
 ```bash
-npm run deploy                      # sincroniza imágenes base, build y sube el frontend a staging
-node scripts/push-api.mjs           # sube los .php del backend + schema (nunca setup.php ni config.php)
-node scripts/push-config.mjs        # regenera y sube config.php desde .env
-# Producción: el mismo comando con --prod (npm run deploy -- --prod)
+npm run deploy                     # frontend a staging
+node scripts/push-api.mjs          # backend PHP a staging
+npm run deploy -- --prod           # lo mismo a producción (y push-api.mjs --prod)
+node scripts/verify-live.mjs       # comprobación completa de www (--dev para staging)
 ```
 
-Otros scripts útiles: `npm run sync:base`, `npm run sftp:ls <dir>`, `scripts/db-audit.mjs`, `scripts/audit-media.mjs`, `scripts/check-redirects.mjs` (valida el mapa 301 contra las 755 URLs antiguas). Los one-off de la migración están en `scripts/archive/`.
+**Comprobaciones automáticas** (GitHub Actions): en cada push se compila, se revisa el PHP y se
+valida el mapa de redirecciones; cada día se comprueba www y staging de punta a punta, incluido el
+certificado SSL con 21 días de margen. Si algo falla, GitHub avisa por correo.
 
 ## Documentación
 
-- **[docs/GUIA-ADMIN.md](docs/GUIA-ADMIN.md)** — guía para el cliente: cómo editar el contenido desde el panel.
-- **[docs/RUNBOOK.md](docs/RUNBOOK.md)** — manual técnico: hosting, despliegue, variables, scripts, copias y resolución de problemas.
-- **[docs/DATABASE.md](docs/DATABASE.md)** — referencia de la base de datos (tablas y uso en el frontend).
-- **[docs/IMPROVEMENTS.md](docs/IMPROVEMENTS.md)** — pendientes: proceso de lanzamiento y mejoras SEO posteriores.
-- **[CLAUDE.md](CLAUDE.md)** — contexto del proyecto para asistentes de IA / desarrolladores.
-
-## Estado (2026-09-28)
-
-**En producción desde el 2026-09-28** en `https://www.saneamientos-pereda.com` (`/html`), sustituyendo al WordPress anterior. Staging en `https://dev.saneamientos-pereda.com` (`/html/dev`).
-
-- **SEO de lanzamiento hecho**: enlaces rastreables, títulos por página, sitemap completo, 404 reales, gzip, apex → www, y **mapa 301 de las 755 URLs antiguas** dentro del propio `public/.htaccess`. Fuera de `www`, todo va con `noindex`.
-- **Analítica**: GA4 configurado en Ajustes; solo carga en `www` y tras aceptar cookies.
-- **Formularios** probados de extremo a extremo (email SMTP incluido). Canal de denuncias gestionable desde el panel; los CV solo son accesibles para administradores.
-- **Sin comercio propio**: la tienda pública es `www.saneamientos-pereda.es` y el acceso profesional `ecommerce.saneamientos-pereda.com`.
-
-Pasos de salida a producción y seguimiento posterior: **[docs/IMPROVEMENTS.md](docs/IMPROVEMENTS.md)** (secciones C y D).
+- **[docs/GUIA-ADMIN.md](docs/GUIA-ADMIN.md)**: guía del panel para el cliente.
+- **[docs/RUNBOOK.md](docs/RUNBOOK.md)**: manual técnico (hosting, variables, scripts, mantenimiento).
+- **[docs/DATABASE.md](docs/DATABASE.md)**: tablas y su uso.
+- **[docs/IMPROVEMENTS.md](docs/IMPROVEMENTS.md)**: pendientes tras el lanzamiento.
+- **[docs/LAUNCH.md](docs/LAUNCH.md)**: cómo se hizo el cambio desde WordPress.
+- **[CLAUDE.md](CLAUDE.md)**: contexto técnico completo para desarrolladores y asistentes de IA.

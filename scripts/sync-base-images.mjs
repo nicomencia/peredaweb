@@ -4,13 +4,16 @@ import SftpClient from 'ssh2-sftp-client';
 import sharp from 'sharp';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { PROD_ROOT } from './lib/remote.mjs';
 
 // Pulls the current above-the-fold brand images from the DB/media into public/base/
 // as fixed-name WebP files, so they bundle with the build and paint instantly on
 // first load — while the DB stays the source of truth. Run before `npm run deploy`.
 // Resilient: on any failure it leaves the existing public/base files untouched.
 const PUBLIC_BASE = resolve(import.meta.dirname, '../public/base');
-const REMOTE_ROOT = '/html/dev';
+// Production is the source of truth: the bundle ships to both environments, and
+// www's database only references files in www's media folder.
+const REMOTE_ROOT = PROD_ROOT;
 
 // setting key -> stable bundled filename (always .webp)
 const MAP = {

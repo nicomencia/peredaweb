@@ -1,6 +1,6 @@
 # Database reference — Saneamientos Pereda
 
-MySQL database `qaqu803` on `lldg503.servidoresdns.net`. Schema lives in [`server/sql/schema.sql`](../server/sql/schema.sql). All 12 tables are in active use.
+MySQL database `qaqu803` (www) on `lldg503.servidoresdns.net`; staging has an identical copy, `qars573`, on the same server (refreshed with `scripts/refresh-dev.mjs`, form tables left empty). Schema lives in [`server/sql/schema.sql`](../server/sql/schema.sql). All 12 tables are in active use.
 
 ## How the frontend reaches each table
 
@@ -58,5 +58,5 @@ Each submission inserts a row **and** emails a notification via authenticated SM
 ## Maintenance
 
 - `node scripts/db-audit.mjs` — row counts, form-table contents, and all `/media/` references (orphan check).
-- `node scripts/audit-media.mjs` — recursive listing of `/html/dev/media`.
+- `node scripts/audit-media.mjs [--prod]` — recursive listing of the staging (or www) media folder.
 Both connect directly to MySQL using `.env` credentials (port 3306, SSL).
