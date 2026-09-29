@@ -137,7 +137,9 @@ if (isset($REDIRECTS[$path])) {
 // ---- Resolve the route: status + metadata ----
 $status = 200;
 $noindex = !$isProduction;
-$image = $origin . '/media/base/logo.png';
+// Share image (WhatsApp, social, X large card): 1200x630, built from the hero
+// photo + logo. Ambiente pages swap in their own cover below.
+$image = $origin . '/base/og-image.jpg';
 
 if (isset($META[$path])) {
     [$title, $desc] = $META[$path];
@@ -262,6 +264,11 @@ $html = preg_replace('#<meta name="description"[^>]*>#i', '<meta name="descripti
 $html = preg_replace('#<meta property="og:title"[^>]*>#i', '<meta property="og:title" content="' . $t . '" />', $html, 1);
 $html = preg_replace('#<meta property="og:description"[^>]*>#i', '<meta property="og:description" content="' . $d . '" />', $html, 1);
 $html = preg_replace('#<meta property="og:image"[^>]*>#i', '<meta property="og:image" content="' . htmlspecialchars($image, ENT_QUOTES) . '" />', $html, 1);
+// index.html declares the default image's 1200x630; an ambiente cover has other
+// dimensions, so drop the size rather than state a wrong one.
+if ($image !== $origin . '/base/og-image.jpg') {
+    $html = preg_replace('#\s*<meta property="og:image:(width|height)"[^>]*>#i', '', $html);
+}
 
 $inject = '<meta property="og:url" content="' . htmlspecialchars($url, ENT_QUOTES) . '" />';
 if ($status === 200) {
