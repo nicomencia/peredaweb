@@ -77,7 +77,7 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 - Los formularios nunca fallan por un problema de email (el envío es "best-effort"): un fallo solo queda en el log de errores de PHP, así que tras cambiar credenciales SMTP prueba un formulario de verdad.
 - Candidaturas: el CV va **adjunto** al aviso. `/media/cvs/*` no se sirve como estático: `.htaccess` lo pasa a `api/cv.php`, que exige sesión de admin.
 - Canal de denuncias: la consulta por PIN admite 10 fallos por IP y hora (contador en el directorio temporal del sistema).
-- **Entregabilidad**: el dominio tiene SPF pero **ni DKIM ni DMARC** (comprobado 2026-09-28). Activar DKIM en el panel de correo y publicar `_dmarc` TXT `v=DMARC1; p=none` reduce el riesgo de spam.
+- **Entregabilidad**: el dominio tiene SPF pero **ni DKIM ni DMARC** (comprobado 2026-09-28). El correo de la empresa lo gestiona otro proveedor: **fuera de nuestro alcance** (2026-09-29). Si los avisos de la web acaban en spam, es lo primero que habría que pedirle a ese proveedor.
 
 ## Admin / auth
 

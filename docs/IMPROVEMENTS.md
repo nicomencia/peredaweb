@@ -116,9 +116,9 @@ previous period). ✅ Google Business Profiles checked 2026-09-28: all four stor
 ## E. Other findings
 
 1. **No tests, lint or CI.** `check-redirects.mjs` is the first check that can gate anything.
-2. **Email deliverability.** SPF is set, but there is **no DKIM and no DMARC** (checked
-   2026-09-28). Enable DKIM in the mail provider's panel and publish `_dmarc` TXT
-   `v=DMARC1; p=none`.
+2. **Email deliverability — out of our scope.** SPF is set, but there is **no DKIM and no DMARC**
+   (checked 2026-09-28). The company's email is managed by another provider, not by us (2026-09-29):
+   flagged to the client; nothing to do on the website side.
 3. **SSL certificate expires 2026-12-15** (`*.saneamientos-pereda.com` + apex, Sectigo). Find out who
    renews it (panel auto-renewal, the client, their provider) and check in early December: an
    expired certificate puts a full-page browser warning in front of the whole site.
