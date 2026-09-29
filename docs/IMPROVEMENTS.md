@@ -145,13 +145,13 @@ Inventory as of 2026-09-28:
 | DB `qaav753` (lldf084, 89 MB) | The WordPress being replaced (backed up 2026-09-28) | Delete after the rollback window |
 | DB `qtq808` (lldc718, 25 MB) | Unknown — likely one of the old sites below | Identify, then decide |
 | DB `qtr125` (lldc718, 4 MB) | Unknown — likely one of the old sites below | Identify, then decide |
-| `/data/wp-old/` | WordPress files after the switch | Delete after the rollback window |
-| `/data/backups/copia1.zip` (1.7 GB) | Site backup from 2026-05-05, was public until 2026-09-28 | Delete (superseded by the 2026-09-28 backup) |
-| `/html/vieja/` | An old site; answers 500 | Likely delete |
-| `/html/2intraneteliminar/` | Old intranet ("eliminar" = to delete); 404 at its root | Confirm with the client, then delete |
+| `/data/wp-old/` (2.4 GB, 41,958 files) | WordPress files after the switch | Delete after the rollback window |
+| ~~`/data/backups/copia1.zip`~~ (1.7 GB) | May 2026 backup, superseded | ✅ Deleted 2026-09-29 |
+| `/html/vieja/` (2.6 GB, 43,540 files) | An old site; answers 500 | Likely delete |
+| `/html/2intraneteliminar/` (21 MB) | Old intranet ("eliminar" = to delete); 404 at its root | Confirm with the client, then delete |
 | `/html/nueva/` | One file; 403 | Likely delete |
-| `/html/check-prices.php` | Unknown script, publicly executable (200) | Find out what calls it; delete if nothing |
-| `/html/.tmb` | Empty (file-manager thumbnails) | Delete |
+| ~~`/html/check-prices.php`~~ | 2021 ERP→WooCommerce price sync, broken without WordPress | ✅ Deleted 2026-09-29 (in the backup) |
+| ~~`/html/.tmb`~~ | Empty | ✅ Deleted 2026-09-29 |
 
 To identify `qtq808` / `qtr125`: match their names against the DB settings in the old sites'
 config files (`vieja/`, `2intraneteliminar/`, `nueva/`) — those files hold credentials, so
