@@ -15,7 +15,9 @@ Manual de operación y mantenimiento. Para la arquitectura general ver [README](
 | Clave | Uso |
 |---|---|
 | `SFTP_HOST/PORT/USER/PASS` | despliegue por SFTP |
-| `DB_HOST/NAME/USER/PASS` | MySQL (`DB_HOST=lldg503.servidoresdns.net`, ver Base de datos) |
+| `DB_HOST/NAME/USER/PASS` | MySQL de www (`qaqu803` en `lldg503.servidoresdns.net`, ver Base de datos) |
+| `DEV_DB_HOST/NAME/USER/PASS` | MySQL de staging (`qars573`, mismo servidor), separada de www desde 2026-09-29 |
+| `DEV_MAIL_TO` | a quién van **todos** los avisos de formularios de staging (nunca al cliente) |
 | `SMTP_HOST/PORT/SECURE/USER/PASS` | envío de email de los formularios |
 | `MAIL_FROM` / `MAIL_TO` | remitente y destinatario de los avisos |
 | `SETUP_TOKEN` | protege `setup.php` (solo para una re-importación desde cero) |
@@ -35,7 +37,8 @@ En el servidor, estas se traducen a `server/api/config.php` (generado por los sc
 |---|---|
 | `npm run deploy` | sincroniza imágenes base (sync:base), hace `build` y sube `dist/` a `/html/dev` |
 | `node scripts/push-api.mjs` | sube los `.php` + schema (no toca config ni media, y **nunca sube `setup.php`**) |
-| `node scripts/push-config.mjs` | regenera y sube solo `config.php` desde `.env` |
+| `node scripts/push-config.mjs` | regenera y sube solo `config.php` desde `.env` (staging usa `DEV_DB_*`; con `--prod`, `DB_*`) |
+| `node scripts/refresh-dev.mjs` | convierte staging en una copia fresca de www: base de datos (con los formularios vaciados y los avisos a `DEV_MAIL_TO`) e imágenes nuevas. Solo escribe en staging |
 | `npm run sync:base` | refresca `public/base/` (logo+hero) desde la BBDD |
 | `node scripts/verify-live.mjs [--dev]` | comprueba la web desplegada de punta a punta (páginas, indexación, redirecciones de las 755 URLs antiguas, https, API, archivos privados); solo lectura |
 | `node scripts/prune-deployed.mjs <archivos>` | borra del servidor archivos eliminados localmente (deploy solo añade/sobrescribe) |
@@ -56,6 +59,7 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 
 ## Base de datos
 
+- **Dos bases de datos**: `qaqu803` (www) y `qars573` (staging, desde 2026-09-29). Lo que se edite o pruebe en dev no llega a www; el contenido real se edita en www, y dev se refresca con `refresh-dev.mjs` cuando se quede atrás.
 - MySQL `qaqu803`. **`DB_HOST=lldg503.servidoresdns.net`** (el servidor real de BBDD): el nombre del panel `qaqu803.saneamientos-pereda.com` es un CNAME no publicado (ver Problemas), y `localhost` apunta al MySQL propio del host web, que NO tiene esta BBDD.
 - Esquema: `server/sql/schema.sql` (UUIDs como CHAR(36); `specs`/`emails` como JSON). El mapa de columnas permitidas por la API está en `TABLE_COLUMNS` de `server/api/db.php` — **mantener ambos sincronizados**.
 - Auditorías: `node scripts/db-audit.mjs` (conteos + referencias a `/media`), `node scripts/audit-media.mjs` (árbol de `/media`). Conectan directo por el puerto 3306 con SSL.

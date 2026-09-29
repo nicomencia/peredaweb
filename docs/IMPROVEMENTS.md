@@ -88,8 +88,8 @@ submitted. Still to do: confirm it turns "Correcto" (it read "No se ha podido ob
 submitting, which is normal before the first fetch), remove the old Yoast sitemaps from the list,
 request indexing of the main pages, and export Performance → Pages (16 months) as the before-picture.
 
-**After launch, content is edited on `www` only:** its uploads land in `/html/media`, which
-dev doesn't see (shared DB, separate media folders).
+**After launch, content is edited on `www` only.** Since 2026-09-29 staging has its own database
+(`qars573`), so dev is a sandbox; refresh it from www with `node scripts/refresh-dev.mjs`.
 
 **First month:** weekly Search Console check (404 / soft 404 / redirect errors, clicks vs the
 previous period). ✅ Google Business Profiles checked 2026-09-28: all four stores link to the new site.
