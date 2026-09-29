@@ -44,10 +44,35 @@
   transition: none !important;
 }
 
+/* Right-hand column: the compact shop button and the hamburger. Every item is
+   pinned to row 1: this box is displayed (empty) on desktop, and coming before
+   the menu in the markup, auto-placement would otherwise push the menu to row 2. */
+.nav-actions {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-shop-compact {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  background: var(--color-blue);
+}
+
+.nav-shop-compact:hover {
+  opacity: 1;
+  background: var(--color-blue-dark);
+}
+
 .nav-toggle {
   display: none;
-  grid-column: 3;
-  justify-self: end;
   flex-direction: column;
   gap: 5px;
   width: 30px;
@@ -75,6 +100,7 @@
 /* Gap shrinks with the viewport before anything has to collapse. */
 .nav-menu {
   grid-column: 2;
+  grid-row: 1;
   display: flex;
   align-items: center;
   gap: clamp(1.25rem, 3.2vw, 4rem);
@@ -83,6 +109,7 @@
 
 .nav-logo-btn {
   grid-column: 1;
+  grid-row: 1;
   justify-self: start;
   display: flex;
   align-items: center;
@@ -140,6 +167,28 @@
 .navigation--solid .nav-menu .nav-area-pro {
   color: #fff;
   background: var(--color-accent);
+}
+
+/* Shop: the site's blue next to Área Profesional's bronze, same shape. */
+.nav-menu .nav-shop,
+.navigation--solid .nav-menu .nav-shop {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  background: var(--color-blue);
+  font-weight: 600;
+  padding: 8px 16px;
+  text-shadow: none;
+}
+
+.nav-menu .nav-shop:hover {
+  opacity: 1;
+  background: var(--color-blue-dark);
+}
+
+.nav-shop svg {
+  flex-shrink: 0;
 }
 
 .nav-item-mobile-categories {
@@ -373,6 +422,14 @@
   color: var(--color-accent);
   background: none;
   padding: 0;
+}
+
+.navigation--compact .nav-item-shop {
+  display: none;
+}
+
+.navigation--compact .nav-shop-compact {
+  display: flex;
 }
 
 .navigation--compact .nav-item-dropdown,

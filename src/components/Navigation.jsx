@@ -17,11 +17,31 @@ const PRODUCT_CATEGORIES = [
   { key: 'electricidad', label: 'Electricidad', icon: 'M13 2L4 14h7l-1 8 9-12h-7z' },
 ];
 
+const DEFAULT_SHOP = 'https://www.saneamientos-pereda.es/';
+const DEFAULT_ECOMMERCE = 'https://ecommerce.saneamientos-pereda.com/ecom/login.php';
+
+const ShopIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+    <line x1="3" y1="6" x2="21" y2="6" />
+    <path d="M16 10a4 4 0 0 1-8 0" />
+  </svg>
+);
+
 export default function Navigation({ currentView }) {
   const [isOpen, setIsOpen] = useState(false);
   const [productosOpen, setProductosOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState(() => cachedSetting('navbar_logo', '/base/navbar-logo.webp'));
   const isHome = currentView === 'home';
+
+  // The shop button (it used to float in the bottom-right corner). On Área
+  // Profesional it becomes the trade ecommerce login, as the floating one did.
+  const [shopUrl, setShopUrl] = useState(() => cachedSetting('shop_url', DEFAULT_SHOP));
+  const [ecommerceUrl, setEcommerceUrl] = useState(() => cachedSetting('ecommerce_url', DEFAULT_ECOMMERCE));
+  const isAreaProfesional = currentView === 'area-profesional';
+  const shop = isAreaProfesional
+    ? { href: ecommerceUrl, label: 'Acceso ecommerce' }
+    : { href: shopUrl, label: 'Tienda' };
 
   // Compact (hamburger) mode is decided by whether the full desktop bar actually
   // fits, not by a guessed breakpoint: on a 13" laptop, or any screen at 125-150%
@@ -83,12 +103,16 @@ export default function Navigation({ currentView }) {
   }, [compact]);
 
   useEffect(() => {
-    async function loadLogo() {
-      const data = await loadSettings(['navbar_logo']);
-      const row = data?.find((r) => r.key === 'navbar_logo');
-      if (row?.value) setLogoUrl(row.value);
+    async function loadNavSettings() {
+      const data = await loadSettings(['navbar_logo', 'shop_url', 'ecommerce_url']);
+      data?.forEach((row) => {
+        if (!row.value) return;
+        if (row.key === 'navbar_logo') setLogoUrl(row.value);
+        if (row.key === 'shop_url') setShopUrl(row.value);
+        if (row.key === 'ecommerce_url') setEcommerceUrl(row.value);
+      });
     }
-    loadLogo();
+    loadNavSettings();
   }, []);
 
   // Links navigate on their own; clicking one only has to close the menus.
@@ -120,15 +144,28 @@ export default function Navigation({ currentView }) {
           </Link>
         )}
 
-        <button
-          className="nav-toggle"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Alternar menú"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        {/* Compact bar: the shop stays one tap away next to the hamburger
+            instead of hiding inside the menu. */}
+        <div className="nav-actions">
+          <a
+            href={shop.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-shop-compact"
+            aria-label={shop.label}
+          >
+            <ShopIcon />
+          </a>
+          <button
+            className="nav-toggle"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Alternar menú"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
 
         <ul ref={menuRef} className={`nav-menu ${isOpen ? 'nav-menu--open' : ''}`}>
           <li>
@@ -204,6 +241,18 @@ export default function Navigation({ currentView }) {
             <Link to={pathFor('area-profesional')} className="nav-area-pro as-button" onClick={closeMenus}>
               Área Profesional
             </Link>
+          </li>
+          <li className="nav-item-shop">
+            <a
+              href={shop.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-shop as-button"
+              onClick={closeMenus}
+            >
+              <ShopIcon />
+              {shop.label}
+            </a>
           </li>
         </ul>
       </div>
