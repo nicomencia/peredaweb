@@ -89,14 +89,14 @@
   position: absolute;
   top: 20px;
   right: 30px;
-  font-size: 3rem;
+  display: flex;
+  padding: 6px;
   color: white;
   background: none;
   border: none;
   cursor: pointer;
   z-index: 10001;
   transition: transform 0.2s ease;
-  line-height: 1;
 }
 
 .ambiente-lightbox-close:hover {
@@ -110,7 +110,7 @@
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  font-size: 2.5rem;
+  padding: 0;
   cursor: pointer;
   z-index: 10001;
   width: 50px;
@@ -120,7 +120,6 @@
   justify-content: center;
   border-radius: 50%;
   transition: background 0.3s ease;
-  line-height: 1;
 }
 
 .ambiente-lightbox-nav:hover {
@@ -192,7 +191,11 @@
   .ambiente-lightbox-nav {
     width: 36px;
     height: 36px;
-    font-size: 1.5rem;
+  }
+
+  .ambiente-lightbox-nav svg {
+    width: 18px;
+    height: 18px;
   }
 
   .ambiente-lightbox-prev {

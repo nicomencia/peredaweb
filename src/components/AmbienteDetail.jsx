@@ -134,20 +134,34 @@ export default function AmbienteDetail({ ambienteId, setCurrentView }) {
 
         {lightboxOpen && allImages[lightboxIndex] && (
           <div className="ambiente-lightbox" onClick={closeLightbox}>
-            <button className="ambiente-lightbox-close" onClick={closeLightbox}>&times;</button>
+            {/* Drawn icons, not the ‹ › × characters: a glyph sits on the text
+                baseline, so it never lands in the middle of its circle. */}
+            <button className="ambiente-lightbox-close" onClick={closeLightbox} aria-label="Cerrar" type="button">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
             {allImages.length > 1 && (
               <>
                 <button
                   className="ambiente-lightbox-nav ambiente-lightbox-prev"
                   onClick={(e) => { e.stopPropagation(); navigateLightbox(-1); }}
+                  aria-label="Foto anterior"
+                  type="button"
                 >
-                  &#8249;
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </button>
                 <button
                   className="ambiente-lightbox-nav ambiente-lightbox-next"
                   onClick={(e) => { e.stopPropagation(); navigateLightbox(1); }}
+                  aria-label="Foto siguiente"
+                  type="button"
                 >
-                  &#8250;
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </button>
               </>
             )}
