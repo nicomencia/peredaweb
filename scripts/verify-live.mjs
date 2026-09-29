@@ -102,6 +102,27 @@ const hopCheck = async (url, label, pass) => {
     ok(label, pass(s, loc), `${s} ${loc}`);
   }
 };
+// The certificate is renewed by hand (see IMPROVEMENTS.md): fail three weeks
+// before it expires, not after, so the daily monitor gives notice.
+{
+  const { connect: tlsConnect } = await import('node:tls');
+  const validTo = await new Promise((resolve) => {
+    const socket = tlsConnect({ host: HOST, port: 443, servername: HOST, timeout: 15000 }, () => {
+      const to = socket.getPeerCertificate()?.valid_to;
+      socket.end();
+      resolve(to ? new Date(to) : null);
+    });
+    socket.on('error', () => resolve(null));
+    socket.on('timeout', () => { socket.destroy(); resolve(null); });
+  });
+  if (!validTo) {
+    unchecked++;
+    console.log('  ? certificate — could not connect from this network');
+  } else {
+    const days = Math.floor((validTo - Date.now()) / 86400000);
+    ok('SSL certificate valid for 21+ more days', days >= 21, `expires ${validTo.toISOString().slice(0, 10)} (${days} days)`);
+  }
+}
 await hopCheck(`http://${HOST}/productos`, `http://${HOST} -> https`, (s, loc) => [301, 302].includes(s) && loc === `${BASE}/productos`);
 if (PROD) {
   for (const from of ['http://saneamientos-pereda.com/productos', 'https://saneamientos-pereda.com/productos']) {

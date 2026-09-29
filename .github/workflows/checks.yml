@@ -1,0 +1,36 @@
+# Runs on every push and pull request: the site builds, the PHP parses, and the
+# 301 map still resolves all 755 old WordPress URLs. Nothing here touches the
+# server; deploys stay manual (scripts/deploy.mjs).
+name: Checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: none
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: PHP syntax
+        run: for f in server/api/*.php public/index.php; do php -l "$f"; done
+
+      - name: Redirect map covers every old URL
+        run: node scripts/check-redirects.mjs
