@@ -44,6 +44,11 @@ DirectoryIndex index.php
   # at its own URL.
   RewriteCond %{THE_REQUEST} \s/index\.html[\s?]
   RewriteRule ^index\.html$ / [R=301,L]
+  # Same for the front controller itself (old WordPress links pointed at it). Only
+  # a request that names it: the internal DirectoryIndex/SPA rewrites to index.php
+  # keep their own THE_REQUEST, so this can't loop.
+  RewriteCond %{THE_REQUEST} \s/index\.php[\s?]
+  RewriteRule ^index\.php$ / [R=301,L]
 
   # ==========================================================================
   # 301 map: old WordPress URLs -> new routes. Every one of the 755 URLs in the
@@ -54,9 +59,14 @@ DirectoryIndex index.php
   # --- WooCommerce shop -> the public online shop (same target as the site's
   # "Tienda" button; ecommerce.saneamientos-pereda.com is the trade login) ---
   RewriteRule ^(tienda|tienda-online|carrito|finalizar-compra|mi-cuenta)(/.*)?$ https://www.saneamientos-pereda.es/ [R=301,L]
+  # Older WooCommerce URLs, not in the Yoast snapshot but still requested (access
+  # log, 2026-09-29): product, product tag and product category pages.
+  RewriteRule ^(producto|etiqueta-producto|categoria-producto)(/.*)?$ https://www.saneamientos-pereda.es/ [R=301,L]
 
   # --- WordPress leftovers: gone for good ---
   RewriteRule ^(hola-mundo|prueba|author|category|area-item)(/.*)?$ - [G,L]
+  # Assets of the site before WordPress (/images/marcas/…), still requested.
+  RewriteRule ^images/ - [G,L]
 
   # --- Fixed pages whose slug DIFFERS from the new site ---
   RewriteRule ^cita/?$                 /pide-cita          [R=301,L]
@@ -67,6 +77,7 @@ DirectoryIndex index.php
   RewriteRule ^(consentimiento|tratamiento-candidato)/?$ /politica-privacidad [R=301,L]
   # WordPress "página en construcción" placeholder: no content of its own.
   RewriteRule ^mantenimiento/?$        /                   [R=301,L]
+  RewriteRule ^bano/?$                 /productos          [R=301,L]
   RewriteRule ^instalacion-de-mamparas-de-ducha/?$ /productos/mamparas [R=301,L]
 
   # --- "comprar-…" / "precio-…" pages that name their product: before the generic rules ---
