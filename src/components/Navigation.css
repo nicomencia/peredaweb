@@ -44,7 +44,7 @@
   transition: none !important;
 }
 
-/* Right-hand column: the compact shop button and the hamburger. Every item is
+/* Right-hand column: the hamburger. Every item is
    pinned to row 1: this box is displayed (empty) on desktop, and coming before
    the menu in the markup, auto-placement would otherwise push the menu to row 2. */
 .nav-actions {
@@ -54,21 +54,6 @@
   display: flex;
   align-items: center;
   gap: 20px;
-}
-
-.nav-shop-compact {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  color: #fff;
-  background: var(--color-blue);
-}
-
-.nav-shop-compact:hover {
-  opacity: 1;
-  background: var(--color-blue-dark);
 }
 
 .nav-toggle {
@@ -426,10 +411,6 @@
 
 .navigation--compact .nav-item-shop {
   display: none;
-}
-
-.navigation--compact .nav-shop-compact {
-  display: flex;
 }
 
 .navigation--compact .nav-item-dropdown,

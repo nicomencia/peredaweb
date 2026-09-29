@@ -21,6 +21,7 @@ import AreaProfesional from './components/AreaProfesional';
 import Footer from './components/Footer';
 const AdminLogin = lazy(() => import('./components/admin/AdminLogin'));
 const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard'));
+import FloatingShopButton from './components/FloatingShopButton';
 import CanalDenuncias from './components/CanalDenuncias';
 import ProductosCategory, { isKnownCategory } from './components/ProductosCategory';
 import NotFound from './components/NotFound';
@@ -272,6 +273,7 @@ export default function App() {
       </Routes>
       </main>
       <Footer setCurrentView={setCurrentView} />
+      {currentView !== 'admin' && <FloatingShopButton currentView={currentView} />}
       <CookieConsent />
     </>
   );

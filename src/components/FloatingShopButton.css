@@ -1,0 +1,64 @@
+.floating-shop-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--color-blue);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-blue) 30%, transparent);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.floating-shop-button:hover {
+  background: var(--color-blue-dark);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-blue) 40%, transparent);
+  transform: translateY(-2px);
+}
+
+.floating-shop-button svg {
+  flex-shrink: 0;
+}
+
+.floating-shop-button--red {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.floating-shop-button--red:hover {
+  background: #b91c1c;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}
+
+@media (max-width: 768px) {
+  .floating-shop-button {
+    bottom: 20px;
+    right: 20px;
+    padding: 14px;
+    /* Square, like every other control on the site. With the label hidden the
+       24px icon plus 14px padding already makes a 52x52 box. */
+    border-radius: 0;
+  }
+
+  .floating-shop-text {
+    display: none;
+  }
+}
+
+/* "Tienda" sits in the navbar when the full bar fits (desktop); this floating
+   copy only shows when the bar is compact (phones, narrow windows). Navigation
+   sets data-nav-compact on <html>. The red Área Profesional variant always shows. */
+.floating-shop-button--shop {
+  display: none;
+}
+
+html[data-nav-compact] .floating-shop-button--shop {
+  display: flex;
+}
