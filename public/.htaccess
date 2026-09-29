@@ -67,6 +67,9 @@ DirectoryIndex index.php
   RewriteRule ^(hola-mundo|prueba|author|category|area-item)(/.*)?$ - [G,L]
   # Assets of the site before WordPress (/images/marcas/…), still requested.
   RewriteRule ^images/ - [G,L]
+  # Old WordPress media (Google Images, old emails, hotlinks): deliberately not
+  # kept (decision 2026-09-29). 410 so Google drops them instead of retrying.
+  RewriteRule ^wp-content/ - [G,L]
 
   # --- Fixed pages whose slug DIFFERS from the new site ---
   RewriteRule ^cita/?$                 /pide-cita          [R=301,L]
