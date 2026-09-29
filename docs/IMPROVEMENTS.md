@@ -131,6 +131,12 @@ previous period). ✅ Google Business Profiles checked 2026-09-28: all four stor
 client before deleting anything** — some of this may still be in use. Take a backup of each
 item first (DB dump / file download) and keep it outside the repo.
 
+**The client wants to keep the old website for the future (asked 2026-09-29).** Before deleting
+`/data/wp-old/` or the `qaav753` database, hand them `backup-2026-09-28/html-files-2026-09-28.zip`
++ `wordpress-db.sql` through a private channel (they hold customer data from the old shop and
+forms) and **wait for them to confirm they've stored it**. That copy, on their side, is the
+permanent archive — not the server, and not a developer's laptop.
+
 Inventory as of 2026-09-28:
 
 | Item | What it is | Proposal |
