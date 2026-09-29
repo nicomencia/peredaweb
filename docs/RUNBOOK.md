@@ -57,6 +57,11 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 > `scripts/archive/deploy-backend.mjs` (el despliegue de la migración) sí lo hace: úsalo solo
 > para una re-importación desde cero.
 
+## Comprobaciones automáticas (GitHub Actions)
+
+- **Checks** (`.github/workflows/checks.yml`), en cada push: build, sintaxis PHP y el mapa de redirecciones contra las 755 URLs antiguas.
+- **Monitor www** (`.github/workflows/monitor.yml`), cada día a las 06:17 UTC y a demanda («Run workflow»): `verify-live.mjs` contra www y staging. Si algo falla (web caída, redirección rota, **certificado a menos de 21 días de caducar**), GitHub envía un correo al dueño del repositorio.
+
 ## Base de datos
 
 - **Dos bases de datos**: `qaqu803` (www) y `qars573` (staging, desde 2026-09-29). Lo que se edite o pruebe en dev no llega a www; el contenido real se edita en www, y dev se refresca con `refresh-dev.mjs` cuando se quede atrás.

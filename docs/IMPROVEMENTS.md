@@ -109,7 +109,9 @@ previous period). ✅ Google Business Profiles checked 2026-09-28: all four stor
 
 ## E. Other findings
 
-1. **No tests, lint or CI.** `check-redirects.mjs` is the first check that can gate anything.
+1. ✅ **CI (2026-09-29).** `.github/workflows/checks.yml` builds, lints the PHP and runs `check-redirects.mjs`
+   on every push; `monitor.yml` runs `verify-live.mjs` on www and staging daily (fails 21 days before the
+   certificate expires). Still no unit tests or JS lint.
 2. **Email deliverability — out of our scope.** SPF is set, but there is **no DKIM and no DMARC**
    (checked 2026-09-28). The company's email is managed by another provider, not by us (2026-09-29):
    flagged to the client; nothing to do on the website side.
