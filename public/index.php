@@ -248,6 +248,113 @@ if ($status === 200 && $path === '/') {
     }
 }
 
+// ---- The page's real text inside #root, for crawlers that don't run JS ----
+// The React app renders into an empty #root, so Bing (partly), AI crawlers and
+// link previews saw no content at all. This fills #root with the page's heading,
+// its text from the DB and links to every section; createRoot clears it on first
+// render. It is visually hidden (not display:none) so visitors never see a flash
+// of it, and shown by the <noscript> style to anyone without JavaScript.
+function h(?string $s): string {
+    return htmlspecialchars((string) $s, ENT_QUOTES);
+}
+
+function setting_values(array $keys): array {
+    $marks = implode(',', array_fill(0, count($keys), '?'));
+    $out = [];
+    foreach (site_query("SELECT `key`, value FROM site_settings WHERE `key` IN ($marks)", $keys) ?? [] as $row) {
+        $out[$row['key']] = $row['value'];
+    }
+    return $out;
+}
+
+function paragraphs(?string $text): string {
+    $out = '';
+    foreach (preg_split('/\n\s*\n/', trim((string) $text)) as $p) {
+        if (trim($p) !== '') $out .= '<p>' . nl2br(h(trim($p)), false) . '</p>';
+    }
+    return $out;
+}
+
+function faq_html(?string $json): string {
+    $items = json_decode((string) $json, true);
+    $out = '';
+    foreach (is_array($items) ? $items : [] as $item) {
+        if (!empty($item['q'])) $out .= '<h3>' . h($item['q']) . '</h3>' . paragraphs($item['a'] ?? '');
+    }
+    return $out;
+}
+
+// "Sanitarios en Oviedo y Asturias" -> "Sanitarios", for link labels.
+$categoryName = fn(string $key) => preg_replace('/ en Oviedo y Asturias$/', '', $CATEGORIES[$key][0]);
+
+$prerender = '';
+if ($status === 200 && !str_starts_with($path, '/admin')) {
+    $body = '<p>' . h($desc) . '</p>';
+
+    if ($path === '/' || $path === '/productos') {
+        $texts = $path === '/productos'
+            ? setting_values(array_map(fn($k) => "category_desc_$k", array_keys($CATEGORIES))) : [];
+        $body .= '<h2>Productos</h2><ul>';
+        foreach (array_keys($CATEGORIES) as $k) {
+            $body .= '<li><a href="/productos/' . h($k) . '">' . h($categoryName($k)) . '</a>'
+                . (isset($texts["category_desc_$k"]) ? paragraphs($texts["category_desc_$k"]) : '') . '</li>';
+        }
+        $body .= '</ul>';
+    } elseif (preg_match('#^/productos/([^/]+)$#', $path, $m) && isset($CATEGORIES[$m[1]])) {
+        $body .= paragraphs(setting_values(["category_desc_{$m[1]}"])["category_desc_{$m[1]}"] ?? '');
+        $brands = array_column(site_query('SELECT name FROM brands WHERE category = ? ORDER BY display_order', [$m[1]]) ?? [], 'name');
+        if ($brands) $body .= '<h2>Marcas</h2><p>' . h(implode(', ', $brands)) . '</p>';
+    } elseif ($path === '/inspirate') {
+        $body .= '<ul>';
+        foreach (site_query('SELECT id, title, summary FROM ambientes ORDER BY display_order') ?? [] as $a) {
+            $body .= '<li><a href="/inspirate/' . h($a['id']) . '">' . h($a['title']) . '</a>' . paragraphs($a['summary']) . '</li>';
+        }
+        $body .= '</ul>';
+    } elseif (preg_match('#^/inspirate/([^/]+)$#', $path, $m)) {
+        $a = (site_query('SELECT summary, description FROM ambientes WHERE id = ?', [rawurldecode($m[1])]) ?? [])[0] ?? null;
+        if ($a) $body = paragraphs($a['summary']) . paragraphs($a['description']);
+    } elseif ($path === '/instalaciones') {
+        foreach (site_query('SELECT * FROM tiendas ORDER BY display_order') ?? [] as $s) {
+            $emails = json_decode((string) $s['emails'], true);
+            $body .= '<h2>' . h("{$s['name']} — {$s['address']}") . '</h2><p>' . h($s['postal_code'])
+                . ($s['phone'] ? '<br>Teléfono: ' . h($s['phone']) : '')
+                . ($s['hours_tienda'] ? '<br>Tienda exposición: ' . h($s['hours_tienda']) : '')
+                . ($s['hours_fontaneria'] ? '<br>Fontanería y construcción: ' . h($s['hours_fontaneria']) : '')
+                . ($s['hours_sabados'] ? '<br>Sábados: ' . h($s['hours_sabados']) : '')
+                . ($s['hours_verano'] ? '<br>' . h($s['hours_verano']) : '')
+                . (is_array($emails) && $emails ? '<br>' . h(implode(', ', $emails)) : '') . '</p>';
+        }
+    } elseif ($path === '/quienes-somos') {
+        $t = setting_values(['quienes_intro_1', 'quienes_intro_2']);
+        $body .= paragraphs($t['quienes_intro_1'] ?? '') . paragraphs($t['quienes_intro_2'] ?? '');
+    } elseif ($path === '/area-profesional') {
+        $t = setting_values(['area_hero_subtitle', 'area_benefits_subtitle', 'area_faq']);
+        $body .= paragraphs($t['area_hero_subtitle'] ?? '') . paragraphs($t['area_benefits_subtitle'] ?? '');
+        $faq = faq_html($t['area_faq'] ?? '');
+        if ($faq) $body .= '<h2>Preguntas frecuentes</h2>' . $faq;
+    } elseif ($path === '/preguntas-frecuentes') {
+        $body .= faq_html(setting_values(['faq_general'])['faq_general'] ?? '');
+    }
+
+    $nav = '';
+    foreach ([
+        '/' => 'Inicio', '/productos' => 'Productos', '/inspirate' => 'Inspírate',
+        '/instalaciones' => 'Nuestras tiendas', '/quienes-somos' => 'Quiénes somos',
+        '/area-profesional' => 'Área profesional', '/pide-cita' => 'Pide cita',
+        '/presupuesto' => 'Presupuesto', '/financiacion' => 'Financiación',
+        '/hazte-cliente' => 'Hazte cliente', '/preguntas-frecuentes' => 'Preguntas frecuentes',
+        '/canal-denuncias' => 'Canal de denuncias',
+    ] as $href => $label) {
+        $nav .= '<li><a href="' . $href . '">' . h($label) . '</a></li>';
+    }
+    foreach (array_keys($CATEGORIES) as $k) {
+        $nav .= '<li><a href="/productos/' . h($k) . '">' . h($categoryName($k)) . '</a></li>';
+    }
+
+    $prerender = '<div class="prerender"><main><h1>' . h(preg_replace('/ \| .*$/', '', $title)) . '</h1>'
+        . $body . '</main><nav aria-label="Secciones"><ul>' . $nav . '</ul></nav></div>';
+}
+
 // ---- Serve index.html with metadata swapped in ----
 $html = @file_get_contents($dir . '/index.html');
 if ($html === false) {
@@ -289,6 +396,13 @@ if ($settings) {
 $inject .= '</script>' . $headExtra;
 
 $html = preg_replace('#</head>#i', $inject . '</head>', $html, 1);
+if ($prerender !== '') {
+    $html = str_replace('<div id="root"></div>', '<div id="root">' . $prerender . '</div>', $html);
+    $html = preg_replace('#</head>#i',
+        '<style>.prerender{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);border:0}</style>'
+        . '<noscript><style>.prerender{position:static;width:auto;height:auto;margin:0 auto;max-width:720px;padding:24px 16px;overflow:visible;clip:auto;font-family:sans-serif;line-height:1.5}</style></noscript>'
+        . '</head>', $html, 1);
+}
 
 http_response_code($status);
 header('Content-Type: text/html; charset=utf-8');

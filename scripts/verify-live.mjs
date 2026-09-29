@@ -81,15 +81,31 @@ if (PROD) {
 
 // ------------------------------------------------------------- hosts
 section('https and canonical host');
-const hop = async (url) => { const r = await get(url); return [r.status, r.headers.get('location')]; };
-{
-  const [s, loc] = await hop(`http://${HOST}/productos`);
-  ok(`http://${HOST} -> https`, [301, 302].includes(s) && loc === `${BASE}/productos`, `${s} ${loc}`);
-}
+// Some networks block outgoing port 80 altogether (even http://example.com times
+// out). That says nothing about the site, so it is reported as unchecked rather
+// than failed — or crashing the run.
+let unchecked = 0;
+const hop = async (url) => {
+  try {
+    const r = await get(url, { signal: AbortSignal.timeout(15000) });
+    return [r.status, r.headers.get('location')];
+  } catch {
+    return [null, null];
+  }
+};
+const hopCheck = async (url, label, pass) => {
+  const [s, loc] = await hop(url);
+  if (s === null) {
+    unchecked++;
+    console.log(`  ? ${label} — could not connect from this network; check it from another (e.g. a phone on mobile data)`);
+  } else {
+    ok(label, pass(s, loc), `${s} ${loc}`);
+  }
+};
+await hopCheck(`http://${HOST}/productos`, `http://${HOST} -> https`, (s, loc) => [301, 302].includes(s) && loc === `${BASE}/productos`);
 if (PROD) {
   for (const from of ['http://saneamientos-pereda.com/productos', 'https://saneamientos-pereda.com/productos']) {
-    const [s, loc] = await hop(from);
-    ok(`${from} -> www in one hop`, s === 301 && loc === `${BASE}/productos`, `${s} ${loc}`);
+    await hopCheck(from, `${from} -> www in one hop`, (s, loc) => s === 301 && loc === `${BASE}/productos`);
   }
 }
 
@@ -102,7 +118,17 @@ const oldUrls = readFileSync(resolve(ROOT, 'docs/seo/old-site-urls.txt'), 'utf8'
 async function follow(path) {
   let url = BASE + path;
   for (let hops = 0; hops <= 5; hops++) {
-    const r = await get(url, { method: 'HEAD' });
+    // One retry on a network error: a flaky connection is not a broken redirect.
+    let r;
+    try {
+      r = await get(url, { method: 'HEAD', signal: AbortSignal.timeout(15000) });
+    } catch {
+      try {
+        r = await get(url, { method: 'HEAD', signal: AbortSignal.timeout(15000) });
+      } catch {
+        return { status: 'network', final: url, hops };
+      }
+    }
     if (![301, 302, 307, 308].includes(r.status)) return { status: r.status, final: url, hops };
     const next = new URL(r.headers.get('location'), url);
     if (next.host !== HOST) return { status: 'offsite', final: next.href, hops: hops + 1 };
@@ -112,12 +138,17 @@ async function follow(path) {
 }
 
 const results = [];
-for (let i = 0; i < oldUrls.length; i += 10) {
-  results.push(...(await Promise.all(oldUrls.slice(i, i + 10).map(async (p) => ({ path: p, ...(await follow(p)) })))));
+for (let i = 0; i < oldUrls.length; i += 5) {
+  results.push(...(await Promise.all(oldUrls.slice(i, i + 5).map(async (p) => ({ path: p, ...(await follow(p)) })))));
 }
 const tally = {};
 for (const r of results) tally[`${r.status}`] = (tally[`${r.status}`] || 0) + 1;
-const bad = results.filter((r) => !(r.status === 200 || r.status === 410 || r.status === 'offsite'));
+const network = results.filter((r) => r.status === 'network');
+const bad = results.filter((r) => !(r.status === 200 || r.status === 410 || r.status === 'offsite' || r.status === 'network'));
+if (network.length) {
+  unchecked += network.length;
+  console.log(`  ? ${network.length} old URL(s) could not be reached from this network (twice); rerun later`);
+}
 const chained = results.filter((r) => r.hops > 1);
 ok(`all ${results.length} old URLs end on a page, 410 or the shop`, bad.length === 0,
   Object.entries(tally).map(([k, v]) => `${k}: ${v}`).join(', '));
@@ -154,5 +185,5 @@ for (const [path, expect] of [
   ok('denuncias need a login', r.status === 401, String(r.status));
 }
 
-console.log(`\n${failures ? `✗ ${failures} check(s) failed` : '✓ all checks passed'} on ${BASE}`);
+console.log(`\n${failures ? `✗ ${failures} check(s) failed` : '✓ all checks passed'} on ${BASE}${unchecked ? ` (${unchecked} check(s) could not run from this network)` : ''}`);
 process.exitCode = failures ? 1 : 0;

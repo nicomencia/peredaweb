@@ -100,14 +100,8 @@ previous period). ✅ Google Business Profiles checked 2026-09-28: all four stor
 
 ## D. SEO after launch
 
-- **Content without JavaScript.** The initial HTML is `<div id="root"></div>`. Google renders
-  JS; Bing only partly; social scrapers and most AI crawlers don't. `index.php` could inject a
-  per-route static summary (H1, description, key links) inside `#root` — `createRoot` replaces
-  it on render — or static routes could be prerendered at build time.
 - **Thin category pages.** Still one paragraph each (190–510 characters) on 2026-09-28. Ask the client for 2–3 paragraphs per category
   (`category_desc_<cat>`, edited in Productos): brands, product types, which store shows them.
-- **Share image.** `og:image` is the logo; a 1200×630 image with
-  `twitter:card = summary_large_image` previews better.
 - Low priority: slugs for ambientes instead of UUIDs (needs a column), BreadcrumbList schema,
   GA Consent Mode v2.
 
