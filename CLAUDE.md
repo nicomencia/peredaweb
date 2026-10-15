@@ -156,5 +156,6 @@ commit it** (it was committed once by accident; that password was rotated).
 - **2026-09-29**: staging on its own database; share image; page text for non-JS crawlers; CI +
   daily monitor; post-launch redirects from the access logs; first hosting cleanup.
 - **2026-10-15**: shop button in the navbar on desktop (floating button kept for compact/mobile and
-  as "Acceso ecommerce" on Área Profesional); square lightbox arrows. Hosting cleanup: old sites
-  and the WordPress deleted from the server, local backups deleted (the client keeps the archive).
+  as "Acceso ecommerce" on Área Profesional); square lightbox arrows. Hosting cleanup: old sites,
+  the WordPress and their databases deleted, local backups deleted (the client keeps the archive).
+  The server now holds only the site: `/html`, `/html/dev` and the databases `qaqu803` + `qars573`.

@@ -31,14 +31,8 @@ that the old folders were unused. Deleted from the server: `/data/wp-old/` (the 
 `copia1.zip`, `check-prices.php` and `.tmb`. The developer-side backups were deleted too: the
 client's archive is the only copy now. There is no rollback any more.
 
-**Left, in the hosting panel** (databases can't be deleted over SFTP):
-
-| Database | What it is | Plan |
-|---|---|---|
-| `qaqu803` | **The website (www)** | Keep |
-| `qars573` | **Staging** | Keep |
-| `qaav753` (89 MB) | The old WordPress (in the client's archive) | Delete in the panel |
-| `qtq808` (25 MB), `qtr125` (4 MB) | The older sites' databases (not backed up) | Export from the panel if wanted, then delete |
+**Databases**: the old ones (`qaav753` WordPress, `qtq808`, `qtr125`) were deleted in the hosting
+panel the same day. Left on the server: `qaqu803` (www) and `qars573` (staging), both verified.
 
 Also worth a look in the panel: unused mailboxes, FTP users, subdomains and cron jobs. The hosting
 panel credentials in `.env` do not work and should be updated or removed.
