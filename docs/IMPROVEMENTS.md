@@ -5,11 +5,6 @@ was done: [LAUNCH.md](LAUNCH.md).
 
 ## Waiting on the client
 
-- **Confirm they have stored their copy of the old website** (the encrypted `.7z` shared by Drive,
-  password sent separately). Until then, nothing of the old site is deleted from the server (see
-  Hosting cleanup).
-- **Old folders**: does anyone still use `vieja/`, `nueva/` or the old intranet
-  (`2intraneteliminar/`)? Their answer unblocks the cleanup.
 - **Who renews the SSL certificate** (`*.saneamientos-pereda.com` + apex, Sectigo, expires
   **2026-12-15**). The daily monitor starts failing 21 days before, but someone has to renew it.
 - **Content**: fill the FAQ (the page is empty until then); check the form recipients in
@@ -28,28 +23,41 @@ was done: [LAUNCH.md](LAUNCH.md).
   growing into the hundreds is expected (the old URLs).
 - **At three months (late December 2026)**: compare clicks and impressions year over year.
 
-## Hosting cleanup (mid/late October 2026)
+## Hosting cleanup
 
-**When:** once the rollback window has passed (a few weeks without surprises) and the client has
-answered the two questions above. **Ask before deleting anything; back up each item first.** The
-permanent archive of the old site is the client's copy — not the server, not a developer's laptop.
+✅ **Done 2026-10-15.** The client confirmed they had downloaded their archive of the old site and
+that the old folders were unused. Deleted from the server: `/data/wp-old/` (the WordPress, 2.4 GB),
+`/html/vieja/` (2.6 GB), `/html/2intraneteliminar/` and `/html/nueva/`; earlier (2026-09-29)
+`copia1.zip`, `check-prices.php` and `.tmb`. The developer-side backups were deleted too: the
+client's archive is the only copy now. There is no rollback any more.
 
-| Item | What it is | Plan |
+**Left, in the hosting panel** (databases can't be deleted over SFTP):
+
+| Database | What it is | Plan |
 |---|---|---|
-| DB `qaqu803` | **The website (www)** | Keep |
-| DB `qars573` | **Staging** | Keep |
-| DB `qaav753` (89 MB) | The old WordPress | Delete after the rollback window |
-| `/data/wp-old/` (2.4 GB, 41,958 files) | The old WordPress files | Delete after the rollback window; `scripts/go-live.mjs` can go with it |
-| DB `qtq808` (25 MB), DB `qtr125` (4 MB) | Unknown — likely the old sites below | Identify, then decide |
-| `/html/vieja/` (2.6 GB, 43,540 files) | A site older than WordPress; answers 500 | Delete if unused |
-| `/html/2intraneteliminar/` (21 MB) | Old intranet ("eliminar" = to delete) | Confirm with the client, then delete |
-| `/html/nueva/` | One config file | Delete if unused |
-| ~~`/data/backups/copia1.zip`~~, ~~`/html/check-prices.php`~~, ~~`/html/.tmb`~~ | Old backup, broken price-sync script, empty folder | ✅ Deleted 2026-09-29 |
+| `qaqu803` | **The website (www)** | Keep |
+| `qars573` | **Staging** | Keep |
+| `qaav753` (89 MB) | The old WordPress (in the client's archive) | Delete in the panel |
+| `qtq808` (25 MB), `qtr125` (4 MB) | The older sites' databases (not backed up) | Export from the panel if wanted, then delete |
 
-To identify `qtq808` / `qtr125`: match their names against the DB settings in the old sites' config
-files — those files hold credentials, so read them deliberately. Also review the panel for unused
-mailboxes, FTP users, subdomains and cron jobs. The hosting panel credentials in `.env` do not work
-and should be updated or removed.
+Also worth a look in the panel: unused mailboxes, FTP users, subdomains and cron jobs. The hosting
+panel credentials in `.env` do not work and should be updated or removed.
+
+## Measuring how the SEO is doing
+
+Where to look, most important first: Search Console → Performance (compare with the same period
+**last year**, not last month; split queries containing "pereda" (brand: should hold) from the rest
+(non-brand: should grow; very-long-tail town queries from the old doorway pages are expected to
+fade)); Search Console → Pages (indexed ≈ 40, 404s ≈ 0, "Page with redirect" in the hundreds is
+expected); Google Business Profile → Performance per store (calls, directions, website clicks); GA4
+→ organic sessions. Weeks 1–4 fluctuate; 6–12 settle; the first fair comparison is late December.
+
+Ideas agreed for later (2026-10-15):
+- **Leads in GA4**: send an event (e.g. `generate_lead`, with the form name) when a form is sent
+  successfully, and mark it as a key event. Answers "does the site bring more customers?", not just
+  visits. Consent-gated like the rest of GA4; about an hour.
+- **Monthly crawl report from the access logs** (`/logs/access_log.*`): what Googlebot fetched, old
+  URLs still requested that fail, 5xx. Could run monthly from GitHub Actions like the monitor.
 
 ## Ideas, low priority
 

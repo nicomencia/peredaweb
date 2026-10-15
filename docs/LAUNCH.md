@@ -51,7 +51,8 @@ denuncias, CVs admin-only, per-person admin accounts with a login limit, GA4 onl
 `go-live.mjs switch`: our entry files staged under temporary names, the plan written to
 `/data/wp-old/.go-live-plan.json`, then renames only — WordPress's entries to `/data/wp-old/`, ours
 into place. **2.1 seconds.** `go-live.mjs rollback` reverses it from the plan file (also after a
-half-finished switch) and stays available until `/data/wp-old/` is deleted.
+half-finished switch). It was available until **2026-10-15**, when the old WordPress was deleted from
+the server once the client confirmed they had their archive; the script went with it.
 
 Right after: `verify-live.mjs` all green on www (pages, canonicals, indexing, sitemap/robots,
 http → https, apex → www, all 755 old URLs live in one hop, API, caching, private files). By hand:

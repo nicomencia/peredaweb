@@ -35,8 +35,3 @@ export async function connect() {
   });
   return sftp;
 }
-
-// True while the old WordPress still occupies /html. Anything that would write
-// the site's entry points (index.php, .htaccess) there must refuse until then;
-// scripts/go-live.mjs is the only thing that swaps them.
-export const wordpressInProd = (sftp) => sftp.exists(`${PROD_ROOT}/wp-config.php`).then(Boolean);

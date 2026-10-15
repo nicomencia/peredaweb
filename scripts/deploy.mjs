@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { connect, remoteRoot, isProd, positional, DEV_ROOT, wordpressInProd } from './lib/remote.mjs';
+import { connect, remoteRoot, positional, DEV_ROOT } from './lib/remote.mjs';
 
 // Usage: npm run deploy              -> staging    (/html/dev)
 //        npm run deploy -- --prod    -> production (/html)
@@ -25,12 +25,6 @@ if (!existsSync(localDir)) {
 
 const sftp = await connect();
 try {
-  // Until go-live, /html is the live WordPress: this upload would replace its
-  // index.php and .htaccess. The switch itself is scripts/go-live.mjs.
-  if (isProd() && (await wordpressInProd(sftp))) {
-    console.error('Refusing to deploy to /html: WordPress is still there. Use scripts/go-live.mjs.');
-    process.exit(1);
-  }
   await sftp.mkdir(remoteDir, true);
   console.log(`Uploading ${localDir} -> ${remoteDir} ...`);
   await sftp.uploadDir(localDir, remoteDir);

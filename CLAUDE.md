@@ -111,10 +111,9 @@ commit it** (it was committed once by accident; that password was rotated).
   `monitor.yml` (`verify-live` on www and staging daily at 06:17 UTC; a failure emails the repo owner).
 - Other scripts: `npm run sync:base` (refresh `public/base/` hero/logos from the DB; runs before each
   deploy), `npm run sftp:ls <dir>`, `db-audit.mjs`, `audit-media.mjs`, `optimize-images.mjs`,
-  `prune-orphan-media.mjs` (dry-run by default). `go-live.mjs` did the WordPress → SPA switch; it stays
-  for `go-live.mjs rollback` until `/data/wp-old/` is deleted (`docs/LAUNCH.md`). Other one-offs,
-  incl. the migration's `deploy-backend.mjs` (the only script that uploads `setup.php`), are in
-  `scripts/archive/`.
+  `prune-orphan-media.mjs` (dry-run by default). One-offs, incl. the migration's `deploy-backend.mjs`
+  (the only script that uploads `setup.php`), are in `scripts/archive/`. The WordPress → SPA switch
+  (`go-live.mjs`, removed once the rollback window closed) is recorded in `docs/LAUNCH.md`.
 - Search Console: the existing `https://www.saneamientos-pereda.com/` property is verified for the
   client's account by **`public/googlecbef9800fec986d9.html` — never delete it**.
 
@@ -128,8 +127,9 @@ commit it** (it was committed once by accident; that password was rotated).
   admin save button.
 - `.hero` uses `100svh`, not `dvh` (dvh resizes the cover background while the mobile address bar
   hides).
-- `/html` still holds `vieja/`, `nueva/`, `2intraneteliminar/` (old sites, not ours) and `/data/wp-old/`
-  (the WordPress, kept for rollback): see the cleanup plan in `docs/IMPROVEMENTS.md`.
+- The old WordPress is gone from the server (deleted 2026-10-15, with the older sites that shared
+  `/html`). **The client holds the only archive** (encrypted `.7z` with a restore guide); no copy is
+  kept on the developer side. There is no rollback any more.
 
 ## Conventions
 
@@ -155,3 +155,6 @@ commit it** (it was committed once by accident; that password was rotated).
   (2.1 s) — see `docs/LAUNCH.md`.
 - **2026-09-29**: staging on its own database; share image; page text for non-JS crawlers; CI +
   daily monitor; post-launch redirects from the access logs; first hosting cleanup.
+- **2026-10-15**: shop button in the navbar on desktop (floating button kept for compact/mobile and
+  as "Acceso ecommerce" on Área Profesional); square lightbox arrows. Hosting cleanup: old sites
+  and the WordPress deleted from the server, local backups deleted (the client keeps the archive).

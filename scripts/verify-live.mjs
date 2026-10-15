@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 // Checks a deployed site end to end over real HTTP — run it right after the
-// go-live switch, and any time after a deploy:
+// launch, and any time after a deploy:
 //
 //   node scripts/verify-live.mjs            # production: www.saneamientos-pereda.com
 //   node scripts/verify-live.mjs --dev      # staging:    dev.saneamientos-pereda.com

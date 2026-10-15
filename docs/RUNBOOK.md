@@ -45,7 +45,7 @@ En el servidor, estas se traducen a `server/api/config.php` (generado por los sc
 
 Todos van a staging (`/html/dev`) por defecto y a producción (`/html`) con **`--prod`** (`npm run deploy -- --prod`, `node scripts/push-api.mjs --prod`…). Flujo: staging → comprobar → `--prod` → `node scripts/verify-live.mjs`.
 
-`scripts/go-live.mjs` hizo el cambio desde WordPress el 2026-09-28 ([LAUNCH.md](LAUNCH.md)); se conserva por `go-live.mjs rollback` (vuelve a poner el WordPress en segundos) hasta que se borre `/data/wp-old/`.
+El cambio desde WordPress se hizo el 2026-09-28 ([LAUNCH.md](LAUNCH.md)). Desde el 2026-10-15 ya no hay vuelta atrás: el WordPress se borró del servidor y el único archivo lo tiene el cliente.
 
 El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquier carpeta/host.
 
@@ -71,7 +71,7 @@ El frontend usa rutas relativas `/api` y `/media`, así que funciona en cualquie
 - Esquema: `server/sql/schema.sql` (UUIDs como CHAR(36); `specs`/`emails` como JSON). El mapa de columnas permitidas por la API está en `TABLE_COLUMNS` de `server/api/db.php` — **mantener ambos sincronizados**.
 - Auditorías: `node scripts/db-audit.mjs` (conteos + referencias a `/media`), `node scripts/audit-media.mjs` (árbol de `/media`). Conectan directo por el puerto 3306 con SSL.
 - **Re-importación desde cero** (solo si hiciera falta): re-desplegar `setup.php` (borrado del servidor el 2026-09-04) con `scripts/archive/deploy-backend.mjs`, subir los JSON de datos a `api/import/`, y hacer `POST /api/setup.php` con `{token, admin_email, admin_password}`. **Vuelve a borrarlo al terminar** (`node scripts/prune-deployed.mjs api/setup.php`): hace `DROP` de todas las tablas.
-- **Copia del WordPress antiguo** (BBDD `qaav753` + archivos de `/html`): tomada el 2026-09-28 antes de la salida a producción, guardada fuera del repo (contiene datos personales y credenciales). Se entregó al cliente una copia cifrada (`.7z`, AES-256) con una guía de restauración.
+- **Copia del WordPress antiguo**: tomada el 2026-09-28 y entregada al cliente cifrada (`.7z`, AES-256) con una guía de restauración. **La guarda solo el cliente**: el 2026-10-15 se borraron la copia del servidor y las copias locales (contenían datos personales).
 - **Nuevos ajustes** (`site_settings`): `node scripts/seed-setting.mjs <clave> [valor]` los crea en las dos bases de datos; sin la fila, el panel no guarda ese campo.
 - **Copias de seguridad**: la BBDD es ahora el dato vivo. Recomendado un `mysqldump` periódico (o export desde el panel) y backup de `/html/media/` (www).
 
